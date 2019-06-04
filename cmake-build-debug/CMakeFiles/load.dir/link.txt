@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -g  -shared -Wl,-soname,libload.so -o libload.so CMakeFiles/load.dir/loader.c.o 

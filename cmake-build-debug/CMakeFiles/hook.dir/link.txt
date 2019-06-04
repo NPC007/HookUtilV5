@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -g  -shared -Wl,-soname,libhook.so -o libhook.so CMakeFiles/hook.dir/hook.c.o 

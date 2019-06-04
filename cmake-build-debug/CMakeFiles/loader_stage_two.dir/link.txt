@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -g  -shared -Wl,-soname,libloader_stage_two.so -o libloader_stage_two.so CMakeFiles/loader_stage_two.dir/loader_stage_two.c.o 

@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -g  -shared -Wl,-soname,libloader_stag.so -o libloader_stag.so CMakeFiles/loader_stag.dir/loader.c.o 
