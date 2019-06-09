@@ -27,46 +27,6 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="hook">
-				<Option output="/root/code/HookUtilV3/cmake-build-debug/libhook.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 hook"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="hook/fast">
-				<Option output="/root/code/HookUtilV3/cmake-build-debug/libhook.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 hook/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="generate">
 				<Option output="/root/code/HookUtilV3/cmake-build-debug/generate" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
@@ -107,51 +67,51 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="loader">
-				<Option output="/root/code/HookUtilV3/cmake-build-debug/libloader.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="loader/fast">
-				<Option output="/root/code/HookUtilV3/cmake-build-debug/libloader.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="edit_cache">
 				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="loader_stage_one">
+				<Option output="/root/code/HookUtilV3/cmake-build-debug/libloader_stage_one.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_one"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="loader_stage_one/fast">
+				<Option output="/root/code/HookUtilV3/cmake-build-debug/libloader_stage_one.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_one/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -197,18 +157,61 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="loader_stage_three">
+				<Option output="/root/code/HookUtilV3/cmake-build-debug/libloader_stage_three.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_three"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="loader_stage_three/fast">
+				<Option output="/root/code/HookUtilV3/cmake-build-debug/libloader_stage_three.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/code/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_three/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/code/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 		</Build>
+		<Unit filename="/root/code/HookUtilV3/cJSON.c">
+			<Option target="generate"/>
+		</Unit>
+		<Unit filename="/root/code/HookUtilV3/cJSON.h">
+			<Option target="generate"/>
+		</Unit>
 		<Unit filename="/root/code/HookUtilV3/generate.c">
 			<Option target="generate"/>
 		</Unit>
-		<Unit filename="/root/code/HookUtilV3/hook.c">
-			<Option target="hook"/>
+		<Unit filename="/root/code/HookUtilV3/loader_stage_one.c">
+			<Option target="loader_stage_one"/>
 		</Unit>
-		<Unit filename="/root/code/HookUtilV3/hook.h">
-			<Option target="hook"/>
-		</Unit>
-		<Unit filename="/root/code/HookUtilV3/loader.c">
-			<Option target="loader"/>
+		<Unit filename="/root/code/HookUtilV3/loader_stage_three.c">
+			<Option target="loader_stage_three"/>
 		</Unit>
 		<Unit filename="/root/code/HookUtilV3/loader_stage_two.c">
 			<Option target="loader_stage_two"/>

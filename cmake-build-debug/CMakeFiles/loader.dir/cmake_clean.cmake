@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/loader.dir/loader.c.o"
+  "CMakeFiles/loader.dir/loader_stage_one.c.o"
   "libloader.pdb"
   "libloader.so"
 )

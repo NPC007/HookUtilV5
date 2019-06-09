@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/generate.dir/generate.c.o"
+  "CMakeFiles/generate.dir/cJSON.c.o"
   "generate.pdb"
   "generate"
 )

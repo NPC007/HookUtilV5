@@ -4,6 +4,7 @@
 #include <elf.h>
 #include <link.h>
 #include "config.h"
+#include <netinet/in.h>
 
 #define Elf_Ehdr ElfW(Ehdr)
 #define Elf_Shdr ElfW(Shdr)
@@ -36,15 +37,31 @@ enum PACKET_TYPE{
 };
 
 
-typedef struct HOOK_CODE{
+
+typedef struct LOADER_STAGE_TWO{
     int length;
-    int entry;
-    int type;
-}HOOK_CODE;
+    int entry_offset;
+    void* patch_data_mmap_code_base;
+}LOADER_STAGE_TWO;
+
+typedef struct LOADER_STAGE_THREE{
+    int length;
+    int entry_offset;
+    int first_entry_offset;
+    void* patch_data_mmap_code_base;
+    char shell_password[64];
+    struct sockaddr_in analysis_server;
+    struct sockaddr_in sandbox_server;
+}LOADER_STAGE_THREE;
 
 
-#define UP_PADDING(X,Y)  ((void*)(((long)X/Y+1)*Y))
-#define DOWN_PADDING(X,Y) ((void*)((long)X-(long)X%Y))
+enum LOADER_TYPE{
+    LOAD_FROM_FILE = 1, LOAD_FROM_MEM, LOAD_FROM_SHARE_MEM, LOAD_FROM_SOCKET
+};
+
+
+#define UP_PADDING(X,Y)  ((long)(((long)X/Y+1)*Y))
+#define DOWN_PADDING(X,Y) ((long)((long)X-(long)X%Y))
 
 #define PROT_READ	0x1     /* Page can be read.  */
 #define PROT_WRITE	0x2     /* Page can be written.  */
@@ -56,6 +73,7 @@ typedef struct HOOK_CODE{
 #define MAP_ANONYMOUS	0x20		/* Don't use a file.  */
 
 #define SYSCALL_DYNAMIC 0
+#define SANDBOX_XOR_KEY "\xf5\xe4\xd2\xc9\xb2\xa9\xd0\x9f\xa3\xf5\xd9"
 
 
 #if (IS_PIE == 0)
@@ -65,5 +83,6 @@ typedef struct HOOK_CODE{
 #endif
 
 #define ELF_HOOK_HELPER(BASE,VADDR) ELF_ADDR_ADD(BASE,VADDR)
+#define FAKE_MIN_ADDR 4*024*1024
 
 #endif

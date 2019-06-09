@@ -60,50 +60,13 @@ CMAKE_SOURCE_DIR = /root/code/HookUtilV3
 CMAKE_BINARY_DIR = /root/code/HookUtilV3/cmake-build-debug
 
 #=============================================================================
-# Target rules for target CMakeFiles/hook.dir
-
-# All Build rule for target.
-CMakeFiles/hook.dir/all:
-	$(MAKE) -f CMakeFiles/hook.dir/build.make CMakeFiles/hook.dir/depend
-	$(MAKE) -f CMakeFiles/hook.dir/build.make CMakeFiles/hook.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target hook"
-.PHONY : CMakeFiles/hook.dir/all
-
-# Include target in all.
-all: CMakeFiles/hook.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/hook.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/hook.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/hook.dir/rule
-
-# Convenience name for target.
-hook: CMakeFiles/hook.dir/rule
-
-.PHONY : hook
-
-# clean rule for target.
-CMakeFiles/hook.dir/clean:
-	$(MAKE) -f CMakeFiles/hook.dir/build.make CMakeFiles/hook.dir/clean
-.PHONY : CMakeFiles/hook.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/hook.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/generate.dir
 
 # All Build rule for target.
 CMakeFiles/generate.dir/all:
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/depend
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target generate"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target generate"
 .PHONY : CMakeFiles/generate.dir/all
 
 # Include target in all.
@@ -113,7 +76,7 @@ all: CMakeFiles/generate.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/generate.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/generate.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/generate.dir/rule
@@ -134,39 +97,39 @@ clean: CMakeFiles/generate.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/loader.dir
+# Target rules for target CMakeFiles/loader_stage_one.dir
 
 # All Build rule for target.
-CMakeFiles/loader.dir/all:
-	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/depend
-	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=5,6 "Built target loader"
-.PHONY : CMakeFiles/loader.dir/all
+CMakeFiles/loader_stage_one.dir/all:
+	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/depend
+	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=4,5 "Built target loader_stage_one"
+.PHONY : CMakeFiles/loader_stage_one.dir/all
 
 # Include target in all.
-all: CMakeFiles/loader.dir/all
+all: CMakeFiles/loader_stage_one.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/loader.dir/rule: cmake_check_build_system
+CMakeFiles/loader_stage_one.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/loader.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/loader_stage_one.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/loader.dir/rule
+.PHONY : CMakeFiles/loader_stage_one.dir/rule
 
 # Convenience name for target.
-loader: CMakeFiles/loader.dir/rule
+loader_stage_one: CMakeFiles/loader_stage_one.dir/rule
 
-.PHONY : loader
-
-# clean rule for target.
-CMakeFiles/loader.dir/clean:
-	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/clean
-.PHONY : CMakeFiles/loader.dir/clean
+.PHONY : loader_stage_one
 
 # clean rule for target.
-clean: CMakeFiles/loader.dir/clean
+CMakeFiles/loader_stage_one.dir/clean:
+	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/clean
+.PHONY : CMakeFiles/loader_stage_one.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/loader_stage_one.dir/clean
 
 .PHONY : clean
 
@@ -177,7 +140,7 @@ clean: CMakeFiles/loader.dir/clean
 CMakeFiles/loader_stage_two.dir/all:
 	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/depend
 	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=7,8 "Built target loader_stage_two"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=8,9 "Built target loader_stage_two"
 .PHONY : CMakeFiles/loader_stage_two.dir/all
 
 # Include target in all.
@@ -204,6 +167,43 @@ CMakeFiles/loader_stage_two.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/loader_stage_two.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/loader_stage_three.dir
+
+# All Build rule for target.
+CMakeFiles/loader_stage_three.dir/all:
+	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/depend
+	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=6,7 "Built target loader_stage_three"
+.PHONY : CMakeFiles/loader_stage_three.dir/all
+
+# Include target in all.
+all: CMakeFiles/loader_stage_three.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/loader_stage_three.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/loader_stage_three.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/code/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/loader_stage_three.dir/rule
+
+# Convenience name for target.
+loader_stage_three: CMakeFiles/loader_stage_three.dir/rule
+
+.PHONY : loader_stage_three
+
+# clean rule for target.
+CMakeFiles/loader_stage_three.dir/clean:
+	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/clean
+.PHONY : CMakeFiles/loader_stage_three.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/loader_stage_three.dir/clean
 
 .PHONY : clean
 

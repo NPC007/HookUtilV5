@@ -189,6 +189,12 @@ loader_LIB_DEPENDS:STATIC=
 loader_stag_LIB_DEPENDS:STATIC=
 
 //Dependencies for target
+loader_stage_one_LIB_DEPENDS:STATIC=
+
+//Dependencies for target
+loader_stage_three_LIB_DEPENDS:STATIC=
+
+//Dependencies for target
 loader_stage_two_LIB_DEPENDS:STATIC=
 
 

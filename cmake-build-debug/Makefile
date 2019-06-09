@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named hook
-
-# Build rule for target.
-hook: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 hook
-.PHONY : hook
-
-# fast build rule for target.
-hook/fast:
-	$(MAKE) -f CMakeFiles/hook.dir/build.make CMakeFiles/hook.dir/build
-.PHONY : hook/fast
-
-#=============================================================================
 # Target rules for targets named generate
 
 # Build rule for target.
@@ -137,17 +124,17 @@ generate/fast:
 .PHONY : generate/fast
 
 #=============================================================================
-# Target rules for targets named loader
+# Target rules for targets named loader_stage_one
 
 # Build rule for target.
-loader: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 loader
-.PHONY : loader
+loader_stage_one: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 loader_stage_one
+.PHONY : loader_stage_one
 
 # fast build rule for target.
-loader/fast:
-	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/build
-.PHONY : loader/fast
+loader_stage_one/fast:
+	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/build
+.PHONY : loader_stage_one/fast
 
 #=============================================================================
 # Target rules for targets named loader_stage_two
@@ -161,6 +148,46 @@ loader_stage_two: cmake_check_build_system
 loader_stage_two/fast:
 	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/build
 .PHONY : loader_stage_two/fast
+
+#=============================================================================
+# Target rules for targets named loader_stage_three
+
+# Build rule for target.
+loader_stage_three: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 loader_stage_three
+.PHONY : loader_stage_three
+
+# fast build rule for target.
+loader_stage_three/fast:
+	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/build
+.PHONY : loader_stage_three/fast
+
+cJSON.o: cJSON.c.o
+
+.PHONY : cJSON.o
+
+# target to build an object file
+cJSON.c.o:
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/cJSON.c.o
+.PHONY : cJSON.c.o
+
+cJSON.i: cJSON.c.i
+
+.PHONY : cJSON.i
+
+# target to preprocess a source file
+cJSON.c.i:
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/cJSON.c.i
+.PHONY : cJSON.c.i
+
+cJSON.s: cJSON.c.s
+
+.PHONY : cJSON.s
+
+# target to generate assembly for a file
+cJSON.c.s:
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/cJSON.c.s
+.PHONY : cJSON.c.s
 
 generate.o: generate.c.o
 
@@ -189,59 +216,59 @@ generate.c.s:
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/generate.c.s
 .PHONY : generate.c.s
 
-hook.o: hook.c.o
+loader_stage_one.o: loader_stage_one.c.o
 
-.PHONY : hook.o
-
-# target to build an object file
-hook.c.o:
-	$(MAKE) -f CMakeFiles/hook.dir/build.make CMakeFiles/hook.dir/hook.c.o
-.PHONY : hook.c.o
-
-hook.i: hook.c.i
-
-.PHONY : hook.i
-
-# target to preprocess a source file
-hook.c.i:
-	$(MAKE) -f CMakeFiles/hook.dir/build.make CMakeFiles/hook.dir/hook.c.i
-.PHONY : hook.c.i
-
-hook.s: hook.c.s
-
-.PHONY : hook.s
-
-# target to generate assembly for a file
-hook.c.s:
-	$(MAKE) -f CMakeFiles/hook.dir/build.make CMakeFiles/hook.dir/hook.c.s
-.PHONY : hook.c.s
-
-loader.o: loader.c.o
-
-.PHONY : loader.o
+.PHONY : loader_stage_one.o
 
 # target to build an object file
-loader.c.o:
-	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/loader.c.o
-.PHONY : loader.c.o
+loader_stage_one.c.o:
+	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o
+.PHONY : loader_stage_one.c.o
 
-loader.i: loader.c.i
+loader_stage_one.i: loader_stage_one.c.i
 
-.PHONY : loader.i
+.PHONY : loader_stage_one.i
 
 # target to preprocess a source file
-loader.c.i:
-	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/loader.c.i
-.PHONY : loader.c.i
+loader_stage_one.c.i:
+	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/loader_stage_one.c.i
+.PHONY : loader_stage_one.c.i
 
-loader.s: loader.c.s
+loader_stage_one.s: loader_stage_one.c.s
 
-.PHONY : loader.s
+.PHONY : loader_stage_one.s
 
 # target to generate assembly for a file
-loader.c.s:
-	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/loader.c.s
-.PHONY : loader.c.s
+loader_stage_one.c.s:
+	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/loader_stage_one.c.s
+.PHONY : loader_stage_one.c.s
+
+loader_stage_three.o: loader_stage_three.c.o
+
+.PHONY : loader_stage_three.o
+
+# target to build an object file
+loader_stage_three.c.o:
+	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o
+.PHONY : loader_stage_three.c.o
+
+loader_stage_three.i: loader_stage_three.c.i
+
+.PHONY : loader_stage_three.i
+
+# target to preprocess a source file
+loader_stage_three.c.i:
+	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/loader_stage_three.c.i
+.PHONY : loader_stage_three.c.i
+
+loader_stage_three.s: loader_stage_three.c.s
+
+.PHONY : loader_stage_three.s
+
+# target to generate assembly for a file
+loader_stage_three.c.s:
+	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/loader_stage_three.c.s
+.PHONY : loader_stage_three.c.s
 
 loader_stage_two.o: loader_stage_two.c.o
 
@@ -277,20 +304,23 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... hook"
 	@echo "... generate"
-	@echo "... loader"
 	@echo "... edit_cache"
+	@echo "... loader_stage_one"
 	@echo "... loader_stage_two"
+	@echo "... loader_stage_three"
+	@echo "... cJSON.o"
+	@echo "... cJSON.i"
+	@echo "... cJSON.s"
 	@echo "... generate.o"
 	@echo "... generate.i"
 	@echo "... generate.s"
-	@echo "... hook.o"
-	@echo "... hook.i"
-	@echo "... hook.s"
-	@echo "... loader.o"
-	@echo "... loader.i"
-	@echo "... loader.s"
+	@echo "... loader_stage_one.o"
+	@echo "... loader_stage_one.i"
+	@echo "... loader_stage_one.s"
+	@echo "... loader_stage_three.o"
+	@echo "... loader_stage_three.i"
+	@echo "... loader_stage_three.s"
 	@echo "... loader_stage_two.o"
 	@echo "... loader_stage_two.i"
 	@echo "... loader_stage_two.s"

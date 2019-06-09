@@ -47,13 +47,13 @@ IN_LINE long my_close(long fd){
     return res;
 }
 
-IN_LINE long my_mprotect(void *start, size_t len, long prot){
+IN_LINE long my_mprotect(void *start, long len, long prot){
     long res = 0;
     asm_mprotect((long)start,(long)len,(long)prot,res);
     return res;
 }
-IN_LINE long my_mmap(long addr, size_t length, int prot, int flags,
-                     int fd, off_t offset){
+IN_LINE long my_mmap(long addr, long length, int prot, int flags,
+                     int fd, long offset){
     long res = 0;
     asm_mmap(addr,(long)length,(long)prot,(long)flags,(long)fd,(long)offset,res);
     return res;
@@ -74,11 +74,10 @@ IN_LINE void my_memset(char *dst,char chr,int len){
 }
 
 
-void loader_stage_two_start(LIBC_START_MAIN_ARG, int(*__libc_start_main)(LIBC_START_MAIN_ARG_PROTO),void* first_instruction){
-    HOOK_CODE *code_stage_one = (HOOK_CODE*)(PATCH_DATA_MMAP_FILE_BASE);
-    char* loader_stage_two = (char*)(PATCH_DATA_MMAP_FILE_BASE+sizeof(HOOK_CODE)+code_stage_one->length+sizeof(HOOK_CODE));
-    Elf_Ehdr* ehdr = (Elf_Ehdr*)(loader_stage_two+sizeof(HOOK_CODE));
-    char* elf_load_base = (char*)(PATCH_DATA_MMAP_CODE_BASE);
+void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_base){
+    Elf_Ehdr* ehdr = (Elf_Ehdr*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length + sizeof(LOADER_STAGE_THREE));
+    LOADER_STAGE_THREE* three_base = (LOADER_STAGE_THREE*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length);
+    char* elf_load_base = (char*)(two_base->patch_data_mmap_code_base);
     for(int i=0;i<ehdr->e_phnum;i++){
         Elf_Phdr* phdr = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + ehdr->e_phentsize*i);
         if(phdr->p_type == PT_LOAD){
@@ -91,10 +90,11 @@ void loader_stage_two_start(LIBC_START_MAIN_ARG, int(*__libc_start_main)(LIBC_ST
                 flag |= PROT_READ;
             my_mmap(DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000),UP_PADDING(phdr->p_memsz,0x1000),PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
             my_memcpy((elf_load_base + phdr->p_vaddr), ((char*)ehdr) + phdr->p_offset,phdr->p_filesz);
-            my_memset(((char*)ehdr) + phdr->p_offset,0xFF,phdr->p_filesz);
-            my_mprotect(DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000),UP_PADDING(phdr->p_memsz,0x1000),flag);
+            //unable to destroy data,because we need us the section_data, we destroy it later
+            //my_memset(((char*)ehdr) + phdr->p_offset,0xFF,phdr->p_filesz);
+            my_mprotect((void*)(DOWN_PADDING((long)elf_load_base + phdr->p_vaddr,0x1000)),UP_PADDING(phdr->p_memsz,0x1000),flag);
         }
     }
-    int(*patch_entry)(LIBC_START_MAIN_ARG_PROTO,int(*)(LIBC_START_MAIN_ARG_PROTO),void*) = (int(*)(LIBC_START_MAIN_ARG_PROTO,int(*)(LIBC_START_MAIN_ARG_PROTO),void*))((char*)loader_stage_two + ((HOOK_CODE*)loader_stage_two)->entry);
-    patch_entry(MAIN,ARGC,UBP_AV,INIT,FINI,RTLD_FINI,STACK_END,__libc_start_main,first_instruction);
+    void(*patch_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))((char*)elf_load_base + three_base->entry_offset);
+    patch_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)three_base);
 }

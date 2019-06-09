@@ -57,38 +57,38 @@ include CMakeFiles/loader.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/loader.dir/flags.make
 
-CMakeFiles/loader.dir/loader.c.o: CMakeFiles/loader.dir/flags.make
-CMakeFiles/loader.dir/loader.c.o: ../loader.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/loader.dir/loader.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/loader.dir/loader.c.o   -c /root/code/HookUtilV3/loader.c
+CMakeFiles/loader.dir/loader_stage_one.c.o: CMakeFiles/loader.dir/flags.make
+CMakeFiles/loader.dir/loader_stage_one.c.o: ../loader_stage_one.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/loader.dir/loader_stage_one.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/loader.dir/loader_stage_one.c.o   -c /root/code/HookUtilV3/loader_stage_one.c
 
-CMakeFiles/loader.dir/loader.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/loader.dir/loader.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/code/HookUtilV3/loader.c > CMakeFiles/loader.dir/loader.c.i
+CMakeFiles/loader.dir/loader_stage_one.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/loader.dir/loader_stage_one.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/code/HookUtilV3/loader_stage_one.c > CMakeFiles/loader.dir/loader_stage_one.c.i
 
-CMakeFiles/loader.dir/loader.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/loader.dir/loader.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/code/HookUtilV3/loader.c -o CMakeFiles/loader.dir/loader.c.s
+CMakeFiles/loader.dir/loader_stage_one.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/loader.dir/loader_stage_one.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/code/HookUtilV3/loader_stage_one.c -o CMakeFiles/loader.dir/loader_stage_one.c.s
 
-CMakeFiles/loader.dir/loader.c.o.requires:
+CMakeFiles/loader.dir/loader_stage_one.c.o.requires:
 
-.PHONY : CMakeFiles/loader.dir/loader.c.o.requires
+.PHONY : CMakeFiles/loader.dir/loader_stage_one.c.o.requires
 
-CMakeFiles/loader.dir/loader.c.o.provides: CMakeFiles/loader.dir/loader.c.o.requires
-	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/loader.c.o.provides.build
-.PHONY : CMakeFiles/loader.dir/loader.c.o.provides
+CMakeFiles/loader.dir/loader_stage_one.c.o.provides: CMakeFiles/loader.dir/loader_stage_one.c.o.requires
+	$(MAKE) -f CMakeFiles/loader.dir/build.make CMakeFiles/loader.dir/loader_stage_one.c.o.provides.build
+.PHONY : CMakeFiles/loader.dir/loader_stage_one.c.o.provides
 
-CMakeFiles/loader.dir/loader.c.o.provides.build: CMakeFiles/loader.dir/loader.c.o
+CMakeFiles/loader.dir/loader_stage_one.c.o.provides.build: CMakeFiles/loader.dir/loader_stage_one.c.o
 
 
 # Object files for target loader
 loader_OBJECTS = \
-"CMakeFiles/loader.dir/loader.c.o"
+"CMakeFiles/loader.dir/loader_stage_one.c.o"
 
 # External object files for target loader
 loader_EXTERNAL_OBJECTS =
 
-libloader.so: CMakeFiles/loader.dir/loader.c.o
+libloader.so: CMakeFiles/loader.dir/loader_stage_one.c.o
 libloader.so: CMakeFiles/loader.dir/build.make
 libloader.so: CMakeFiles/loader.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/code/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C shared library libloader.so"
@@ -99,7 +99,7 @@ CMakeFiles/loader.dir/build: libloader.so
 
 .PHONY : CMakeFiles/loader.dir/build
 
-CMakeFiles/loader.dir/requires: CMakeFiles/loader.dir/loader.c.o.requires
+CMakeFiles/loader.dir/requires: CMakeFiles/loader.dir/loader_stage_one.c.o.requires
 
 .PHONY : CMakeFiles/loader.dir/requires
 

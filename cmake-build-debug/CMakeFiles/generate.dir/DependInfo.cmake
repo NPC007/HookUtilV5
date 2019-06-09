@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "/root/code/HookUtilV3/cJSON.c" "/root/code/HookUtilV3/cmake-build-debug/CMakeFiles/generate.dir/cJSON.c.o"
   "/root/code/HookUtilV3/generate.c" "/root/code/HookUtilV3/cmake-build-debug/CMakeFiles/generate.dir/generate.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")

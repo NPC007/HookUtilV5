@@ -41,8 +41,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/hook.dir/DependInfo.cmake"
   "CMakeFiles/generate.dir/DependInfo.cmake"
-  "CMakeFiles/loader.dir/DependInfo.cmake"
+  "CMakeFiles/loader_stage_one.dir/DependInfo.cmake"
   "CMakeFiles/loader_stage_two.dir/DependInfo.cmake"
+  "CMakeFiles/loader_stage_three.dir/DependInfo.cmake"
   )
