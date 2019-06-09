@@ -60,8 +60,8 @@ enum LOADER_TYPE{
 };
 
 
-#define UP_PADDING(X,Y)  ((long)(((long)X/Y+1)*Y))
-#define DOWN_PADDING(X,Y) ((long)((long)X-(long)X%Y))
+#define UP_PADDING(X,Y)  ((long)((((long)(X))/((long)(Y))+1)*((long)(Y))))
+#define DOWN_PADDING(X,Y) ((long)(((long)(X))-((long)(X))%((long)(Y))))
 
 #define PROT_READ	0x1     /* Page can be read.  */
 #define PROT_WRITE	0x2     /* Page can be written.  */

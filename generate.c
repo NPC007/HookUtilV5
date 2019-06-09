@@ -15,8 +15,8 @@
 #include <arpa/inet.h>
 
 
-#define UP_PADDING(X,Y)  ((long)(((long)X/Y+1)*Y))
-#define DOWN_PADDING(X,Y) ((long)((long)X-(long)X%Y))
+//#define UP_PADDING(X,Y)  ((long)(((long)X/Y+1)*Y))
+//#define DOWN_PADDING(X,Y) ((long)((long)X-(long)X%Y))
 
 
 long get_file_size(char* file){
@@ -358,7 +358,7 @@ void close_and_munmap(char* file_name,int fd,char* base){
 
 Elf_Shdr* get_elf_section_by_index(long index,Elf_Ehdr* elf_base){
     Elf_Ehdr* ehdr = (Elf_Ehdr*) elf_base;
-    Elf_Shdr* shdr = (Elf_Shdr*)(elf_base + ehdr->e_shoff + index*ehdr->e_shentsize);
+    Elf_Shdr* shdr = (Elf_Shdr*)((char*)elf_base + ehdr->e_shoff + index*ehdr->e_shentsize);
     return shdr;
 }
 
@@ -373,9 +373,9 @@ Elf_Shdr* get_elf_section_by_type(int type,Elf_Ehdr* elf_base){
     Elf_Shdr* shstrtab_section = get_elf_shstrtab(elf_base);
     if(shstrtab_section == NULL)
         return NULL;
-    char* strtab = (char*)(elf_base + shstrtab_section->sh_offset);
+    char* strtab = (char*)((char*)elf_base + shstrtab_section->sh_offset);
     for(i=0;i<ehdr->e_shnum;i++){
-        Elf_Shdr* shdr = (Elf_Shdr*)(elf_base + ehdr->e_shoff + i*ehdr->e_shentsize);
+        Elf_Shdr* shdr = (Elf_Shdr*)((char*)elf_base + ehdr->e_shoff + i*ehdr->e_shentsize);
         if(shdr->sh_type == type)
             return shdr;
     }
@@ -388,9 +388,9 @@ Elf_Shdr* get_elf_section_by_name(char* section_name,Elf_Ehdr* elf_base){
     Elf_Shdr* shstrtab_section = get_elf_shstrtab(elf_base);
     if(shstrtab_section == NULL)
         return NULL;
-    char* strtab = (char*)(elf_base + shstrtab_section->sh_offset);
+    char* strtab = (char*)((char*)elf_base + shstrtab_section->sh_offset);
     for(i=0;i<ehdr->e_shnum;i++){
-        Elf_Shdr* shdr = (Elf_Shdr*)(elf_base + ehdr->e_shoff + i*ehdr->e_shentsize);
+        Elf_Shdr* shdr = (Elf_Shdr*)((char*)elf_base + ehdr->e_shoff + i*ehdr->e_shentsize);
         if(strcasecmp((char*)&strtab[shdr->sh_name],section_name)==0)
             return shdr;
     }
@@ -402,8 +402,9 @@ void get_section_data(Elf_Ehdr* ehdr,char* section_name,void** buf,int* len){
     if(shdr == NULL){
         *buf = NULL;
         *len = 0;
+        return;
     }
-    *buf = shdr->sh_offset + (char*)ehdr;
+    *buf = (char*)((char*)ehdr + shdr->sh_offset );
     *len = shdr->sh_size;
 }
 
@@ -415,10 +416,11 @@ void get_section_data_from_file(char* file,char* section_name,void** buf,int* le
     if(shdr == NULL){
         *buf = NULL;
         *len = 0;
+        return;
     }
     *buf = malloc(shdr->sh_size);
     *len = shdr->sh_size;
-    memcpy(*buf,shdr->sh_offset + (char*)base,*len);
+    memcpy(*buf,(char*)base + shdr->sh_offset,*len);
     close_and_munmap(file,fd,base);
 }
 
@@ -427,12 +429,12 @@ unsigned long get_elf_load_base(Elf_Ehdr *ehdr){
     unsigned long min_value = -1;
     Elf_Phdr* pt_load;
     for(int i=0;i<ehdr->e_phnum;i++){
-        pt_load = (Elf_Phdr*)((char*)ehdr+ehdr->e_phentsize*i);
+        pt_load = (Elf_Phdr*)((char*)ehdr+ ehdr->e_phoff + ehdr->e_phentsize*i);
         if(pt_load->p_type == PT_LOAD){
             if(min_value == -1)
                 min_value = DOWN_PADDING(pt_load->p_vaddr,0x1000);
             else{
-                if(min_value <= DOWN_PADDING(pt_load->p_vaddr,0x1000))
+                if(min_value >= DOWN_PADDING(pt_load->p_vaddr,0x1000))
                     min_value = DOWN_PADDING(pt_load->p_vaddr,0x1000);
             };
         }
@@ -441,7 +443,7 @@ unsigned long get_elf_load_base(Elf_Ehdr *ehdr){
 
 }
 
-void add_stage_one_code_to_em_frame(char* libloader_stage_one,char* output_elf,int* first_entry_offset){
+void add_stage_one_code_to_em_frame(char* libloader_stage_one,char* output_elf,int* first_entry_offset,void** elf_load_base){
     int libloader_stage_one_fd,output_elf_fd;
     void* libloader_stage_one_base,*output_elf_base;
     open_mmap_check(libloader_stage_one,O_RDONLY,&libloader_stage_one_fd,&libloader_stage_one_base,PROT_READ,MAP_PRIVATE);
@@ -463,8 +465,11 @@ void add_stage_one_code_to_em_frame(char* libloader_stage_one,char* output_elf,i
         printf("file:%s have no eh_frame, change first stage code to another place\n",output_elf);
         exit(-1);
     }
-    *first_entry_offset = (int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)get_elf_load_base(output_elf_base));
+    *elf_load_base = (void*)get_elf_load_base((Elf_Ehdr*)output_elf_base);
+    *first_entry_offset = (int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)*elf_load_base);
     memcpy((char*)output_elf_base+eh_frame_shdr->sh_offset,buf,len);
+
+    ((Elf_Ehdr*)output_elf_base)->e_entry =(long) ((char*)*elf_load_base+ *first_entry_offset);
     close_and_munmap(libloader_stage_one,libloader_stage_one_fd,libloader_stage_one_base);
     close_and_munmap(output_elf,output_elf_fd,output_elf_base);
 }
@@ -507,7 +512,7 @@ void add_segment(char* elf_file,Elf_Phdr* phdr){
     close_and_munmap(elf_file,elf_file_fd,elf_file_base);
 }
 
-void add_stage_one_code_to_new_pt_load(char* libloader_stage_one,char* output_elf,int* first_entry_offset) {
+void add_stage_one_code_to_new_pt_load(char* libloader_stage_one,char* output_elf,int* first_entry_offset,void** elf_load_base) {
     int libloader_stage_one_fd,output_elf_fd;
     void* libloader_stage_one_base,*output_elf_base;
     open_mmap_check(libloader_stage_one,O_RDONLY,&libloader_stage_one_fd,&libloader_stage_one_base,PROT_READ,MAP_PRIVATE);
@@ -542,6 +547,8 @@ void add_stage_one_code_to_new_pt_load(char* libloader_stage_one,char* output_el
     add_segment(output_elf,&mem_pt_load);
     open_mmap_check(output_elf,O_RDWR,&output_elf_fd,&output_elf_base,PROT_READ|PROT_WRITE,MAP_SHARED);
     memcpy((char*)output_elf_base+output_file_size,buf,len);
+    *elf_load_base = (void*)get_elf_load_base((Elf_Ehdr*)output_elf_base);
+    ((Elf_Ehdr*)output_elf_base)->e_entry = (long)((char*)*elf_load_base+ *first_entry_offset);
     close_and_munmap(libloader_stage_one,libloader_stage_one_fd,libloader_stage_one_base);
     close_and_munmap(output_elf,output_elf_fd,output_elf_base);
     *first_entry_offset = (int)output_file_size;;
@@ -599,7 +606,7 @@ void mov_phdr(char* elf_file){
     }
 }
 
-void generate_data_file(char* output_elf,char* libloader_stage_two,char* libloader_stage_three,int first_entry_offset,char* shell_passwd,char* analysis_server_ip,char* analysis_server_port,char* sandbox_server_ip,char* sandbox_server_port,char* target){
+void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_stage_two,char* libloader_stage_three,int first_entry_offset,char* shell_passwd,char* analysis_server_ip,char* analysis_server_port,char* sandbox_server_ip,char* sandbox_server_port,char* target){
     char* libloader_stage_two_buf;
     int libloader_stage_two_len;
     int libloader_stage_two_fd;
@@ -619,7 +626,7 @@ void generate_data_file(char* output_elf,char* libloader_stage_two,char* libload
     int target_fd = open(target,O_RDWR|O_TRUNC|O_CREAT);
     LOADER_STAGE_TWO two;
     memset(&two,0,sizeof(LOADER_STAGE_TWO));
-    two.patch_data_mmap_code_base = (void*)UP_PADDING(get_elf_load_base((Elf_Ehdr*)get_file_content_length(output_elf,0,sizeof(Elf_Ehdr)))+get_file_size(output_elf),0x1000);
+    two.patch_data_mmap_code_base = (void*)UP_PADDING(elf_load_base,0x1000);
     two.length = libloader_stage_two_len;
     two.entry_offset = ((Elf_Ehdr*)libloader_stage_two_base)->e_entry - libloader_stage_two_text_section->sh_addr;
     write(target_fd,&two,sizeof(LOADER_STAGE_TWO));
@@ -636,7 +643,7 @@ void generate_data_file(char* output_elf,char* libloader_stage_two,char* libload
 
     three.entry_offset = (int)((Elf_Ehdr*)(get_file_content_length(libloader_stage_three,0,sizeof(Elf_Ehdr))))->e_entry;
     three.length = get_file_size(libloader_stage_three);
-    three.patch_data_mmap_code_base = (void*)UP_PADDING(get_elf_load_base((Elf_Ehdr*)get_file_content_length(output_elf,0,sizeof(Elf_Ehdr)))+get_file_size(output_elf),0x1000);
+    three.patch_data_mmap_code_base = (void*)UP_PADDING(elf_load_base,0x1000);
     three.first_entry_offset = first_entry_offset;
 
     if(analysis_server_ip!=NULL && analysis_server_port!=NULL) {
@@ -692,6 +699,7 @@ int main(int argc,char* argv){
     copy_file(input_elf,output_elf);
     int config_file_fd = open(config_h,O_RDWR|O_TRUNC|O_CREAT);
 
+    void* elf_load_base = NULL;
 
     // PIE macro
     {
@@ -721,10 +729,10 @@ int main(int argc,char* argv){
         //process stage one
 
         if (strcmp("em_frame", loader_stage_one_position) == 0) {
-            add_stage_one_code_to_em_frame(libloader_stage_one, output_elf, &first_entry_offset);
+            add_stage_one_code_to_em_frame(libloader_stage_one, output_elf, &first_entry_offset,&elf_load_base);
         } else if (strcmp("new_pt_load", loader_stage_one_position) == 0) {
             mov_phdr(output_elf);
-            add_stage_one_code_to_new_pt_load(loader_stage_one_position, output_elf, &first_entry_offset);
+            add_stage_one_code_to_new_pt_load(loader_stage_one_position, output_elf, &first_entry_offset,&elf_load_base);
         } else {
             printf("unsupport loader_stage_one_position: %s\n", loader_stage_one_position);
             exit(-1);
@@ -765,33 +773,36 @@ int main(int argc,char* argv){
         char* debug = cJSON_GetObjectItem(config,"debug")->valuestring;
         write_marco_define(config_file_fd,"PATCH_DEBUG",debug);
 
-        generate_data_file(output_elf,libloader_stage_two,libloader_stage_three,first_entry_offset,shell_password,analysis_server_ip,analysis_server_port,NULL,NULL,data_file_path);
+        generate_data_file(elf_load_base,output_elf,libloader_stage_two,libloader_stage_three,first_entry_offset,shell_password,analysis_server_ip,analysis_server_port,NULL,NULL,data_file_path);
 
     }
 
 
     char* loader_stage_other_position = cJSON_GetObjectItem(config,"loader_stage_other_position")->valuestring;
-    if(strcmp("file",loader_stage_other_position)){
+    if(strcmp("file",loader_stage_other_position)==0){
         write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_FILE");
         char* loader_stage_other_file_path = cJSON_GetObjectItem(config,"loader_stage_other_file_path")->valuestring;
         write_marco_str_define(config_file_fd,"PATCH_DATA_PATH",loader_stage_other_file_path);
         char tmp_buf[256];
-        snprintf(tmp_buf,255,"0x%x",UP_PADDING(get_elf_load_base((Elf_Ehdr*)get_file_content_length(output_elf,0,sizeof(Elf_Ehdr)))+get_file_size(output_elf),0x1000));
+        snprintf(tmp_buf,255,"0x%x",UP_PADDING(((char*)elf_load_base+get_file_size(output_elf)),0x1000));
         write_marco_define(config_file_fd,"PATCH_DATA_MMAP_FILE_BASE",tmp_buf);
         snprintf(tmp_buf,255,"0x%x",get_file_size(data_file_path));
-        write_marco_define(config_file_fd,"PATCH_DATA_MMAP_FILE_BASE",tmp_buf);
+        write_marco_define(config_file_fd,"PATCH_DATA_MMAP_FILE_SIZE",tmp_buf);
     }
-    else if(strcmp("memory",loader_stage_other_position)){
+    else if(strcmp("memory",loader_stage_other_position)==0){
         write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_MEM");
+        //todo
+
+
     }
-    else if(strcmp("share_memory",loader_stage_other_position)){
+    else if(strcmp("share_memory",loader_stage_other_position)==0){
         printf("not implement,exit!!!");
         exit(-1);
         write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
         char* loader_stage_other_share_memory_id = cJSON_GetObjectItem(config,"loader_stage_other_share_memory_id")->valuestring;
         write_marco_define(config_file_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id);
     }
-    else if(strcmp("socket",loader_stage_other_position)){
+    else if(strcmp("socket",loader_stage_other_position)==0){
         printf("not implement,exit!!!");
         exit(-1);
         write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SOCKET");
