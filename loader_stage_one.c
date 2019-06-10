@@ -67,36 +67,55 @@ void _start(){
 
 
 #if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
-int __loader_start(LIBC_START_MAIN_ARG, void* first_instruction){
+unsigned long __loader_start(LIBC_START_MAIN_ARG, void* first_instruction){
     char patch_data[] = {PATCH_DATA_PATH};
     long patch_fd = my_open(patch_data,O_RDONLY,0);
     if(patch_fd < 0)
         goto failed_load_patch;
-    if(my_mmap((long)PATCH_DATA_MMAP_FILE_BASE,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0)<0) {
+    long mmap_addr = my_mmap((long)PATCH_DATA_MMAP_FILE_BASE,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE|MAP_FIXED,patch_fd,0);
+    if(mmap_addr<0) {
         my_close(patch_fd);
         goto failed_load_patch;
     }
-    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(PATCH_DATA_MMAP_FILE_BASE+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(PATCH_DATA_MMAP_FILE_BASE))->entry_offset);
+    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(PATCH_DATA_MMAP_FILE_BASE+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(mmap_addr))->entry_offset);
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)PATCH_DATA_MMAP_FILE_BASE);
     failed_load_patch:
+#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+    return *(long*)LIB_C_START_MAIN_ADDR;
+#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
     return LIB_C_START_MAIN_ADDR;
+#endif
 }
 
 
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_MEM)
-IN_LINE int __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
+IN_LINE unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
     void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(PATCH_DATA_MMAP_FILE_BASE+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(PATCH_DATA_MMAP_FILE_BASE))->entry_offset);
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)PATCH_DATA_MMAP_FILE_BASE);
     failed_load_patch:
+#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+    return *(long*)LIB_C_START_MAIN_ADDR;
+#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
     return LIB_C_START_MAIN_ADDR;
+#endif
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SHARE_MEM)
-IN_LINE int __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
-
+IN_LINE unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
+    failed_load_patch:
+#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+    return *(long*)LIB_C_START_MAIN_ADDR;
+#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+    return LIB_C_START_MAIN_ADDR;
+#endif
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SOCKET)
-IN_LINE int __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
-
+IN_LINE unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
+    failed_load_patch:
+#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+    return *(long*)LIB_C_START_MAIN_ADDR;
+#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+    return LIB_C_START_MAIN_ADDR;
+#endif
 }
 #endif
 

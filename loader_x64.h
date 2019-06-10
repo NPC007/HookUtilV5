@@ -25,6 +25,7 @@
         __asm__ __volatile__ ("popq %rdx");                                      \
         __asm__ __volatile__ ("popq %rsi");                                      \
         __asm__ __volatile__ ("popq %rdi");                                      \
+        __asm__ __volatile__ ("xor %rbp,%rbp");                                  \
         __asm__ __volatile__ ("jmp *%rax");
 
 #define LIBC_START_MAIN_ARG int(*MAIN)(int,char**,char**),int ARGC,char **UBP_AV,void(*INIT)(void),void(*FINI)(void),void(*RTLD_FINI)(void),void* STACK_END

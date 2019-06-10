@@ -37,9 +37,16 @@
 #include "loader_mips.h"
 #endif
 
-
+#if(PATCH_DEBUG == 1)
+#define IN_LINE static
+#define DEBUG_LOG(format,...) my_printf("[DEBUG]:"format"\n",##__VA_ARGS__)
+#else
 #define IN_LINE static inline __attribute__((always_inline))
-//#define IN_LINE static
+#define DEBUG_LOG(__VA_ARGS__)
+#endif
+
+
+
 #define UN_KNOWN_ERROR_CODE 0xFF99FF99
 
 #define MAX_PATCH_NUM 0x100
@@ -274,6 +281,8 @@ IN_LINE void my_strcpy(char *dst, char *src,char end){
 
 IN_LINE int  my_strcmp(char *dst, char *src){
     int i = 0;
+    if(my_strlen(dst)!=my_strlen(src))
+        return -1;
     while(dst[i]!='\0'){
         if(dst[i] > src[i])
             return 1;
@@ -284,57 +293,54 @@ IN_LINE int  my_strcmp(char *dst, char *src){
     return 0;
 }
 
+#define __tolower(c) ((('A' <= (c))&&((c) <= 'Z')) ? ((c) - 'A' + 'a') : (c))
 
-IN_LINE int  my_strcasecmp(char *dst, char *src){
-    int i = 0;
-    char dst_chr;
-    char src_chr;
-    while(dst[i]!='\0'){
-        if(dst[i] <= 'Z' &&dst[i] >= 'A')
-            dst_chr = dst[i] + ('z' - 'Z');
-        else
-            dst_chr = dst[i];
+/*
+IN_LINE int strcasecmp(const char *s1, const char *s2)
+{
+    const unsigned char *p1 = (const unsigned char *) s1;
+    const unsigned char *p2 = (const unsigned char *) s2;
+    int result = 0;
 
-        if(src[i] <= 'Z' &&src[i] >= 'A')
-            src_chr = src[i] + ('z' - 'Z');
-        else
-            src_chr = src[i];
-
-        if(dst_chr > src_chr)
-            return 1;
-        else if(dst_chr < src_chr)
-            return -1;
-        i++;
+    if (p1 == p2)
+    {
+     return 0;
     }
-    return 0;
-}
 
-IN_LINE int  my_strncasecmp(char *dst, char *src,int compare_length){
-    int i = 0;
-    int count = 0 ;
-    char dst_chr;
-    char src_chr;
-    while(dst[i]!='\0' && count <compare_length){
-        if(dst[i] <= 'Z' &&dst[i] >= 'A')
-            dst_chr = dst[i] + ('z' - 'Z');
-        else
-            dst_chr = dst[i];
-
-        if(src[i] <= 'Z' &&src[i] >= 'A')
-            src_chr = src[i] + ('z' - 'Z');
-        else
-            src_chr = src[i];
-
-        if(dst_chr > src_chr)
-            return 1;
-        else if(dst_chr < src_chr)
-            return -1;
-        i++;
-        count ++;
+    while ((result = __tolower(*p1) - __tolower(*p2)) == 0)
+     {
+     if (*p1++ == '\0')
+     {
+       break;
+     }
+    p2++;
     }
-    return 0;
+  return result;
 }
+*/
+IN_LINE int my_strcasecmp(const char* s1, const char* s2)
+{
+   char c1, c2;
+   do { c1 = *s1++; c2 = *s2++; }
+   while (c1 && c2 && (__tolower(c1) == __tolower(c2)));
 
+    return __tolower(c1) - __tolower(c2);
+ }
+
+ /*****************************************************************************/
+ /* STRNCASECMP() - Case-insensitive strncmp.                                 */
+ /*****************************************************************************/
+IN_LINE int my_strncasecmp(const char* s1, const char* s2, size_t n)
+ {
+    char c1, c2;
+
+    if (!n) return 0;
+
+    do { c1 = *s1++; c2 = *s2++; }
+    while (--n && c1 && c2 && (__tolower(c1) == __tolower(c2)));
+
+    return __tolower(c1) - __tolower(c2);
+ }
 
 
 IN_LINE int  my_memcmp(void *dst, void *src,int len){
@@ -526,6 +532,13 @@ IN_LINE void MD5Final(MD5_CTX *context,unsigned char digest[16])
     MD5Update(context,PADDING,padlen);
     MD5Update(context,bits,8);
     MD5Encode(digest,context->state,16);
+}
+
+IN_LINE char* ELF_ADDR_ADD(char* elf_base,long p_vaddr){
+    if(is_pie(elf_base))
+        return elf_base + p_vaddr;
+    else
+        return (char*)p_vaddr;
 }
 
 IN_LINE int check_elf_magic(void* elf_base){
@@ -1934,7 +1947,7 @@ IN_LINE Elf_Shdr* get_elf_section_by_index(long index,char* elf_base){
     return shdr;
 }
 
-Elf_Shdr* get_elf_shstrtab(char* elf_base){
+IN_LINE Elf_Shdr* get_elf_shstrtab(char* elf_base){
     Elf_Ehdr* ehdr = (Elf_Ehdr*) elf_base;
     return get_elf_section_by_index(ehdr->e_shstrndx,elf_base);
 }
@@ -2003,7 +2016,7 @@ IN_LINE void process_call_hook(char* call_addr,Elf_Sym* symbol,char* so_base){
 }
 
 
-IN_LINE void process_hook(Elf_Ehdr* so_base){
+IN_LINE void process_hook(char* so_base){
     Elf_Shdr* symtab_section = get_elf_section_by_name(".symtab",(char*)so_base);
     long sym_offset = symtab_section->sh_offset;
     long sym_entsize = symtab_section->sh_entsize;
@@ -2063,14 +2076,16 @@ IN_LINE void init_hook_env(void* first_instruction){
 
 IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr,void* first_instruction){
     init_hook_env(first_instruction);
-    process_hook(ehdr);
+    process_hook((char*)ehdr);
     //dynamic_hook_process_mmap();
     //dynamic_hook_process_execve();
 }
 
 
-void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* three_base_tmp
-) {
+void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* three_base_tmp) {
+    g_elf_base = (char*)DOWN_PADDING((char*)first_instruction-g_loader_param.first_entry_offset,0x1000);
+    DEBUG_LOG("stage_three_start");
+    DEBUG_LOG("g_elf_base: 0x%x",g_elf_base );
     char *stack_base = 0;
     char **ev = &UBP_AV[ARGC + 1];
     int i = 0;
@@ -2086,7 +2101,7 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* thre
         stack_base = (char *) UP_PADDING((long) ev[i], 0x1000);
 
     //parent should die before child
-    start_io_redirect(target_entry,stack_base);
+    //start_io_redirect(target_entry,stack_base);
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp+sizeof(LOADER_STAGE_THREE)),first_instruction);
     destory_patch_data();
 }
@@ -2098,7 +2113,7 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* thre
 * 4. __hook_call_addr
 */
 
-
+/*
 static void __hook_elf_0xfffffff(char* buf,unsigned int length){
 
 }
@@ -2107,9 +2122,10 @@ static void __hook_call_0x08048785(int flag,char* buf){
 
 }
 
-static char* __hook_got_0x080484D0_malloc(int length){
+static char* __hook_got_0x080484D0(int length){
 
 }
+ */
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
     char black_bins[][20] = {"/bin/sh","/bin/bash","sh","cat","ls"};

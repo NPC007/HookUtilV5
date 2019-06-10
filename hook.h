@@ -60,6 +60,9 @@ enum LOADER_TYPE{
 };
 
 
+#define CODE 1
+#define PTR 2
+
 #define UP_PADDING(X,Y)  ((long)((((long)(X))/((long)(Y))+1)*((long)(Y))))
 #define DOWN_PADDING(X,Y) ((long)(((long)(X))-((long)(X))%((long)(Y))))
 
@@ -71,16 +74,11 @@ enum LOADER_TYPE{
 #define MAP_SHARED	0x01		/* Share changes.  */
 #define MAP_PRIVATE	0x02		/* Changes are private.  */
 #define MAP_ANONYMOUS	0x20		/* Don't use a file.  */
+#define MAP_FIXED 0x10
 
 #define SYSCALL_DYNAMIC 0
 #define SANDBOX_XOR_KEY "\xf5\xe4\xd2\xc9\xb2\xa9\xd0\x9f\xa3\xf5\xd9"
 
-
-#if (IS_PIE == 0)
-#define ELF_ADDR(ADDR) (ADDR)
-#else
-#define ELF_ADDR_ADD(BASE,VADDR)  ((char*)BASE+VADDR)
-#endif
 
 #define ELF_HOOK_HELPER(BASE,VADDR) ELF_ADDR_ADD(BASE,VADDR)
 #define FAKE_MIN_ADDR 4*024*1024

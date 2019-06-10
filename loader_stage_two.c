@@ -73,13 +73,36 @@ IN_LINE void my_memset(char *dst,char chr,int len){
         dst[i] = chr;
 }
 
+#if(PATCH_DEBUG == 1)
+IN_LINE int  my_strlen(const char *src){
+    int i = 0;
+    while(src[i]!='\0')
+        i++;
+    return i;
+}
+
+IN_LINE long my_write(int fd,const char* buf,long length){
+    long res = 0;
+    asm_write(fd,buf,length,res);
+    return res;
+}
+IN_LINE void my_puts(char* str){
+    char end[] = {"\n"};
+    my_write(1,str,my_strlen(str));
+    my_write(1,end,1);
+}
+#endif
+
+#define DEBUG_LOG(STR)  { if(PATCH_DEBUG == 1){char data[] = {STR};my_puts(data);}}
 
 void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_base){
+    DEBUG_LOG("stage_two_start");
     Elf_Ehdr* ehdr = (Elf_Ehdr*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length + sizeof(LOADER_STAGE_THREE));
     LOADER_STAGE_THREE* three_base = (LOADER_STAGE_THREE*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length);
     char* elf_load_base = (char*)(two_base->patch_data_mmap_code_base);
+    Elf_Phdr* phdr = NULL;
     for(int i=0;i<ehdr->e_phnum;i++){
-        Elf_Phdr* phdr = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + ehdr->e_phentsize*i);
+        phdr = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + ehdr->e_phentsize*i);
         if(phdr->p_type == PT_LOAD){
             int flag = 0;
             if(phdr->p_flags & 0x1)
@@ -88,13 +111,14 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_ba
                 flag |= PROT_WRITE;
             if(phdr->p_flags & 0x4)
                 flag |= PROT_READ;
-            my_mmap(DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000),UP_PADDING(phdr->p_memsz,0x1000),PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+            my_mmap(DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000),UP_PADDING(phdr->p_vaddr+phdr->p_memsz,0x1000)-DOWN_PADDING(phdr->p_vaddr,0x1000),PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0);
             my_memcpy((elf_load_base + phdr->p_vaddr), ((char*)ehdr) + phdr->p_offset,phdr->p_filesz);
             //unable to destroy data,because we need us the section_data, we destroy it later
             //my_memset(((char*)ehdr) + phdr->p_offset,0xFF,phdr->p_filesz);
-            my_mprotect((void*)(DOWN_PADDING((long)elf_load_base + phdr->p_vaddr,0x1000)),UP_PADDING(phdr->p_memsz,0x1000),flag);
+            my_mprotect((void*)(DOWN_PADDING((long)elf_load_base + phdr->p_vaddr,0x1000)),UP_PADDING(phdr->p_vaddr+phdr->p_memsz,0x1000)-DOWN_PADDING(phdr->p_vaddr,0x1000),flag);
         }
     }
+    DEBUG_LOG("stage_two_end");
     void(*patch_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))((char*)elf_load_base + three_base->entry_offset);
     patch_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)three_base);
 }

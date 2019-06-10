@@ -443,7 +443,49 @@ unsigned long get_elf_load_base(Elf_Ehdr *ehdr){
 
 }
 
-void add_stage_one_code_to_em_frame(char* libloader_stage_one,char* output_elf,int* first_entry_offset,void** elf_load_base){
+void modify_call_libc_start_main(char* elf_base,long new_function_vaddr,cJSON* config){
+    char* libc_start_main_start_call_offset_str = cJSON_GetObjectItem(config,"libc_start_main_start_call_offset")->valuestring;
+    char* libc_start_main_start_call_vaddr_str = cJSON_GetObjectItem(config,"libc_start_main_start_call_vaddr")->valuestring;
+    int libc_start_main_start_call_offset = strtol(libc_start_main_start_call_offset_str,NULL,16);
+    long libc_start_main_start_call_vaddr = strtol(libc_start_main_start_call_vaddr_str,NULL,16);
+    if(libc_start_main_start_call_offset == 0 || libc_start_main_start_call_vaddr == 0){
+        printf("libc_start_main_start_call_offset or libc_start_main_start_call_vaddr get error, check it\n");
+        exit(-1);
+    }
+    unsigned char* call = (unsigned char*)(elf_base+libc_start_main_start_call_offset);
+    char* libc_start_main_addr_type = cJSON_GetObjectItem(config,"libc_start_main_addr_type")->valuestring;
+    if(strcmp(libc_start_main_addr_type,"code")==0){
+        if((call[0] == 0xE8) || (call[0] == 0x67 && call[1] == 0xE8)){
+            if(call[0]==0xE8){
+                call[0] = 0xE8;
+                *((int*)(&call[1])) = (int)(new_function_vaddr - 5 - libc_start_main_start_call_vaddr) ;
+            }else{
+                *((int*)(&call[2])) = (int)(new_function_vaddr - 5 - libc_start_main_start_call_vaddr) ;
+            }
+        }
+        else{
+            printf("libc_start_main_addr_type check failed, error, call addr bytes:%x,%x,%x,%x,%x",call[0],call[1],call[2],call[3],call[4]);
+            exit(-1);
+        }
+    }
+    else if(strcmp(libc_start_main_addr_type,"ptr")==0){
+        if(call[0] == 0xff && call[1] == 0x15){
+            call[0] = 0xE8;
+            *((int*)(&call[1])) = (int)(new_function_vaddr - 5 - libc_start_main_start_call_vaddr) ;
+        }
+        else{
+            printf("libc_start_main_addr_type check failed, error, call addr bytes:%x,%x,%x,%x,%x,%x",call[0],call[1],call[2],call[3],call[4],call[5]);
+            exit(-1);
+        }
+    }
+    else{
+        printf("modify_call_libc_start_main : libc_start_main_addr_type has only two values, one is code, another is ptr\n");
+        exit(-1);
+    }
+}
+
+void add_stage_one_code_to_em_frame(char* libloader_stage_one,char* output_elf,int* first_entry_offset,void** elf_load_base,cJSON* config){
+    puts("add_stage_one_code_to_em_frame");
     int libloader_stage_one_fd,output_elf_fd;
     void* libloader_stage_one_base,*output_elf_base;
     open_mmap_check(libloader_stage_one,O_RDONLY,&libloader_stage_one_fd,&libloader_stage_one_base,PROT_READ,MAP_PRIVATE);
@@ -468,8 +510,8 @@ void add_stage_one_code_to_em_frame(char* libloader_stage_one,char* output_elf,i
     *elf_load_base = (void*)get_elf_load_base((Elf_Ehdr*)output_elf_base);
     *first_entry_offset = (int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)*elf_load_base);
     memcpy((char*)output_elf_base+eh_frame_shdr->sh_offset,buf,len);
-
-    ((Elf_Ehdr*)output_elf_base)->e_entry =(long) ((char*)*elf_load_base+ *first_entry_offset);
+    modify_call_libc_start_main(output_elf_base,(long) ((char*)*elf_load_base+ *first_entry_offset),config);
+    //((Elf_Ehdr*)output_elf_base)->e_entry =(long) ((char*)*elf_load_base+ *first_entry_offset);
     close_and_munmap(libloader_stage_one,libloader_stage_one_fd,libloader_stage_one_base);
     close_and_munmap(output_elf,output_elf_fd,output_elf_base);
 }
@@ -512,7 +554,8 @@ void add_segment(char* elf_file,Elf_Phdr* phdr){
     close_and_munmap(elf_file,elf_file_fd,elf_file_base);
 }
 
-void add_stage_one_code_to_new_pt_load(char* libloader_stage_one,char* output_elf,int* first_entry_offset,void** elf_load_base) {
+void add_stage_one_code_to_new_pt_load(char* libloader_stage_one,char* output_elf,int* first_entry_offset,void** elf_load_base,cJSON* config) {
+    puts("add_stage_one_code_to_new_pt_load");
     int libloader_stage_one_fd,output_elf_fd;
     void* libloader_stage_one_base,*output_elf_base;
     open_mmap_check(libloader_stage_one,O_RDONLY,&libloader_stage_one_fd,&libloader_stage_one_base,PROT_READ,MAP_PRIVATE);
@@ -548,7 +591,8 @@ void add_stage_one_code_to_new_pt_load(char* libloader_stage_one,char* output_el
     open_mmap_check(output_elf,O_RDWR,&output_elf_fd,&output_elf_base,PROT_READ|PROT_WRITE,MAP_SHARED);
     memcpy((char*)output_elf_base+output_file_size,buf,len);
     *elf_load_base = (void*)get_elf_load_base((Elf_Ehdr*)output_elf_base);
-    ((Elf_Ehdr*)output_elf_base)->e_entry = (long)((char*)*elf_load_base+ *first_entry_offset);
+    modify_call_libc_start_main(output_elf_base,(long) ((char*)*elf_load_base+ *first_entry_offset),config);
+    //((Elf_Ehdr*)output_elf_base)->e_entry = (long)((char*)*elf_load_base+ *first_entry_offset);
     close_and_munmap(libloader_stage_one,libloader_stage_one_fd,libloader_stage_one_base);
     close_and_munmap(output_elf,output_elf_fd,output_elf_base);
     *first_entry_offset = (int)output_file_size;;
@@ -606,6 +650,37 @@ void mov_phdr(char* elf_file){
     }
 }
 
+void check_so_file_no_rela(Elf_Ehdr* ehdr){
+    for(int i=0;i<ehdr->e_phnum;i++) {
+        Elf_Phdr *so_phdr = (Elf_Phdr *) ((long)ehdr + ehdr->e_phoff + i * ehdr->e_phentsize);
+        if (so_phdr->p_type == PT_DYNAMIC) {
+            Elf_Dyn* dyn = (Elf_Dyn*)((long)ehdr + so_phdr->p_offset);
+            while (dyn->d_tag!=0){
+                if(dyn->d_tag == DT_PLTGOT) {
+                    printf("so file check error, should not have DT_PLTGOT\n");
+                    exit(-1);
+                }
+                else if(dyn->d_tag == DT_RELA){
+                    printf("so file check error, should not have DT_RELA");
+                    exit(-1);
+                }
+                else {
+                    //printf("DT_TYPE: %8d\tDT_VALUE=%8d\n",dyn->d_tag,dyn->d_un.d_ptr);
+                    dyn = (Elf_Dyn *) ((long) dyn + sizeof(Elf_Dyn));
+                }
+            }
+        }
+    }
+}
+
+void check_libloader_stage_three(char* libloader_stage_three){
+    int libloader_stage_threefd;
+    char* libloader_stage_three_base;
+    open_mmap_check(libloader_stage_three,O_RDONLY,&libloader_stage_threefd,(void**)&libloader_stage_three_base,PROT_READ,MAP_PRIVATE);
+    check_so_file_no_rela((Elf_Ehdr*)libloader_stage_three_base);
+    close_and_munmap(libloader_stage_three,libloader_stage_threefd,libloader_stage_three_base);
+}
+
 void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_stage_two,char* libloader_stage_three,int first_entry_offset,char* shell_passwd,char* analysis_server_ip,char* analysis_server_port,char* sandbox_server_ip,char* sandbox_server_port,char* target){
     char* libloader_stage_two_buf;
     int libloader_stage_two_len;
@@ -626,12 +701,15 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
     int target_fd = open(target,O_RDWR|O_TRUNC|O_CREAT);
     LOADER_STAGE_TWO two;
     memset(&two,0,sizeof(LOADER_STAGE_TWO));
-    two.patch_data_mmap_code_base = (void*)UP_PADDING(elf_load_base,0x1000);
+    two.patch_data_mmap_code_base = (void*)UP_PADDING((char*)elf_load_base+get_file_size(output_elf)+0x10000000,0x1000);
     two.length = libloader_stage_two_len;
     two.entry_offset = ((Elf_Ehdr*)libloader_stage_two_base)->e_entry - libloader_stage_two_text_section->sh_addr;
     write(target_fd,&two,sizeof(LOADER_STAGE_TWO));
     write(target_fd,libloader_stage_two_buf,libloader_stage_two_len);
-
+    printf("libloader_stage_two TLV structure values:\n");
+    printf("\tlength:                     0x%x\n",two.length);
+    printf("\tentry_offset:               0x%x\n",two.entry_offset);
+    printf("\tpatch_data_mmap_code_base:  0x%x\n",two.patch_data_mmap_code_base);
 
     LOADER_STAGE_THREE three;
     memset(&three,0,sizeof(LOADER_STAGE_THREE));
@@ -643,7 +721,7 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
 
     three.entry_offset = (int)((Elf_Ehdr*)(get_file_content_length(libloader_stage_three,0,sizeof(Elf_Ehdr))))->e_entry;
     three.length = get_file_size(libloader_stage_three);
-    three.patch_data_mmap_code_base = (void*)UP_PADDING(elf_load_base,0x1000);
+    three.patch_data_mmap_code_base = (void*)UP_PADDING((char*)elf_load_base+get_file_size(output_elf)+0x10000000,0x1000);
     three.first_entry_offset = first_entry_offset;
 
     if(analysis_server_ip!=NULL && analysis_server_port!=NULL) {
@@ -655,7 +733,15 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
         inet_aton(sandbox_server_ip, &three.sandbox_server.sin_addr);
         three.sandbox_server.sin_port = htons(atoi(sandbox_server_port));
     }
-
+    printf("libloader_stage_three TLV structure values:\n");
+    printf("\tentry_offset:                     0x%x\n",three.length);
+    printf("\tlength:                           0x%x\n",three.entry_offset);
+    printf("\tpatch_data_mmap_code_base:        0x%x\n",three.patch_data_mmap_code_base);
+    printf("\tanalysis_server_ip:               %s\n",inet_ntoa(three.analysis_server.sin_addr));
+    printf("\tanalysis_server_port:             %d\n",htons(three.analysis_server.sin_port));
+    printf("\tsandbox_server_ip:                %s\n",inet_ntoa(three.sandbox_server.sin_addr));
+    printf("\tsandbox_server_port:              %d\n",htons(three.sandbox_server.sin_port));
+    check_libloader_stage_three(libloader_stage_three);
     write(target_fd,&three,sizeof(LOADER_STAGE_THREE));
     char* libloader_stage_three_content = get_file_content(libloader_stage_three);
     write(target_fd,libloader_stage_three_content,get_file_size(libloader_stage_three));
@@ -675,7 +761,20 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
 
 //current we do not look for libc_start_main addr from elf manual, we must special it manual
 
-int main(int argc,char* argv){
+void usage(char* local){
+    printf("usage:\n\t%s 1\t\t:mean stage one\n\t%s 2\t\t:mean stage two\n",local,local);
+    exit(-1);
+}
+
+int main(int argc,char* argv[]){
+    if(argc!=2){
+        usage(argv[0]);
+    }
+    int stage = atoi(argv[1]);
+    if(stage!=1 && stage!=2) {
+        printf("argument is error, stage: %d\n",stage);
+        usage(argv[0]);
+    }
     chdir("/root/code/HookUtilV3");
     char config_file_name[] = {"/root/code/HookUtilV3/config.json"};
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
@@ -719,20 +818,29 @@ int main(int argc,char* argv){
     }
     //LIB_C_START_MAIN_ADDR
     {
+        char* libc_start_main_addr_type = cJSON_GetObjectItem(config,"libc_start_main_addr_type")->valuestring;
+        if(strcmp(libc_start_main_addr_type,"code")==0)
+            write_marco_define(config_file_fd,"LIBC_START_MAIN_ADDR_TYPE","CODE");
+        else if(strcmp(libc_start_main_addr_type,"ptr")==0){
+            write_marco_define(config_file_fd,"LIBC_START_MAIN_ADDR_TYPE","PTR");
+        }
+        else{
+            printf("libc_start_main_addr_type has only two values, one is code, another is ptr\n");
+            exit(-1);
+        }
         char* libc_start_main_addr = cJSON_GetObjectItem(config,"libc_start_main_addr")->valuestring;
-        write_marco_str_define(config_file_fd,"LIB_C_START_MAIN_ADDR",libc_start_main_addr);
+        write_marco_define(config_file_fd,"LIB_C_START_MAIN_ADDR",libc_start_main_addr);
     }
 
     int first_entry_offset = 0;
     char* loader_stage_one_position = cJSON_GetObjectItem(config,"loader_stage_one_position")->valuestring;
-    {
+    if(stage == 2){
         //process stage one
-
         if (strcmp("em_frame", loader_stage_one_position) == 0) {
-            add_stage_one_code_to_em_frame(libloader_stage_one, output_elf, &first_entry_offset,&elf_load_base);
+            add_stage_one_code_to_em_frame(libloader_stage_one, output_elf, &first_entry_offset,&elf_load_base,config);
         } else if (strcmp("new_pt_load", loader_stage_one_position) == 0) {
             mov_phdr(output_elf);
-            add_stage_one_code_to_new_pt_load(loader_stage_one_position, output_elf, &first_entry_offset,&elf_load_base);
+            add_stage_one_code_to_new_pt_load(loader_stage_one_position, output_elf, &first_entry_offset,&elf_load_base,config);
         } else {
             printf("unsupport loader_stage_one_position: %s\n", loader_stage_one_position);
             exit(-1);
@@ -773,7 +881,8 @@ int main(int argc,char* argv){
         char* debug = cJSON_GetObjectItem(config,"debug")->valuestring;
         write_marco_define(config_file_fd,"PATCH_DEBUG",debug);
 
-        generate_data_file(elf_load_base,output_elf,libloader_stage_two,libloader_stage_three,first_entry_offset,shell_password,analysis_server_ip,analysis_server_port,NULL,NULL,data_file_path);
+        if(stage == 2)
+            generate_data_file(elf_load_base,output_elf,libloader_stage_two,libloader_stage_three,first_entry_offset,shell_password,analysis_server_ip,analysis_server_port,NULL,NULL,data_file_path);
 
     }
 
@@ -783,11 +892,17 @@ int main(int argc,char* argv){
         write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_FILE");
         char* loader_stage_other_file_path = cJSON_GetObjectItem(config,"loader_stage_other_file_path")->valuestring;
         write_marco_str_define(config_file_fd,"PATCH_DATA_PATH",loader_stage_other_file_path);
-        char tmp_buf[256];
-        snprintf(tmp_buf,255,"0x%x",UP_PADDING(((char*)elf_load_base+get_file_size(output_elf)),0x1000));
-        write_marco_define(config_file_fd,"PATCH_DATA_MMAP_FILE_BASE",tmp_buf);
-        snprintf(tmp_buf,255,"0x%x",get_file_size(data_file_path));
-        write_marco_define(config_file_fd,"PATCH_DATA_MMAP_FILE_SIZE",tmp_buf);
+        if(stage == 2) {
+            char tmp_buf[256];
+            snprintf(tmp_buf, 255, "0x%x", UP_PADDING(((char *) elf_load_base + get_file_size(output_elf)), 0x1000));
+            write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_BASE", tmp_buf);
+            snprintf(tmp_buf, 255, "0x%x", get_file_size(data_file_path));
+            write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
+        }
+        else if(stage == 1){
+            write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_BASE", "0");
+            write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_SIZE", "0");
+        }
     }
     else if(strcmp("memory",loader_stage_other_position)==0){
         write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_MEM");
