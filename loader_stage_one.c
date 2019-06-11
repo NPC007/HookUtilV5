@@ -49,21 +49,27 @@ IN_LINE long my_close(long fd){
     return res;
 }
 
-IN_LINE long my_mprotect(void *start, size_t len, long prot){
+IN_LINE long my_mprotect(void *start, long len, long prot){
     long res = 0;
     asm_mprotect((long)start,(long)len,(long)prot,res);
     return res;
 }
-IN_LINE long my_mmap(long addr, size_t length, int prot, int flags,
+IN_LINE long my_mmap(long addr, long length, int prot, int flags,
            int fd, off_t offset){
     long res = 0;
     asm_mmap(addr,(long)length,(long)prot,(long)flags,(long)fd,(long)offset,res);
     return res;
 }
+
+IN_LINE long my_munmap(void* addr,long length){
+    long res = 0;
+    asm_munmap((long)addr,(long)length,res);
+    return res;
+}
+
 void _start(){
     START();
 }
-
 
 
 #if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
@@ -72,14 +78,15 @@ unsigned long __loader_start(LIBC_START_MAIN_ARG, void* first_instruction){
     long patch_fd = my_open(patch_data,O_RDONLY,0);
     if(patch_fd < 0)
         goto failed_load_patch;
-    long mmap_addr = my_mmap((long)PATCH_DATA_MMAP_FILE_BASE,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE|MAP_FIXED,patch_fd,0);
-    if(mmap_addr<0) {
+    char* mmap_addr = (char*)my_mmap(0,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0);
+    if(mmap_addr == NULL || mmap_addr ==(char*)-1) {
         my_close(patch_fd);
         goto failed_load_patch;
     }
-    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(PATCH_DATA_MMAP_FILE_BASE+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(mmap_addr))->entry_offset);
-    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)PATCH_DATA_MMAP_FILE_BASE);
+    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(mmap_addr+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(mmap_addr))->entry_offset);
+    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)mmap_addr);
     failed_load_patch:
+    if(mmap_addr>0)my_munmap((void*)mmap_addr,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
 #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
     return *(long*)LIB_C_START_MAIN_ADDR;
 #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
@@ -89,10 +96,11 @@ unsigned long __loader_start(LIBC_START_MAIN_ARG, void* first_instruction){
 
 
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_MEM)
-IN_LINE unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
-    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(PATCH_DATA_MMAP_FILE_BASE+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(PATCH_DATA_MMAP_FILE_BASE))->entry_offset);
-    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)PATCH_DATA_MMAP_FILE_BASE);
-    failed_load_patch:
+unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
+    void* base = (void*)DOWN_PADDING((long)_start,0x1000)+0x1000;
+    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(base+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(base))->entry_offset);
+    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)base);
+    my_munmap((void*)base,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
 #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
     return *(long*)LIB_C_START_MAIN_ADDR;
 #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)

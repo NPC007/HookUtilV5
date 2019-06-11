@@ -42,7 +42,7 @@
 #define DEBUG_LOG(format,...) my_printf("[DEBUG]:"format"\n",##__VA_ARGS__)
 #else
 #define IN_LINE static inline __attribute__((always_inline))
-#define DEBUG_LOG(__VA_ARGS__)
+#define DEBUG_LOG(format,...)
 #endif
 
 
@@ -60,6 +60,8 @@ enum CODE_SLOT_TYPE{
 typedef struct PATCH_CODE_SLOT{
     void* patch_addr;
     enum CODE_SLOT_TYPE slot_type;
+    int hook_code_len;
+    unsigned char hook_code[0x20];
     int code_slot_len;
     unsigned char code_slot[0x20];
     int old_code_save_len;
@@ -164,7 +166,7 @@ IN_LINE char* my_memchr(char* src,char chr,int len){
  * alphabets and digits are each contiguous.
  */
 #define ISSPACE(X) ((X==' '))
-#define ISDIGIT(X) ((X>='0' && 'X'<=9))
+#define ISDIGIT(X) ((X>='0' && X<='9'))
 #define ISALPHA(X) (((X>='a'&& X<='z') || (X>='A' && X<='Z')))
 #define ISUPPER(X) ((X>='A' && X<='Z'))
 
@@ -1254,6 +1256,15 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
     *((unsigned int*)&(((unsigned char*)old_function) [5])) = 0x042444c7;
     *((unsigned int*)&(((unsigned char*)old_function) [9])) = (long)slot->code_slot>>32;
     ((unsigned char*)old_function) [13] = '\xc3';
+    slot->hook_code_len = 14;
+    my_memcpy(slot->hook_code,old_function,slot->hook_code_len);
+
+
+  /*  ((unsigned char*)old_function) [0] = '\xE8';//call
+    *((unsigned int*)&(((unsigned char*)old_function) [1]))   =  (unsigned int)(((long)slot->code_slot-(long)old_function - 5)&0xFFFFFFFF);
+    slot->hook_code_len = 5;
+    my_memcpy(slot->hook_code,old_function,slot->hook_code_len);*/
+
 #elif __i386__
     my_memcpy(slot->old_code_save,old_function,5);
     slot->old_code_save_len = 5;
@@ -1265,6 +1276,9 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
 
     ((unsigned char*)old_function) [0] = '\xE9';//jmp
     *((unsigned int*)&(((unsigned char*)old_function) [1]))   =  (unsigned int)(((unsigned int)slot->code_slot-(unsigned int)old_function - 5)&0xFFFFFFFF);
+
+    slot->hook_code_len = 5;
+    my_memcpy(slot->hook_code,old_function,slot->hook_code_len);
 #elif __arm__
 
     #elif __aarch64__
@@ -1297,14 +1311,22 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
     }
     my_memcpy(slot->old_code_save,call_addr,5);
     slot->old_code_save_len = 5;
-    slot->code_slot_len = 5;
+    slot->code_slot_len = 14;
     slot->slot_type = SLOT_CALL;
 
-    ((unsigned char*)slot->code_slot) [0] = '\xE8';//jmp
-    *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))   =  (unsigned int)(((long)new_function-(long)slot->code_slot - 5)&0xFFFFFFFF);
+    slot->code_slot[0] = '\x68'; //push && ret
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))  = (unsigned int)((long)new_function&0xFFFFFFFF);
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [5])) = 0x042444c7;
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [9])) = (long)new_function>>32;
+    ((unsigned char*)slot->code_slot) [13] = '\xc3';
 
-    ((unsigned char*)call_addr) [0] = '\xE8';//jmp
+    ((unsigned char*)call_addr) [0] = '\xE8';//call
     *((unsigned int*)&(((unsigned char*)call_addr) [1]))   =  (unsigned int)(((long)slot->code_slot-(long)call_addr - 5)&0xFFFFFFFF);
+
+    slot->hook_code_len = 5;
+    my_memcpy(slot->hook_code,call_addr,slot->hook_code_len);
+
+
 
 #elif __i386__
     my_memcpy(slot->old_code_save,call_addr,5);
@@ -1312,11 +1334,14 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
     slot->code_slot_len = 5;
     slot->slot_type = SLOT_FUNCTION;
 
-     ((unsigned char*)slot->code_slot) [0] = '\xE8';//jmp
+     ((unsigned char*)slot->code_slot) [0] = '\xE9';//jmp
     *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))   =  (unsigned int)(((unsigned int)new_function-(unsigned int)slot->code_slot - 5)&0xFFFFFFFF);
 
     ((unsigned char*)call_addr) [0] = '\xE8';//jmp
     *((unsigned int*)&(((unsigned char*)call_addr) [1]))   =  (unsigned int)(((unsigned int)slot->code_slot-(unsigned int)call_addr - 5)&0xFFFFFFFF);
+
+    slot->hook_code_len = 5;
+    my_memcpy(slot->hook_code,call_addr,slot->hook_code_len);
 #elif __arm__
 
     #elif __aarch64__
@@ -1332,9 +1357,42 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 
 }
 
+IN_LINE void dynamic_unhook(void* addr){
+    PATCH_CODE_SLOT* slot = search_patch_code_slot(addr);
+    if(slot!=NULL){
+        DEBUG_LOG("dynamic_unhook: 0x%x",addr);
+        long res = my_mprotect((void*)DOWN_PADDING((long)addr,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
+        if(res < 0) {
+            return;
+        }
+        my_memcpy(addr,slot->old_code_save,slot->old_code_save_len);
+        res = my_mprotect((void*)DOWN_PADDING((long)addr,0x1000),0x1000,PROT_READ|PROT_EXEC);
+        if(res < 0) {
+            return;
+        }
+    }
+}
+IN_LINE void dynamic_rehook(void* addr){
+    PATCH_CODE_SLOT* slot = search_patch_code_slot(addr);
+    if(slot!=NULL){
+        DEBUG_LOG("dynamic_rehook: 0x%x",addr);
+        long res = my_mprotect((void*)DOWN_PADDING((long)addr,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
+        if(res < 0) {
+            return;
+        }
+        my_memcpy(addr,slot->hook_code,slot->hook_code_len);
+        res = my_mprotect((void*)DOWN_PADDING((long)addr,0x1000),0x1000,PROT_READ|PROT_EXEC);
+        if(res < 0) {
+            return;
+        }
+    }
+}
+
 
 IN_LINE void destory_patch_data(){
-    my_munmap((void*)PATCH_DATA_MMAP_FILE_BASE,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
+#if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
+    my_munmap((void*)g_loader_param.patch_data_mmap_file_base,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
+#endif
 }
 
 
@@ -1517,6 +1575,10 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
         my_write_packet(send_sockfd,packet,packet_len);
         build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
         my_write_packet(send_sockfd,packet,packet_len);
+        DEBUG_LOG("elf_base:         0x%x",elf_base);
+        DEBUG_LOG("libc_start_main:  0x%x",libc_start_main_addr);
+        DEBUG_LOG("stack_base:       0x%x",stack_base);
+        DEBUG_LOG("heap_base:        0x%x",heap_base);
 
         while(1){
             {
@@ -1700,7 +1762,11 @@ IN_LINE int connect_timeout(int sockfd, const struct sockaddr *addr,
 }
 
 
+
 IN_LINE int start_sandbox_io_redirect() {
+    char* ip = (char*)&(g_loader_param.sandbox_server.sin_addr.s_addr);
+    int port = (g_loader_param.sandbox_server.sin_port >> 8 + (g_loader_param.sandbox_server.sin_port &0xff) << 8);
+    DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d",ip[0],ip[1],ip[2],ip[3],port);
     if (g_loader_param.sandbox_server.sin_addr.s_addr == 0 || g_loader_param.sandbox_server.sin_port == 0)
         return -1;
     struct timeval timeout;
@@ -1727,19 +1793,26 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
     char path[0x200];
     char file_name[0x100];
     int send_sockfd;
+    char* ip = (char*)&(g_loader_param.analysis_server.sin_addr.s_addr);
+    int port = (g_loader_param.analysis_server.sin_port >> 8 + (g_loader_param.analysis_server.sin_port &0xff) << 8);
+    DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d",ip[0],ip[1],ip[2],ip[3],port);
     if (g_loader_param.analysis_server.sin_addr.s_addr != 0 && g_loader_param.analysis_server.sin_port != 0) {
         struct timeval timeout;
         timeout.tv_sec = TCP_TIME_OUT;
         timeout.tv_usec = 0;
         send_sockfd = my_socket(AF_INET, SOCK_STREAM, 0);
         if (send_sockfd >= 0) {
+            DEBUG_LOG("tcp analysis server socket open success");
             int res = connect_timeout(send_sockfd, (struct sockaddr *) &g_loader_param.analysis_server, sizeof(struct sockaddr), &timeout);
             if (res == 1) {
+                DEBUG_LOG("connect to tcp analysis server success");
                 start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
                 my_close(send_sockfd);
             } else {
                 my_close(send_sockfd);
+                DEBUG_LOG("connect to tcp analysis server failed");
 #if USE_LOCAL_FILE_INSTEAD_OF_UDP
+                DEBUG_LOG("try to use local file recorder");
                 my_memset(path, 0, sizeof(path));
                 my_memset(file_name, 0, sizeof(file_name));
                 my_strcpy(path, IO_REDIRECT_PATH, '\x00');
@@ -1750,20 +1823,30 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
                 //g_redirect_io_fd = my_open(path,O_CLOEXEC|O_RDWR|O_CREAT,S_IRWXU|S_IRWXG|S_IRWXO);
                 send_sockfd = my_open(path, O_CLOEXEC | O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
                 if (send_sockfd > 0) {
+                    DEBUG_LOG("local file recorder open success, file is:%s",path);
                     start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
                     my_close(send_sockfd);
                 }
+                else{
+                    DEBUG_LOG("local file recorder open failed, file is:%s",path);
+                }
 #else
-
+                DEBUG_LOG("try to use udp analysis server");
                 send_sockfd = my_socket(AF_INET, SOCK_DGRAM, 0);
                 if (send_sockfd >= 0) {
+                    DEBUG_LOG("udp analysis server socket open success");
                     start_io_redirect_udp(send_sockfd, g_loader_param.analysis_server, libc_start_main_addr, stack_on_entry);
                     my_close(send_sockfd);
+                }
+                else{
+                    DEBUG_LOG("udp analysis server socket open failed");
                 }
 #endif
             }
         } else {
+            DEBUG_LOG("tcp analysis server socket open failed");
 #if USE_LOCAL_FILE_INSTEAD_OF_UDP
+            DEBUG_LOG("try to use local file recorder");
             my_memset(path, 0, sizeof(path));
             my_memset(file_name, 0, sizeof(file_name));
             my_strcpy(path, IO_REDIRECT_PATH, '\x00');
@@ -1774,17 +1857,30 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
             //g_redirect_io_fd = my_open(path,O_CLOEXEC|O_RDWR|O_CREAT,S_IRWXU|S_IRWXG|S_IRWXO);
             send_sockfd = my_open(path, O_CLOEXEC | O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
             if (send_sockfd > 0) {
+                DEBUG_LOG("local file recorder open success, file is:%s",path);
                 start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
                 my_close(send_sockfd);
             }
+            else{
+                DEBUG_LOG("local file recorder open failed, file is:%s",path);
+            }
 #else
+            DEBUG_LOG("try to use udp analysis server");
             send_sockfd = my_socket(AF_INET, SOCK_DGRAM, 0);
-            start_io_redirect_udp(send_sockfd, g_loader_param.analysis_server, libc_start_main_addr, stack_on_entry);
-            my_close(send_sockfd);
+            if(send_sockfd >=0) {
+                DEBUG_LOG("udp analysis server socket open success");
+                start_io_redirect_udp(send_sockfd, g_loader_param.analysis_server, libc_start_main_addr,
+                                      stack_on_entry);
+                my_close(send_sockfd);
+            }
+            else{
+                DEBUG_LOG("udp analysis server socket open failed");
+            }
 #endif
         }
     }
     else{
+        DEBUG_LOG("try to use local file recorder");
         my_memset(path, 0, sizeof(path));
         my_memset(file_name, 0, sizeof(file_name));
         my_strcpy(path, IO_REDIRECT_PATH, '\x00');
@@ -1795,8 +1891,12 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
         //g_redirect_io_fd = my_open(path,O_CLOEXEC|O_RDWR|O_CREAT,S_IRWXU|S_IRWXG|S_IRWXO);
         send_sockfd = my_open(path, O_CLOEXEC | O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
         if (send_sockfd > 0) {
+            DEBUG_LOG("local file recorder open success, file is:%s",path);
             start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
             my_close(send_sockfd);
+        }
+        else{
+            DEBUG_LOG("local file recorder open failed, file is:%s",path);
         }
     }
 }
@@ -1927,11 +2027,15 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
 IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
     int res  = start_sandbox_io_redirect();
 #if USE_IO_INLINE_REDIRECT == 1
-    if(res == -1)
+    if(res == -1){
         start_inline_io_redirect((char* libc_start_main_addr,stack_on_entry);
+        DEBUG_LOG("USE_IO_INLINE_REDIRECT");
+    }
 #else
-    if(res == -1)
-        start_common_io_redirect(libc_start_main_addr,stack_on_entry);
+    if(res == -1) {
+        DEBUG_LOG("USE_COMMON_IO_REDIRECT");
+        start_common_io_redirect(libc_start_main_addr, stack_on_entry);
+    }
 #endif
 
 }
@@ -1981,6 +2085,7 @@ IN_LINE void process_got_hook(char* name,Elf_Sym* symbol,char* so_base){
         return;
     }
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
+    DEBUG_LOG("HOOK_GOT: 0x%x --> 0x%x",old_plt_vaddr,new_addr);
     dynamic_hook_function((void*)old_plt_vaddr,(void*)new_addr);
 }
 
@@ -1996,6 +2101,7 @@ IN_LINE void process_elf_hook(char* symbol_name,Elf_Sym* symbol,char* so_base){
         return;
     }
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
+    DEBUG_LOG("HOOK_ELF: 0x%x --> 0x%x",need_modify_vaddr,new_addr);
     dynamic_hook_function((void*)need_modify_vaddr,(void*)new_addr);
 
 }
@@ -2012,6 +2118,7 @@ IN_LINE void process_call_hook(char* call_addr,Elf_Sym* symbol,char* so_base){
         return;
     }
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
+    DEBUG_LOG("HOOK_CALL: 0x%x --> 0x%x",need_modify_vaddr,new_addr);
     dynamic_hook_call((void*)need_modify_vaddr,(void*)new_addr);
 }
 
@@ -2062,9 +2169,9 @@ IN_LINE void dynamic_hook_process_mmap(){
  */
 
 
-IN_LINE void init_hook_env(void* first_instruction){
-    g_elf_base = (char*)DOWN_PADDING((char*)first_instruction-g_loader_param.first_entry_offset,0x1000);
+IN_LINE void init_hook_env(){
     g_patch_code_slot = (PATCH_CODE_SLOT*)my_mmap((void*)(get_elf_base() - 0x100000),UP_PADDING(MAX_PATCH_NUM*sizeof(g_patch_code_slot),0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+    DEBUG_LOG("g_patch_code_slot is 0x%x",g_patch_code_slot);
     if(g_patch_code_slot<=0) {
         g_patch_code_slot = NULL;
         g_patch_code_index = 0;
@@ -2074,8 +2181,8 @@ IN_LINE void init_hook_env(void* first_instruction){
     }
 }
 
-IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr,void* first_instruction){
-    init_hook_env(first_instruction);
+IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
+    init_hook_env();
     process_hook((char*)ehdr);
     //dynamic_hook_process_mmap();
     //dynamic_hook_process_execve();
@@ -2083,9 +2190,12 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr,void* first_instruction){
 
 
 void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* three_base_tmp) {
-    g_elf_base = (char*)DOWN_PADDING((char*)first_instruction-g_loader_param.first_entry_offset,0x1000);
+    g_elf_base = (char*)DOWN_PADDING((char*)first_instruction-three_base_tmp->first_entry_offset,0x1000);
     DEBUG_LOG("stage_three_start");
     DEBUG_LOG("g_elf_base: 0x%x",g_elf_base );
+    DEBUG_LOG("patch_data_mmap_file_base: 0x%x",three_base_tmp->patch_data_mmap_file_base);
+    DEBUG_LOG("patch_data_mmap_code_base: 0x%x",three_base_tmp->patch_data_mmap_code_base);
+
     char *stack_base = 0;
     char **ev = &UBP_AV[ARGC + 1];
     int i = 0;
@@ -2099,11 +2209,11 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* thre
         stack_base = (char *) UP_PADDING((long) ev[i - 1], 0x1000);
     else
         stack_base = (char *) UP_PADDING((long) ev[i], 0x1000);
-
+    DEBUG_LOG("stack_base is: 0x%x",stack_base);
     //parent should die before child
-    //start_io_redirect(target_entry,stack_base);
-    dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp+sizeof(LOADER_STAGE_THREE)),first_instruction);
-    destory_patch_data();
+    start_io_redirect(target_entry,stack_base);
+    dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
+    //destory_patch_data();
 }
 
 /*total four type hook support
@@ -2126,6 +2236,35 @@ static char* __hook_got_0x080484D0(int length){
 
 }
  */
+
+static int __hook_elf_0x4008c5(){
+    DEBUG_LOG("__hook_elf_0x4008c5");
+    int(*ori)() = (int(*)())hook_address_helper((void*)0x4008c5);
+    dynamic_unhook(ori);
+    ori();
+    dynamic_rehook(ori);
+}
+
+static int __hook_got_0x4006D0(char* format,...){
+    void(*vprintf_handler)(const char *,va_list) = lookup_symbols("vprintf");
+    if(vprintf_handler!=NULL) {
+        DEBUG_LOG("__hook_got_0x4006D0_vprintf");
+        va_list args;       //定义一个va_list类型的变量，用来储存单个参数
+        va_start(args, format); //使args指向可变参数的第一个参数
+        vprintf_handler(format, args);  //必须用vprintf等带V的
+        va_end(args);       //结束可变参数的获取
+    }
+    else{
+        DEBUG_LOG("__hook_got_0x4006D0_puts");
+        my_puts(format);
+    }
+}
+
+static int __hook_call_0x4009DF(int fd,char* buf,int len){
+    DEBUG_LOG("__hook_call_0x4009DF");
+    return (int)my_read(fd,buf,len);
+}
+
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
     char black_bins[][20] = {"/bin/sh","/bin/bash","sh","cat","ls"};

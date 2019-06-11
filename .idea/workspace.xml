@@ -2,10 +2,11 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
+      <config projectName="HookUtilV3" targetName="loader_stage_one" />
+      <config projectName="HookUtilV3" targetName="generate32" />
       <config projectName="HookUtilV3" targetName="loader_stage_two" />
       <config projectName="HookUtilV3" targetName="loader_stage_three" />
-      <config projectName="HookUtilV3" targetName="loader_stage_one" />
-      <config projectName="HookUtilV3" targetName="generate" />
+      <config projectName="HookUtilV3" targetName="generate64" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -15,12 +16,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/autotest_32_nopie_dynamic.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/once_time_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aa.dat" beforeDir="false" afterPath="$PROJECT_DIR$/aa.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/generate.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/generate.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/generate" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/generate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/config.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate" beforeDir="false" afterPath="$PROJECT_DIR$/generate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/generate.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hook.h" beforeDir="false" afterPath="$PROJECT_DIR$/hook.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hook.makefile" beforeDir="false" afterPath="$PROJECT_DIR$/hook.makefile" afterDir="false" />
@@ -30,7 +44,6 @@
       <change beforePath="$PROJECT_DIR$/loader_stage_one.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_one.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loader_stage_three.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_three.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loader_stage_two.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_two.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_x64.h" beforeDir="false" afterPath="$PROJECT_DIR$/loader_x64.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/once_time_output" beforeDir="false" afterPath="$PROJECT_DIR$/once_time_output" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -44,11 +57,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="generate.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="generate.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/generate.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="727" column="71" lean-forward="true" selection-start-line="727" selection-start-column="71" selection-end-line="727" selection-end-column="71" />
+            <state relative-caret-position="479">
+              <caret line="802" column="44" selection-start-line="802" selection-start-column="44" selection-end-line="802" selection-end-column="44" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -59,56 +72,8 @@
       <file leaf-file-name="config.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="loader_stage_two.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/loader_stage_two.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="653">
-              <caret line="123" column="1" lean-forward="true" selection-start-line="123" selection-start-column="1" selection-end-line="123" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hook.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hook.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="80" selection-start-line="80" selection-end-line="80" />
-              <folding>
-                <element signature="e#59#75#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="loader_stage_three.c" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/loader_stage_three.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="2127" column="3" selection-start-line="2127" selection-start-column="3" selection-end-line="2127" selection-end-column="3" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#821#912#0" expanded="true" />
-                <element signature="e#36768#37395#0" expanded="true" />
-                <element signature="e#38841#39456#0" expanded="true" />
-                <element signature="e#54155#54993#0" expanded="true" />
-                <element signature="e#55377#56167#0" expanded="true" />
-                <element signature="e#62458#62549#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="loader_x64.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/loader_x64.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
+            <state relative-caret-position="221">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
@@ -116,8 +81,20 @@
       <file leaf-file-name="loader_stage_one.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/loader_stage_one.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="80" column="96" selection-start-line="80" selection-start-column="71" selection-end-line="80" selection-end-column="96" />
+            <state relative-caret-position="468">
+              <caret line="103" column="39" lean-forward="true" selection-start-line="103" selection-start-column="39" selection-end-line="103" selection-end-column="39" />
+              <folding>
+                <element signature="e#3190#3227#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="loader_stage_two.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loader_stage_two.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -126,36 +103,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>my_mmap</find>
-      <find>is_pie</find>
-      <find>my_mprotect</find>
-      <find>process_hoo</find>
-      <find>process_call_hook</find>
-      <find>dynamic_hook_process_mmap</find>
-      <find>get_file_content</find>
-      <find>D</find>
-      <find>libc_start_main_addr</find>
-      <find>open_mmap_check</find>
-      <find>copy</find>
-      <find>write_ma</find>
-      <find>e_phentsize</find>
-      <find>get_elf_load_base</find>
-      <find>entry</find>
-      <find>((Elf_Ehdr*)output_elf_base)-</find>
-      <find>my_puts</find>
-      <find>my_write</find>
       <find>elf_load_base</find>
       <find>patch_</find>
-      <find>PATCH_DATA_MMAP_FILE_BASE</find>
       <find>lookup_symbols</find>
       <find>ELF_ADDR_ADD</find>
       <find>my_prin</find>
-      <find>patch_data_mmap_code_base</find>
       <find>my_printf</find>
       <find>p_memsz</find>
       <find>process_hook</find>
       <find>__hook_got_</find>
       <find>process_got_hook</find>
+      <find>generate_data_file</find>
+      <find>destory</find>
+      <find>increase</find>
+      <find>jmp</find>
+      <find>dynamic</find>
+      <find>dynamic_h</find>
+      <find>md5init</find>
+      <find>pt_load</find>
+      <find>add_stage_one_code_to_new_pt_load</find>
+      <find>snprintf</find>
+      <find>my_mun</find>
+      <find>my_m</find>
+      <find>fclose</find>
+      <find>fwrite</find>
+      <find>PATCH_DATA_MMAP_FILE_BASE</find>
+      <find>patch_data_mmap_code_base</find>
+      <find>first_entry_offset</find>
+      <find>hook_dynamic</find>
+      <find>dynamic_hook</find>
+      <find>code_base</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -172,16 +149,18 @@
         <option value="$PROJECT_DIR$/x86_syscall.h" />
         <option value="$PROJECT_DIR$/loader_x86.h" />
         <option value="$PROJECT_DIR$/hook.c" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/hook.makefile" />
         <option value="$PROJECT_DIR$/loader_x64.h" />
-        <option value="$PROJECT_DIR$/config.json" />
-        <option value="$PROJECT_DIR$/loader_stage_one.c" />
-        <option value="$PROJECT_DIR$/loader_stage_two.c" />
-        <option value="$PROJECT_DIR$/hook.h" />
         <option value="$PROJECT_DIR$/config.h" />
-        <option value="$PROJECT_DIR$/generate.c" />
+        <option value="$PROJECT_DIR$/once_time_config.json" />
+        <option value="$PROJECT_DIR$/autotest_32_nopie_dynamic.json" />
+        <option value="$PROJECT_DIR$/hook.makefile" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/loader_stage_one.c" />
+        <option value="$PROJECT_DIR$/hook.h" />
+        <option value="$PROJECT_DIR$/loader_stage_two.c" />
         <option value="$PROJECT_DIR$/loader_stage_three.c" />
+        <option value="$PROJECT_DIR$/config.json" />
+        <option value="$PROJECT_DIR$/generate.c" />
       </list>
     </option>
   </component>
@@ -196,10 +175,9 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1261" />
-    <option name="y" value="64" />
-    <option name="width" value="2503" />
-    <option name="height" value="1343" />
+    <option name="y" value="23" />
+    <option name="width" value="2560" />
+    <option name="height" value="1377" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -207,7 +185,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -219,6 +196,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -239,15 +217,17 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.generate">
+  <component name="RunManager" selected="Application.generate64">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate" EXPLICIT_BUILD_TARGET_NAME="all" />
-    <configuration name="generate" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate" />
+    <configuration name="generate32" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="2" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate32" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate32" />
+    <configuration name="generate64" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="2" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate64" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate64" />
     <configuration name="loader_stage_one" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="loader_stage_one" CONFIG_NAME="Debug" />
     <configuration name="loader_stage_three" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="loader_stage_three" CONFIG_NAME="Debug" />
     <configuration name="loader_stage_two" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="loader_stage_two" CONFIG_NAME="Debug" />
     <list>
       <item itemvalue="Application.Build All" />
-      <item itemvalue="Application.generate" />
+      <item itemvalue="Application.generate32" />
+      <item itemvalue="Application.generate64" />
       <item itemvalue="Application.loader_stage_one" />
       <item itemvalue="Application.loader_stage_three" />
       <item itemvalue="Application.loader_stage_two" />
@@ -271,35 +251,36 @@
       <workItem from="1559951521715" duration="8885000" />
       <workItem from="1560065998101" duration="17318000" />
       <workItem from="1560167077929" duration="132000" />
-      <workItem from="1560167356386" duration="15857000" />
+      <workItem from="1560167356386" duration="15924000" />
+      <workItem from="1560252398327" duration="17977000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="101736000" />
+    <option name="totallyTimeSpent" value="119780000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1261" y="64" width="2503" height="1343" extended-state="0" />
+    <frame x="0" y="23" width="2560" height="1377" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13830645" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16633819" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.3298639" />
-      <window_info anchor="bottom" id="CMake" order="10" weight="0.3298639" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.33909464" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32746196" />
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.3298639" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3298639" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.33867094" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3298639" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3298639" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39951962" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.38831064" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3298639" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,7 +294,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>764</line>
+          <line>836</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -323,15 +304,75 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/loader_stage_one.c</url>
-          <line>91</line>
+          <line>98</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/generate.c</url>
+          <line>1012</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/generate.c</url>
+          <line>907</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/generate.c</url>
+          <line>914</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/generate.c</url>
+          <line>521</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/generate.c</url>
+          <line>516</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/generate.c</url>
+          <line>844</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="30" />
+      <option name="time" value="50" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>elf_base</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>shstrtab_section</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((char*)buf)</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((char*)buf)[0]</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>mem_pt_load</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>buf[0]</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>(char*)elf_load_base+get_file_size(output_elf)</expression-string>
         <language-id>ObjectiveC</language-id>
@@ -352,42 +393,9 @@
         <language-id>ObjectiveC</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>tmp_buf</expression-string>
-        <language-id>ObjectiveC</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>get_file_size(output_elf)</expression-string>
-        <language-id>ObjectiveC</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>*elf_load_base</expression-string>
-        <language-id>ObjectiveC</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>ehdr</expression-string>
-        <language-id>ObjectiveC</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>min_value</expression-string>
-        <language-id>ObjectiveC</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/config.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="26" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hook.c" />
     <entry file="file://$PROJECT_DIR$/loader_stage_one.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1088">
@@ -587,13 +595,6 @@
     <entry file="file://$PROJECT_DIR$/cJSON.h">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cJSON.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
@@ -611,24 +612,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hook.makefile">
+    <entry file="file://$PROJECT_DIR$/once_time_config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loader_x86.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="81" selection-start-line="10" selection-start-column="81" selection-end-line="10" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="544">
+          <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -639,59 +626,96 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/loader_x86.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="6" lean-forward="true" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hook.makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="66" selection-start-line="13" selection-start-column="66" selection-end-line="13" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/autotest_32_nopie_dynamic.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="49" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/hook.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="80" selection-start-line="80" selection-end-line="80" />
+        <state relative-caret-position="348">
+          <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
           <folding>
             <element signature="e#59#75#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.h">
+    <entry file="file://$PROJECT_DIR$/loader_stage_three.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="204">
+          <caret line="2210" column="54" selection-start-line="2210" selection-start-column="54" selection-end-line="2210" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#37229#37951#0" expanded="true" />
+            <element signature="e#39672#40379#0" expanded="true" />
+            <element signature="e#58360#58883#0" expanded="true" />
+            <element signature="e#60090#60613#0" expanded="true" />
+            <element signature="e#66912#67055#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/generate.c">
+    <entry file="file://$PROJECT_DIR$/config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="727" column="71" lean-forward="true" selection-start-line="727" selection-start-column="71" selection-end-line="727" selection-end-column="71" />
+        <state relative-caret-position="374">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loader_stage_one.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="103" column="39" lean-forward="true" selection-start-line="103" selection-start-column="39" selection-end-line="103" selection-end-column="39" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#3190#3227#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loader_stage_two.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="653">
-          <caret line="123" column="1" lean-forward="true" selection-start-line="123" selection-start-column="1" selection-end-line="123" selection-end-column="1" />
+        <state relative-caret-position="275">
+          <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/loader_stage_one.c">
+    <entry file="file://$PROJECT_DIR$/generate.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="80" column="96" selection-start-line="80" selection-start-column="71" selection-end-line="80" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loader_stage_three.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="2127" column="3" selection-start-line="2127" selection-start-column="3" selection-end-line="2127" selection-end-column="3" />
+        <state relative-caret-position="479">
+          <caret line="802" column="44" selection-start-line="802" selection-start-column="44" selection-end-line="802" selection-end-column="44" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#821#912#0" expanded="true" />
-            <element signature="e#36768#37395#0" expanded="true" />
-            <element signature="e#38841#39456#0" expanded="true" />
-            <element signature="e#54155#54993#0" expanded="true" />
-            <element signature="e#55377#56167#0" expanded="true" />
-            <element signature="e#62458#62549#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>

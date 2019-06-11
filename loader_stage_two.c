@@ -93,13 +93,18 @@ IN_LINE void my_puts(char* str){
 }
 #endif
 
-#define DEBUG_LOG(STR)  { if(PATCH_DEBUG == 1){char data[] = {STR};my_puts(data);}}
+#if(PATCH_DEBUG==1)
+#define DEBUG_LOG(STR)  {char data[] = {STR};my_puts(data);}
+#else
+#define DEBUG_LOG(STR)
+#endif
 
 void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_base){
     DEBUG_LOG("stage_two_start");
     Elf_Ehdr* ehdr = (Elf_Ehdr*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length + sizeof(LOADER_STAGE_THREE));
     LOADER_STAGE_THREE* three_base = (LOADER_STAGE_THREE*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length);
-    char* elf_load_base = (char*)(two_base->patch_data_mmap_code_base);
+    three_base->patch_data_mmap_file_base = (void*)two_base;
+    char* elf_load_base = NULL;
     Elf_Phdr* phdr = NULL;
     for(int i=0;i<ehdr->e_phnum;i++){
         phdr = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + ehdr->e_phentsize*i);
@@ -111,7 +116,18 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_ba
                 flag |= PROT_WRITE;
             if(phdr->p_flags & 0x4)
                 flag |= PROT_READ;
-            my_mmap(DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000),UP_PADDING(phdr->p_vaddr+phdr->p_memsz,0x1000)-DOWN_PADDING(phdr->p_vaddr,0x1000),PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0);
+            if(elf_load_base == NULL) {
+                elf_load_base = (char*)my_mmap(0, UP_PADDING(phdr->p_vaddr + phdr->p_memsz, 0x1000) - DOWN_PADDING(phdr->p_vaddr, 0x1000),
+                        PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+                if(elf_load_base == NULL || elf_load_base == (char*)-1)
+                    return;
+                elf_load_base = elf_load_base - DOWN_PADDING(phdr->p_vaddr,0x1000);
+                three_base->patch_data_mmap_code_base = elf_load_base;
+            }
+            else{
+                my_mmap( DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000), UP_PADDING(phdr->p_vaddr + phdr->p_memsz, 0x1000) - DOWN_PADDING(phdr->p_vaddr, 0x1000),
+                        PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+            }
             my_memcpy((elf_load_base + phdr->p_vaddr), ((char*)ehdr) + phdr->p_offset,phdr->p_filesz);
             //unable to destroy data,because we need us the section_data, we destroy it later
             //my_memset(((char*)ehdr) + phdr->p_offset,0xFF,phdr->p_filesz);

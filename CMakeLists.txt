@@ -3,9 +3,12 @@ project(HookUtilV3 C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(generate generate.c cJSON.c cJSON.h)
-target_link_libraries(generate m)
-
+add_executable(generate64 generate.c cJSON.c cJSON.h)
+target_link_libraries(generate64 m)
+set_target_properties(generate64 PROPERTIES COMPILE_FLAGS "-m64" LINK_FLAGS "-m64")
+add_executable(generate32 generate.c cJSON.c cJSON.h)
+target_link_libraries(generate32 m)
+set_target_properties(generate32 PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
 
 add_library(loader_stage_one SHARED loader_stage_one.c)
 add_library(loader_stage_two SHARED loader_stage_two.c)

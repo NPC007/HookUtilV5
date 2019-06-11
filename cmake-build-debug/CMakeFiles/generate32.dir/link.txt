@@ -1,0 +1,1 @@
+/usr/bin/cc -g  -m32 CMakeFiles/generate32.dir/generate.c.o CMakeFiles/generate32.dir/cJSON.c.o  -o generate32 -lm 

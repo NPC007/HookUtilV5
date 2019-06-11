@@ -29,5 +29,5 @@
   "io_inline_hook":"0",
   "local_file_instead_of_udp":"1",
   "io_local_save_path":"/tmp/",
-  "debug":"0"
+  "debug":"1"
 }
