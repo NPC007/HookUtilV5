@@ -1231,10 +1231,13 @@ IN_LINE char* get_heap_base(){
 
 IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
     PATCH_CODE_SLOT* slot = alloc_patch_code_slot(old_function);
-    if(slot == NULL)
+    if(slot == NULL) {
+        DEBUG_LOG("dynamic_hook_function: alloc hook slot failed");
         return;
+    }
     long res = my_mprotect((void*)DOWN_PADDING((long)old_function,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
     if(res < 0) {
+        DEBUG_LOG("dynamic_hook_function: mprotect RWX failed, addr: 0x%lx",DOWN_PADDING((long)old_function,0x1000));
         return;
     }
     slot->patch_addr = old_function;
@@ -1259,6 +1262,7 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
     slot->hook_code_len = 14;
     my_memcpy(slot->hook_code,old_function,slot->hook_code_len);
 
+    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",old_function,new_function);
 
   /*  ((unsigned char*)old_function) [0] = '\xE8';//call
     *((unsigned int*)&(((unsigned char*)old_function) [1]))   =  (unsigned int)(((long)slot->code_slot-(long)old_function - 5)&0xFFFFFFFF);
@@ -1279,6 +1283,8 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
 
     slot->hook_code_len = 5;
     my_memcpy(slot->hook_code,old_function,slot->hook_code_len);
+
+    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",old_function,new_function);
 #elif __arm__
 
     #elif __aarch64__
@@ -1288,17 +1294,20 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
 #endif
     res = my_mprotect((void*)DOWN_PADDING((long)old_function,0x1000),0x1000,PROT_READ|PROT_EXEC);
     if(res < 0) {
-        //my_puts("dynamic_hook_function failed 2");
+        DEBUG_LOG("dynamic_hook_function: mprotect RX failed, addr: 0x%lx",DOWN_PADDING((long)old_function,0x1000));
         return;
     }
 }
 
 IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
     PATCH_CODE_SLOT* slot = alloc_patch_code_slot(call_addr);
-    if(slot == NULL)
+    if(slot == NULL) {
+        DEBUG_LOG("dynamic_hook_call: alloc hook slot failed");
         return;
+    }
     long res = my_mprotect((void*)DOWN_PADDING((long)call_addr,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
     if(res < 0) {
+        DEBUG_LOG("dynamic_hook_call: mprotect RWX failed, addr: 0x%lx",DOWN_PADDING((long)old_function,0x1000));
         return;
     }
     slot->patch_addr = call_addr;
@@ -1325,7 +1334,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 
     slot->hook_code_len = 5;
     my_memcpy(slot->hook_code,call_addr,slot->hook_code_len);
-
+    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",call_addr,new_function);
 
 
 #elif __i386__
@@ -1342,6 +1351,8 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 
     slot->hook_code_len = 5;
     my_memcpy(slot->hook_code,call_addr,slot->hook_code_len);
+
+    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",call_addr,new_function);
 #elif __arm__
 
     #elif __aarch64__
@@ -1351,7 +1362,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 #endif
     res = my_mprotect((void*)DOWN_PADDING((long)call_addr,0x1000),0x1000,PROT_READ|PROT_EXEC);
     if(res < 0) {
-        //my_puts("dynamic_hook_function failed 2");
+        DEBUG_LOG("dynamic_hook_call: mprotect RX failed, addr: 0x%lx",DOWN_PADDING((long)old_function,0x1000));
         return;
     }
 
@@ -1360,7 +1371,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 IN_LINE void dynamic_unhook(void* addr){
     PATCH_CODE_SLOT* slot = search_patch_code_slot(addr);
     if(slot!=NULL){
-        DEBUG_LOG("dynamic_unhook: 0x%x",addr);
+        DEBUG_LOG("dynamic_unhook: 0x%lx",addr);
         long res = my_mprotect((void*)DOWN_PADDING((long)addr,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
         if(res < 0) {
             return;
@@ -1375,7 +1386,7 @@ IN_LINE void dynamic_unhook(void* addr){
 IN_LINE void dynamic_rehook(void* addr){
     PATCH_CODE_SLOT* slot = search_patch_code_slot(addr);
     if(slot!=NULL){
-        DEBUG_LOG("dynamic_rehook: 0x%x",addr);
+        DEBUG_LOG("dynamic_rehook: 0x%lx",addr);
         long res = my_mprotect((void*)DOWN_PADDING((long)addr,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
         if(res < 0) {
             return;
@@ -1575,10 +1586,10 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
         my_write_packet(send_sockfd,packet,packet_len);
         build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
         my_write_packet(send_sockfd,packet,packet_len);
-        DEBUG_LOG("elf_base:         0x%x",elf_base);
-        DEBUG_LOG("libc_start_main:  0x%x",libc_start_main_addr);
-        DEBUG_LOG("stack_base:       0x%x",stack_base);
-        DEBUG_LOG("heap_base:        0x%x",heap_base);
+        DEBUG_LOG("elf_base:         0x%lx",elf_base);
+        DEBUG_LOG("libc_start_main:  0x%lx",libc_start_main_addr);
+        DEBUG_LOG("stack_base:       0x%lx",stack_base);
+        DEBUG_LOG("heap_base:        0x%lx",heap_base);
 
         while(1){
             {
@@ -2028,7 +2039,7 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
     int res  = start_sandbox_io_redirect();
 #if USE_IO_INLINE_REDIRECT == 1
     if(res == -1){
-        start_inline_io_redirect((char* libc_start_main_addr,stack_on_entry);
+        start_inline_io_redirect(libc_start_main_addr,stack_on_entry);
         DEBUG_LOG("USE_IO_INLINE_REDIRECT");
     }
 #else
@@ -2085,7 +2096,7 @@ IN_LINE void process_got_hook(char* name,Elf_Sym* symbol,char* so_base){
         return;
     }
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
-    DEBUG_LOG("HOOK_GOT: 0x%x --> 0x%x",old_plt_vaddr,new_addr);
+    DEBUG_LOG("HOOK_GOT: 0x%lx --> 0x%lx",old_plt_vaddr,new_addr);
     dynamic_hook_function((void*)old_plt_vaddr,(void*)new_addr);
 }
 
@@ -2101,7 +2112,7 @@ IN_LINE void process_elf_hook(char* symbol_name,Elf_Sym* symbol,char* so_base){
         return;
     }
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
-    DEBUG_LOG("HOOK_ELF: 0x%x --> 0x%x",need_modify_vaddr,new_addr);
+    DEBUG_LOG("HOOK_ELF: 0x%lx --> 0x%lx",need_modify_vaddr,new_addr);
     dynamic_hook_function((void*)need_modify_vaddr,(void*)new_addr);
 
 }
@@ -2118,7 +2129,7 @@ IN_LINE void process_call_hook(char* call_addr,Elf_Sym* symbol,char* so_base){
         return;
     }
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
-    DEBUG_LOG("HOOK_CALL: 0x%x --> 0x%x",need_modify_vaddr,new_addr);
+    DEBUG_LOG("HOOK_CALL: 0x%lx --> 0x%lx",need_modify_vaddr,new_addr);
     dynamic_hook_call((void*)need_modify_vaddr,(void*)new_addr);
 }
 
@@ -2171,7 +2182,7 @@ IN_LINE void dynamic_hook_process_mmap(){
 
 IN_LINE void init_hook_env(){
     g_patch_code_slot = (PATCH_CODE_SLOT*)my_mmap((void*)(get_elf_base() - 0x100000),UP_PADDING(MAX_PATCH_NUM*sizeof(g_patch_code_slot),0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
-    DEBUG_LOG("g_patch_code_slot is 0x%x",g_patch_code_slot);
+    DEBUG_LOG("g_patch_code_slot is 0x%lx",g_patch_code_slot);
     if(g_patch_code_slot<=0) {
         g_patch_code_slot = NULL;
         g_patch_code_index = 0;
@@ -2182,7 +2193,7 @@ IN_LINE void init_hook_env(){
 }
 
 IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
-    init_hook_env();
+
     process_hook((char*)ehdr);
     //dynamic_hook_process_mmap();
     //dynamic_hook_process_execve();
@@ -2192,10 +2203,14 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* three_base_tmp) {
     g_elf_base = (char*)DOWN_PADDING((char*)first_instruction-three_base_tmp->first_entry_offset,0x1000);
     DEBUG_LOG("stage_three_start");
-    DEBUG_LOG("g_elf_base: 0x%x",g_elf_base );
-    DEBUG_LOG("patch_data_mmap_file_base: 0x%x",three_base_tmp->patch_data_mmap_file_base);
-    DEBUG_LOG("patch_data_mmap_code_base: 0x%x",three_base_tmp->patch_data_mmap_code_base);
+    DEBUG_LOG("g_elf_base: 0x%lx",g_elf_base );
+    DEBUG_LOG("patch_data_mmap_file_base: 0x%lx",three_base_tmp->patch_data_mmap_file_base);
+    DEBUG_LOG("patch_data_mmap_code_base: 0x%lx",three_base_tmp->patch_data_mmap_code_base);
 
+    if(check_elf_magic(g_elf_base)!=1){
+        DEBUG_LOG("g_elf_base is wrong,not elf header");
+        return;
+    }
     char *stack_base = 0;
     char **ev = &UBP_AV[ARGC + 1];
     int i = 0;
@@ -2209,8 +2224,9 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* thre
         stack_base = (char *) UP_PADDING((long) ev[i - 1], 0x1000);
     else
         stack_base = (char *) UP_PADDING((long) ev[i], 0x1000);
-    DEBUG_LOG("stack_base is: 0x%x",stack_base);
+    DEBUG_LOG("stack_base is: 0x%lx",stack_base);
     //parent should die before child
+    init_hook_env();
     start_io_redirect(target_entry,stack_base);
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
     //destory_patch_data();

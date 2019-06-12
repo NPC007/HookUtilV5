@@ -62,8 +62,8 @@ typedef struct LOADER_STAGE_THREE{
 #define CODE 1
 #define PTR 2
 
-#define UP_PADDING(X,Y)  ((long)((((long)(X))/((long)(Y))+1)*((long)(Y))))
-#define DOWN_PADDING(X,Y) ((long)(((long)(X))-((long)(X))%((long)(Y))))
+#define UP_PADDING(X,Y)  ((unsigned long)((((unsigned long)(X))/((unsigned long)(Y))+1)*((unsigned long)(Y))))
+#define DOWN_PADDING(X,Y) ((unsigned long)(((unsigned long)(X))-((unsigned long)(X))%((unsigned long)(Y))))
 
 #define PROT_READ	0x1     /* Page can be read.  */
 #define PROT_WRITE	0x2     /* Page can be written.  */
