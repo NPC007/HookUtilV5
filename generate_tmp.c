@@ -1044,7 +1044,7 @@ int main(int argc,char* argv[]){
         usage(argv[0]);
     }
     chdir("/tmp");
-    char config_file_name[] = {"/root/code/HookUtilV3/test/x86_pie_dynamic_test/config_new_pt_load_memory_1_1.json"};
+    char config_file_name[] = {"BBBBBBBBBB"};
     printf("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){

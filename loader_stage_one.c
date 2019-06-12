@@ -54,6 +54,7 @@ IN_LINE long my_mprotect(void *start, long len, long prot){
     asm_mprotect((long)start,(long)len,(long)prot,res);
     return res;
 }
+//static __attribute__ ((noinline))
 IN_LINE long my_mmap(long addr, long length, int prot, int flags,
            int fd, off_t offset){
     long res = 0;
@@ -87,10 +88,21 @@ unsigned long __loader_start(LIBC_START_MAIN_ARG, void* first_instruction){
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)mmap_addr);
     failed_load_patch:
     if(mmap_addr>0)my_munmap((void*)mmap_addr,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
+#if(IS_PIE == 0)
 #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-    return *(long*)LIB_C_START_MAIN_ADDR;
+    return *(unsigned long*)LIB_C_START_MAIN_ADDR;
 #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
     return LIB_C_START_MAIN_ADDR;
+#endif
+#elif(IS_PIE == 1)
+    char *g_elf_base = (char*)DOWN_PADDING((char*)first_instruction - FIRST_ENTRY_OFFSET,0x1000);
+    #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+        return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
+    #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+        return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
+    #endif
+#else
+#error "Unknown IS_PIE"
 #endif
 }
 
@@ -101,12 +113,25 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
     void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(base+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(base))->entry_offset);
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)base);
     my_munmap((void*)base,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
-#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-    return *(long*)LIB_C_START_MAIN_ADDR;
+#if(IS_PIE == 0)
+    #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+    return *(unsigned long*)LIB_C_START_MAIN_ADDR;
 #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
     return LIB_C_START_MAIN_ADDR;
 #endif
+#elif(IS_PIE == 1)
+    char *g_elf_base = (char*)DOWN_PADDING((char*)first_instruction - FIRST_ENTRY_OFFSET,0x1000);
+#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+    return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
+#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+    return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
+#endif
+#else
+#error "Unknown IS_PIE"
+#endif
 }
+
+
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SHARE_MEM)
 IN_LINE unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
     failed_load_patch:
@@ -124,11 +149,5 @@ IN_LINE unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instructio
 #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
     return LIB_C_START_MAIN_ADDR;
 #endif
-}
-#endif
-
-#if __i386__
-void* get_eip(){
-    return get_eip;
 }
 #endif

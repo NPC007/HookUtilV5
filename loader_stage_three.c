@@ -1307,7 +1307,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
     }
     long res = my_mprotect((void*)DOWN_PADDING((long)call_addr,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
     if(res < 0) {
-        DEBUG_LOG("dynamic_hook_call: mprotect RWX failed, addr: 0x%lx",DOWN_PADDING((long)old_function,0x1000));
+        DEBUG_LOG("dynamic_hook_call: mprotect RWX failed, addr: 0x%lx",DOWN_PADDING((long)call_addr,0x1000));
         return;
     }
     slot->patch_addr = call_addr;
@@ -1362,7 +1362,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 #endif
     res = my_mprotect((void*)DOWN_PADDING((long)call_addr,0x1000),0x1000,PROT_READ|PROT_EXEC);
     if(res < 0) {
-        DEBUG_LOG("dynamic_hook_call: mprotect RX failed, addr: 0x%lx",DOWN_PADDING((long)old_function,0x1000));
+        DEBUG_LOG("dynamic_hook_call: mprotect RX failed, addr: 0x%lx",DOWN_PADDING((long)call_addr,0x1000));
         return;
     }
 
@@ -1806,7 +1806,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
     int send_sockfd;
     char* ip = (char*)&(g_loader_param.analysis_server.sin_addr.s_addr);
     int port = (g_loader_param.analysis_server.sin_port >> 8 + (g_loader_param.analysis_server.sin_port &0xff) << 8);
-    DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d",ip[0],ip[1],ip[2],ip[3],port);
+    DEBUG_LOG("start_common_io_redirect: %d.%d.%d.%d:%d",ip[0],ip[1],ip[2],ip[3],port);
     if (g_loader_param.analysis_server.sin_addr.s_addr != 0 && g_loader_param.analysis_server.sin_port != 0) {
         struct timeval timeout;
         timeout.tv_sec = TCP_TIME_OUT;
@@ -1983,9 +1983,11 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
         timeout.tv_usec = 0;
         g_redirect_io_fd = my_socket(AF_INET, SOCK_STREAM, 0);
         if (g_redirect_io_fd >= 0) {
+            DEBUG_LOG("tcp analysis server socket open success");
             int res = connect_timeout(g_redirect_io_fd, (struct sockaddr *) &g_loader_param.analysis_server, sizeof(struct sockaddr),
                                       &timeout);
             if (res == 1) {
+                DEBUG_LOG("connect to tcp analysis server success");
                 char* heap_base = (char*)get_heap_base();
                 char* elf_base = (char*)get_elf_base();
                 char* stack_base = (char*)stack_on_entry;
@@ -1999,11 +2001,13 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
                 my_write_packet(g_redirect_io_fd,packet,packet_len);
                 dynamic_io_redirect_hook();
             } else {
+                DEBUG_LOG("connect to tcp analysis server failed");
                 my_close(g_redirect_io_fd);
                 g_redirect_io_fd = 0;
                 use_file = 1;
             }
         } else {
+            DEBUG_LOG("cp analysis server socket open failed");
             use_file = 1;
         }
     }
@@ -2018,6 +2022,7 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
         //g_redirect_io_fd = my_open(path,O_CLOEXEC|O_RDWR|O_CREAT,S_IRWXU|S_IRWXG|S_IRWXO);
         g_redirect_io_fd = my_open(path,O_CLOEXEC|O_RDWR|O_CREAT,S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
         if(g_redirect_io_fd>0){
+            DEBUG_LOG("local file recorder open success, file is:%s",path);
             char* heap_base = (char*)get_heap_base();
             char* elf_base = (char*)get_elf_base();
             char* stack_base = (char*)stack_on_entry;
@@ -2030,6 +2035,9 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
             build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
             my_write_packet(g_redirect_io_fd,packet,packet_len);
             dynamic_io_redirect_hook();
+        }
+        else{
+            DEBUG_LOG("local file recorder open failed, file is:%s",path);
         }
     }
 }
@@ -2207,8 +2215,9 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* thre
     DEBUG_LOG("patch_data_mmap_file_base: 0x%lx",three_base_tmp->patch_data_mmap_file_base);
     DEBUG_LOG("patch_data_mmap_code_base: 0x%lx",three_base_tmp->patch_data_mmap_code_base);
 
-    if(check_elf_magic(g_elf_base)!=1){
+    if(check_elf_magic(g_elf_base)==-1){
         DEBUG_LOG("g_elf_base is wrong,not elf header");
+        my_exit(-1);
         return;
     }
     char *stack_base = 0;
@@ -2253,6 +2262,8 @@ static char* __hook_got_0x080484D0(int length){
 }
  */
 
+/*
+ * once_time
 static int __hook_elf_0x4008c5(){
     DEBUG_LOG("__hook_elf_0x4008c5");
     int(*ori)() = (int(*)())hook_address_helper((void*)0x4008c5);
@@ -2280,6 +2291,34 @@ static int __hook_call_0x4009DF(int fd,char* buf,int len){
     DEBUG_LOG("__hook_call_0x4009DF");
     return (int)my_read(fd,buf,len);
 }
+*/
+
+/*
+ * x86_nopie_dynamic_test
+static void * __hook_got_0x80484C0(int size){
+    //malloc
+    my_printf("__hook_got_0x80484C0\n");
+    void*( *malloc_handler)(int) = (void*(*)())lookup_symbols("malloc");
+    if(malloc_handler!=NULL)
+        return malloc_handler(size);
+    else
+        return NULL;
+}
+
+static void __hook_call_0x8048838(){
+    void(*ori)() = (void(*)())hook_address_helper((void*)0x80486A0);
+    my_printf("__hook_call_0x8048838\n");
+    ori();
+}
+
+static void __hook_elf_0x8048642(){
+    my_printf("__hook_elf_0x8048642\n");
+    void(*ori)() = (void(*)())hook_address_helper((void*)0x8048642);
+    dynamic_unhook(ori);
+    ori();
+    dynamic_rehook(ori);
+}*/
+
 
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){

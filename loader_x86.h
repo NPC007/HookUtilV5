@@ -13,7 +13,7 @@
                               "jmp *%eax;"                                   \
                               "get_eip:"                                     \
                               "mov 0x0(%esp),%eax;"                          \
-                              "ret;"
+                              "ret;");
 
 #define LIBC_START_MAIN_ARG int(*MAIN)(int,char**,char**),int ARGC,char **UBP_AV,void(*INIT)(void),void(*FINI)(void),void(*RTLD_FINI)(void),void* STACK_END
 #define LIBC_START_MAIN_ARG_PROTO int(*)(int,char**,char**),int,char **,void(*)(void),void(*)(void),void(*)(void),void*

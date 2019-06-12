@@ -118,12 +118,10 @@
                                             :"0"(__NR_chroot),"b"((long)PATH));
 
 #define asm_mmap(ADDR,LENGTH,PROT,FLAGS,FD,OFFSET,RES) ({\
-                                            __asm__ __volatile__("movl 0x28(%esp),%eax"); \
-                                            __asm__ __volatile__("pushl %ebp"); \
-                                            __asm__ __volatile__("int $0x80"\
+                                                __asm__ __volatile__("pushl %%ebp;xor %%ebp,%%ebp;int $0x80;popl %%ebp"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_mmap),"b"((long)ADDR),"c"((long)LENGTH),"d"((long)PROT),"S"((long)FLAGS),"D"((long)FD));\
-                                            __asm__ __volatile__("popl %ebp"); })
+                                                :"0"(__NR_mmap2),"b"((long)ADDR),"c"((long)LENGTH),"d"((long)PROT),"S"((long)FLAGS),"D"((long)FD));\
+                                                })
 
 
 #define asm_munmap(ADDR,LENGTH,RES) __asm__ __volatile__("int $0x80"\

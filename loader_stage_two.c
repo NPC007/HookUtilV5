@@ -106,6 +106,7 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_ba
     three_base->patch_data_mmap_file_base = (void*)two_base;
     //todo elf_load_base should find an empty space, not just add 0x1000100
     char* elf_load_base = (char*)three_base->patch_data_mmap_file_base + 0x10001000 ;
+    three_base->patch_data_mmap_code_base = elf_load_base;
     long map_size = 0;
     Elf_Phdr* phdr = NULL;
     for(int i=0;i<ehdr->e_phnum;i++){
@@ -122,14 +123,15 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_ba
                 map_size = phdr->p_vaddr + phdr->p_memsz  - DOWN_PADDING(phdr->p_vaddr,0x1000);
             else
                 map_size = UP_PADDING(phdr->p_vaddr + phdr->p_memsz, 0x1000) - DOWN_PADDING(phdr->p_vaddr, 0x1000);
-            if(elf_load_base == NULL) {
+            /*if(elf_load_base == NULL) {
                 elf_load_base = (char*)my_mmap(0,map_size , PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
                 if(elf_load_base == NULL || elf_load_base == (char*)-1)
                     return;
                 elf_load_base = elf_load_base - DOWN_PADDING(phdr->p_vaddr,0x1000);
                 three_base->patch_data_mmap_code_base = elf_load_base;
             }
-            else{
+            else*/
+                {
                 my_mmap( DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000), map_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
             }
             my_memcpy((elf_load_base + phdr->p_vaddr), ((char*)ehdr) + phdr->p_offset,phdr->p_filesz);
