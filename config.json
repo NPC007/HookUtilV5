@@ -4,23 +4,23 @@
   "libloader_stage_two":"libloader_stage_two.so",
   "libloader_stage_three":"libloader_stage_three.so",
 
-  "input_elf":"once_time",
-  "output_elf":"once_time_output",
+  "input_elf":"babyheap",
+  "output_elf":"babyheap_out",
 
-  "loader_stage_one_position":"new_pt_load",
+  "loader_stage_one_position":"em_frame",
 
   "data_file_path":"aa.dat",
-  "loader_stage_other_position":"memory",
-  "loader_stage_other_file_path":"/root/code/HookUtilV3/aa.dat",
+  "loader_stage_other_position":"file",
+  "loader_stage_other_file_path":"/home/runshine/HookUtilV3/aa.dat",
   "loader_stage_other_file_load_addr":"0x34567000",
   "loader_stage_other_share_memory_id":"123",
   "loader_stage_other_socket_server_ip":"0.0.0.0",
   "loader_stage_other_socket_server_port":"80",
 
-  "libc_start_main_addr":"0x400710",
+  "libc_start_main_addr":"0xA00",
   "libc_start_main_addr_type":"code",
-  "libc_start_main_start_call_offset":"0x784",
-  "libc_start_main_start_call_vaddr":"0x400784",
+  "libc_start_main_start_call_offset":"0xA64",
+  "libc_start_main_start_call_vaddr":"0xA64",
 
   "tcp_time_out":"1",
   "analysis_server_ip":"127.0.0.1",

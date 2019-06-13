@@ -1,0 +1,7 @@
+{
+  "ip":"127.0.0.1",
+  "port":"20000",
+  "workspace":"workspace",
+  "elf_file": "babyheap",
+  "libc_file":"libc.so"
+}

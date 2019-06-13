@@ -16,144 +16,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/HookUtilV3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HookUtilV3.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/poc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/repeater.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis_server.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto_test_analysis_server_not_complete.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generate_config_json_not_complete.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repeater.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/verify.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.10.3/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.10.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.10.3/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.10.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.10.3/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HookUtilV3.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HookUtilV3.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HookUtilV3.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HookUtilV3.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HookUtilV3.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HookUtilV3.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HookUtilV3.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/C.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/cJSON.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/depend.internal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/generate.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/C.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/cJSON.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/depend.internal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/generate.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/C.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/depend.internal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/hook.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/hook.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/hook.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/hook.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/hook.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/hook.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/hook.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/load.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/load.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/load.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/load.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/load.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/load.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/load.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stag.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stag.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stag.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stag.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stag.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stag.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stag.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aa.dat" beforeDir="false" afterPath="$PROJECT_DIR$/aa.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate" beforeDir="false" afterPath="$PROJECT_DIR$/generate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/generate.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_base.c" beforeDir="false" afterPath="$PROJECT_DIR$/generate_base.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_tmp.c" beforeDir="false" afterPath="$PROJECT_DIR$/generate_tmp.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook.makefile" beforeDir="false" afterPath="$PROJECT_DIR$/hook.makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libloader_stage_one.so" beforeDir="false" afterPath="$PROJECT_DIR$/libloader_stage_one.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libloader_stage_three.so" beforeDir="false" afterPath="$PROJECT_DIR$/libloader_stage_three.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libloader_stage_two.so" beforeDir="false" afterPath="$PROJECT_DIR$/libloader_stage_two.so" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_stage_three.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_three.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_stage_two.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_two.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_em_frame_file_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_em_frame_file_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_em_frame_file_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_em_frame_file_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_em_frame_file_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_em_frame_file_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_em_frame_file_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_em_frame_file_1_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_file_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_file_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_file_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_file_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_file_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_file_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_file_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_file_1_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_memory_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_memory_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_memory_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_memory_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_memory_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_memory_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_memory_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/config_new_pt_load_memory_1_1.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/once_time_test/once_time_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/once_time_test/once_time_output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/x64_nopie_dynamic_test/autotest_64_nopie_dynamic_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/x64_nopie_dynamic_test/autotest_64_nopie_dynamic_output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/x64_nopie_static_test/autotest_64_nopie_static_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/x64_nopie_static_test/autotest_64_nopie_static_output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/x64_pie_dynamic_test/autotest_64_pie_dynamic_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/x64_pie_dynamic_test/autotest_64_pie_dynamic_output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/x64_pie_static_test/autotest_64_pie_static_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/x64_pie_static_test/autotest_64_pie_static_output" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/autotest_32_nopie_dynamic_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/autotest_32_nopie_dynamic_output" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_em_frame_file_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_em_frame_file_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_em_frame_file_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_em_frame_file_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_em_frame_file_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_em_frame_file_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_em_frame_file_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_em_frame_file_1_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_file_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_file_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_file_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_file_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_file_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_file_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_file_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_file_1_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_memory_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_memory_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_memory_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_memory_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_memory_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_memory_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_memory_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_dynamic_test/config_new_pt_load_memory_1_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/autotest_32_pie_dynamic_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/autotest_32_pie_dynamic_output" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_em_frame_file_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_em_frame_file_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_em_frame_file_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_em_frame_file_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_em_frame_file_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_em_frame_file_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_em_frame_file_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_em_frame_file_1_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_file_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_file_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_file_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_file_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_file_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_file_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_file_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_file_1_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_memory_0_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_memory_0_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_memory_0_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_memory_0_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_memory_1_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_memory_1_0.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_memory_1_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_dynamic_test/config_new_pt_load_memory_1_1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/x86_nopie_static_test/autotest_32_nopie_static_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_nopie_static_test/autotest_32_nopie_static_output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/x86_pie_static_test/autotest_32_pie_static_output" beforeDir="false" afterPath="$PROJECT_DIR$/test/x86_pie_static_test/autotest_32_pie_static_output" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -172,32 +59,39 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="c" value="3" />
-          <entry key="json" value="2" />
+          <entry key="c" value="4" />
+          <entry key="h" value="1" />
+          <entry key="input" value="1" />
+          <entry key="json" value="10" />
           <entry key="makefile" value="1" />
-          <entry key="py" value="1" />
+          <entry key="md" value="5" />
+          <entry key="py" value="31" />
+          <entry key="txt" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JSON" value="2" />
-          <entry key="ObjectiveC" value="3" />
-          <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="1" />
+          <entry key="JSON" value="10" />
+          <entry key="ObjectiveC" value="5" />
+          <entry key="PLAIN_TEXT" value="9" />
+          <entry key="Python" value="31" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="c" value="590" />
+          <entry key="dummy" value="35" />
+          <entry key="json" value="245" />
           <entry key="makefile" value="8" />
-          <entry key="py" value="115" />
+          <entry key="py" value="1740" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
+          <entry key="JSON" value="245" />
           <entry key="ObjectiveC" value="590" />
-          <entry key="PLAIN_TEXT" value="8" />
-          <entry key="Python" value="115" />
+          <entry key="PLAIN_TEXT" value="43" />
+          <entry key="Python" value="1740" />
         </counts>
       </usages-collector>
     </session>
@@ -205,75 +99,72 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/generate.c">
+        <entry file="file://$PROJECT_DIR$/analysis_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="341" column="1" selection-start-line="340" selection-start-column="14" selection-end-line="340" selection-end-column="16" />
+            <state relative-caret-position="470">
+              <caret line="582" selection-start-line="582" selection-end-line="583" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#15#34#0" expanded="true" />
+                <marker date="1560436549105" expanded="true" signature="22317:22400" ph="..." />
+                <marker date="1560436549105" expanded="true" signature="23554:23559" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/generate_tmp.c">
+        <entry file="file://$PROJECT_DIR$/config.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/x86_syscall.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8">
-              <caret line="110" selection-start-line="110" selection-end-line="110" />
+            <state relative-caret-position="384">
+              <caret line="28" column="23" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/auto_test.py">
+        <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/poc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="489">
-              <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
+            <state relative-caret-position="22">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/pwnlib/tubes/tube.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="163" column="33" lean-forward="true" selection-start-line="163" selection-start-column="33" selection-end-line="163" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/repeater.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="392">
+              <caret line="287" column="27" selection-start-line="287" selection-start-column="27" selection-end-line="287" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/verify.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="183">
+              <caret line="219" column="15" selection-start-line="219" selection-start-column="12" selection-end-line="219" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/generate_config_json_not_complete.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
               <folding>
-                <element signature="e#0#37#0" expanded="true" />
+                <marker date="1560435842382" expanded="true" signature="132:173" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/x86_pie_static_test/config.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/generate_base.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="330" column="28" selection-start-line="330" selection-start-column="28" selection-end-line="330" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hook.makefile">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="53" selection-start-line="4" selection-start-column="53" selection-end-line="4" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -281,54 +172,28 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/loader_stage_three.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2662">
-              <caret line="2053" column="49" lean-forward="true" selection-start-line="2053" selection-start-column="49" selection-end-line="2053" selection-end-column="49" />
+            <state relative-caret-position="1998">
+              <caret line="2379" column="32" selection-start-line="2379" selection-start-column="12" selection-end-line="2379" selection-end-column="32" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#741#839#0" expanded="true" />
-                <element signature="e#39294#40091#0" expanded="true" />
-                <element signature="e#39572#39700#0" expanded="true" />
-                <element signature="e#42609#43388#0" expanded="true" />
-                <element signature="e#43106#43155#0" expanded="true" />
                 <element signature="e#44350#44454#0" expanded="true" />
                 <element signature="e#70095#70233#0" expanded="true" />
-                <element signature="e#71293#71344#0" expanded="true" />
-                <element signature="e#71482#71561#0" expanded="true" />
-                <element signature="e#71982#72040#0" expanded="true" />
-                <element signature="e#72170#72256#0" expanded="true" />
-                <element signature="e#72697#72754#0" expanded="true" />
-                <element signature="e#72882#72967#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/loader_stage_two.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-441">
-              <caret line="109" column="28" selection-start-line="109" selection-start-column="28" selection-end-line="109" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/once_time_test/config.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="21" column="46" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>dynamic_h</find>
-      <find>md5init</find>
-      <find>pt_load</find>
-      <find>add_stage_one_code_to_new_pt_load</find>
       <find>snprintf</find>
       <find>my_mun</find>
       <find>my_m</find>
@@ -352,9 +217,13 @@
       <find>open_</find>
       <find>first_en</find>
       <find>HOOK</find>
-      <find>Copy</find>
       <find>CopY</find>
       <find>hook_got</find>
+      <find>Copy</find>
+      <find>timeout</find>
+      <find>int</find>
+      <find>tr</find>
+      <find>try</find>
     </findStrings>
     <replaceStrings>
       <replace>%lx</replace>
@@ -377,7 +246,6 @@
         <option value="$PROJECT_DIR$/once_time_config.json" />
         <option value="$PROJECT_DIR$/autotest_32_nopie_dynamic.json" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/hook.h" />
         <option value="$PROJECT_DIR$/generate_config.py" />
         <option value="$PROJECT_DIR$/test/once_time_test/input" />
@@ -395,6 +263,18 @@
         <option value="$PROJECT_DIR$/test/x86_pie_static_test/config.json" />
         <option value="$PROJECT_DIR$/loader_stage_three.c" />
         <option value="$PROJECT_DIR$/auto_test.py" />
+        <option value="$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/pwn/cfy/exploit.py" />
+        <option value="$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/config.json" />
+        <option value="$PROJECT_DIR$/analysis_servver.py" />
+        <option value="$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/repeater.json" />
+        <option value="$PROJECT_DIR$/auto_test_analysis_server.py" />
+        <option value="$PROJECT_DIR$/verify.json" />
+        <option value="$PROJECT_DIR$/repeater.py" />
+        <option value="$PROJECT_DIR$/generate_config_json.py" />
+        <option value="$PROJECT_DIR$/analysis_server.py" />
+        <option value="$PROJECT_DIR$/verify.py" />
+        <option value="$PROJECT_DIR$/config.json" />
+        <option value="$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/poc.py" />
       </list>
     </option>
   </component>
@@ -407,9 +287,9 @@
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
-    <option name="y" value="27" />
-    <option name="width" value="2560" />
-    <option name="height" value="1377" />
+    <option name="y" value="25" />
+    <option name="width" value="1207" />
+    <option name="height" value="1212" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -444,7 +324,37 @@
             <path>
               <item name="HookUtilV3" type="b2602c69:ProjectViewProjectNode" />
               <item name="HookUtilV3" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="analysis_repeater_test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HookUtilV3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HookUtilV3" type="462c0819:PsiDirectoryNode" />
+              <item name="analysis_repeater_test" type="462c0819:PsiDirectoryNode" />
+              <item name="write-ups-2017" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HookUtilV3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HookUtilV3" type="462c0819:PsiDirectoryNode" />
+              <item name="analysis_repeater_test" type="462c0819:PsiDirectoryNode" />
+              <item name="write-ups-2017" type="462c0819:PsiDirectoryNode" />
+              <item name="0ctf-quals-2017" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HookUtilV3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HookUtilV3" type="462c0819:PsiDirectoryNode" />
+              <item name="analysis_repeater_test" type="462c0819:PsiDirectoryNode" />
+              <item name="write-ups-2017" type="462c0819:PsiDirectoryNode" />
+              <item name="0ctf-quals-2017" type="462c0819:PsiDirectoryNode" />
+              <item name="pwn" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HookUtilV3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HookUtilV3" type="462c0819:PsiDirectoryNode" />
+              <item name="analysis_repeater_test" type="462c0819:PsiDirectoryNode" />
+              <item name="write-ups-2017" type="462c0819:PsiDirectoryNode" />
+              <item name="0ctf-quals-2017" type="462c0819:PsiDirectoryNode" />
+              <item name="pwn" type="462c0819:PsiDirectoryNode" />
+              <item name="Baby-Heap-2017-255" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -482,7 +392,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.auto_test">
+  <component name="RunManager" selected="Python.poc">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -534,6 +444,69 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="generate_config_json" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="HookUtilV3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/generate_config_json_not_complete.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="poc" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="HookUtilV3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/poc.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="verify" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="HookUtilV3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/verify.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Build All" />
       <item itemvalue="Application.generate32" />
@@ -542,9 +515,15 @@
       <item itemvalue="Application.loader_stage_three" />
       <item itemvalue="Application.loader_stage_two" />
       <item itemvalue="Python.auto_test" />
+      <item itemvalue="Python.poc" />
+      <item itemvalue="Python.generate_config_json" />
+      <item itemvalue="Python.verify" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.poc" />
+        <item itemvalue="Python.verify" />
+        <item itemvalue="Python.generate_config_json" />
         <item itemvalue="Python.auto_test" />
       </list>
     </recent_temporary>
@@ -570,25 +549,25 @@
       <workItem from="1560167356386" duration="15924000" />
       <workItem from="1560252398327" duration="18041000" />
       <workItem from="1560335568016" duration="23090000" />
-      <workItem from="1560407605843" duration="6791000" />
+      <workItem from="1560407605843" duration="19878000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="149725000" />
+    <option name="totallyTimeSpent" value="162812000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="2629" height="1748" extended-state="6" />
+    <frame x="67" y="25" width="2036" height="1212" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16337591" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13115577" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3298639" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.42561206" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4815705" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.39545885" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4011353" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -652,11 +631,76 @@
           <line>41</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/poc.py</url>
+          <line>44</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/poc.py</url>
+          <line>7</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/poc.py</url>
+          <line>5</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/generate_config_json_not_complete.py</url>
+          <line>7</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/verify.py</url>
+          <line>137</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/verify.py</url>
+          <line>205</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/verify.py</url>
+          <line>219</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>con.interactive()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>print elf.disasm(elf.entrypoint,0x200)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>elf.disasm(elf.entrypoint,0x200)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>elf.entrypoint</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>elf.entry</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>elf</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>libc_start_main_start_call_offset_str</expression-string>
         <language-id>ObjectiveC</language-id>
@@ -672,143 +716,9 @@
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>elf.abstract.header.architecture.__module__.</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>elf.abstract.header.architecture.__module__.__module__</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>elf.abstract.header.architecture</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>elf.abstract.header.is_32</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>elf.abstract.header</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>elf.abstract</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/library.h" />
-    <entry file="file://$PROJECT_DIR$/library.c" />
-    <entry file="file://$PROJECT_DIR$/config.ini" />
-    <entry file="file://$PROJECT_DIR$/aes.h" />
-    <entry file="file://$PROJECT_DIR$/md5.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="6" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/x86_64-linux-gnu/asm/unistd_64.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/netinet/in.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="238" column="7" selection-start-line="238" selection-start-column="7" selection-end-line="238" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hook.c" />
-    <entry file="file://$PROJECT_DIR$/hook_stage_three.c" />
-    <entry file="file:///usr/include/x86_64-linux-gnu/sys/types.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="85" column="11" selection-start-line="85" selection-start-column="11" selection-end-line="85" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/x86_64-linux-gnu/bits/fcntl-linux.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="44" column="8" selection-start-line="44" selection-start-column="8" selection-end-line="44" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/x86_64-linux-gnu/sys/mman.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="56" column="13" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/stdio.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="716" column="14" selection-start-line="716" selection-start-column="14" selection-end-line="716" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/x86_64-linux-gnu/bits/mman-linux.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cJSON.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cJSON.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="662" column="78" selection-start-line="662" selection-start-column="78" selection-end-line="662" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/config.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///usr/include/elf.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2771">
-          <caret line="163" column="8" selection-start-line="163" selection-start-column="8" selection-end-line="163" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loader_x64.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="49" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/generate1.c" />
     <entry file="file:///usr/lib/python2.7/posixpath.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="381">
@@ -820,13 +730,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/once_time_test/input">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
@@ -879,13 +782,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="127" lean-forward="true" selection-start-line="127" selection-end-line="127" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
@@ -953,13 +849,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/once_time_test/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="21" column="46" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/generate.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="319">
@@ -987,36 +876,229 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/loader_stage_three.c">
+    <entry file="file://$PROJECT_DIR$/test/once_time_test/input">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2662">
-          <caret line="2053" column="49" lean-forward="true" selection-start-line="2053" selection-start-column="49" selection-end-line="2053" selection-end-column="49" />
+        <state relative-caret-position="44">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/scoreboard.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/solves.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="18" column="20" lean-forward="true" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/pwn/booking/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/pwn/booking/exploit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="36" column="10" lean-forward="true" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/pwn/cairo/exploit.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/pwn/cfy/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="15" column="42" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2014/31c3-ctf-2014/pwn/cfy/exploit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#741#839#0" expanded="true" />
-            <element signature="e#39294#40091#0" expanded="true" />
-            <element signature="e#39572#39700#0" expanded="true" />
-            <element signature="e#42609#43388#0" expanded="true" />
-            <element signature="e#43106#43155#0" expanded="true" />
-            <element signature="e#44350#44454#0" expanded="true" />
-            <element signature="e#70095#70233#0" expanded="true" />
-            <element signature="e#71293#71344#0" expanded="true" />
-            <element signature="e#71482#71561#0" expanded="true" />
-            <element signature="e#71982#72040#0" expanded="true" />
-            <element signature="e#72170#72256#0" expanded="true" />
-            <element signature="e#72697#72754#0" expanded="true" />
-            <element signature="e#72882#72967#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/belgian-hackerolympiad-2017/exploitation/luigi/README.md">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/pwn/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/pwnlib/args.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="178" column="33" selection-start-line="178" selection-start-column="20" selection-end-line="178" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="1067" selection-start-line="1067" selection-end-line="1067" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/pwnlib/term/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="67" column="13" lean-forward="true" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/once_time_test/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="18" lean-forward="true" selection-end-line="32" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.7/SocketServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="296" column="8" selection-start-line="296" selection-start-column="8" selection-end-line="296" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/repeater.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto_test_analysis_server_not_complete.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="73" column="9" selection-start-line="73" selection-start-column="9" selection-end-line="73" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <marker date="1560434617474" expanded="true" signature="1557:1569" ph="..." />
+            <marker date="1560434617474" expanded="true" signature="3350:4956" ph="..." />
+            <marker date="1560434617474" expanded="true" signature="4995:5290" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="25" column="21" selection-start-line="25" selection-start-column="3" selection-end-line="25" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
-          <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
+        <state relative-caret-position="396">
+          <caret line="105" column="44" lean-forward="true" selection-start-line="105" selection-start-column="4" selection-end-line="105" selection-end-column="44" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loader_stage_three.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1998">
+          <caret line="2379" column="32" selection-start-line="2379" selection-start-column="12" selection-end-line="2379" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#44350#44454#0" expanded="true" />
+            <element signature="e#70095#70233#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="582" selection-start-line="582" selection-end-line="583" />
+          <folding>
+            <element signature="e#15#34#0" expanded="true" />
+            <marker date="1560436549105" expanded="true" signature="22317:22400" ph="..." />
+            <marker date="1560436549105" expanded="true" signature="23554:23559" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/repeater.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="287" column="27" selection-start-line="287" selection-start-column="27" selection-end-line="287" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/pwnlib/term/term.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generate_config_json_not_complete.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <marker date="1560435842382" expanded="true" signature="132:173" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="28" column="23" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/verify.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="219" column="15" selection-start-line="219" selection-start-column="12" selection-end-line="219" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/pwnlib/tubes/tube.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="163" column="33" lean-forward="true" selection-start-line="163" selection-start-column="33" selection-end-line="163" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/poc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
