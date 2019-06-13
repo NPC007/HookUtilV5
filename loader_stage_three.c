@@ -1368,6 +1368,44 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 
 }
 
+
+IN_LINE void dynamic_hook_got(void* old_function,void* new_function){
+
+#ifdef __x86_64__
+    PATCH_CODE_SLOT* slot = alloc_patch_code_slot(old_function);
+    if(slot == NULL) {
+        DEBUG_LOG("dynamic_hook_got: alloc hook slot failed");
+        return;
+    }
+    long res = my_mprotect((void*)DOWN_PADDING((long)old_function,0x1000),0x1000,PROT_READ|PROT_WRITE|PROT_EXEC);
+    if(res < 0) {
+        DEBUG_LOG("dynamic_hook_got: mprotect RWX failed, addr: 0x%lx",DOWN_PADDING((long)old_function,0x1000));
+        return;
+    }
+    slot->patch_addr = old_function;
+    my_memcpy(slot->old_code_save,old_function,14);
+    slot->old_code_save_len = 14;
+    slot->code_slot_len = 14;
+    slot->slot_type = SLOT_FUNCTION;
+
+    slot->code_slot[0] = '\x68';
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))  = (unsigned int)((long)new_function&0xFFFFFFFF);
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [5])) = 0x042444c7;
+    *((unsigned int*)&(((unsigned char*)slot->code_slot) [9])) = (long)new_function>>32;
+    ((unsigned char*)slot->code_slot) [13] = '\xc3';
+
+    ((unsigned char*)old_function) [0] = '\xE8';//call
+    *((unsigned int*)&(((unsigned char*)old_function) [1]))   =  (unsigned int)(((long)slot->code_slot-(long)old_function - 5)&0xFFFFFFFF);
+    slot->hook_code_len = 5;
+    my_memcpy(slot->hook_code,old_function,slot->hook_code_len);
+     DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",old_function,new_function);
+#else
+    dynamic_hook_function(old_function,new_function);
+#endif
+}
+
+
+
 IN_LINE void dynamic_unhook(void* addr){
     PATCH_CODE_SLOT* slot = search_patch_code_slot(addr);
     if(slot!=NULL){
@@ -2103,9 +2141,10 @@ IN_LINE void process_got_hook(char* name,Elf_Sym* symbol,char* so_base){
 #endif
         return;
     }
+    old_plt_vaddr = (long) hook_address_helper((void*)old_plt_vaddr);
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
     DEBUG_LOG("HOOK_GOT: 0x%lx --> 0x%lx",old_plt_vaddr,new_addr);
-    dynamic_hook_function((void*)old_plt_vaddr,(void*)new_addr);
+    dynamic_hook_got((void*)old_plt_vaddr,(void*)new_addr);
 }
 
 IN_LINE void process_elf_hook(char* symbol_name,Elf_Sym* symbol,char* so_base){
@@ -2119,6 +2158,7 @@ IN_LINE void process_elf_hook(char* symbol_name,Elf_Sym* symbol,char* so_base){
 #endif
         return;
     }
+    need_modify_vaddr = (long)hook_address_helper((void*)need_modify_vaddr);
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
     DEBUG_LOG("HOOK_ELF: 0x%lx --> 0x%lx",need_modify_vaddr,new_addr);
     dynamic_hook_function((void*)need_modify_vaddr,(void*)new_addr);
@@ -2136,6 +2176,7 @@ IN_LINE void process_call_hook(char* call_addr,Elf_Sym* symbol,char* so_base){
 #endif
         return;
     }
+    need_modify_vaddr = (long)hook_address_helper((void*)need_modify_vaddr);
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
     DEBUG_LOG("HOOK_CALL: 0x%lx --> 0x%lx",need_modify_vaddr,new_addr);
     dynamic_hook_call((void*)need_modify_vaddr,(void*)new_addr);
@@ -2200,11 +2241,37 @@ IN_LINE void init_hook_env(){
     }
 }
 
+static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
+    char black_bins[][20] = {"/bin/sh","/bin/bash","sh","cat","ls"};
+    char* black_bin = NULL;
+    DEBUG_LOG("__hook_dynamic_execve success");
+    for(int i=0;;i++) {
+        black_bin = black_bins[i];
+        if(black_bin == NULL)
+            break;
+        if(my_strstr(path,black_bin)!=NULL) {
+            DEBUG_LOG("__hook_dynamic_execve in blacklist: %s --> %s",path,black_bin);
+            return -1;
+        }
+    }
+    my_execve(path,(char**)argv,(char**)envp);
+    return 0;
+}
+
+IN_LINE void dynamic_hook_process_execve(){
+    char execve_str[] ={"execve"};
+    void* hook_handler = (void*)__hook_dynamic_execve;
+    char* execve_handler = lookup_symbols(execve_str);
+    if(execve_handler==NULL)
+        return;
+    dynamic_hook_function(execve_handler,hook_handler);
+}
+
 IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 
     process_hook((char*)ehdr);
     //dynamic_hook_process_mmap();
-    //dynamic_hook_process_execve();
+    dynamic_hook_process_execve();
 }
 
 
@@ -2238,7 +2305,6 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* thre
     init_hook_env();
     start_io_redirect(target_entry,stack_base);
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
-    //destory_patch_data();
 }
 
 /*total four type hook support
@@ -2321,17 +2387,3 @@ static void __hook_elf_0x8048642(){
 
 
 
-static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
-    char black_bins[][20] = {"/bin/sh","/bin/bash","sh","cat","ls"};
-    char* black_bin = NULL;
-    //my_puts("__hook_dynamic_execve success");
-    for(int i=0;;i++) {
-        black_bin = black_bins[i];
-        if(black_bin == NULL)
-            break;
-        if(my_strstr(path,black_bin)!=NULL)
-            return -1;
-    }
-    //my_execve(path,(char**)argv,(char**)envp);
-    return 0;
-}

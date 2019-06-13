@@ -327,25 +327,25 @@ char* get_file_content_length(char* file,int offset,int len){
 }
 
 void copy_file(char* old_file,char* new_file){
-    int old_file_fd = open(old_file,O_RDONLY);
-    int new_file_fd = open(new_file,O_RDWR|O_TRUNC|O_CREAT);
-    long old_file_size = get_file_size(old_file);
-    ftruncate(new_file_fd,old_file_size);
-    char* old_file_base = (char*)mmap(0,old_file_size,PROT_READ,MAP_PRIVATE,old_file_fd,0);
-    char* new_file_base = (char*)mmap(0,old_file_size,PROT_READ|PROT_WRITE,MAP_SHARED,new_file_fd,0);
-    memcpy(new_file_base,old_file_base,old_file_size);
-    munmap(old_file_base,old_file_size);
-    munmap(new_file_base,old_file_size);
-    close(old_file_fd);
-    close(new_file_fd);
-    printf("Copy %s --> %s\n",old_file,new_file);
+    FILE *op,*inp;
+    op=fopen(old_file,"rb");
+    inp=fopen(new_file,"wb");
+    void *buf;
+    char c;
+    while(!feof(op))
+    {
+        fread(&buf,1,1,op);
+        fwrite(&buf,1,1,inp);
+    }
+    fclose(op);
+    fclose(inp);
 }
 
 
 void open_mmap_check(char* file_name,int mode,int *fd,void** mmap_base,int prot,int flag,long* size){
     *fd = open(file_name,mode);
     if(*fd < 0){
-        printf("unable open file: %s, error:\n",file_name,strerror(errno));
+        printf("unable open file: %s, error:%s\n",file_name,strerror(errno));
         exit(-1);
     }
     long file_size = get_file_size(file_name);
@@ -354,7 +354,7 @@ void open_mmap_check(char* file_name,int mode,int *fd,void** mmap_base,int prot,
     *(mmap_base) = mmap(NULL,file_size,prot,flag,*fd,0);
     *size = file_size;
     if(*(mmap_base) <= 0){
-        printf("unable mmap file: %s, error:\n",file_name,strerror(errno));
+        printf("unable mmap file: %s, error:%s\n",file_name,strerror(errno));
         exit(-1);
     }
 }
@@ -480,7 +480,7 @@ void modify_call_libc_start_main(char* elf_base,long new_function_vaddr,cJSON* c
             }
         }
         else{
-            printf("libc_start_main_addr_type check failed, error, call addr bytes:%lx,%lx,%lx,%lx,%lx",call[0],call[1],call[2],call[3],call[4]);
+            printf("libc_start_main_addr_type check failed, error, call addr bytes:%x,%x,%x,%x,%x",call[0],call[1],call[2],call[3],call[4]);
             exit(-1);
         }
     }
@@ -490,7 +490,7 @@ void modify_call_libc_start_main(char* elf_base,long new_function_vaddr,cJSON* c
             *((int*)(&call[1])) = (int)(new_function_vaddr - 5 - libc_start_main_start_call_vaddr) ;
         }
         else{
-            printf("libc_start_main_addr_type check failed, error, call addr bytes:%lx,%lx,%lx,%lx,%lx,%lx",call[0],call[1],call[2],call[3],call[4],call[5]);
+            printf("libc_start_main_addr_type check failed, error, call addr bytes:%x,%x,%x,%x,%x,%x",call[0],call[1],call[2],call[3],call[4],call[5]);
             exit(-1);
         }
     }
@@ -718,7 +718,7 @@ void padding_elf(char *elf_file){
     char* elf_file_base;
     elf_file_fd = open(elf_file,O_RDONLY);
     if(elf_file_fd < 0){
-        printf("unable open file: %s, error:\n",elf_file,strerror(errno));
+        printf("unable open file: %s, error:%s\n",elf_file,strerror(errno));
         exit(-1);
     }
     long file_size = get_file_size(elf_file);
@@ -726,7 +726,7 @@ void padding_elf(char *elf_file){
         file_size = UP_PADDING(file_size,0x1000);
     elf_file_base = mmap(NULL,file_size,PROT_READ,MAP_PRIVATE,elf_file_fd,0);
     if(elf_file_base <= 0){
-        printf("unable mmap file: %s, error:\n",elf_file,strerror(errno));
+        printf("unable mmap file: %s, error:%s\n",elf_file,strerror(errno));
         exit(-1);
     }
     _padding_elf(elf_file_base,elf_file);
@@ -939,8 +939,8 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
     write(target_fd,&two,sizeof(LOADER_STAGE_TWO));
     write(target_fd,libloader_stage_two_buf,libloader_stage_two_len);
     printf("libloader_stage_two TLV structure values:\n");
-    printf("\tlength:                     0x%lx\n",two.length);
-    printf("\tentry_offset:               0x%lx\n",two.entry_offset);
+    printf("\tlength:                     0x%x\n",two.length);
+    printf("\tentry_offset:               0x%x\n",two.entry_offset);
 
     LOADER_STAGE_THREE three;
     memset(&three,0,sizeof(LOADER_STAGE_THREE));
@@ -967,9 +967,9 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
         three.sandbox_server.sin_family = AF_INET;
     }
     printf("libloader_stage_three TLV structure values:\n");
-    printf("\tentry_offset:                     0x%lx\n",three.entry_offset);
-    printf("\tlength:                           0x%lx\n",three.length);
-    printf("\tfirst_entry_offset:               0x%lx\n",three.first_entry_offset);
+    printf("\tentry_offset:                     0x%x\n",three.entry_offset);
+    printf("\tlength:                           0x%x\n",three.length);
+    printf("\tfirst_entry_offset:               0x%x\n",three.first_entry_offset);
     printf("\tanalysis_server_ip:               %s\n",inet_ntoa(three.analysis_server.sin_addr));
     printf("\tanalysis_server_port:             %d\n",htons(three.analysis_server.sin_port));
     printf("\tsandbox_server_ip:                %s\n",inet_ntoa(three.sandbox_server.sin_addr));
@@ -977,6 +977,14 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
     check_libloader_stage_three(libloader_stage_three);
     write(target_fd,&three,sizeof(LOADER_STAGE_THREE));
     char* libloader_stage_three_content = get_file_content(libloader_stage_three);
+
+
+    unsigned char xor_data[] = {'\x45','\xf8','\x66','\xab','\x55'};
+    unsigned char *encry_data = (unsigned char*)libloader_stage_three_content ;
+    for(int i=0;i<get_file_size(libloader_stage_three);i++){
+        encry_data[i] = encry_data[i] ^ xor_data[i%sizeof(xor_data)];
+    }
+
     write(target_fd,libloader_stage_three_content,get_file_size(libloader_stage_three));
     close_and_munmap(libloader_stage_two,libloader_stage_two_fd,libloader_stage_two_base,&libloader_stage_two_size);
 }
@@ -1119,7 +1127,7 @@ int main(int argc,char* argv[]){
 
     {
         char buf[256];
-        snprintf(buf,255,"0x%lx",first_entry_offset);
+        snprintf(buf,255,"0x%x",first_entry_offset);
         write_marco_define(config_file_fd, "FIRST_ENTRY_OFFSET", buf);
     }
 

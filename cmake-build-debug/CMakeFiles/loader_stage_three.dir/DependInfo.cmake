@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/root/code/HookUtilV3/loader_stage_three.c" "/root/code/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o"
+  "/home/runshine/HookUtilV3/loader_stage_three.c" "/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

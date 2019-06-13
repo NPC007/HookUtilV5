@@ -64,6 +64,7 @@ def start_test_and_verify(source_dir,config_json,test_config_path,input_data):
         print "unknown architecture or bits"
         print elf
         exit(-1)
+    os.system("chmod 755 " + config_json["output_elf"]);
     check_output(config_json["output_elf"],input_data)
     print "test "+test_config_path+" end"
     os.system("ls -ll " + config_json["output_elf"])
@@ -101,14 +102,14 @@ def test_item(source_dir,item):
 
 
 if __name__ == "__main__":
-    test_workspace = "/root/code/HookUtilV3/test"
-    source_dir = "/root/code/HookUtilV3"
-    # for item in os.listdir(test_workspace):
-    #     if item.endswith("_test"):
-    #         print "start test %s",item
-    #         test_item(source_dir,os.path.join(test_workspace,item))
+    test_workspace = "/home/runshine/HookUtilV3/test"
+    source_dir = "/home/runshine/HookUtilV3"
+    for item in os.listdir(test_workspace):
+        if item.endswith("_test"):
+            print "start test %s",item
+            test_item(source_dir,os.path.join(test_workspace,item))
 
 
-    test_item(source_dir,os.path.join(test_workspace,"once_time_test"))
-    test_item(source_dir,os.path.join(test_workspace,"x86_nopie_dynamic_test"))
-    test_item(source_dir,os.path.join(test_workspace,"x86_pie_dynamic_test"))
+    #test_item(source_dir,os.path.join(test_workspace,"once_time_test"))
+    #test_item(source_dir,os.path.join(test_workspace,"x86_nopie_dynamic_test"))
+    #test_item(source_dir,os.path.join(test_workspace,"x86_pie_dynamic_test"))
