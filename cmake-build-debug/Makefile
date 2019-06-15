@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/runshine/HookUtilV3/cmake-build-debug
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/opt/clion-2018.2.5/bin/cmake/linux/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/opt/clion-2018.2.5/bin/cmake/linux/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named loader_stage_three_base
+
+# Build rule for target.
+loader_stage_three_base: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 loader_stage_three_base
+.PHONY : loader_stage_three_base
+
+# fast build rule for target.
+loader_stage_three_base/fast:
+	$(MAKE) -f CMakeFiles/loader_stage_three_base.dir/build.make CMakeFiles/loader_stage_three_base.dir/build
+.PHONY : loader_stage_three_base/fast
+
+#=============================================================================
 # Target rules for targets named loader_stage_three
 
 # Build rule for target.
@@ -124,30 +137,17 @@ loader_stage_three/fast:
 .PHONY : loader_stage_three/fast
 
 #=============================================================================
-# Target rules for targets named generate64
+# Target rules for targets named loader_stage_two
 
 # Build rule for target.
-generate64: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 generate64
-.PHONY : generate64
+loader_stage_two: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 loader_stage_two
+.PHONY : loader_stage_two
 
 # fast build rule for target.
-generate64/fast:
-	$(MAKE) -f CMakeFiles/generate64.dir/build.make CMakeFiles/generate64.dir/build
-.PHONY : generate64/fast
-
-#=============================================================================
-# Target rules for targets named generate32
-
-# Build rule for target.
-generate32: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 generate32
-.PHONY : generate32
-
-# fast build rule for target.
-generate32/fast:
-	$(MAKE) -f CMakeFiles/generate32.dir/build.make CMakeFiles/generate32.dir/build
-.PHONY : generate32/fast
+loader_stage_two/fast:
+	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/build
+.PHONY : loader_stage_two/fast
 
 #=============================================================================
 # Target rules for targets named loader_stage_one
@@ -163,17 +163,56 @@ loader_stage_one/fast:
 .PHONY : loader_stage_one/fast
 
 #=============================================================================
-# Target rules for targets named loader_stage_two
+# Target rules for targets named generate64
 
 # Build rule for target.
-loader_stage_two: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 loader_stage_two
-.PHONY : loader_stage_two
+generate64: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 generate64
+.PHONY : generate64
 
 # fast build rule for target.
-loader_stage_two/fast:
-	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/build
-.PHONY : loader_stage_two/fast
+generate64/fast:
+	$(MAKE) -f CMakeFiles/generate64.dir/build.make CMakeFiles/generate64.dir/build
+.PHONY : generate64/fast
+
+#=============================================================================
+# Target rules for targets named generate_base64
+
+# Build rule for target.
+generate_base64: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 generate_base64
+.PHONY : generate_base64
+
+# fast build rule for target.
+generate_base64/fast:
+	$(MAKE) -f CMakeFiles/generate_base64.dir/build.make CMakeFiles/generate_base64.dir/build
+.PHONY : generate_base64/fast
+
+#=============================================================================
+# Target rules for targets named generate_base32
+
+# Build rule for target.
+generate_base32: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 generate_base32
+.PHONY : generate_base32
+
+# fast build rule for target.
+generate_base32/fast:
+	$(MAKE) -f CMakeFiles/generate_base32.dir/build.make CMakeFiles/generate_base32.dir/build
+.PHONY : generate_base32/fast
+
+#=============================================================================
+# Target rules for targets named generate32
+
+# Build rule for target.
+generate32: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 generate32
+.PHONY : generate32
+
+# fast build rule for target.
+generate32/fast:
+	$(MAKE) -f CMakeFiles/generate32.dir/build.make CMakeFiles/generate32.dir/build
+.PHONY : generate32/fast
 
 cJSON.o: cJSON.c.o
 
@@ -182,6 +221,8 @@ cJSON.o: cJSON.c.o
 # target to build an object file
 cJSON.c.o:
 	$(MAKE) -f CMakeFiles/generate64.dir/build.make CMakeFiles/generate64.dir/cJSON.c.o
+	$(MAKE) -f CMakeFiles/generate_base64.dir/build.make CMakeFiles/generate_base64.dir/cJSON.c.o
+	$(MAKE) -f CMakeFiles/generate_base32.dir/build.make CMakeFiles/generate_base32.dir/cJSON.c.o
 	$(MAKE) -f CMakeFiles/generate32.dir/build.make CMakeFiles/generate32.dir/cJSON.c.o
 .PHONY : cJSON.c.o
 
@@ -192,6 +233,8 @@ cJSON.i: cJSON.c.i
 # target to preprocess a source file
 cJSON.c.i:
 	$(MAKE) -f CMakeFiles/generate64.dir/build.make CMakeFiles/generate64.dir/cJSON.c.i
+	$(MAKE) -f CMakeFiles/generate_base64.dir/build.make CMakeFiles/generate_base64.dir/cJSON.c.i
+	$(MAKE) -f CMakeFiles/generate_base32.dir/build.make CMakeFiles/generate_base32.dir/cJSON.c.i
 	$(MAKE) -f CMakeFiles/generate32.dir/build.make CMakeFiles/generate32.dir/cJSON.c.i
 .PHONY : cJSON.c.i
 
@@ -202,6 +245,8 @@ cJSON.s: cJSON.c.s
 # target to generate assembly for a file
 cJSON.c.s:
 	$(MAKE) -f CMakeFiles/generate64.dir/build.make CMakeFiles/generate64.dir/cJSON.c.s
+	$(MAKE) -f CMakeFiles/generate_base64.dir/build.make CMakeFiles/generate_base64.dir/cJSON.c.s
+	$(MAKE) -f CMakeFiles/generate_base32.dir/build.make CMakeFiles/generate_base32.dir/cJSON.c.s
 	$(MAKE) -f CMakeFiles/generate32.dir/build.make CMakeFiles/generate32.dir/cJSON.c.s
 .PHONY : cJSON.c.s
 
@@ -234,6 +279,36 @@ generate.c.s:
 	$(MAKE) -f CMakeFiles/generate64.dir/build.make CMakeFiles/generate64.dir/generate.c.s
 	$(MAKE) -f CMakeFiles/generate32.dir/build.make CMakeFiles/generate32.dir/generate.c.s
 .PHONY : generate.c.s
+
+generate_base.o: generate_base.c.o
+
+.PHONY : generate_base.o
+
+# target to build an object file
+generate_base.c.o:
+	$(MAKE) -f CMakeFiles/generate_base64.dir/build.make CMakeFiles/generate_base64.dir/generate_base.c.o
+	$(MAKE) -f CMakeFiles/generate_base32.dir/build.make CMakeFiles/generate_base32.dir/generate_base.c.o
+.PHONY : generate_base.c.o
+
+generate_base.i: generate_base.c.i
+
+.PHONY : generate_base.i
+
+# target to preprocess a source file
+generate_base.c.i:
+	$(MAKE) -f CMakeFiles/generate_base64.dir/build.make CMakeFiles/generate_base64.dir/generate_base.c.i
+	$(MAKE) -f CMakeFiles/generate_base32.dir/build.make CMakeFiles/generate_base32.dir/generate_base.c.i
+.PHONY : generate_base.c.i
+
+generate_base.s: generate_base.c.s
+
+.PHONY : generate_base.s
+
+# target to generate assembly for a file
+generate_base.c.s:
+	$(MAKE) -f CMakeFiles/generate_base64.dir/build.make CMakeFiles/generate_base64.dir/generate_base.c.s
+	$(MAKE) -f CMakeFiles/generate_base32.dir/build.make CMakeFiles/generate_base32.dir/generate_base.c.s
+.PHONY : generate_base.c.s
 
 loader_stage_one.o: loader_stage_one.c.o
 
@@ -289,6 +364,33 @@ loader_stage_three.c.s:
 	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/loader_stage_three.c.s
 .PHONY : loader_stage_three.c.s
 
+loader_stage_three_base.o: loader_stage_three_base.c.o
+
+.PHONY : loader_stage_three_base.o
+
+# target to build an object file
+loader_stage_three_base.c.o:
+	$(MAKE) -f CMakeFiles/loader_stage_three_base.dir/build.make CMakeFiles/loader_stage_three_base.dir/loader_stage_three_base.c.o
+.PHONY : loader_stage_three_base.c.o
+
+loader_stage_three_base.i: loader_stage_three_base.c.i
+
+.PHONY : loader_stage_three_base.i
+
+# target to preprocess a source file
+loader_stage_three_base.c.i:
+	$(MAKE) -f CMakeFiles/loader_stage_three_base.dir/build.make CMakeFiles/loader_stage_three_base.dir/loader_stage_three_base.c.i
+.PHONY : loader_stage_three_base.c.i
+
+loader_stage_three_base.s: loader_stage_three_base.c.s
+
+.PHONY : loader_stage_three_base.s
+
+# target to generate assembly for a file
+loader_stage_three_base.c.s:
+	$(MAKE) -f CMakeFiles/loader_stage_three_base.dir/build.make CMakeFiles/loader_stage_three_base.dir/loader_stage_three_base.c.s
+.PHONY : loader_stage_three_base.c.s
+
 loader_stage_two.o: loader_stage_two.c.o
 
 .PHONY : loader_stage_two.o
@@ -322,25 +424,34 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... loader_stage_three_base"
 	@echo "... loader_stage_three"
+	@echo "... edit_cache"
+	@echo "... loader_stage_two"
+	@echo "... loader_stage_one"
 	@echo "... rebuild_cache"
 	@echo "... generate64"
+	@echo "... generate_base64"
+	@echo "... generate_base32"
 	@echo "... generate32"
-	@echo "... edit_cache"
-	@echo "... loader_stage_one"
-	@echo "... loader_stage_two"
 	@echo "... cJSON.o"
 	@echo "... cJSON.i"
 	@echo "... cJSON.s"
 	@echo "... generate.o"
 	@echo "... generate.i"
 	@echo "... generate.s"
+	@echo "... generate_base.o"
+	@echo "... generate_base.i"
+	@echo "... generate_base.s"
 	@echo "... loader_stage_one.o"
 	@echo "... loader_stage_one.i"
 	@echo "... loader_stage_one.s"
 	@echo "... loader_stage_three.o"
 	@echo "... loader_stage_three.i"
 	@echo "... loader_stage_three.s"
+	@echo "... loader_stage_three_base.o"
+	@echo "... loader_stage_three_base.i"
+	@echo "... loader_stage_three_base.s"
 	@echo "... loader_stage_two.o"
 	@echo "... loader_stage_two.i"
 	@echo "... loader_stage_two.s"

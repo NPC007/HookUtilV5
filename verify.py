@@ -113,18 +113,39 @@ def get_record_offset(buffer):
     record_position = int(res[4])
     return record_offset
 
+def usage():
+    print sys.argv[0] +" WORKSPACE ELF_FILE LIBC_PATH"
+    exit(-1)
 
 
 if __name__ == "__main__":
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=LOG_FORMAT)
-    workspace = '/tmp/babyheap/'
-    scan_dir = workspace + 'raw/'
-    verify_success_dir = workspace + 'local_verify_success/'
-    verify_failed_dir = workspace + 'local_verify_failed/'
+    if len(sys.argv)!= 3 and len(sys.argv)!=4:
+        usage()
+    workspace = sys.argv[1]
+    elf_file = sys.argv[2]
+    if elf_file.find("/") == -1:
+        elf_file = "./"+ elf_file
+    if len(sys.argv) == 3:
+        libc_file = None
+    else:
+        libc_file = sys.argv[3]
+        if libc_file.find("/") == -1:
+            libc_file = "./"+libc_file
+    if os.path.isfile(elf_file) == False:
+        print "ELF FILE NOT EXIST: " + elf_file
+        usage()
+    if libc_file != None:
+        if os.path.isfile(libc_file) == False:
+            print "LIC FILE NOT EXIST" + libc_file
+            usage()
+    scan_dir = workspace + '/raw/'
+    verify_success_dir = workspace + '/local_verify_success/'
+    verify_failed_dir = workspace + '/local_verify_failed/'
     if not os.path.exists(scan_dir):
-        logging.info('create scan dir: ' + scan_dir)
-        os.mkdir(scan_dir)
+        print "analysis server should start before"
+        exit(-1)
     if not os.path.exists(verify_success_dir):
         logging.info('create scan dir: ' + verify_success_dir)
         os.mkdir(verify_success_dir)
@@ -142,20 +163,26 @@ if __name__ == "__main__":
             heap_base = 0
             elf_base = 0
             stack_base = 0
-            #con = process(['/opt/HookUtilV2/input_elf'],env={"LD_PRELOAD": "/opt/ctf/2017/0ctf/babyheap/libc.so.6"})
-            con = process('/home/runshine/HookUtilV3/babyheap',env={"LD_PRELOAD":"/home/runshine/HookUtilV3/analysis_repeater_test/write-ups-2017/0ctf-quals-2017/pwn/Baby-Heap-2017-255/libc.so"})
-            # commands = ['break execve', 'commands 1','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
-            #             'break system','commands 2','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
-            #             'catch syscall execve','commands 3','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
-            #             'set follow-fork-mode child',
-            #             'handle SIGSEGV nostop',
-            #             'handle SIGFPE nostop',
-            #             'handle SIGABRT nostop',
-            #             'handle SIGHUP nostop',
-            #             'set disable-randomization on',
-            #             'continue']
-            #gdb_pid = gdb.attach(con,'\n'.join(commands))
-            sleep(0.5)
+            if libc_file == None:
+                print "process: " + elf_file + " libc: None"
+                con = process(elf_file)
+            else:
+                print "process: " + elf_file + " libc: " + libc_file
+                con = process(elf_file,env={"LD_PRELOAD": libc_file})
+            commands = ['break execve', 'commands 1','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
+                        'break system','commands 2','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
+                        'catch syscall execve','commands 3','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
+                        'hbreak execve', 'commands 4','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
+                        'set follow-fork-mode child',
+                        'handle SIGSEGV nostop',
+                        'handle SIGFPE nostop',
+                        'handle SIGABRT nostop',
+                        'handle SIGALRM nostop ignore',
+                        'handle SIGHUP nostop',
+                        'set disable-randomization on',
+                        'continue']
+            gdb_pid = gdb.attach(con,'\n'.join(commands))
+            sleep(2)
             pfile = open(os.path.join(scan_dir,file_name),'r')
             json_datas = json.load(pfile)
             pfile.close()
@@ -217,8 +244,8 @@ if __name__ == "__main__":
             except Exception as e:
                 print e.message
                 exit(-1)
-            con.close()
             sleep(2)
+            con.close()
             if os.path.exists(verify_success_dir+'/'+file_name+'.flag'):
                 logging.info('local verify success')
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_success_dir,file_name))

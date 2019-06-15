@@ -322,18 +322,18 @@ IN_LINE int strcasecmp(const char *s1, const char *s2)
 */
 IN_LINE int my_strcasecmp(const char* s1, const char* s2)
 {
-   char c1, c2;
-   do { c1 = *s1++; c2 = *s2++; }
-   while (c1 && c2 && (__tolower(c1) == __tolower(c2)));
+    char c1, c2;
+    do { c1 = *s1++; c2 = *s2++; }
+    while (c1 && c2 && (__tolower(c1) == __tolower(c2)));
 
     return __tolower(c1) - __tolower(c2);
- }
+}
 
- /*****************************************************************************/
- /* STRNCASECMP() - Case-insensitive strncmp.                                 */
- /*****************************************************************************/
+/*****************************************************************************/
+/* STRNCASECMP() - Case-insensitive strncmp.                                 */
+/*****************************************************************************/
 IN_LINE int my_strncasecmp(const char* s1, const char* s2, size_t n)
- {
+{
     char c1, c2;
 
     if (!n) return 0;
@@ -342,7 +342,7 @@ IN_LINE int my_strncasecmp(const char* s1, const char* s2, size_t n)
     while (--n && c1 && c2 && (__tolower(c1) == __tolower(c2)));
 
     return __tolower(c1) - __tolower(c2);
- }
+}
 
 
 IN_LINE int  my_memcmp(void *dst, void *src,int len){
@@ -1076,7 +1076,7 @@ IN_LINE long my_execve(char* elf,char** arg,char** env){
 }
 
 IN_LINE void* my_mmap(void* addr, size_t length, int prot, int flags,
-                     int fd, off_t offset){
+                      int fd, off_t offset){
     long res = 0;
     asm_mmap((long)addr,(long)length,(long)prot,(long)flags,(long)fd,(long)offset,res);
     return (void*)res;
@@ -1275,7 +1275,7 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
     slot->code_slot_len = 5;
     slot->slot_type = SLOT_FUNCTION;
 
-     ((unsigned char*)slot->code_slot) [0] = '\xE9';//jmp
+    ((unsigned char*)slot->code_slot) [0] = '\xE9';//jmp
     *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))   =  (unsigned int)(((unsigned int)new_function-(unsigned int)slot->code_slot - 5)&0xFFFFFFFF);
 
     ((unsigned char*)old_function) [0] = '\xE9';//jmp
@@ -1343,7 +1343,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
     slot->code_slot_len = 5;
     slot->slot_type = SLOT_FUNCTION;
 
-     ((unsigned char*)slot->code_slot) [0] = '\xE9';//jmp
+    ((unsigned char*)slot->code_slot) [0] = '\xE9';//jmp
     *((unsigned int*)&(((unsigned char*)slot->code_slot) [1]))   =  (unsigned int)(((unsigned int)new_function-(unsigned int)slot->code_slot - 5)&0xFFFFFFFF);
 
     ((unsigned char*)call_addr) [0] = '\xE8';//jmp
@@ -1953,7 +1953,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
 static int g_redirect_io_fd;
 
 
-static int __hook_dynamic_read(int fd,char* buf,ssize_t size){
+static int ____read(int fd,char* buf,ssize_t size){
     int ret = my_read(fd,buf,size);
     char packet[131082];
     int packet_len;
@@ -1972,7 +1972,7 @@ static int __hook_dynamic_read(int fd,char* buf,ssize_t size){
     }
     return ret;
 }
-static int __hook_dynamic_write(int fd,char* buf,ssize_t size){
+static int ____write(int fd,char* buf,ssize_t size){
     int ret = my_write(fd,buf,size);
     char packet[131082];
     int packet_len;
@@ -1994,14 +1994,14 @@ static int __hook_dynamic_write(int fd,char* buf,ssize_t size){
 IN_LINE void dynamic_io_redirect_hook(){
     {
         char read_str[] ={"read"};
-        void* hook_read_handler = (void*)__hook_dynamic_read;
+        void* hook_read_handler = (void*)____read;
         char* read_handler = lookup_symbols(read_str);
         if(read_handler!=NULL)
             dynamic_hook_function(read_handler,hook_read_handler);
     }
     {
         char write_str[] ={"write"};
-        void* hook_write_handler = (void*)__hook_dynamic_write;
+        void* hook_write_handler = (void*)____write;
         char* write_handler = lookup_symbols(write_str);
         if(write_handler!=NULL)
             dynamic_hook_function(write_handler,hook_write_handler);
@@ -2240,7 +2240,7 @@ IN_LINE void init_hook_env(){
         g_patch_code_index = 0;
     }
 }
-
+/*
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
     char black_bins[][20] = {"/bin/sh","/bin/bash","sh","cat","ls"};
     char* black_bin = NULL;
@@ -2265,13 +2265,13 @@ IN_LINE void dynamic_hook_process_execve(){
     if(execve_handler==NULL)
         return;
     dynamic_hook_function(execve_handler,hook_handler);
-}
+}*/
 
 IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 
     process_hook((char*)ehdr);
     //dynamic_hook_process_mmap();
-    dynamic_hook_process_execve();
+    //dynamic_hook_process_execve();
 }
 
 

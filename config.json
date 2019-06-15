@@ -9,9 +9,9 @@
 
   "loader_stage_one_position":"em_frame",
 
-  "data_file_path":"aa.dat",
+  "data_file_path":"/tmp/a",
   "loader_stage_other_position":"file",
-  "loader_stage_other_file_path":"/home/runshine/HookUtilV3/aa.dat",
+  "loader_stage_other_file_path":"/tmp/a",
   "loader_stage_other_file_load_addr":"0x34567000",
   "loader_stage_other_share_memory_id":"123",
   "loader_stage_other_socket_server_ip":"0.0.0.0",

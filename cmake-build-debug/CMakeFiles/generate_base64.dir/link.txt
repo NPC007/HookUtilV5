@@ -1,0 +1,1 @@
+/usr/bin/cc -g  -m64 CMakeFiles/generate_base64.dir/generate_base.c.o CMakeFiles/generate_base64.dir/cJSON.c.o  -o generate_base64 -lm 

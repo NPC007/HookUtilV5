@@ -1051,8 +1051,8 @@ int main(int argc,char* argv[]){
         printf("argument is error, stage: %d\n",stage);
         usage(argv[0]);
     }
-    chdir("/home/runshine/HookUtilV3");
-    char config_file_name[] = {"config.json"};
+    chdir("/tmp");
+    char config_file_name[] = {"/home/runshine/HookUtilV3/ctf_awd/2019_qwb/babyheap/generate_config.json"};
     printf("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){

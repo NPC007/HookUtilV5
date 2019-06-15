@@ -1,7 +1,10 @@
+/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir
 /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_three.dir
+/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_two.dir
+/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_one.dir
 /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/generate64.dir
+/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/generate_base64.dir
+/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/generate_base32.dir
 /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/generate32.dir
-/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_one.dir
-/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_two.dir

@@ -17,6 +17,46 @@
 					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="loader_stage_three_base">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_three_base.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_three_base"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="loader_stage_three_base/fast">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_three_base.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_three_base/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="loader_stage_three">
 				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_three.so" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
@@ -52,6 +92,96 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_three/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="loader_stage_two">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_two.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_two"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="loader_stage_two/fast">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_two.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_two/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="loader_stage_one">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_one.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_one"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="loader_stage_one/fast">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_one.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_one/fast"/>
 					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -107,6 +237,86 @@
 					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="generate_base64">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/generate_base64" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate_base64"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="generate_base64/fast">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/generate_base64" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate_base64/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="generate_base32">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/generate_base32" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate_base32"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="generate_base32/fast">
+				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/generate_base32" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate_base32/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="generate32">
 				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/generate32" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
@@ -147,114 +357,35 @@
 					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="loader_stage_one">
-				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_one.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_one"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="loader_stage_one/fast">
-				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_one.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_one/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="loader_stage_two">
-				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_two.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_two"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="loader_stage_two/fast">
-				<Option output="/home/runshine/HookUtilV3/cmake-build-debug/libloader_stage_two.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/runshine/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_two/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/runshine/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 		</Build>
 		<Unit filename="/home/runshine/HookUtilV3/cJSON.c">
 			<Option target="generate64"/>
+			<Option target="generate_base64"/>
+			<Option target="generate_base32"/>
 			<Option target="generate32"/>
 		</Unit>
 		<Unit filename="/home/runshine/HookUtilV3/cJSON.h">
 			<Option target="generate64"/>
+			<Option target="generate_base64"/>
+			<Option target="generate_base32"/>
 			<Option target="generate32"/>
 		</Unit>
 		<Unit filename="/home/runshine/HookUtilV3/generate.c">
 			<Option target="generate64"/>
 			<Option target="generate32"/>
 		</Unit>
+		<Unit filename="/home/runshine/HookUtilV3/generate_base.c">
+			<Option target="generate_base64"/>
+			<Option target="generate_base32"/>
+		</Unit>
 		<Unit filename="/home/runshine/HookUtilV3/loader_stage_one.c">
 			<Option target="loader_stage_one"/>
 		</Unit>
 		<Unit filename="/home/runshine/HookUtilV3/loader_stage_three.c">
 			<Option target="loader_stage_three"/>
+		</Unit>
+		<Unit filename="/home/runshine/HookUtilV3/loader_stage_three_base.c">
+			<Option target="loader_stage_three_base"/>
 		</Unit>
 		<Unit filename="/home/runshine/HookUtilV3/loader_stage_two.c">
 			<Option target="loader_stage_two"/>
