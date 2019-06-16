@@ -2372,7 +2372,7 @@ static void * __hook_got_0x80484C0(int size){
 }
 
 static void __hook_call_0x8048838(){
-    void(*ori)() = (void(*)())hook_address_helper((void*)0x80486A0);sscanf
+    void(*ori)() = (void(*)())hook_address_helper((void*)0x80486A0);
     my_printf("__hook_call_0x8048838\n");
     ori();
 }

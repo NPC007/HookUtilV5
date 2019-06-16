@@ -739,7 +739,7 @@ void mov_phdr(char* elf_file){
     Elf_Ehdr *ehdr = (Elf_Ehdr*)get_file_content_length(elf_file,0,sizeof(Elf_Ehdr));
     int elf_file_fd;
     char* elf_file_base;
-    padding_elf(elf_file);
+    //padding_elf(elf_file);
     if(ehdr->e_phoff % 0x1000 != 0){
         free(ehdr);
         ehdr = NULL;
@@ -1052,7 +1052,7 @@ int main(int argc,char* argv[]){
         usage(argv[0]);
     }
     chdir("/tmp");
-    char config_file_name[] = {"/home/runshine/HookUtilV3/ctf_awd/2019_qwb/babyheap/generate_config.json"};
+    char config_file_name[] = {"/home/runshine/HookUtilV3/ctf_awd/2019_qwb_real/nvram/generate_config.json"};
     printf("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){
@@ -1210,13 +1210,30 @@ int main(int argc,char* argv[]){
         write_marco_define(config_file_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id);
     }
     else if(strcmp("socket",loader_stage_other_position)==0){
-        printf("not implement,exit!!!");
-        exit(-1);
         write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SOCKET");
         char* loader_stage_other_socket_server_ip = cJSON_GetObjectItem(config,"loader_stage_other_socket_server_ip")->valuestring;
         char* loader_stage_other_socket_server_port = cJSON_GetObjectItem(config,"loader_stage_other_socket_server_port")->valuestring;
-        write_marco_str_define(config_file_fd,"PATCH_DATA_SOCKET_SERVER_IP",loader_stage_other_socket_server_ip);
-        write_marco_define(config_file_fd,"PATCH_DATA_SOCKET_SERVER_PORT",loader_stage_other_socket_server_port);
+        char loader_stage_other_socket_server_ip_str[256];
+        char loader_stage_other_socket_server_port_str[256];
+        struct sockaddr_in addr;
+        inet_aton(loader_stage_other_socket_server_ip,&addr.sin_addr);
+        int port = htons(atoi(loader_stage_other_socket_server_port));
+        sprintf(loader_stage_other_socket_server_ip_str,"%u",addr.sin_addr.s_addr);
+        sprintf(loader_stage_other_socket_server_port_str,"%u",port);
+        write_marco_define(config_file_fd,"PATCH_DATA_SOCKET_SERVER_IP",loader_stage_other_socket_server_ip_str);
+        write_marco_define(config_file_fd,"PATCH_DATA_SOCKET_SERVER_PORT",loader_stage_other_socket_server_port_str);
+
+        if(stage == 2) {
+            char tmp_buf[256];
+            snprintf(tmp_buf, 255, "0x%lx", UP_PADDING(((char *) elf_load_base + get_file_size(output_elf)), 0x1000));
+            snprintf(tmp_buf, 255, "0x%lx", get_file_size(data_file_path));
+            write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
+        }
+        else{
+            write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_SIZE", "0");
+        }
+
+
     }
     else{
         printf("unsupport loader_stage_other_position: %s\n",loader_stage_other_position);

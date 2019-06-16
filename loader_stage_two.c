@@ -115,6 +115,7 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_ba
 
     three_base->patch_data_mmap_code_base = elf_load_base;
     long map_size = 0;
+    long ret = 0;
     Elf_Phdr* phdr = NULL;
     for(int i=0;i<ehdr->e_phnum;i++){
         phdr = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + ehdr->e_phentsize*i);
@@ -139,10 +140,14 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_ba
             }
             else*/
                 {
-                my_mmap( DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000), map_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+                ret = my_mmap( DOWN_PADDING(elf_load_base + phdr->p_vaddr,0x1000), map_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+                if(ret < 0)
+                    return;
             }
             my_memcpy((elf_load_base + phdr->p_vaddr), ((char*)ehdr) + phdr->p_offset,phdr->p_filesz);
-            my_mprotect((void*)(DOWN_PADDING((long)elf_load_base + phdr->p_vaddr,0x1000)),map_size,flag);
+            ret = my_mprotect((void*)(DOWN_PADDING((long)elf_load_base + phdr->p_vaddr,0x1000)),map_size,flag);
+            if(ret < 0)
+                return;
         }
     }
     DEBUG_LOG("stage_two_end");

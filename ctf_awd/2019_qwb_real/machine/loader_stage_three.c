@@ -2049,6 +2049,11 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
             use_file = 1;
         }
     }
+
+#if USE_LOCAL_FILE_INSTEAD_OF_UDP
+    DEBUG_LOG("USE_LOCAL_FILE_INSTEAD_OF_UDP");
+    use_file = 1;
+#endif
     if(use_file == 1){
         my_memset(path,0,sizeof(path));
         my_memset(file_name,0,sizeof(file_name));
@@ -2240,9 +2245,9 @@ IN_LINE void init_hook_env(){
         g_patch_code_index = 0;
     }
 }
-/*
+
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
-    char black_bins[][20] = {"/bin/sh","/bin/bash","sh","cat","ls"};
+    char black_bins[][20] = {"cat flag"};
     char* black_bin = NULL;
     DEBUG_LOG("__hook_dynamic_execve success");
     for(int i=0;;i++) {
@@ -2251,7 +2256,7 @@ static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
             break;
         if(my_strstr(path,black_bin)!=NULL) {
             DEBUG_LOG("__hook_dynamic_execve in blacklist: %s --> %s",path,black_bin);
-            return -1;
+            //return -1;
         }
     }
     my_execve(path,(char**)argv,(char**)envp);
@@ -2264,8 +2269,8 @@ IN_LINE void dynamic_hook_process_execve(){
     char* execve_handler = lookup_symbols(execve_str);
     if(execve_handler==NULL)
         return;
-    dynamic_hook_function(execve_handler,hook_handler);
-}*/
+    //dynamic_hook_function(execve_handler,hook_handler);
+}
 
 IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 
@@ -2303,7 +2308,7 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* thre
     DEBUG_LOG("stack_base is: 0x%lx",stack_base);
     //parent should die before child
     init_hook_env();
-    start_io_redirect(target_entry,stack_base);
+    //start_io_redirect(target_entry,stack_base);
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
 }
 
@@ -2372,7 +2377,7 @@ static void * __hook_got_0x80484C0(int size){
 }
 
 static void __hook_call_0x8048838(){
-    void(*ori)() = (void(*)())hook_address_helper((void*)0x80486A0);sscanf
+    void(*ori)() = (void(*)())hook_address_helper((void*)0x80486A0);
     my_printf("__hook_call_0x8048838\n");
     ori();
 }

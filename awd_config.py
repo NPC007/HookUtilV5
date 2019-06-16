@@ -83,6 +83,7 @@ def analysis_env_init(source_dir,item):
     copyfile(os.path.join(source_dir,"analysis_server.py"),os.path.join(item,"analysis_server.py"))
     copyfile(os.path.join(source_dir,"verify.py"),os.path.join(item,"verify.py"))
     copyfile(os.path.join(source_dir,"repeater.py"),os.path.join(item,"repeater.py"))
+    copyfile(os.path.join(source_dir,"patch_socket_server.py"),os.path.join(item,"patch_socket_server.py"))
 
 
 
@@ -101,8 +102,9 @@ def ctf_patch_item(source_dir,item):
 
 
 if __name__ == "__main__":
-    workspace = "/home/runshine/HookUtilV3/ctf_awd/2019_qwb"
+    workspace = "/home/runshine/HookUtilV3/ctf_awd/2019_qwb_real"
     source_dir = "/home/runshine/HookUtilV3"
     #ctf_patch_item(source_dir,os.path.join(workspace,"babyheap"))
     #ctf_patch_item(source_dir,os.path.join(workspace,"main32"))
-    ctf_patch_item(source_dir,os.path.join(workspace,"main32"))
+    ctf_patch_item(source_dir,os.path.join(workspace,"machine"))
+    ctf_patch_item(source_dir,os.path.join(workspace,"nvram"))

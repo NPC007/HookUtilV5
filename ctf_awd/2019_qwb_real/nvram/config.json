@@ -1,0 +1,33 @@
+{
+  "config.h":"config.h",
+  "libloader_stage_one":"libloader_stage_one.so",
+  "libloader_stage_two":"libloader_stage_two.so",
+  "libloader_stage_three":"libloader_stage_three.so",
+
+  "input_elf":"nvram",
+  "output_elf":"nvram_out",
+
+  "loader_stage_one_position":"new_pt_load",
+
+  "data_file_path":"/home/runshine/HookUtilV3/ctf_awd/2019_qwb_real/machine/patch.data",
+  "loader_stage_other_position":"memory",
+  "loader_stage_other_file_path":"/tmp/1",
+  "loader_stage_other_file_load_addr":"0x34567000",
+  "loader_stage_other_share_memory_id":"123",
+  "loader_stage_other_socket_server_ip":"0",
+  "loader_stage_other_socket_server_port":"0",
+
+  "libc_start_main_addr":"0x603FF0",
+  "libc_start_main_addr_type":"ptr",
+  "libc_start_main_start_call_offset":"0xB44",
+  "libc_start_main_start_call_vaddr":"0x400B44",
+
+  "tcp_time_out":"1",
+  "analysis_server_ip":"0",
+  "analysis_server_port":"0",
+  "shell_password":"!Huawei12#$",
+  "io_inline_hook":"0",
+  "local_file_instead_of_udp":"1",
+  "io_local_save_path":"/tmp/",
+  "debug":"0"
+}
