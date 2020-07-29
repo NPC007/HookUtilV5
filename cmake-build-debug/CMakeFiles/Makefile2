@@ -19,6 +19,9 @@ SUFFIXES =
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Produce verbose output by default.
+VERBOSE = 1
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -53,18 +56,20 @@ CMAKE_BINARY_DIR = /root/CLionProjects/HookUtilV3/cmake-build-debug
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/generate_x32.dir/all
 all: CMakeFiles/loader_stage_three.dir/all
-all: CMakeFiles/loader_stage_two.dir/all
-all: CMakeFiles/generate.dir/all
 all: CMakeFiles/loader_stage_one.dir/all
+all: CMakeFiles/generate_x64.dir/all
+all: CMakeFiles/loader_stage_two.dir/all
 
 .PHONY : all
 
 # The main recursive "clean" target.
+clean: CMakeFiles/generate_x32.dir/clean
 clean: CMakeFiles/loader_stage_three.dir/clean
-clean: CMakeFiles/loader_stage_two.dir/clean
-clean: CMakeFiles/generate.dir/clean
 clean: CMakeFiles/loader_stage_one.dir/clean
+clean: CMakeFiles/generate_x64.dir/clean
+clean: CMakeFiles/loader_stage_two.dir/clean
 
 .PHONY : clean
 
@@ -74,13 +79,40 @@ preinstall:
 .PHONY : preinstall
 
 #=============================================================================
+# Target rules for target CMakeFiles/generate_x32.dir
+
+# All Build rule for target.
+CMakeFiles/generate_x32.dir/all:
+	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/depend
+	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target generate_x32"
+.PHONY : CMakeFiles/generate_x32.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/generate_x32.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/generate_x32.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/generate_x32.dir/rule
+
+# Convenience name for target.
+generate_x32: CMakeFiles/generate_x32.dir/rule
+
+.PHONY : generate_x32
+
+# clean rule for target.
+CMakeFiles/generate_x32.dir/clean:
+	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/clean
+.PHONY : CMakeFiles/generate_x32.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/loader_stage_three.dir
 
 # All Build rule for target.
 CMakeFiles/loader_stage_three.dir/all:
 	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/depend
 	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=6,7 "Built target loader_stage_three"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=9,10 "Built target loader_stage_three"
 .PHONY : CMakeFiles/loader_stage_three.dir/all
 
 # Build rule for subdir invocation for target.
@@ -101,67 +133,13 @@ CMakeFiles/loader_stage_three.dir/clean:
 .PHONY : CMakeFiles/loader_stage_three.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/loader_stage_two.dir
-
-# All Build rule for target.
-CMakeFiles/loader_stage_two.dir/all:
-	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/depend
-	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=8,9 "Built target loader_stage_two"
-.PHONY : CMakeFiles/loader_stage_two.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/loader_stage_two.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/loader_stage_two.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/loader_stage_two.dir/rule
-
-# Convenience name for target.
-loader_stage_two: CMakeFiles/loader_stage_two.dir/rule
-
-.PHONY : loader_stage_two
-
-# clean rule for target.
-CMakeFiles/loader_stage_two.dir/clean:
-	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/clean
-.PHONY : CMakeFiles/loader_stage_two.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/generate.dir
-
-# All Build rule for target.
-CMakeFiles/generate.dir/all:
-	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/depend
-	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target generate"
-.PHONY : CMakeFiles/generate.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/generate.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 3
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/generate.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/generate.dir/rule
-
-# Convenience name for target.
-generate: CMakeFiles/generate.dir/rule
-
-.PHONY : generate
-
-# clean rule for target.
-CMakeFiles/generate.dir/clean:
-	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/clean
-.PHONY : CMakeFiles/generate.dir/clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/loader_stage_one.dir
 
 # All Build rule for target.
 CMakeFiles/loader_stage_one.dir/all:
 	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/depend
 	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=4,5 "Built target loader_stage_one"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=7,8 "Built target loader_stage_one"
 .PHONY : CMakeFiles/loader_stage_one.dir/all
 
 # Build rule for subdir invocation for target.
@@ -180,6 +158,60 @@ loader_stage_one: CMakeFiles/loader_stage_one.dir/rule
 CMakeFiles/loader_stage_one.dir/clean:
 	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/clean
 .PHONY : CMakeFiles/loader_stage_one.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/generate_x64.dir
+
+# All Build rule for target.
+CMakeFiles/generate_x64.dir/all:
+	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/depend
+	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=4,5,6 "Built target generate_x64"
+.PHONY : CMakeFiles/generate_x64.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/generate_x64.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/generate_x64.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/generate_x64.dir/rule
+
+# Convenience name for target.
+generate_x64: CMakeFiles/generate_x64.dir/rule
+
+.PHONY : generate_x64
+
+# clean rule for target.
+CMakeFiles/generate_x64.dir/clean:
+	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/clean
+.PHONY : CMakeFiles/generate_x64.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/loader_stage_two.dir
+
+# All Build rule for target.
+CMakeFiles/loader_stage_two.dir/all:
+	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/depend
+	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=11,12 "Built target loader_stage_two"
+.PHONY : CMakeFiles/loader_stage_two.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/loader_stage_two.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/loader_stage_two.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/loader_stage_two.dir/rule
+
+# Convenience name for target.
+loader_stage_two: CMakeFiles/loader_stage_two.dir/rule
+
+.PHONY : loader_stage_two
+
+# clean rule for target.
+CMakeFiles/loader_stage_two.dir/clean:
+	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/clean
+.PHONY : CMakeFiles/loader_stage_two.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

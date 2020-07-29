@@ -1,0 +1,1 @@
+/usr/bin/cc -g  -m64 CMakeFiles/generate_x64.dir/generate.c.o CMakeFiles/generate_x64.dir/cJSON.c.o  -o generate_x64 -lm -lcapstone 

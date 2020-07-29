@@ -2,10 +2,11 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
+      <config projectName="HookUtilV3" targetName="loader_stage_one" />
       <config projectName="HookUtilV3" targetName="loader_stage_two" />
       <config projectName="HookUtilV3" targetName="loader_stage_three" />
-      <config projectName="HookUtilV3" targetName="loader_stage_one" />
-      <config projectName="HookUtilV3" targetName="generate" />
+      <config projectName="HookUtilV3" targetName="generate_x32" />
+      <config projectName="HookUtilV3" targetName="generate_x64" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -15,101 +16,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/arch/common/arch.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arch/common/syscall.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/common.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/md5.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/arch/amd64/loader.s" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arch/i386/loader.s" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/config.json.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aa.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.12.3/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.12.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.12.3/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.12.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.12.3/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto_generate/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/auto_generate/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/autotest_32_pie_dynamic_out" beforeDir="false" afterPath="$PROJECT_DIR$/autotest_32_pie_dynamic_out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/babyheap_out" beforeDir="false" afterPath="$PROJECT_DIR$/babyheap_out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base32.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_base64.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/generate.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/generate.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/loader_stage_two.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/loader_stage_two.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/progress.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/generate" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/generate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/generate32" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/generate32" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/auto_generate/config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_one.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_one.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_three.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_three.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_two.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_two.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/generate.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_base.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_tmp.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook.h" beforeDir="false" afterPath="$PROJECT_DIR$/hook.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hook.makefile" beforeDir="false" afterPath="$PROJECT_DIR$/hook.makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libhook.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libloader.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libloader_stage_one.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libloader_stage_three.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libloader_stage_two.so" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/loader_stage_one.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_one.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_stage_three.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_three.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_stage_three_base.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_stage_two.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_two.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_x64.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/amd64/loader_x64.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_x86.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/i386/loader_x86.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/md5.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/x64_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/amd64/x64_syscall.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/x86_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/i386/x86_syscall.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/generate" beforeDir="false" afterPath="$PROJECT_DIR$/out/generate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/libloader_stage_one.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_one.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/libloader_stage_three.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_three.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/libloader_stage_two.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_two.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/common.h" beforeDir="false" afterPath="$PROJECT_DIR$/utils/common.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,9 +74,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="OCResolveContextSettings">
-    <option name="configuration" value="0-Debug-loader_stage_three" />
-  </component>
   <component name="ProjectId" id="1dby43Q1sRKztjqnIlI1WUfabEv" />
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -182,18 +122,38 @@
       <recent name="$PROJECT_DIR$/ctf_awd/2019_qwb/babyheap" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.generate_1">
+  <component name="RunManager" selected="CMake Application.generate_2_32">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="generate_1" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="1 $PROJECT_DIR$/out/config.json" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate">
+    <configuration name="generate_1_32" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="1 $PROJECT_DIR$/out/config.json" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate_x32" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate_x32">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="generate_2" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="2 $PROJECT_DIR$/out/config.json" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate">
+    <configuration name="generate_1_64" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="1 $PROJECT_DIR$/out/config.json" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate_x64" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate_x64">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="generate_2_32" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="2 $PROJECT_DIR$/out/config.json" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate_x32" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate_x32">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="generate_2_64" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="2 $PROJECT_DIR$/out/config.json" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate_x32" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate_x32">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="generate_x32" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate_x32" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate_x32">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="generate_x64" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="generate_x64" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate_x64">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -320,8 +280,12 @@
     </configuration>
     <list>
       <item itemvalue="CMake Application.Build All" />
-      <item itemvalue="CMake Application.generate_1" />
-      <item itemvalue="CMake Application.generate_2" />
+      <item itemvalue="CMake Application.generate_1_64" />
+      <item itemvalue="CMake Application.generate_1_32" />
+      <item itemvalue="CMake Application.generate_2_32" />
+      <item itemvalue="CMake Application.generate_2_64" />
+      <item itemvalue="CMake Application.generate_x32" />
+      <item itemvalue="CMake Application.generate_x64" />
       <item itemvalue="CMake Application.loader_stage_one" />
       <item itemvalue="CMake Application.loader_stage_three" />
       <item itemvalue="CMake Application.loader_stage_two" />
@@ -386,7 +350,7 @@
       <workItem from="1595598687991" duration="9751000" />
       <workItem from="1595684562669" duration="1519000" />
       <workItem from="1595723173070" duration="1142000" />
-      <workItem from="1595946233061" duration="6538000" />
+      <workItem from="1595946233061" duration="15165000" />
     </task>
     <servers />
   </component>
@@ -394,14 +358,14 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="425" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1595605414633">
+    <state x="425" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1596024259140">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="425" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1595605414633" />
-    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1595947055246">
+    <state x="425" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1596024259140" />
+    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596029203579">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1440@0.0.2560.1440" timestamp="1595947055246" />
+    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1440@0.0.2560.1440" timestamp="1596029203579" />
     <state x="966" y="450" key="#loader_stage_one" timestamp="1595518304055">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -418,38 +382,38 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="1038" y="470" key="FileChooserDialogImpl/0.0.2560.1440@0.0.2560.1440" timestamp="1595506585901" />
-    <state width="1958" height="423" key="GridCell.Tab.0.bottom" timestamp="1595947225934">
+    <state width="2518" height="463" key="GridCell.Tab.0.bottom" timestamp="1596025655096">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="1958" height="423" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1595947225934" />
-    <state width="1958" height="423" key="GridCell.Tab.0.center" timestamp="1595947225928">
+    <state width="2518" height="463" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1596025655096" />
+    <state width="2518" height="463" key="GridCell.Tab.0.center" timestamp="1596025655090">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="1958" height="423" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1595947225928" />
-    <state width="1958" height="423" key="GridCell.Tab.0.left" timestamp="1595947225924">
+    <state width="2518" height="463" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1596025655090" />
+    <state width="2518" height="463" key="GridCell.Tab.0.left" timestamp="1596025655085">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="1958" height="423" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1595947225924" />
-    <state width="1958" height="423" key="GridCell.Tab.0.right" timestamp="1595947225931">
+    <state width="2518" height="463" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1596025655085" />
+    <state width="2518" height="463" key="GridCell.Tab.0.right" timestamp="1596025655093">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="1958" height="423" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1595947225931" />
-    <state width="1291" height="560" key="GridCell.Tab.1.bottom" timestamp="1595606025091">
+    <state width="2518" height="463" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1596025655093" />
+    <state width="2518" height="564" key="GridCell.Tab.1.bottom" timestamp="1596024741655">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="1291" height="560" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1595606025091" />
-    <state width="1291" height="560" key="GridCell.Tab.1.center" timestamp="1595606025086">
+    <state width="2518" height="564" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1596024741655" />
+    <state width="2518" height="564" key="GridCell.Tab.1.center" timestamp="1596024741651">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="1291" height="560" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1595606025086" />
-    <state width="1291" height="560" key="GridCell.Tab.1.left" timestamp="1595606025083">
+    <state width="2518" height="564" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1596024741651" />
+    <state width="2518" height="564" key="GridCell.Tab.1.left" timestamp="1596024741649">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="1291" height="560" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1595606025083" />
-    <state width="1291" height="560" key="GridCell.Tab.1.right" timestamp="1595606025088">
+    <state width="2518" height="564" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1596024741649" />
+    <state width="2518" height="564" key="GridCell.Tab.1.right" timestamp="1596024741653">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="1291" height="560" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1595606025088" />
+    <state width="2518" height="564" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1596024741653" />
     <state x="774" y="361" key="SettingsEditor" timestamp="1595506599598">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -478,13 +442,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/loader_stage_one.c</url>
-          <line>75</line>
+          <line>73</line>
           <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>1060</line>
-          <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
@@ -508,23 +467,33 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>980</line>
+          <line>993</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>1035</line>
+          <line>1049</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>927</line>
+          <line>940</line>
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>974</line>
+          <line>987</line>
           <option name="timeStamp" value="98" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/generate.c</url>
+          <line>1152</line>
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/generate.c</url>
+          <line>1074</line>
+          <option name="timeStamp" value="102" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/auto_test.py</url>

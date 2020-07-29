@@ -44,8 +44,9 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/generate_x32.dir/DependInfo.cmake"
   "CMakeFiles/loader_stage_three.dir/DependInfo.cmake"
-  "CMakeFiles/loader_stage_two.dir/DependInfo.cmake"
-  "CMakeFiles/generate.dir/DependInfo.cmake"
   "CMakeFiles/loader_stage_one.dir/DependInfo.cmake"
+  "CMakeFiles/generate_x64.dir/DependInfo.cmake"
+  "CMakeFiles/loader_stage_two.dir/DependInfo.cmake"
   )

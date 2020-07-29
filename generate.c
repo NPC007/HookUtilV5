@@ -132,12 +132,12 @@ void copy_file(char* old_file,char* new_file){
         printf("Failed to copy file\n");
         exit(-1);
     }
-    void *buf;
+    char buf[4096];
+    int ret = 0;
     char c;
-    while(!feof(op))
+    while((ret = fread(buf,sizeof(char),sizeof(buf),op))!=0)
     {
-        fread(&buf,1,1,op);
-        fwrite(&buf,1,1,inp);
+        fwrite(buf,sizeof(char),ret,inp);
     }
     fclose(op);
     fclose(inp);
@@ -342,6 +342,10 @@ void add_stage_one_code_to_em_frame(char* libloader_stage_one,char* output_elf,i
     Elf_Shdr* eh_frame_shdr = get_elf_section_by_name(".eh_frame",output_elf_base);
     if(eh_frame_shdr==NULL){
         printf("file:%s have no eh_frame, change first stage code to another place\n",output_elf);
+        exit(-1);
+    }
+    if(eh_frame_shdr->sh_size < len){
+        printf("file:%s eh_frame section is too small, change first stage code to another place\n",output_elf);
         exit(-1);
     }
 
@@ -558,7 +562,7 @@ void mov_phdr(char* elf_file){
     Elf_Ehdr *ehdr = (Elf_Ehdr*)get_file_content_length(elf_file,0,sizeof(Elf_Ehdr));
     int elf_file_fd;
     char* elf_file_base;
-    //padding_elf(elf_file);
+    padding_elf(elf_file);
     if(ehdr->e_phoff % 0x1000 != 0){
         free(ehdr);
         ehdr = NULL;
@@ -811,7 +815,7 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
 }
 
 
-void add_content_to_elf_pt_load(char* output_elf,char* content,int length){
+unsigned long add_content_to_elf_pt_load(char* output_elf,char* content,int length){
     int output_file_size = get_file_size(output_elf);
     if(output_file_size%0x1000!=0){
         output_file_size = UP_PADDING(output_file_size,0x1000);
@@ -836,12 +840,15 @@ void add_content_to_elf_pt_load(char* output_elf,char* content,int length){
     open_mmap_check(output_elf,O_RDWR,&output_elf_fd,(void**)&output_elf_base,PROT_READ|PROT_WRITE,MAP_SHARED,&output_elf_size);
     memcpy((char*)output_elf_base+output_file_size,content,length);
     close_and_munmap(output_elf,output_elf_fd,output_elf_base,&output_elf_size);
+    return output_elf_load_base+output_file_size;
 }
 
-void add_file_content_to_elf_pt_load(char* output_elf,char* file_name){
+
+unsigned long add_file_content_to_elf_pt_load(char* output_elf,char* file_name){
     char* content = get_file_content(file_name);
-    add_content_to_elf_pt_load(output_elf,content,get_file_size(file_name));
+    unsigned long file_contecnt_vaddr = add_content_to_elf_pt_load(output_elf,content,get_file_size(file_name));
     free(content);
+    return file_contecnt_vaddr;
 }
 
 
@@ -907,8 +914,14 @@ void process_start_function(char* output_elf,cJSON* config){
         }
         printf("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[0].address, insn[0].mnemonic,insn[0].op_str);
         if(strncasecmp(insn[0].mnemonic,"CALL",5) ==0 || strncasecmp(insn[0].mnemonic,"BLX",4) ==0|| strncasecmp(insn[0].mnemonic,"BL",3) == 0){
-            printf("find start call libc_start_main\n");
-            break;
+            unsigned char* call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1]))),(Elf_Ehdr*)output_elf_base));
+            if(call[0] == 0x8B && call[2] == 0x24 && call[3] == 0xc3){
+                printf("find __x86.get_pc_thunk\n");
+            }
+            else {
+                printf("find start call libc_start_main\n");
+                break;
+            }
         }
         start_function += insn[0].size;
         total_diassember_size -= insn[0].size;
@@ -986,6 +999,7 @@ int main(int argc,char* argv[]){
         printf("argument is error, stage: %d\n",stage);
         usage(argv[0]);
     }
+    int phdr_has_moved = 0;
     //chdir("/tmp");
     char* config_file_name = argv[2];
     printf("config file: %s\n",config_file_name);
@@ -1059,6 +1073,7 @@ int main(int argc,char* argv[]){
             add_stage_one_code_to_em_frame(libloader_stage_one, output_elf, &first_entry_offset,&elf_load_base,config);
         } else if (strcmp("new_pt_load", loader_stage_one_position) == 0) {
             mov_phdr(output_elf);
+            phdr_has_moved = 1;
             add_stage_one_code_to_new_pt_load(libloader_stage_one, output_elf, &first_entry_offset,&elf_load_base,config);
         } else {
             printf("unsupport loader_stage_one_position: %s\n", loader_stage_one_position);
@@ -1128,19 +1143,20 @@ int main(int argc,char* argv[]){
         }
     }
     else if(strcmp("memory",loader_stage_other_position)==0){
-        if(strcmp(loader_stage_one_position,"new_pt_load")!=0){
-            printf("when loader_stage_other_position is [memory],loader_stage_one_position must be [new_pt_load]");
-            exit(-1);
-        }
+        if(!phdr_has_moved)
+            mov_phdr(output_elf);
         write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_MEM");
         if(stage == 2){
             char tmp_buf[256];
             snprintf(tmp_buf, 255, "0x%lx", get_file_size(data_file_path));
             write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
-            add_file_content_to_elf_pt_load(output_elf,data_file_path);
+            unsigned long loader_stage_other_vaddr = add_file_content_to_elf_pt_load(output_elf,data_file_path);
+            snprintf(tmp_buf, 255, "0x%lx", loader_stage_other_vaddr);
+            write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_VADDR", tmp_buf);
         }
         else if (stage == 1){
             write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_SIZE", "0");
+            write_marco_define(config_file_fd, "PATCH_DATA_MMAP_FILE_VADDR", "0");
         }
     }
     else if(strcmp("share_memory",loader_stage_other_position)==0){

@@ -15,8 +15,6 @@
 #include "arch/common/arch.h"
 
 
-START();
-
 #ifdef PATCH_DEBUG
 static int my_strlen(const char *src){
     int i = 0;
@@ -26,7 +24,7 @@ static int my_strlen(const char *src){
 }
 static void my_puts(const char* str){
     long res;
-    char end[] = {"\n"};
+    char end[] = {'\n'};
     asm_write(1,str,my_strlen(str),res);
     asm_write(1,end,1,res);
 }
@@ -35,7 +33,7 @@ static void my_puts(const char* str){
 
 #if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
 
-static unsigned long __loader_start(LIBC_START_MAIN_ARG, void* first_instruction){
+unsigned long __loader_start(LIBC_START_MAIN_ARG, void* first_instruction){
     char patch_data[] = {PATCH_DATA_PATH};
     long patch_fd = 0;
     long res = 0;
@@ -73,17 +71,24 @@ static unsigned long __loader_start(LIBC_START_MAIN_ARG, void* first_instruction
 
 
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_MEM)
-static unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
+unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
     DEBUG_LOG("__loader_start from memory");
-    void* base = (void*)DOWN_PADDING((long)first_instruction,0x1000)+0x1000;
+#if(IS_PIE == 0)
+    void* base = (void*)PATCH_DATA_MMAP_FILE_VADDR;
+#elif(IS_PIE == 1)
+    void* base = (char*)DOWN_PADDING((char*)first_instruction - FIRST_ENTRY_OFFSET,0x1000) + PATCH_DATA_MMAP_FILE_VADDR;
+#else
+#error "Unknown IS_PIE"
+#endif
+
     void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*,void*))(base+sizeof(LOADER_STAGE_TWO)+((LOADER_STAGE_TWO*)(base))->entry_offset);
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,first_instruction,(void*)base);
 #if(IS_PIE == 0)
     #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
     return *(unsigned long*)LIB_C_START_MAIN_ADDR;
-#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+    #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
     return LIB_C_START_MAIN_ADDR;
-#endif
+    #endif
 #elif(IS_PIE == 1)
     char *g_elf_base = (char*)DOWN_PADDING((char*)first_instruction - FIRST_ENTRY_OFFSET,0x1000);
 #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
@@ -98,7 +103,7 @@ static unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction
 
 
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SHARE_MEM)
-static unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
+unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
     failed_load_patch:
 #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
     return *(long*)LIB_C_START_MAIN_ADDR;
@@ -107,7 +112,7 @@ static unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction
 #endif
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SOCKET)
-static unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
+unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* first_instruction){
     if(((long)first_instruction / 0x1000) %10 ==0)
         goto failed_load_patch;
     long patch_fd = 0;

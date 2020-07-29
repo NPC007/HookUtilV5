@@ -5,11 +5,16 @@ set(CMAKE_C_STANDARD 11)
 
 include_directories(.)
 
-set(CMAKE_VERBOSE_MAKEFILE OFF)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_BUILD_TYPE Debug)
 
-add_executable(generate generate.c cJSON.c cJSON.h)
-target_link_libraries(generate m capstone)
+add_executable(generate_x32 generate.c cJSON.c cJSON.h)
+target_link_libraries(generate_x32 m capstone)
+set_target_properties(generate_x32 PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
+
+add_executable(generate_x64 generate.c cJSON.c cJSON.h)
+target_link_libraries(generate_x64 m capstone)
+set_target_properties(generate_x64 PROPERTIES COMPILE_FLAGS "-m64" LINK_FLAGS "-m64")
 
 add_library(loader_stage_one SHARED loader_stage_one.c)
 set_target_properties(loader_stage_one PROPERTIES COMPILE_FLAGS "-O0" LINK_FLAGS "-nostartfiles -nodefaultlibs -nostdlib")

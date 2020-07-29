@@ -1,0 +1,1 @@
+/usr/bin/cc -g  -m32 CMakeFiles/generate_x32.dir/generate.c.o CMakeFiles/generate_x32.dir/cJSON.c.o  -o generate_x32 -lm -lcapstone 

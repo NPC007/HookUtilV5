@@ -1,18 +1,14 @@
 {
   "project_root":"/root/CLionProjects/HookUtilV3/",
 
-  "input_elf":"autotest_32_pie_dynamic",
-  "output_elf":"autotest_32_pie_dynamic_out",
+  "input_elf":"babyheap",
+  "output_elf":"babyheap_out",
+
 
   "loader_stage_one_position":"new_pt_load",
 
-  "data_file_path":"/tmp/a",
-  "loader_stage_other_position":"memory",
-  "loader_stage_other_file_path":"new_pt_load",
-  "loader_stage_other_file_load_addr":"0x34567000",
-  "loader_stage_other_share_memory_id":"123",
-  "loader_stage_other_socket_server_ip":"0.0.0.0",
-  "loader_stage_other_socket_server_port":"80",
+  "loader_stage_other_position":"file",
+  "loader_stage_other_file_path":"/tmp/data_file_unchanged",
 
 
   "tcp_time_out":"1",
@@ -22,5 +18,6 @@
   "io_inline_hook":"0",
   "local_file_instead_of_udp":"1",
   "io_local_save_path":"/tmp/",
-  "debug":"1"
+  "debug":"1",
+  "data_file_path":"/tmp/data_file_unchanged"
 }
