@@ -1,1 +1,1 @@
-/usr/bin/cc -fPIC -g  -shared -Wl,-soname,libloader_stage_three.so -o libloader_stage_three.so CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o 
+/usr/bin/cc -fPIC -g -nostartfiles -nodefaultlibs -nostdlib -shared -Wl,-soname,libloader_stage_three.so -o libloader_stage_three.so CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o 

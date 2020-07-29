@@ -3,7 +3,7 @@
 
 #include <elf.h>
 #include <link.h>
-#include "config.h"
+#include "auto_generate/config.h"
 #include <netinet/in.h>
 
 #define Elf_Ehdr ElfW(Ehdr)

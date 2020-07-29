@@ -13,6 +13,10 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <capstone/capstone.h>
+
+#include "utils/common.h"
+#include "utils/md5.h"
 
 
 //#define UP_PADDING(X,Y)  ((long)(((long)X/Y+1)*Y))
@@ -67,212 +71,6 @@ Elf_Phdr* get_elf_phdr_type(void* elf_base,int type){
             return phdr;
     }
     return NULL;
-}
-
-typedef struct
-{
-    unsigned int count[2];
-    unsigned int state[4];
-    unsigned char buffer[64];
-}MD5_CTX;
-
-
-#define F(x,y,z) ((x & y) | (~x & z))
-#define G(x,y,z) ((x & z) | (y & ~z))
-#define H(x,y,z) (x^y^z)
-#define I(x,y,z) (y ^ (x | ~z))
-#define ROTATE_LEFT(x,n) ((x << n) | (x >> (32-n)))
-#define FF(a,b,c,d,x,s,ac) \
-{ \
-	a += F(b,c,d) + x + ac; \
-	a = ROTATE_LEFT(a,s); \
-	a += b; \
-}
-#define GG(a,b,c,d,x,s,ac) \
-{ \
-	a += G(b,c,d) + x + ac; \
-	a = ROTATE_LEFT(a,s); \
-	a += b; \
-}
-#define HH(a,b,c,d,x,s,ac) \
-{ \
-	a += H(b,c,d) + x + ac; \
-	a = ROTATE_LEFT(a,s); \
-	a += b; \
-}
-#define II(a,b,c,d,x,s,ac) \
-{ \
-	a += I(b,c,d) + x + ac; \
-	a = ROTATE_LEFT(a,s); \
-	a += b; \
-}
-
-
-
-static unsigned char PADDING[]={0x80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-
-void MD5Init(MD5_CTX *context)
-{
-    context->count[0] = 0;
-    context->count[1] = 0;
-    context->state[0] = 0x12345678;
-    context->state[1] = 0xEFDACB89;
-    context->state[2] = 0xA8ADDCFE;
-    context->state[3] = 0x1A325476;
-}
-
-
-void MD5Encode(unsigned char *output,unsigned int *input,unsigned int len)
-{
-    unsigned int i = 0,j = 0;
-    while(j < len)
-    {
-        output[j] = input[i] & 0xFF;
-        output[j+1] = (input[i] >> 8) & 0xFF;
-        output[j+2] = (input[i] >> 16) & 0xFF;
-        output[j+3] = (input[i] >> 24) & 0xFF;
-        i++;
-        j+=4;
-    }
-}
-
-void MD5Decode(unsigned int *output,unsigned char *input,unsigned int len)
-{
-    unsigned int i = 0,j = 0;
-    while(j < len)
-    {
-        output[i] = (input[j]) |
-                    (input[j+1] << 8) |
-                    (input[j+2] << 16) |
-                    (input[j+3] << 24);
-        i++;
-        j+=4;
-    }
-}
-
-void MD5Transform(unsigned int state[4],unsigned char block[64])
-{
-    unsigned int a = state[0];
-    unsigned int b = state[1];
-    unsigned int c = state[2];
-    unsigned int d = state[3];
-    unsigned int x[64];
-    memset((void*)x,0,64);
-    MD5Decode(x,block,64);
-    FF(a, b, c, d, x[ 0], 7, 0xd76aa478); /* 1 */
-    FF(d, a, b, c, x[ 1], 12, 0xe8c7b756); /* 2 */
-    FF(c, d, a, b, x[ 2], 17, 0x242070db); /* 3 */
-    FF(b, c, d, a, x[ 3], 22, 0xc1bdceee); /* 4 */
-    FF(a, b, c, d, x[ 4], 7, 0xf57c0faf); /* 5 */
-    FF(d, a, b, c, x[ 5], 12, 0x4787c62a); /* 6 */
-    FF(c, d, a, b, x[ 6], 17, 0xa8304613); /* 7 */
-    FF(b, c, d, a, x[ 7], 22, 0xfd469501); /* 8 */
-    FF(a, b, c, d, x[ 8], 7, 0x698098d8); /* 9 */
-    FF(d, a, b, c, x[ 9], 12, 0x8b44f7af); /* 10 */
-    FF(c, d, a, b, x[10], 17, 0xffff5bb1); /* 11 */
-    FF(b, c, d, a, x[11], 22, 0x895cd7be); /* 12 */
-    FF(a, b, c, d, x[12], 7, 0x6b901122); /* 13 */
-    FF(d, a, b, c, x[13], 12, 0xfd987193); /* 14 */
-    FF(c, d, a, b, x[14], 17, 0xa679438e); /* 15 */
-    FF(b, c, d, a, x[15], 22, 0x49b40821); /* 16 */
-
-    /* Round 2 */
-    GG(a, b, c, d, x[ 1], 5, 0xf61e2562); /* 17 */
-    GG(d, a, b, c, x[ 6], 9, 0xc040b340); /* 18 */
-    GG(c, d, a, b, x[11], 14, 0x265e5a51); /* 19 */
-    GG(b, c, d, a, x[ 0], 20, 0xe9b6c7aa); /* 20 */
-    GG(a, b, c, d, x[ 5], 5, 0xd62f105d); /* 21 */
-    GG(d, a, b, c, x[10], 9,  0x2441453); /* 22 */
-    GG(c, d, a, b, x[15], 14, 0xd8a1e681); /* 23 */
-    GG(b, c, d, a, x[ 4], 20, 0xe7d3fbc8); /* 24 */
-    GG(a, b, c, d, x[ 9], 5, 0x21e1cde6); /* 25 */
-    GG(d, a, b, c, x[14], 9, 0xc33707d6); /* 26 */
-    GG(c, d, a, b, x[ 3], 14, 0xf4d50d87); /* 27 */
-    GG(b, c, d, a, x[ 8], 20, 0x455a14ed); /* 28 */
-    GG(a, b, c, d, x[13], 5, 0xa9e3e905); /* 29 */
-    GG(d, a, b, c, x[ 2], 9, 0xfcefa3f8); /* 30 */
-    GG(c, d, a, b, x[ 7], 14, 0x676f02d9); /* 31 */
-    GG(b, c, d, a, x[12], 20, 0x8d2a4c8a); /* 32 */
-
-    /* Round 3 */
-    HH(a, b, c, d, x[ 5], 4, 0xfffa3942); /* 33 */
-    HH(d, a, b, c, x[ 8], 11, 0x8771f681); /* 34 */
-    HH(c, d, a, b, x[11], 16, 0x6d9d6122); /* 35 */
-    HH(b, c, d, a, x[14], 23, 0xfde5380c); /* 36 */
-    HH(a, b, c, d, x[ 1], 4, 0xa4beea44); /* 37 */
-    HH(d, a, b, c, x[ 4], 11, 0x4bdecfa9); /* 38 */
-    HH(c, d, a, b, x[ 7], 16, 0xf6bb4b60); /* 39 */
-    HH(b, c, d, a, x[10], 23, 0xbebfbc70); /* 40 */
-    HH(a, b, c, d, x[13], 4, 0x289b7ec6); /* 41 */
-    HH(d, a, b, c, x[ 0], 11, 0xeaa127fa); /* 42 */
-    HH(c, d, a, b, x[ 3], 16, 0xd4ef3085); /* 43 */
-    HH(b, c, d, a, x[ 6], 23,  0x4881d05); /* 44 */
-    HH(a, b, c, d, x[ 9], 4, 0xd9d4d039); /* 45 */
-    HH(d, a, b, c, x[12], 11, 0xe6db99e5); /* 46 */
-    HH(c, d, a, b, x[15], 16, 0x1fa27cf8); /* 47 */
-    HH(b, c, d, a, x[ 2], 23, 0xc4ac5665); /* 48 */
-
-    /* Round 4 */
-    II(a, b, c, d, x[ 0], 6, 0xf4292244); /* 49 */
-    II(d, a, b, c, x[ 7], 10, 0x432aff97); /* 50 */
-    II(c, d, a, b, x[14], 15, 0xab9423a7); /* 51 */
-    II(b, c, d, a, x[ 5], 21, 0xfc93a039); /* 52 */
-    II(a, b, c, d, x[12], 6, 0x655b59c3); /* 53 */
-    II(d, a, b, c, x[ 3], 10, 0x8f0ccc92); /* 54 */
-    II(c, d, a, b, x[10], 15, 0xffeff47d); /* 55 */
-    II(b, c, d, a, x[ 1], 21, 0x85845dd1); /* 56 */
-    II(a, b, c, d, x[ 8], 6, 0x6fa87e4f); /* 57 */
-    II(d, a, b, c, x[15], 10, 0xfe2ce6e0); /* 58 */
-    II(c, d, a, b, x[ 6], 15, 0xa3014314); /* 59 */
-    II(b, c, d, a, x[13], 21, 0x4e0811a1); /* 60 */
-    II(a, b, c, d, x[ 4], 6, 0xf7537e82); /* 61 */
-    II(d, a, b, c, x[11], 10, 0xbd3af235); /* 62 */
-    II(c, d, a, b, x[ 2], 15, 0x2ad7d2bb); /* 63 */
-    II(b, c, d, a, x[ 9], 21, 0xeb86d391); /* 64 */
-    state[0] += a;
-    state[1] += b;
-    state[2] += c;
-    state[3] += d;
-}
-
-void MD5Update(MD5_CTX *context,unsigned char *input,unsigned int inputlen)
-{
-    unsigned int i = 0,index = 0,partlen = 0;
-    index = (context->count[0] >> 3) & 0x3F;
-    partlen = 64 - index;
-    context->count[0] += inputlen << 3;
-    if(context->count[0] < (inputlen << 3))
-        context->count[1]++;
-    context->count[1] += inputlen >> 29;
-
-    if(inputlen >= partlen)
-    {
-        memcpy(&context->buffer[index],input,partlen);
-        MD5Transform(context->state,context->buffer);
-        for(i = partlen;i+64 <= inputlen;i+=64)
-            MD5Transform(context->state,&input[i]);
-        index = 0;
-    }
-    else
-    {
-        i = 0;
-    }
-    memcpy(&context->buffer[index],&input[i],inputlen-i);
-}
-
-void MD5Final(MD5_CTX *context,unsigned char digest[16])
-{
-    unsigned int index = 0,padlen = 0;
-    unsigned char bits[8];
-    index = (context->count[0] >> 3) & 0x3F;
-    padlen = (index < 56)?(56-index):(120-index);
-    MD5Encode(bits,context->count,8);
-    MD5Update(context,PADDING,padlen);
-    MD5Update(context,bits,8);
-    MD5Encode(digest,context->state,16);
 }
 
 void increase_file(char* file,int total_length){
@@ -330,6 +128,10 @@ void copy_file(char* old_file,char* new_file){
     FILE *op,*inp;
     op=fopen(old_file,"rb");
     inp=fopen(new_file,"wb");
+    if(op == NULL || inp == NULL){
+        printf("Failed to copy file\n");
+        exit(-1);
+    }
     void *buf;
     char c;
     while(!feof(op))
@@ -408,6 +210,21 @@ Elf_Shdr* get_elf_section_by_name(char* section_name,Elf_Ehdr* elf_base){
     return NULL;
 }
 
+unsigned long get_offset_by_vaddr(unsigned long v_addr,Elf_Ehdr* elf_base){
+    Elf_Ehdr *ehdr = elf_base;
+    Elf_Phdr* pt_load;
+    for(int i=0;i<ehdr->e_phnum;i++){
+        pt_load = (Elf_Phdr*)((char*)ehdr+ ehdr->e_phoff + ehdr->e_phentsize*i);
+        if(pt_load->p_type == PT_LOAD){
+            if ((pt_load->p_vaddr <= v_addr) && (v_addr <= pt_load->p_vaddr + pt_load->p_filesz) )
+                //printf("Convert Virtual Addr to File Offset: %p -> %p \n",(void*)v_addr ,(void*)(pt_load->p_offset + (v_addr - pt_load->p_vaddr)));
+                return  pt_load->p_offset + (v_addr - pt_load->p_vaddr);
+        }
+    }
+    printf("Convert Virtual Addr to File Offset failed\n");
+    exit(0);
+}
+
 void get_section_data(Elf_Ehdr* ehdr,char* section_name,void** buf,int* len){
     Elf_Shdr* shdr = get_elf_section_by_name(section_name,ehdr);
     if(shdr == NULL){
@@ -452,8 +269,10 @@ unsigned long get_elf_load_base(Elf_Ehdr *ehdr){
         }
     }
     return min_value;
-
 }
+
+
+
 
 void modify_call_libc_start_main(char* elf_base,long new_function_vaddr,cJSON* config){
     char* libc_start_main_start_call_offset_str = cJSON_GetObjectItem(config,"libc_start_main_start_call_offset")->valuestring;
@@ -815,7 +634,7 @@ void check_so_file_no_rela_section(Elf_Ehdr* ehdr){
 void check_so_file_no_dynsym_section(Elf_Ehdr* ehdr){
     Elf_Shdr * shdr = get_elf_section_by_name(".dynsym",ehdr);
     if(shdr!=NULL){
-        printf("check_so_file_no_dynsym_section failed");
+        printf("check_so_file_no_dynsym_section failed\n");
         exit(-1);
     }
 }
@@ -824,7 +643,7 @@ void check_so_file_no_dynsym_section(Elf_Ehdr* ehdr){
 void check_so_file_no_rodata_section(Elf_Ehdr* ehdr){
     Elf_Shdr * shdr = get_elf_section_by_name(".rodata",ehdr);
     if(shdr!=NULL){
-        printf("check_so_file_no_rodata_section failed");
+        printf("check_so_file_no_rodata_section failed\n");
         exit(-1);
     }
 }
@@ -832,7 +651,7 @@ void check_so_file_no_rodata_section(Elf_Ehdr* ehdr){
 void check_so_file_no_data_section(Elf_Ehdr* ehdr){
     Elf_Shdr * shdr = get_elf_section_by_name(".data",ehdr);
     if(shdr!=NULL){
-        printf("check_so_file_no_data_section failed");
+        printf("check_so_file_no_data_section failed\n");
         exit(-1);
     }
 }
@@ -840,7 +659,7 @@ void check_so_file_no_data_section(Elf_Ehdr* ehdr){
 void check_so_file_no_got_section(Elf_Ehdr *ehdr){
     Elf_Shdr * shdr = get_elf_section_by_name(".got",ehdr);
     if(shdr!=NULL){
-        printf("check_so_file_no_got_section failed");
+        printf("check_so_file_no_got_section failed\n");
         exit(-1);
     }
 }
@@ -848,7 +667,7 @@ void check_so_file_no_got_section(Elf_Ehdr *ehdr){
 void check_so_file_no_gotplt_section(Elf_Ehdr *ehdr){
     Elf_Shdr * shdr = get_elf_section_by_name(".gotplt",ehdr);
     if(shdr!=NULL){
-        printf("check_so_file_no_gotplt_section failed");
+        printf("check_so_file_no_gotplt_section failed\n");
         exit(-1);
     }
 }
@@ -856,7 +675,7 @@ void check_so_file_no_gotplt_section(Elf_Ehdr *ehdr){
 void check_so_file_no_plt_section(Elf_Ehdr *ehdr){
     Elf_Shdr * shdr = get_elf_section_by_name(".plt",ehdr);
     if(shdr!=NULL){
-        printf("check_so_file_no_plt_section failed");
+        printf("check_so_file_no_plt_section failed\n");
         exit(-1);
     }
 }
@@ -864,7 +683,7 @@ void check_so_file_no_plt_section(Elf_Ehdr *ehdr){
 void check_so_file_no_bss_section(Elf_Ehdr *ehdr){
     Elf_Shdr * shdr = get_elf_section_by_name(".bss",ehdr);
     if(shdr!=NULL){
-        printf("check_so_file_no_bss_section failed");
+        printf("check_so_file_no_bss_section failed\n");
         exit(-1);
     }
 }
@@ -883,7 +702,7 @@ void check_libloader_stage_two(char* libloader_stage_two){
     char* libloader_stage_two_base;
     long libloader_stage_two_size = 0;
     open_mmap_check(libloader_stage_two,O_RDONLY,&libloader_stage_twofd,(void**)&libloader_stage_two_base,PROT_READ,MAP_PRIVATE,&libloader_stage_two_size);
-    printf("check %s\n",libloader_stage_two);
+    printf("check %s start\n",libloader_stage_two);
     check_so_file_no_rela_section    ((Elf_Ehdr*)libloader_stage_two_base);
     //check_so_file_no_dynsym_section  ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_rodata_section  ((Elf_Ehdr*)libloader_stage_two_base);
@@ -893,6 +712,7 @@ void check_libloader_stage_two(char* libloader_stage_two){
     check_so_file_no_plt_section     ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_bss_section     ((Elf_Ehdr*)libloader_stage_two_base);
     close_and_munmap(libloader_stage_two,libloader_stage_twofd,libloader_stage_two_base,&libloader_stage_two_size);
+    printf("check %s end\n",libloader_stage_two);
 }
 
 void check_libloader_stage_one(char* libloader_stage_one){
@@ -900,7 +720,7 @@ void check_libloader_stage_one(char* libloader_stage_one){
     char* libloader_stage_one_base;
     long libloader_stage_one_size = 0;
     open_mmap_check(libloader_stage_one,O_RDONLY,&libloader_stage_onefd,(void**)&libloader_stage_one_base,PROT_READ,MAP_PRIVATE,&libloader_stage_one_size);
-    printf("check %s\n",libloader_stage_one);
+    printf("check %s start\n",libloader_stage_one);
     check_so_file_no_rela_section    ((Elf_Ehdr*)libloader_stage_one_base);
     //check_so_file_no_dynsym_section  ((Elf_Ehdr*)libloader_stage_one_base);
     check_so_file_no_rodata_section  ((Elf_Ehdr*)libloader_stage_one_base);
@@ -910,6 +730,7 @@ void check_libloader_stage_one(char* libloader_stage_one){
     check_so_file_no_plt_section     ((Elf_Ehdr*)libloader_stage_one_base);
     check_so_file_no_bss_section     ((Elf_Ehdr*)libloader_stage_one_base);
     close_and_munmap(libloader_stage_one,libloader_stage_onefd,libloader_stage_one_base,&libloader_stage_one_size);
+    printf("check %s end\n",libloader_stage_one);
 }
 
 void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_stage_two,char* libloader_stage_three,int first_entry_offset,char* shell_passwd,char* analysis_server_ip,char* analysis_server_port,char* sandbox_server_ip,char* sandbox_server_port,char* target){
@@ -1036,14 +857,128 @@ void add_file_content_to_elf_pt_load(char* output_elf,char* file_name){
 
 //current we do not look for libc_start_main addr from elf manual, we must special it manual
 
+int capstone_open(char* output_elf_base,csh *handle){
+    switch(((Elf_Ehdr*)output_elf_base)->e_machine){
+        case EM_386:
+            if (cs_open(CS_ARCH_X86, CS_MODE_32, handle) != CS_ERR_OK)
+                return -1;
+            break;
+        case EM_X86_64:
+            if (cs_open(CS_ARCH_X86, CS_MODE_64, handle) != CS_ERR_OK)
+                return -1;
+            break;
+        case EM_ARM:
+            return -1;
+        case EM_AARCH64:
+            return -1;
+        default:
+            return -1;
+    }
+    return 0;
+
+}
+int capstone_close(csh *handle){
+    cs_close(handle);
+}
 
 void usage(char* local){
-    printf("usage:\n\t%s 1\t\t:mean stage one\n\t%s 2\t\t:mean stage two\n",local,local);
+    printf("usage: %s [1][2] config.json\n",local);
     exit(-1);
 }
 
+
+void process_start_function(char* output_elf,cJSON* config){
+    int output_elf_fd;
+    char* output_elf_base = NULL;
+    long output_elf_size = 0;
+    open_mmap_check(output_elf,O_RDWR,&output_elf_fd,(void**)&output_elf_base,PROT_READ|PROT_WRITE,MAP_SHARED,&output_elf_size);
+    unsigned long start_function_vaddr =  ((Elf_Ehdr*)output_elf_base)->e_entry;
+    unsigned long start_function_offset = get_offset_by_vaddr(start_function_vaddr,(Elf_Ehdr*)output_elf_base);
+    char* start_function = (output_elf_base) + start_function_offset;
+    csh handle;
+    cs_insn *insn;
+    capstone_open(output_elf_base,&handle);
+    int total_diassember_size = 100;
+    while(total_diassember_size > 0) {
+        int count = cs_disasm(handle, start_function,total_diassember_size,start_function_vaddr,1,&insn);
+        if(count != 1){
+            printf("disassember start function failed, v_addr: %p, offset: %p\n",(void*)start_function_vaddr,(void*)start_function_vaddr);
+            exit(-1);
+        }
+        printf("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[0].address, insn[0].mnemonic,insn[0].op_str);
+        if(strncasecmp(insn[0].mnemonic,"CALL",5) ==0 || strncasecmp(insn[0].mnemonic,"BLX",4) ==0|| strncasecmp(insn[0].mnemonic,"BL",3) == 0){
+            printf("find start call libc_start_main\n");
+            break;
+        }
+        start_function += insn[0].size;
+        total_diassember_size -= insn[0].size;
+        start_function_vaddr += insn[0].size;
+        cs_free(insn,1);
+    }
+    if(total_diassember_size <=0 ){
+        printf("unable find call , something wrong in find_start_offset\n");
+        exit(-1);
+    }
+    char buf[64] = {0};
+    switch(((Elf_Ehdr*)output_elf_base)->e_machine){
+        case EM_386:
+        case EM_X86_64:
+
+            if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
+                unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1])));
+                unsigned long libc_start_main_start_call_vaddr = insn[0].address;
+                unsigned long libc_start_main_start_call_offset = get_offset_by_vaddr(libc_start_main_start_call_vaddr,(Elf_Ehdr*)output_elf_base);
+                cJSON_AddStringToObject(config,"libc_start_main_addr_type","code");
+                sprintf(buf,"%p",(void*)libc_start_main_addr);
+                cJSON_AddStringToObject(config,"libc_start_main_addr",buf);
+                sprintf(buf,"%p",(void*)libc_start_main_start_call_offset);
+                cJSON_AddStringToObject(config,"libc_start_main_start_call_offset",buf);
+                sprintf(buf,"%p",(void*)libc_start_main_start_call_vaddr);
+                cJSON_AddStringToObject(config,"libc_start_main_start_call_vaddr",buf);
+                printf("identify libc_start_main_addr_type : code\n");
+                printf("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
+                printf("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
+                printf("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
+
+            }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
+                unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[0].bytes[2])));
+                unsigned long libc_start_main_start_call_vaddr = insn[0].address;
+                unsigned long libc_start_main_start_call_offset = get_offset_by_vaddr(libc_start_main_start_call_vaddr,(Elf_Ehdr*)output_elf_base);
+                cJSON_AddStringToObject(config,"libc_start_main_addr_type","ptr");
+                sprintf(buf,"%p",(void*)libc_start_main_addr);
+                cJSON_AddStringToObject(config,"libc_start_main_addr",buf);
+                sprintf(buf,"%p",(void*)libc_start_main_start_call_offset);
+                cJSON_AddStringToObject(config,"libc_start_main_start_call_offset",buf);
+                sprintf(buf,"%p",(void*)libc_start_main_start_call_vaddr);
+                cJSON_AddStringToObject(config,"libc_start_main_start_call_vaddr",buf);
+                printf("identify libc_start_main_addr_type : ptr\n");
+                printf("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
+                printf("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
+                printf("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
+            }
+            else{
+                printf("unknown x86 call instructions");
+                exit(-1);
+            }
+
+            break;
+        case EM_ARM:
+            printf("unsupport arm");
+            exit(-1);
+        case EM_AARCH64:
+            printf("unsupport aarch64");
+            exit(-1);
+        default:
+            printf("unsupport other");
+            exit(-1);
+    }
+    cs_free(insn,1);
+    capstone_close(&handle);
+    close_and_munmap(output_elf,output_elf_fd,output_elf_base,&output_elf_size);
+}
+
 int main(int argc,char* argv[]){
-    if(argc!=2){
+    if(argc!=3){
         usage(argv[0]);
     }
     int stage = atoi(argv[1]);
@@ -1051,21 +986,26 @@ int main(int argc,char* argv[]){
         printf("argument is error, stage: %d\n",stage);
         usage(argv[0]);
     }
-    chdir("/tmp");
-    char config_file_name[] = {"/home/runshine/HookUtilV3/ctf_awd/2019_qwb_real/nvram/generate_config.json"};
+    //chdir("/tmp");
+    char* config_file_name = argv[2];
     printf("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){
         printf("%s parse failed\n",config_file_name);
         exit(-1);
     }
-    char* config_h = cJSON_GetObjectItem(config,"config.h")->valuestring;
+    char* project_root = cJSON_GetObjectItem(config,"project_root")->valuestring;
+    char config_h[256] = {0};
+    snprintf(config_h,256,"%s/auto_generate/config.h",project_root);
     printf("config.h: %s\n",config_h);
-    char* libloader_stage_one = cJSON_GetObjectItem(config,"libloader_stage_one")->valuestring;
+    char libloader_stage_one[256] = {0};
+    snprintf(libloader_stage_one,256,"%s/out/libloader_stage_one.so",project_root);
     printf("libloader_stage_one: %s\n",libloader_stage_one);
-    char* libloader_stage_two = cJSON_GetObjectItem(config,"libloader_stage_two")->valuestring;
+    char libloader_stage_two[256] = {0};
+    snprintf(libloader_stage_two,256,"%s/out/libloader_stage_two.so",project_root);
     printf("libloader_stage_two: %s\n",libloader_stage_two);
-    char* libloader_stage_three = cJSON_GetObjectItem(config,"libloader_stage_three")->valuestring;
+    char libloader_stage_three[256] = {0};
+    snprintf(libloader_stage_three,256,"%s/out/libloader_stage_three.so",project_root);
     printf("libloader_stage_three: %s\n",libloader_stage_three);
 
     char* input_elf = cJSON_GetObjectItem(config,"input_elf")->valuestring;
@@ -1093,6 +1033,7 @@ int main(int argc,char* argv[]){
                 exit(-1);
         }
     }
+    process_start_function(output_elf,config);
     //LIB_C_START_MAIN_ADDR
     {
         char* libc_start_main_addr_type = cJSON_GetObjectItem(config,"libc_start_main_addr_type")->valuestring;

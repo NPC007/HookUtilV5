@@ -4,13 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/runshine/HookUtilV3/cJSON.c" "/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/generate32.dir/cJSON.c.o"
-  "/home/runshine/HookUtilV3/generate.c" "/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/generate32.dir/generate.c.o"
+  "/root/CLionProjects/HookUtilV3/cJSON.c" "/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/generate32.dir/cJSON.c.o"
+  "/root/CLionProjects/HookUtilV3/generate.c" "/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/generate32.dir/generate.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
+  "../."
   )
 
 # Targets to which this target links.

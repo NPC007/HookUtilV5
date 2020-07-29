@@ -1,4 +1,3 @@
-#include "config.h"
 #include "hook.h"
 #include <stddef.h>
 #include <unistd.h>
@@ -9,95 +8,15 @@
 #include <sys/wait.h>
 #include "errno.h"
 #include <sys/select.h>
-
-/* According to earlier standards */
 #include <sys/time.h>
 #include <sys/types.h>
 #include <elf.h>
 
-
-#ifdef __x86_64__
-#include "x64_syscall.h"
-#include "loader_x64.h"
-#elif __i386__
-#include "x86_syscall.h"
-#include "loader_x86.h"
-#elif __arm__
-#include "arm_syscall.h"
-#include "loader_arm.h"
-#elif __aarch64__
-#include "aarch64_syscall.h"
-#include "loader_aarch64.h"
-#elif __mips__
-#include "mips_syscall.h"
-#include "loader_mips.h"
-#endif
+#include "utils/common.h"
 
 
-#define IN_LINE static inline __attribute__((always_inline))
 
-IN_LINE long my_open(char* name,long mode,long flag){
-    long res = 0;
-    asm_open(name,mode,flag,res);
-    return res;
-}
-IN_LINE long my_close(long fd){
-    long res = 0;
-    asm_close(fd,res);
-    return res;
-}
 
-IN_LINE long my_mprotect(void *start, long len, long prot){
-    long res = 0;
-    asm_mprotect((long)start,(long)len,(long)prot,res);
-    return res;
-}
-IN_LINE long my_mmap(long addr, long length, int prot, int flags,
-                     int fd, long offset){
-    long res = 0;
-    asm_mmap(addr,(long)length,(long)prot,(long)flags,(long)fd,(long)offset,res);
-    return res;
-}
-IN_LINE int  my_memcpy(char *dst, const char *src,int len){
-    int i = 0;
-    while(i<len){
-        dst[i] = src[i];
-        i++;
-    }
-    return 0;
-}
-
-IN_LINE void my_memset(char *dst,char chr,int len){
-    int i = 0;
-    for(i=0;i<len;i++)
-        dst[i] = chr;
-}
-
-#if(PATCH_DEBUG == 1)
-IN_LINE int  my_strlen(const char *src){
-    int i = 0;
-    while(src[i]!='\0')
-        i++;
-    return i;
-}
-
-IN_LINE long my_write(int fd,const char* buf,long length){
-    long res = 0;
-    asm_write(fd,buf,length,res);
-    return res;
-}
-IN_LINE void my_puts(char* str){
-    char end[] = {"\n"};
-    my_write(1,str,my_strlen(str));
-    my_write(1,end,1);
-}
-#endif
-
-#if(PATCH_DEBUG==1)
-#define DEBUG_LOG(STR)  {char data[] = {STR};my_puts(data);}
-#else
-#define DEBUG_LOG(STR)
-#endif
 
 void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_base){
     DEBUG_LOG("stage_two_start");

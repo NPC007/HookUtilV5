@@ -1,1 +1,1 @@
-/usr/bin/cc -g  -m64 CMakeFiles/generate64.dir/generate.c.o CMakeFiles/generate64.dir/cJSON.c.o  -o generate64 -lm 
+/usr/bin/cc -O3 -DNDEBUG  -m64 CMakeFiles/generate64.dir/generate.c.o CMakeFiles/generate64.dir/cJSON.c.o  -o generate64 -lm 

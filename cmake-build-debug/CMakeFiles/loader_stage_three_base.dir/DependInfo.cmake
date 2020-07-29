@@ -4,9 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/runshine/HookUtilV3/loader_stage_three_base.c" "/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/loader_stage_three_base.c.o"
+  "/root/CLionProjects/HookUtilV3/loader_stage_three_base.c" "/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/loader_stage_three_base.dir/loader_stage_three_base.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_C
+  "loader_stage_three_base_EXPORTS"
+  )
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
