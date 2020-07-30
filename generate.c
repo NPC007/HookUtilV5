@@ -612,18 +612,18 @@ void mov_phdr(char* elf_file){
     }
 }
 
-void check_so_file_no_rela_section(Elf_Ehdr* ehdr){
+void check_so_file_no_rela_section(Elf_Ehdr* ehdr,char* file_name){
     for(int i=0;i<ehdr->e_phnum;i++) {
         Elf_Phdr *so_phdr = (Elf_Phdr *) ((long)ehdr + ehdr->e_phoff + i * ehdr->e_phentsize);
         if (so_phdr->p_type == PT_DYNAMIC) {
             Elf_Dyn* dyn = (Elf_Dyn*)((long)ehdr + so_phdr->p_offset);
             while (dyn->d_tag!=0){
                 if(dyn->d_tag == DT_PLTGOT) {
-                    printf("so file check error, should not have DT_PLTGOT\n");
+                    printf("so file check error, should not have DT_PLTGOT : %s\n",file_name);
                     exit(-1);
                 }
                 else if(dyn->d_tag == DT_RELA || dyn->d_tag == DT_REL){
-                    printf("so file check error, should not have DT_RELA or DT_REL");
+                    printf("so file check error, should not have DT_RELA or DT_REL: %s\n",file_name);
                     exit(-1);
                 }
                 else {
@@ -697,7 +697,7 @@ void check_libloader_stage_three(char* libloader_stage_three){
     char* libloader_stage_three_base;
     long libloader_stage_three_size = 0;
     open_mmap_check(libloader_stage_three,O_RDONLY,&libloader_stage_threefd,(void**)&libloader_stage_three_base,PROT_READ,MAP_PRIVATE,&libloader_stage_three_size);
-    check_so_file_no_rela_section((Elf_Ehdr*)libloader_stage_three_base);
+    check_so_file_no_rela_section((Elf_Ehdr*)libloader_stage_three_base,libloader_stage_three);
     close_and_munmap(libloader_stage_three,libloader_stage_threefd,libloader_stage_three_base,&libloader_stage_three_size);
 }
 
@@ -707,7 +707,7 @@ void check_libloader_stage_two(char* libloader_stage_two){
     long libloader_stage_two_size = 0;
     open_mmap_check(libloader_stage_two,O_RDONLY,&libloader_stage_twofd,(void**)&libloader_stage_two_base,PROT_READ,MAP_PRIVATE,&libloader_stage_two_size);
     printf("check %s start\n",libloader_stage_two);
-    check_so_file_no_rela_section    ((Elf_Ehdr*)libloader_stage_two_base);
+    check_so_file_no_rela_section    ((Elf_Ehdr*)libloader_stage_two_base,libloader_stage_two);
     //check_so_file_no_dynsym_section  ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_rodata_section  ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_data_section    ((Elf_Ehdr*)libloader_stage_two_base);
@@ -725,7 +725,7 @@ void check_libloader_stage_one(char* libloader_stage_one){
     long libloader_stage_one_size = 0;
     open_mmap_check(libloader_stage_one,O_RDONLY,&libloader_stage_onefd,(void**)&libloader_stage_one_base,PROT_READ,MAP_PRIVATE,&libloader_stage_one_size);
     printf("check %s start\n",libloader_stage_one);
-    check_so_file_no_rela_section    ((Elf_Ehdr*)libloader_stage_one_base);
+    check_so_file_no_rela_section    ((Elf_Ehdr*)libloader_stage_one_base,libloader_stage_one);
     //check_so_file_no_dynsym_section  ((Elf_Ehdr*)libloader_stage_one_base);
     check_so_file_no_rodata_section  ((Elf_Ehdr*)libloader_stage_one_base);
     check_so_file_no_data_section    ((Elf_Ehdr*)libloader_stage_one_base);
@@ -906,6 +906,7 @@ void process_start_function(char* output_elf,cJSON* config){
     cs_insn *insn;
     capstone_open(output_elf_base,&handle);
     int total_diassember_size = 100;
+    unsigned char* call = NULL;
     while(total_diassember_size > 0) {
         int count = cs_disasm(handle, start_function,total_diassember_size,start_function_vaddr,1,&insn);
         if(count != 1){
@@ -914,7 +915,32 @@ void process_start_function(char* output_elf,cJSON* config){
         }
         printf("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[0].address, insn[0].mnemonic,insn[0].op_str);
         if(strncasecmp(insn[0].mnemonic,"CALL",5) ==0 || strncasecmp(insn[0].mnemonic,"BLX",4) ==0|| strncasecmp(insn[0].mnemonic,"BL",3) == 0){
-            unsigned char* call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1]))),(Elf_Ehdr*)output_elf_base));
+            switch(((Elf_Ehdr*)output_elf_base)->e_machine){
+                case EM_386:
+                case EM_X86_64:
+                    if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
+                        unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1])));
+                        call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
+
+                    }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
+                        unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[0].bytes[2])));
+                        call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
+                    }
+                    else{
+                        printf("unknown x86 call instructions");
+                        exit(-1);
+                    }
+                    break;
+                case EM_ARM:
+                    printf("unsupport arm");
+                    exit(-1);
+                case EM_AARCH64:
+                    printf("unsupport aarch64");
+                    exit(-1);
+                default:
+                    printf("unsupport other");
+                    exit(-1);
+            }
             if(call[0] == 0x8B && call[2] == 0x24 && call[3] == 0xc3){
                 printf("find __x86.get_pc_thunk\n");
             }

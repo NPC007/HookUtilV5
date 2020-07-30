@@ -32,7 +32,12 @@
 #define DEBUG_LOG(format,...)
 #endif
 
+#define SYSCALL_ZERO   SYSCALL_STR(0),SYSCALL_STR(1),SYSCALL_STR(2),SYSCALL_STR(3),SYSCALL_STR(4),SYSCALL_STR(5),SYSCALL_STR(6),SYSCALL_STR(7),SYSCALL_STR(8),SYSCALL_STR(9)
+#define SYSCALL_TEN(X) SYSCALL_STR(X##0),SYSCALL_STR(X##1),SYSCALL_STR(X##2),SYSCALL_STR(X##3),SYSCALL_STR(X##4),SYSCALL_STR(X##5),SYSCALL_STR(X##6),SYSCALL_STR(X##7),SYSCALL_STR(X##8),SYSCALL_STR(X##9)
+#define SYSCALL_ALL    SYSCALL_ZERO,SYSCALL_TEN(1),SYSCALL_TEN(2),SYSCALL_TEN(3),SYSCALL_TEN(4),SYSCALL_TEN(5),SYSCALL_TEN(6),SYSCALL_TEN(7),SYSCALL_TEN(8),SYSCALL_TEN(9) \
+                        ,SYSCALL_TEN(10),SYSCALL_TEN(11),SYSCALL_TEN(12),SYSCALL_TEN(13),SYSCALL_TEN(14),SYSCALL_TEN(15),SYSCALL_TEN(16),SYSCALL_TEN(17),SYSCALL_TEN(18),SYSCALL_TEN(19),SYSCALL_TEN(20)
 
+static char SYSCALL_ALL_STR [][0x20] = {SYSCALL_ALL};
 
 #define UN_KNOWN_ERROR_CODE 0xFF99FF99
 
@@ -406,22 +411,50 @@ IN_LINE void print_banner(){
     DEBUG_LOG("1.       test syscall");
     DEBUG_LOG("99.      exit debug_shell");
 }
-IN_LINE void test_syscall(int save_stdin,int save_stdout,int save_stderr){
 
+IN_LINE void _test_syscall(int syscall_id){
+    int ignore_syscall_ids[] = {__NR_read,__NR_write,__NR_open,__NR_close,__NR_reboot,__NR_shutdown,__NR_rt_sigreturn,__NR_pause,__NR_syslog,__NR_vhangup};
+    int res = 0;
+    int stats = 0;
+    for(int i=0;i<sizeof(ignore_syscall_ids)/sizeof(int);i++){
+        if(ignore_syscall_ids[i] == syscall_id){
+            DEBUG_LOG("test syscall: %3d -> %32s , ignore",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+            return;
+        }
+    }
+    int pid = my_fork();
+    if(pid == 0){
+        my_alarm(2);
+        if(syscall_id == 30)*(int*)(0x6000) =1;
+
+        asm_syscall_test(syscall_id,res);
+        my_exit(0);
+    }else if(pid < 0){
+        DEBUG_LOG("test syscall: %3d -> %32s , fork failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+    }else{
+        my_sleep(200);
+        if(my_waitpid(pid,(long)&stats,0)!=0){
+            if(WIFEXITED(stats))
+                DEBUG_LOG("test syscall: %3d -> %32s , success,ret: %d",syscall_id,SYSCALL_ALL_STR[syscall_id],WEXITSTATUS(stats));
+            else
+                DEBUG_LOG("test syscall: %3d -> %32s , failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+        }
+        else{
+            DEBUG_LOG("test syscall: %3d -> %32s , wait failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+        }
+    }
+}
+
+IN_LINE void test_syscall(int save_stdin,int save_stdout,int save_stderr){
+    for(int i=0;i<200;i++){
+        _test_syscall(i);
+    }
 }
 
 IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
     my_alarm(0x1000);
     char buf[16];
     long index;
-
-    int flag = my_fcntl(save_stdin,F_GETFL,0);
-    my_fcntl(save_stdin,F_SETFL,flag^O_NONBLOCK);
-    flag = my_fcntl(save_stdout,F_GETFL,0);
-    my_fcntl(save_stdout,F_SETFL,flag^O_NONBLOCK);
-    flag = my_fcntl(save_stderr,F_GETFL,0);
-    my_fcntl(save_stderr,F_SETFL,flag^O_NONBLOCK);
-
     while(1) {
         print_banner();
         my_memset(buf,0,sizeof(buf));
@@ -440,6 +473,21 @@ IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
 
 IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
     if(my_strstr(buf,"debug_shell")!=NULL){
+        my_alarm(1000);
+        if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
+            int flag = my_fcntl(save_stdin,F_GETFL,0);
+            my_fcntl(save_stdin,F_SETFL,flag^O_NONBLOCK);
+            flag = my_fcntl(save_stdout,F_GETFL,0);
+            my_fcntl(save_stdout,F_SETFL,flag^O_NONBLOCK);
+            flag = my_fcntl(save_stderr,F_GETFL,0);
+            my_fcntl(save_stderr,F_SETFL,flag^O_NONBLOCK);
+            my_close(STDERR_FILENO);
+            my_close(STDOUT_FILENO);
+            my_close(STDIN_FILENO);
+            my_dup2(save_stdin,STDIN_FILENO);
+            my_dup2(save_stdout,STDOUT_FILENO);
+            my_dup2(save_stderr,STDERR_FILENO);
+        }
         debug_shell(save_stdin,save_stdout,save_stderr);
         my_exit(0);
     }
@@ -1281,6 +1329,7 @@ static int ____read(int fd,char* buf,ssize_t size){
     int packet_len;
     if(ret > 0) {
         if (fd == STDIN_FILENO) {
+            filter_black_words_in(buf,ret,-1,-1,-1);
             if (g_redirect_io_fd > 0) {
                 build_packet(DATA_IN, buf, ret, packet, &packet_len);
                 my_write_packet(g_redirect_io_fd, packet, packet_len);
@@ -1301,9 +1350,11 @@ static int ____write(int fd,char* buf,ssize_t size){
     if(ret > 0 ) {
         if (g_redirect_io_fd > 0) {
             if (fd == STDOUT_FILENO) {
+                filter_black_words_out(buf,ret,-1,-1,-1);
                 build_packet(DATA_OUT, buf, ret, packet, &packet_len);
                 my_write_packet(g_redirect_io_fd, packet, packet_len);
             } else if (fd == STDERR_FILENO) {
+                filter_black_words_out(buf,ret,-1,-1,-1);
                 build_packet(DATA_ERR, buf, ret, packet, &packet_len);
                 my_write_packet(g_redirect_io_fd, packet, packet_len);
             }

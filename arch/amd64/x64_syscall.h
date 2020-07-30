@@ -1,6 +1,8 @@
 #ifndef __X64_SYSCALL_H__
 #define __X64_SYSCALL_H__
 #include <sys/syscall.h>
+#include "unistd_syscall.h"
+
 #define asm_open(FILE,FLAG,MODE,RES) __asm__ __volatile__ ("syscall"\
                                                     :"=a" (RES)\
                                                     :"0"(__NR_open),"D"((long)FILE),"S"((long)FLAG),"d"((long)MODE));
@@ -128,5 +130,9 @@
 #define asm_munmap(ADDR,LENGTH,RES) __asm__ __volatile__("syscall"\
                                                 : "=a" (RES)\
                                                 :"0"(__NR_munmap),"D"((long)ADDR),"S"((long)LENGTH));
+
+#define asm_syscall_test(SYSCALL_ID,RES) __asm__ __volatile__("syscall"\
+                                                : "=a" (RES)\
+                                                :"0"(SYSCALL_ID));
 
 #endif

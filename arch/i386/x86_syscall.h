@@ -2,6 +2,7 @@
 #define __X86_SYSCALL_H__
 
 #include <sys/syscall.h>
+#include "unistd_syscall.h"
 
 #define SYS_SOCKET	1		/* sys_socket(2)		*/
 #define SYS_BIND	2		/* sys_bind(2)			*/
@@ -130,6 +131,10 @@
 #define asm_munmap(ADDR,LENGTH,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
                                                 :"0"(__NR_munmap),"b"((long)ADDR),"c"((long)LENGTH));
+
+#define asm_syscall_test(SYSCALL_ID,RES) __asm__ __volatile__("int $0x80"\
+                                                : "=a" (RES)\
+                                                :"0"(SYSCALL_ID));
 
 
 #endif

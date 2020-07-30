@@ -34,24 +34,6 @@ sys/syscall.h
 
 /root/CLionProjects/HookUtilV3/auto_generate/config.h
 
-/root/CLionProjects/HookUtilV3/cJSON.c
-string.h
--
-stdio.h
--
-math.h
--
-stdlib.h
--
-float.h
--
-limits.h
--
-ctype.h
--
-cJSON.h
-/root/CLionProjects/HookUtilV3/cJSON.h
-
 /root/CLionProjects/HookUtilV3/cJSON.h
 
 /root/CLionProjects/HookUtilV3/generate.c
