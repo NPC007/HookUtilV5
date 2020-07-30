@@ -373,12 +373,7 @@ IN_LINE void my_sleep(int milli_second){
     asm_nanosleep((void*)&slptm,0,res);
 }
 
-IN_LINE void filter_black_words_in(char* buf,int buf_len){
 
-}
-IN_LINE void filter_black_words_out(char* buf,int buf_len){
-
-}
 static int*(*g_errno_handler)() ;
 static int get_errno(){
     if(g_errno_handler == NULL) {
@@ -406,6 +401,52 @@ static void my_printf(const char *format, ...)
     }
 }
 
+IN_LINE void print_banner(){
+    DEBUG_LOG("........[DEBUG_SHELL]....");
+    DEBUG_LOG("1.       test syscall");
+    DEBUG_LOG("99.      exit debug_shell");
+}
+IN_LINE void test_syscall(int save_stdin,int save_stdout,int save_stderr){
+
+}
+
+IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
+    my_alarm(0x1000);
+    char buf[16];
+    long index;
+
+    int flag = my_fcntl(save_stdin,F_GETFL,0);
+    my_fcntl(save_stdin,F_SETFL,flag^O_NONBLOCK);
+    flag = my_fcntl(save_stdout,F_GETFL,0);
+    my_fcntl(save_stdout,F_SETFL,flag^O_NONBLOCK);
+    flag = my_fcntl(save_stderr,F_GETFL,0);
+    my_fcntl(save_stderr,F_SETFL,flag^O_NONBLOCK);
+
+    while(1) {
+        print_banner();
+        my_memset(buf,0,sizeof(buf));
+        my_read(save_stdin,buf,sizeof(buf));
+        index = my_strtol(buf,NULL,10);
+        switch(index){
+            case 1:
+                test_syscall(save_stdin,save_stdout,save_stderr);
+                break;
+            case 99:
+                return;
+        }
+    }
+}
+
+
+IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
+    if(my_strstr(buf,"debug_shell")!=NULL){
+        debug_shell(save_stdin,save_stdout,save_stderr);
+        my_exit(0);
+    }
+}
+IN_LINE void filter_black_words_out(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
+
+}
 
 
 IN_LINE long my_write_packet(int fd,char* buf,long size){
@@ -725,6 +766,7 @@ IN_LINE void destory_patch_data(){
 }
 
 
+
 IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr,char* libc_start_main_addr,char* stack_on_entry){
     int fd_hook_stdin[2];
     int fd_hook_stdout[2];
@@ -795,7 +837,7 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
             if(read_length>0){
                 build_packet(DATA_OUT, buf, read_length, packet, &packet_len);
                 my_sendto(send_sockfd,packet,packet_len,0,&serveraddr,sizeof(serveraddr));
-                filter_black_words_out(buf,read_length);
+                filter_black_words_out(buf,read_length,save_stdin,save_stdout,save_stderr);
                 my_write(save_stdout,buf,read_length);
             }else if(read_length == -1){
                 int error_code = get_errno();
@@ -808,7 +850,7 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
             if(read_length>0){
                 build_packet(DATA_ERR, buf, read_length, packet, &packet_len);
                 my_sendto(send_sockfd,packet,packet_len,0,&serveraddr,sizeof(serveraddr));
-                filter_black_words_out(buf,read_length);
+                filter_black_words_out(buf,read_length,save_stdin,save_stdout,save_stderr);
                 my_write(save_stderr,buf,read_length);
             }else if(read_length == -1){
                 int error_code = get_errno();
@@ -822,7 +864,7 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
                 build_packet(DATA_IN, buf, read_length, packet, &packet_len);
                 my_sendto(send_sockfd,packet,packet_len,0,&serveraddr,sizeof(serveraddr));
                 start_shell(buf,read_length,child_pid,save_stdin,save_stdout,save_stderr);
-                filter_black_words_in(buf,read_length);
+                filter_black_words_in(buf,read_length,save_stdin,save_stdout,save_stderr);
                 my_write(fd_hook_stdin[1],buf,read_length);
             }else if(read_length == -1){
                 int error_code = get_errno();
@@ -915,7 +957,7 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                 if (read_length > 0) {
                     build_packet(DATA_OUT, buf, read_length, packet, &packet_len);
                     my_write_packet(send_sockfd, packet, packet_len);
-                    filter_black_words_out(buf, read_length);
+                    filter_black_words_out(buf, read_length,save_stdin,save_stdout,save_stderr);
                     my_write(save_stdout, buf, read_length);
                 }
                 else if(read_length == -1){
@@ -932,7 +974,7 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                     build_packet(DATA_ERR, buf, read_length, packet, &packet_len);
                     my_write_packet(send_sockfd, packet, packet_len);
 
-                    filter_black_words_out(buf, read_length);
+                    filter_black_words_out(buf, read_length,save_stdin,save_stdout,save_stderr);
                     my_write(save_stderr, buf, read_length);
                 }
                 else if(read_length == -1){
@@ -948,7 +990,7 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                     build_packet(DATA_IN, buf, read_length, packet, &packet_len);
                     my_write_packet(send_sockfd, packet, packet_len);
                     start_shell(buf, read_length, child_pid, save_stdin, save_stdout, save_stderr);
-                    filter_black_words_in(buf, read_length);
+                    filter_black_words_in(buf, read_length,save_stdin,save_stdout,save_stderr);
                     my_write(fd_hook_stdin[1], buf, read_length);
                 }
                 else if(read_length == -1){
@@ -1587,7 +1629,7 @@ void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_THREE* thre
     DEBUG_LOG("stack_base is: 0x%lx",stack_base);
     //parent should die before child
     init_hook_env();
-    //start_io_redirect(target_entry,stack_base);
+    start_io_redirect(target_entry,stack_base);
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
 }
 

@@ -12,4 +12,4 @@
 #define PATCH_DEBUG 1
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
 #define PATCH_DATA_PATH "/tmp/data_file_unchanged"
-#define PATCH_DATA_MMAP_FILE_SIZE 0xb91e
+#define PATCH_DATA_MMAP_FILE_SIZE 0xb98e

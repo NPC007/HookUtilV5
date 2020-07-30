@@ -16,8 +16,6 @@
 
 
 
-
-
 void _start(LIBC_START_MAIN_ARG,void* first_instruction,LOADER_STAGE_TWO* two_base){
     DEBUG_LOG("stage_two_start");
     Elf_Ehdr* ehdr = (Elf_Ehdr*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length + sizeof(LOADER_STAGE_THREE));
