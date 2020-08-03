@@ -49,6 +49,7 @@ typedef struct LOADER_STAGE_THREE{
     int first_entry_offset;
     void* patch_data_mmap_code_base;
     void* patch_data_mmap_file_base;
+    int enable_debug;
     char shell_password[64];
     struct sockaddr_in analysis_server;
     struct sockaddr_in sandbox_server;

@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -g -nostartfiles -nodefaultlibs -nostdlib -shared -Wl,-soname,libtiny_loader.so -o libtiny_loader.so CMakeFiles/tiny_loader.dir/strict_mode/tiny_loader.c.o 

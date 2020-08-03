@@ -59,17 +59,6 @@ CMAKE_BINARY_DIR = /root/CLionProjects/HookUtilV3/cmake-build-debug
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/opt/clion-2019.3.2/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -80,6 +69,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/opt/clion-2019.3.2/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -114,6 +114,58 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named tiny_loader_filewriter_amd64
+
+# Build rule for target.
+tiny_loader_filewriter_amd64: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_filewriter_amd64
+.PHONY : tiny_loader_filewriter_amd64
+
+# fast build rule for target.
+tiny_loader_filewriter_amd64/fast:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/build
+.PHONY : tiny_loader_filewriter_amd64/fast
+
+#=============================================================================
+# Target rules for targets named tiny_loader_filewriter_i386_exe
+
+# Build rule for target.
+tiny_loader_filewriter_i386_exe: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_filewriter_i386_exe
+.PHONY : tiny_loader_filewriter_i386_exe
+
+# fast build rule for target.
+tiny_loader_filewriter_i386_exe/fast:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build
+.PHONY : tiny_loader_filewriter_i386_exe/fast
+
+#=============================================================================
+# Target rules for targets named tiny_loader_filewriter_i386
+
+# Build rule for target.
+tiny_loader_filewriter_i386: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_filewriter_i386
+.PHONY : tiny_loader_filewriter_i386
+
+# fast build rule for target.
+tiny_loader_filewriter_i386/fast:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/build
+.PHONY : tiny_loader_filewriter_i386/fast
+
+#=============================================================================
+# Target rules for targets named tiny_loader_shell_amd64_exe
+
+# Build rule for target.
+tiny_loader_shell_amd64_exe: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_shell_amd64_exe
+.PHONY : tiny_loader_shell_amd64_exe
+
+# fast build rule for target.
+tiny_loader_shell_amd64_exe/fast:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/build
+.PHONY : tiny_loader_shell_amd64_exe/fast
+
+#=============================================================================
 # Target rules for targets named generate_x32
 
 # Build rule for target.
@@ -125,6 +177,19 @@ generate_x32: cmake_check_build_system
 generate_x32/fast:
 	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/build
 .PHONY : generate_x32/fast
+
+#=============================================================================
+# Target rules for targets named tiny_loader_filewriter_amd64_exe
+
+# Build rule for target.
+tiny_loader_filewriter_amd64_exe: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_filewriter_amd64_exe
+.PHONY : tiny_loader_filewriter_amd64_exe
+
+# fast build rule for target.
+tiny_loader_filewriter_amd64_exe/fast:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build
+.PHONY : tiny_loader_filewriter_amd64_exe/fast
 
 #=============================================================================
 # Target rules for targets named loader_stage_three
@@ -140,6 +205,32 @@ loader_stage_three/fast:
 .PHONY : loader_stage_three/fast
 
 #=============================================================================
+# Target rules for targets named tiny_loader_shell_amd64
+
+# Build rule for target.
+tiny_loader_shell_amd64: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_shell_amd64
+.PHONY : tiny_loader_shell_amd64
+
+# fast build rule for target.
+tiny_loader_shell_amd64/fast:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/build
+.PHONY : tiny_loader_shell_amd64/fast
+
+#=============================================================================
+# Target rules for targets named tiny_loader_shell_i386_exe
+
+# Build rule for target.
+tiny_loader_shell_i386_exe: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_shell_i386_exe
+.PHONY : tiny_loader_shell_i386_exe
+
+# fast build rule for target.
+tiny_loader_shell_i386_exe/fast:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/build
+.PHONY : tiny_loader_shell_i386_exe/fast
+
+#=============================================================================
 # Target rules for targets named loader_stage_one
 
 # Build rule for target.
@@ -151,6 +242,19 @@ loader_stage_one: cmake_check_build_system
 loader_stage_one/fast:
 	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/build
 .PHONY : loader_stage_one/fast
+
+#=============================================================================
+# Target rules for targets named tiny_loader_shell_i386
+
+# Build rule for target.
+tiny_loader_shell_i386: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_shell_i386
+.PHONY : tiny_loader_shell_i386
+
+# fast build rule for target.
+tiny_loader_shell_i386/fast:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/build
+.PHONY : tiny_loader_shell_i386/fast
 
 #=============================================================================
 # Target rules for targets named generate_x64
@@ -319,19 +423,147 @@ loader_stage_two.c.s:
 	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/loader_stage_two.c.s
 .PHONY : loader_stage_two.c.s
 
+strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.o: strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o
+
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.o
+
+# target to build an object file
+strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o
+
+strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.i: strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i
+
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.i
+
+# target to preprocess a source file
+strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i
+
+strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.s: strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s
+
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.s
+
+# target to generate assembly for a file
+strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s
+
+strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.o: strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o
+
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.o
+
+# target to build an object file
+strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o
+
+strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.i: strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i
+
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.i
+
+# target to preprocess a source file
+strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i
+
+strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.s: strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s
+
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.s
+
+# target to generate assembly for a file
+strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s
+.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s
+
+strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.o: strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o
+
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.o
+
+# target to build an object file
+strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o
+
+strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.i: strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i
+
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.i
+
+# target to preprocess a source file
+strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i
+
+strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.s: strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s
+
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.s
+
+# target to generate assembly for a file
+strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s
+
+strict_mode/tiny_loader/arch/i386/tiny_loader_shell.o: strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o
+
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.o
+
+# target to build an object file
+strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o
+
+strict_mode/tiny_loader/arch/i386/tiny_loader_shell.i: strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i
+
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.i
+
+# target to preprocess a source file
+strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i
+
+strict_mode/tiny_loader/arch/i386/tiny_loader_shell.s: strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s
+
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.s
+
+# target to generate assembly for a file
+strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s
+.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... edit_cache"
+	@echo "... tiny_loader_filewriter_amd64"
+	@echo "... tiny_loader_filewriter_i386_exe"
+	@echo "... tiny_loader_filewriter_i386"
+	@echo "... tiny_loader_shell_amd64_exe"
 	@echo "... generate_x32"
+	@echo "... tiny_loader_filewriter_amd64_exe"
 	@echo "... loader_stage_three"
 	@echo "... rebuild_cache"
+	@echo "... tiny_loader_shell_amd64"
+	@echo "... tiny_loader_shell_i386_exe"
 	@echo "... loader_stage_one"
+	@echo "... tiny_loader_shell_i386"
 	@echo "... generate_x64"
 	@echo "... loader_stage_two"
-	@echo "... edit_cache"
 	@echo "... cJSON.o"
 	@echo "... cJSON.i"
 	@echo "... cJSON.s"
@@ -347,6 +579,18 @@ help:
 	@echo "... loader_stage_two.o"
 	@echo "... loader_stage_two.i"
 	@echo "... loader_stage_two.s"
+	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.o"
+	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.i"
+	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.s"
+	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.o"
+	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.i"
+	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.s"
+	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.o"
+	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.i"
+	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.s"
+	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_shell.o"
+	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_shell.i"
+	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_shell.s"
 .PHONY : help
 
 

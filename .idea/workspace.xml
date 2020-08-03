@@ -2,11 +2,19 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="HookUtilV3" targetName="loader_stage_one" />
-      <config projectName="HookUtilV3" targetName="loader_stage_two" />
-      <config projectName="HookUtilV3" targetName="loader_stage_three" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_amd64" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_i386" />
       <config projectName="HookUtilV3" targetName="generate_x32" />
       <config projectName="HookUtilV3" targetName="generate_x64" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_shell_i386_exe" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_amd64_exe" />
+      <config projectName="HookUtilV3" targetName="loader_stage_one" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_shell_i386" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_shell_amd64_exe" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_i386_exe" />
+      <config projectName="HookUtilV3" targetName="loader_stage_three" />
+      <config projectName="HookUtilV3" targetName="loader_stage_two" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_shell_amd64" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -16,25 +24,61 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/arch/amd64/unistd_syscall.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arch/i386/unistd_syscall.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arch/amd64/unistd_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/amd64/unistd_syscall.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arch/amd64/x64_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/amd64/x64_syscall.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arch/common/arch.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/common/arch.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arch/common/syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/common/syscall.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arch/i386/x86_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/i386/x86_syscall.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arch/i386/unistd_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/i386/unistd_syscall.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto_generate/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/auto_generate/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/babyheap_out" beforeDir="false" afterPath="$PROJECT_DIR$/babyheap_out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/generate.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/generate.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/generate.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/generate.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/loader_stage_two.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/loader_stage_two.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/generate_x32" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/generate_x32" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/generate_x64" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/generate_x64" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_one.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_one.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_three.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_three.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_two.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_two.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/generate.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hook.h" beforeDir="false" afterPath="$PROJECT_DIR$/hook.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader_stage_one.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_one.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loader_stage_three.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_three.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/generate" beforeDir="false" afterPath="$PROJECT_DIR$/out/generate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/libloader_stage_one.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_one.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/libloader_stage_three.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_three.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/libloader_stage_two.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_two.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/common.h" beforeDir="false" afterPath="$PROJECT_DIR$/utils/common.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,9 +100,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="OCResolveContextSettings">
-    <option name="configuration" value="0-Debug-loader_stage_one" />
-  </component>
   <component name="ProjectId" id="1dby43Q1sRKztjqnIlI1WUfabEv" />
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -92,6 +133,13 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/strict_mode/tiny_loader/arch/i386" />
+      <recent name="$PROJECT_DIR$/strict_mode/tiny_loader/arch" />
+      <recent name="$PROJECT_DIR$/strict_mode/tiny_loader" />
+      <recent name="$PROJECT_DIR$/out" />
+      <recent name="$PROJECT_DIR$/auto_generate" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/ctf_awd/2019_qwb_real/nvram" />
       <recent name="$PROJECT_DIR$/ctf_awd/2019_qwb_real/pwn3" />
@@ -99,15 +147,8 @@
       <recent name="$PROJECT_DIR$/ctf_awd/2019_qwb_real/pwn1" />
       <recent name="$PROJECT_DIR$/ctf_awd/2019_qwb/main32" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/out" />
-      <recent name="$PROJECT_DIR$/auto_generate" />
-      <recent name="$PROJECT_DIR$/arch/i386" />
-      <recent name="$PROJECT_DIR$/arch/amd64" />
-      <recent name="$PROJECT_DIR$/ctf_awd/2019_qwb/babyheap" />
-    </key>
   </component>
-  <component name="RunManager" selected="CMake Application.generate_2_32">
+  <component name="RunManager" selected="CMake Application.tiny_loader_shell_i386_exe">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -154,6 +195,46 @@
       </method>
     </configuration>
     <configuration name="loader_stage_two" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="loader_stage_two" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tiny_loader_filewriter_amd64" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="tiny_loader_filewriter_amd64" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tiny_loader_filewriter_amd64_exe" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="tiny_loader_filewriter_amd64_exe" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="tiny_loader_filewriter_amd64_exe">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tiny_loader_filewriter_i386" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="tiny_loader_filewriter_i386" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tiny_loader_filewriter_i386_exe" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="tiny_loader_filewriter_i386_exe" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="tiny_loader_filewriter_i386_exe">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tiny_loader_shell_amd64" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="tiny_loader_shell_amd64" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tiny_loader_shell_amd64_exe" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="tiny_loader_shell_amd64_exe" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="tiny_loader_shell_amd64_exe">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tiny_loader_shell_i386" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="tiny_loader_shell_i386" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tiny_loader_shell_i386_exe" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HookUtilV3" TARGET_NAME="tiny_loader_shell_i386_exe" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="tiny_loader_shell_i386_exe">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -274,6 +355,14 @@
       <item itemvalue="CMake Application.loader_stage_one" />
       <item itemvalue="CMake Application.loader_stage_three" />
       <item itemvalue="CMake Application.loader_stage_two" />
+      <item itemvalue="CMake Application.tiny_loader_filewriter_amd64" />
+      <item itemvalue="CMake Application.tiny_loader_filewriter_amd64_exe" />
+      <item itemvalue="CMake Application.tiny_loader_filewriter_i386" />
+      <item itemvalue="CMake Application.tiny_loader_filewriter_i386_exe" />
+      <item itemvalue="CMake Application.tiny_loader_shell_amd64" />
+      <item itemvalue="CMake Application.tiny_loader_shell_amd64_exe" />
+      <item itemvalue="CMake Application.tiny_loader_shell_i386" />
+      <item itemvalue="CMake Application.tiny_loader_shell_i386_exe" />
       <item itemvalue="Python.awd_config" />
       <item itemvalue="Python.patch_socket_server" />
       <item itemvalue="Python.poc (1)" />
@@ -335,7 +424,11 @@
       <workItem from="1595598687991" duration="9751000" />
       <workItem from="1595684562669" duration="1519000" />
       <workItem from="1595723173070" duration="1142000" />
-      <workItem from="1595946233061" duration="24011000" />
+      <workItem from="1595946233061" duration="24670000" />
+      <workItem from="1596288469177" duration="2713000" />
+      <workItem from="1596293755905" duration="5507000" />
+      <workItem from="1596335421147" duration="5387000" />
+      <workItem from="1596370794038" duration="6535000" />
     </task>
     <servers />
   </component>
@@ -347,14 +440,18 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="425" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1596024259140" />
-    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596029203579">
+    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596336196948">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1440@0.0.2560.1440" timestamp="1596029203579" />
+    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1440@0.0.2560.1440" timestamp="1596336196948" />
     <state x="966" y="450" key="#loader_stage_one" timestamp="1595518304055">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="966" y="450" key="#loader_stage_one/0.0.2560.1440@0.0.2560.1440" timestamp="1595518304055" />
+    <state x="974" y="458" key="#tiny_loader_shell_amd64" timestamp="1596370966517">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="974" y="458" key="#tiny_loader_shell_amd64/0.0.2560.1440@0.0.2560.1440" timestamp="1596370966517" />
     <state x="1043" y="432" key="#xdebugger.evaluate" timestamp="1595605723804">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -367,47 +464,47 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="1038" y="470" key="FileChooserDialogImpl/0.0.2560.1440@0.0.2560.1440" timestamp="1595506585901" />
-    <state width="2518" height="463" key="GridCell.Tab.0.bottom" timestamp="1596116279684">
+    <state width="1236" height="463" key="GridCell.Tab.0.bottom" timestamp="1596384966994">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="463" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1596116279684" />
-    <state width="2518" height="463" key="GridCell.Tab.0.center" timestamp="1596116279677">
+    <state width="1236" height="463" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1596384966994" />
+    <state width="1236" height="463" key="GridCell.Tab.0.center" timestamp="1596384966988">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="463" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1596116279677" />
-    <state width="2518" height="463" key="GridCell.Tab.0.left" timestamp="1596116279674">
+    <state width="1236" height="463" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1596384966988" />
+    <state width="1236" height="463" key="GridCell.Tab.0.left" timestamp="1596384966985">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="463" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1596116279674" />
-    <state width="2518" height="463" key="GridCell.Tab.0.right" timestamp="1596116279681">
+    <state width="1236" height="463" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1596384966985" />
+    <state width="1236" height="463" key="GridCell.Tab.0.right" timestamp="1596384966991">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="463" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1596116279681" />
-    <state width="2518" height="564" key="GridCell.Tab.1.bottom" timestamp="1596024741655">
+    <state width="1236" height="463" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1596384966991" />
+    <state width="2518" height="564" key="GridCell.Tab.1.bottom" timestamp="1596194709666">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="564" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1596024741655" />
-    <state width="2518" height="564" key="GridCell.Tab.1.center" timestamp="1596024741651">
+    <state width="2518" height="564" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1596194709666" />
+    <state width="2518" height="564" key="GridCell.Tab.1.center" timestamp="1596194709661">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="564" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1596024741651" />
-    <state width="2518" height="564" key="GridCell.Tab.1.left" timestamp="1596024741649">
+    <state width="2518" height="564" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1596194709661" />
+    <state width="2518" height="564" key="GridCell.Tab.1.left" timestamp="1596194709658">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="564" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1596024741649" />
-    <state width="2518" height="564" key="GridCell.Tab.1.right" timestamp="1596024741653">
+    <state width="2518" height="564" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1596194709658" />
+    <state width="2518" height="564" key="GridCell.Tab.1.right" timestamp="1596194709663">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="564" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1596024741653" />
+    <state width="2518" height="564" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1596194709663" />
     <state x="774" y="361" key="SettingsEditor" timestamp="1595506599598">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="774" y="361" key="SettingsEditor/0.0.2560.1440@0.0.2560.1440" timestamp="1595506599598" />
-    <state x="960" y="566" key="com.intellij.ide.util.TipDialog" timestamp="1595946233132">
+    <state x="960" y="566" key="com.intellij.ide.util.TipDialog" timestamp="1596370832081">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="750" y="524" key="com.intellij.ide.util.TipDialog/0.0.2000.1333@0.0.2000.1333" timestamp="1595723200949" />
-    <state x="960" y="566" key="com.intellij.ide.util.TipDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1595946233132" />
+    <state x="750" y="524" key="com.intellij.ide.util.TipDialog/0.0.2000.1333@0.0.2000.1333" timestamp="1596288474020" />
+    <state x="960" y="566" key="com.intellij.ide.util.TipDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1596370832081" />
     <state x="936" y="447" width="690" height="528" key="find.popup" timestamp="1595685732969">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -427,7 +524,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/loader_stage_one.c</url>
-          <line>73</line>
+          <line>71</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -452,32 +549,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>1019</line>
+          <line>1020</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>1075</line>
+          <line>1076</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>966</line>
+          <line>967</line>
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>1013</line>
+          <line>1014</line>
           <option name="timeStamp" value="98" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>1178</line>
+          <line>1180</line>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/generate.c</url>
-          <line>1100</line>
+          <line>1101</line>
           <option name="timeStamp" value="102" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

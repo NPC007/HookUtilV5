@@ -8,9 +8,13 @@
 
 ../arch/amd64/loader_x64.h
 
+../arch/amd64/unistd_syscall.h
+
 ../arch/amd64/x64_syscall.h
 sys/syscall.h
 -
+unistd_syscall.h
+../arch/amd64/unistd_syscall.h
 
 ../arch/common/arch.h
 ../amd64/x64_syscall.h
@@ -31,6 +35,8 @@ arch.h
 ../arch/i386/x86_syscall.h
 sys/syscall.h
 -
+unistd_syscall.h
+../arch/i386/unistd_syscall.h
 
 /root/CLionProjects/HookUtilV3/auto_generate/config.h
 

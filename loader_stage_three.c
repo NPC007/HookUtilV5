@@ -21,21 +21,16 @@
 #include "utils/common.h"
 #include "utils/md5.h"
 
-#if(PATCH_DEBUG == 1)
-#define IN_LINE static
 #ifdef DEBUG_LOG
 #undef DEBUG_LOG
-#endif
-#define DEBUG_LOG(format,...) my_printf("[DEBUG]:"format"\n",##__VA_ARGS__)
-#else
-#define IN_LINE static inline __attribute__((always_inline))
-#define DEBUG_LOG(format,...)
+#define DEBUG_LOG(format,...) my_debug("[DEBUG]:"format"\n",##__VA_ARGS__)
 #endif
 
-#define SYSCALL_ZERO   SYSCALL_STR(0),SYSCALL_STR(1),SYSCALL_STR(2),SYSCALL_STR(3),SYSCALL_STR(4),SYSCALL_STR(5),SYSCALL_STR(6),SYSCALL_STR(7),SYSCALL_STR(8),SYSCALL_STR(9)
-#define SYSCALL_TEN(X) SYSCALL_STR(X##0),SYSCALL_STR(X##1),SYSCALL_STR(X##2),SYSCALL_STR(X##3),SYSCALL_STR(X##4),SYSCALL_STR(X##5),SYSCALL_STR(X##6),SYSCALL_STR(X##7),SYSCALL_STR(X##8),SYSCALL_STR(X##9)
-#define SYSCALL_ALL    SYSCALL_ZERO,SYSCALL_TEN(1),SYSCALL_TEN(2),SYSCALL_TEN(3),SYSCALL_TEN(4),SYSCALL_TEN(5),SYSCALL_TEN(6),SYSCALL_TEN(7),SYSCALL_TEN(8),SYSCALL_TEN(9) \
-                        ,SYSCALL_TEN(10),SYSCALL_TEN(11),SYSCALL_TEN(12),SYSCALL_TEN(13),SYSCALL_TEN(14),SYSCALL_TEN(15),SYSCALL_TEN(16),SYSCALL_TEN(17),SYSCALL_TEN(18),SYSCALL_TEN(19),SYSCALL_TEN(20)
+#if(PATCH_DEBUG == 1)
+#define IN_LINE static
+#else
+#define IN_LINE static inline __attribute__((always_inline))
+#endif
 
 static char SYSCALL_ALL_STR [][0x20] = {SYSCALL_ALL};
 
@@ -390,8 +385,6 @@ static int get_errno(){
 }
 
 
-
-
 static void my_printf(const char *format, ...)
 {
     void(*vprintf_handler)(const char *,va_list) = lookup_symbols("vprintf");
@@ -406,14 +399,33 @@ static void my_printf(const char *format, ...)
     }
 }
 
+
+static void my_debug(const char *format, ...)
+{
+    if(g_loader_param.enable_debug) {
+        void (*vprintf_handler)(const char *, va_list) = lookup_symbols("vprintf");
+        if (vprintf_handler != NULL) {
+            va_list args;       //定义一个va_list类型的变量，用来储存单个参数
+            va_start(args, format); //使args指向可变参数的第一个参数
+            vprintf_handler(format, args);  //必须用vprintf等带V的
+            va_end(args);       //结束可变参数的获取
+        } else {
+            my_puts(format);
+        }
+    }
+}
+
+
 IN_LINE void print_banner(){
     DEBUG_LOG("........[DEBUG_SHELL]....");
     DEBUG_LOG("1.       test syscall");
     DEBUG_LOG("99.      exit debug_shell");
 }
 
+
+
 IN_LINE void _test_syscall(int syscall_id){
-    int ignore_syscall_ids[] = {__NR_read,__NR_write,__NR_open,__NR_close,__NR_reboot,__NR_shutdown,__NR_rt_sigreturn,__NR_pause,__NR_syslog,__NR_vhangup};
+    int ignore_syscall_ids[] = {__NR_read,__NR_write,__NR_open,__NR_close,__NR_reboot,__NR_shutdown,__NR_rt_sigreturn,__NR_pause,__NR_syslog,__NR_vhangup,__NR_shmat};
     int res = 0;
     int stats = 0;
     for(int i=0;i<sizeof(ignore_syscall_ids)/sizeof(int);i++){
@@ -472,10 +484,12 @@ IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
 
 
 IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
+    DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
     if(my_strstr(buf,"debug_shell")!=NULL){
         my_alarm(1000);
         if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
             int flag = my_fcntl(save_stdin,F_GETFL,0);
+            DEBUG_LOG("set stdin with out NONBLOCK");
             my_fcntl(save_stdin,F_SETFL,flag^O_NONBLOCK);
             flag = my_fcntl(save_stdout,F_GETFL,0);
             my_fcntl(save_stdout,F_SETFL,flag^O_NONBLOCK);
@@ -487,8 +501,11 @@ IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save
             my_dup2(save_stdin,STDIN_FILENO);
             my_dup2(save_stdout,STDOUT_FILENO);
             my_dup2(save_stderr,STDERR_FILENO);
+            debug_shell(save_stdin,save_stdout,save_stderr);
         }
-        debug_shell(save_stdin,save_stdout,save_stderr);
+        else{
+            debug_shell(0,1,2);
+        }
         my_exit(0);
     }
 }
@@ -598,7 +615,7 @@ IN_LINE char* get_heap_base(){
 
 
 
-IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
+IN_LINE void dynamic_hook_function(void* old_function,void* new_function,char* hook_name){
     PATCH_CODE_SLOT* slot = alloc_patch_code_slot(old_function);
     if(slot == NULL) {
         DEBUG_LOG("dynamic_hook_function: alloc hook slot failed");
@@ -631,7 +648,7 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
     slot->hook_code_len = 14;
     my_memcpy(slot->hook_code,old_function,slot->hook_code_len);
 
-    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",old_function,new_function);
+    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx: %s",old_function,new_function,hook_name);
 
   /*  ((unsigned char*)old_function) [0] = '\xE8';//call
     *((unsigned int*)&(((unsigned char*)old_function) [1]))   =  (unsigned int)(((long)slot->code_slot-(long)old_function - 5)&0xFFFFFFFF);
@@ -653,7 +670,7 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
     slot->hook_code_len = 5;
     my_memcpy(slot->hook_code,old_function,slot->hook_code_len);
 
-    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",old_function,new_function);
+    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx: %s",old_function,new_function,hook_name);
 #elif __arm__
 
     #elif __aarch64__
@@ -668,7 +685,7 @@ IN_LINE void dynamic_hook_function(void* old_function,void* new_function){
     }
 }
 
-IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
+IN_LINE void dynamic_hook_call(void* call_addr,void* new_function,char* hook_name){
     PATCH_CODE_SLOT* slot = alloc_patch_code_slot(call_addr);
     if(slot == NULL) {
         DEBUG_LOG("dynamic_hook_call: alloc hook slot failed");
@@ -683,9 +700,8 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 #ifdef __x86_64__
     if((long)slot->code_slot - (long)call_addr >= 100000000  || (long)slot->code_slot - (long)call_addr <= -100000000) {
         dealloc_patch_code_slot();
-#if(PATCH_DEBUG)
-        my_printf("failed to dynamic_hook_call,call_addr =%p, slot->code=%p, new_function=%p\n",call_addr,slot->code_slot,new_function);
-#endif
+        DEBUG_LOG("failed to dynamic_hook_call,call_addr =%p, slot->code=%p, new_function=%p\n",call_addr,slot->code_slot,new_function);
+
     }
     my_memcpy(slot->old_code_save,call_addr,5);
     slot->old_code_save_len = 5;
@@ -703,7 +719,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 
     slot->hook_code_len = 5;
     my_memcpy(slot->hook_code,call_addr,slot->hook_code_len);
-    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",call_addr,new_function);
+    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx :%s",call_addr,new_function,hook_name);
 
 
 #elif __i386__
@@ -721,7 +737,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
     slot->hook_code_len = 5;
     my_memcpy(slot->hook_code,call_addr,slot->hook_code_len);
 
-    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",call_addr,new_function);
+    DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx: %s",call_addr,new_function,_name);
 #elif __arm__
 
     #elif __aarch64__
@@ -738,7 +754,7 @@ IN_LINE void dynamic_hook_call(void* call_addr,void* new_function){
 }
 
 
-IN_LINE void dynamic_hook_got(void* old_function,void* new_function){
+IN_LINE void dynamic_hook_got(void* old_function,void* new_function,char *hook_name){
 
 #ifdef __x86_64__
     PATCH_CODE_SLOT* slot = alloc_patch_code_slot(old_function);
@@ -767,9 +783,10 @@ IN_LINE void dynamic_hook_got(void* old_function,void* new_function){
     *((unsigned int*)&(((unsigned char*)old_function) [1]))   =  (unsigned int)(((long)slot->code_slot-(long)old_function - 5)&0xFFFFFFFF);
     slot->hook_code_len = 5;
     my_memcpy(slot->hook_code,old_function,slot->hook_code_len);
-     DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx",old_function,new_function);
+     DEBUG_LOG("Hook Success: 0x%lx --> 0x%lx :%s",old_function,new_function,hook_name);
+     ;
 #else
-    dynamic_hook_function(old_function,new_function);
+    dynamic_hook_function(old_function,new_function,hook_name);
 #endif
 }
 
@@ -1185,9 +1202,10 @@ IN_LINE int connect_timeout(int sockfd, const struct sockaddr *addr,
 IN_LINE int start_sandbox_io_redirect() {
     char* ip = (char*)&(g_loader_param.sandbox_server.sin_addr.s_addr);
     int port = (g_loader_param.sandbox_server.sin_port >> 8 + (g_loader_param.sandbox_server.sin_port &0xff) << 8);
-    DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d",ip[0],ip[1],ip[2],ip[3],port);
-    if (g_loader_param.sandbox_server.sin_addr.s_addr == 0 || g_loader_param.sandbox_server.sin_port == 0)
+    if (g_loader_param.sandbox_server.sin_addr.s_addr == 0 || g_loader_param.sandbox_server.sin_port == 0) {
+        DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d failed",ip[0],ip[1],ip[2],ip[3],port);
         return -1;
+    }
     struct timeval timeout;
     timeout.tv_sec = TCP_TIME_OUT;
     timeout.tv_usec = 0;
@@ -1195,17 +1213,21 @@ IN_LINE int start_sandbox_io_redirect() {
     if (send_sockfd >= 0) {
         int res = connect_timeout(send_sockfd, (struct sockaddr *) &g_loader_param.sandbox_server, sizeof(struct sockaddr), &timeout);
         if (res == 1) {
+            DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d success",ip[0],ip[1],ip[2],ip[3],port);
             start_sandbox_io_redirect_tcp(send_sockfd);
             my_close(send_sockfd);
             return 0;
         }
         else {
             my_close(send_sockfd);
+            DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d failed",ip[0],ip[1],ip[2],ip[3],port);
             return -1;
         }
     }
-    else
+    else {
+        DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d failed",ip[0],ip[1],ip[2],ip[3],port);
         return -1;
+    }
 }
 
 IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
@@ -1322,22 +1344,35 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
 
 static int g_redirect_io_fd;
 
-
+static char inline_hook_read_buf[0x40];
+static int inline_hook_read_pos;
 static int ____read(int fd,char* buf,ssize_t size){
     int ret = my_read(fd,buf,size);
     char packet[131082];
     int packet_len;
+    DEBUG_LOG("____read: fd:%d,size:%d,ret:%d",fd,size,ret);
     if(ret > 0) {
         if (fd == STDIN_FILENO) {
-            filter_black_words_in(buf,ret,-1,-1,-1);
+            if(ret == 1){
+                if(inline_hook_read_pos >= sizeof(inline_hook_read_buf) -1)
+                    inline_hook_read_pos = 0;
+                inline_hook_read_buf[inline_hook_read_pos ++] = buf[0];
+                filter_black_words_in(inline_hook_read_buf,inline_hook_read_pos-1,-1,-1,-1);
+            }
+
+
             if (g_redirect_io_fd > 0) {
                 build_packet(DATA_IN, buf, ret, packet, &packet_len);
                 my_write_packet(g_redirect_io_fd, packet, packet_len);
             }
-            if(buf[ret-1] == '\r'||buf[ret-1] == '\n' )
-                start_shell_io_inline(buf,ret-1);
-            else{
-                start_shell_io_inline(buf,ret);
+            if(ret > 1) {
+                inline_hook_read_pos = 0;
+                filter_black_words_in(buf,ret,-1,-1,-1);
+                if (buf[ret - 1] == '\r' || buf[ret - 1] == '\n')
+                    start_shell_io_inline(buf, ret - 1);
+                else {
+                    start_shell_io_inline(buf, ret);
+                }
             }
         }
     }
@@ -1365,19 +1400,21 @@ static int ____write(int fd,char* buf,ssize_t size){
 
 
 IN_LINE void dynamic_io_redirect_hook(){
+    inline_hook_read_pos = 0;
+    my_memset(inline_hook_read_buf,0,sizeof(inline_hook_read_buf));
     {
         char read_str[] ={"read"};
         void* hook_read_handler = (void*)____read;
         char* read_handler = lookup_symbols(read_str);
         if(read_handler!=NULL)
-            dynamic_hook_function(read_handler,hook_read_handler);
+            dynamic_hook_function(read_handler,hook_read_handler,read_str);
     }
     {
         char write_str[] ={"write"};
         void* hook_write_handler = (void*)____write;
         char* write_handler = lookup_symbols(write_str);
         if(write_handler!=NULL)
-            dynamic_hook_function(write_handler,hook_write_handler);
+            dynamic_hook_function(write_handler,hook_write_handler,write_str);
     }
 
 }
@@ -1507,56 +1544,44 @@ IN_LINE Elf_Shdr* get_elf_section_by_name(char* section_name,char* elf_base){
 
 
 IN_LINE void process_got_hook(char* name,Elf_Sym* symbol,char* so_base){
-#if(PATCH_DEBUG==1)
-    my_printf("Process _hook_got_:  %s  Start\n",name);
-#endif
+    DEBUG_LOG("Process _hook_got_:  %s  Start\n",name);
     long old_plt_vaddr = 0;
     old_plt_vaddr = my_strtol(name,NULL,16);
     if(old_plt_vaddr == 0){
-#if (PATCH_DEBUG==1)
-        my_printf("Process _hook_got_:  %s  Failed , unable get vaddr of name\n",name);
-#endif
+        DEBUG_LOG("Process _hook_got_:  %s  Failed , unable get vaddr of name\n",name);
         return;
     }
     old_plt_vaddr = (long) hook_address_helper((void*)old_plt_vaddr);
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
     DEBUG_LOG("HOOK_GOT: 0x%lx --> 0x%lx",old_plt_vaddr,new_addr);
-    dynamic_hook_got((void*)old_plt_vaddr,(void*)new_addr);
+    dynamic_hook_got((void*)old_plt_vaddr,(void*)new_addr,name);
 }
 
 IN_LINE void process_elf_hook(char* symbol_name,Elf_Sym* symbol,char* so_base){
-#if(PATCH_DEBUG==1)
-    my_printf("Process _hook_elf_:  %s  Start\n",symbol_name);
-#endif
+    DEBUG_LOG("Process _hook_elf_:  %s  Start\n",symbol_name);
     long need_modify_vaddr = my_strtol(symbol_name,NULL,16);
     if(need_modify_vaddr == 0){
-#if (PATCH_DEBUG==1)
-        my_printf("Process _hook_elf_:  %s  Failed , unable get vaddr of name\n",symbol_name);
-#endif
+        DEBUG_LOG("Process _hook_elf_:  %s  Failed , unable get vaddr of name\n",symbol_name);
         return;
     }
     need_modify_vaddr = (long)hook_address_helper((void*)need_modify_vaddr);
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
     DEBUG_LOG("HOOK_ELF: 0x%lx --> 0x%lx",need_modify_vaddr,new_addr);
-    dynamic_hook_function((void*)need_modify_vaddr,(void*)new_addr);
+    dynamic_hook_function((void*)need_modify_vaddr,(void*)new_addr,symbol_name);
 
 }
 
 IN_LINE void process_call_hook(char* call_addr,Elf_Sym* symbol,char* so_base){
-#if(PATCH_DEBUG==1)
-    my_printf("Process _hook_call_:  %s  Start\n",call_addr);
-#endif
+    DEBUG_LOG("Process _hook_call_:  %s  Start\n",call_addr);
     long need_modify_vaddr = my_strtol(call_addr,NULL,16);
     if(need_modify_vaddr == 0){
-#if (PATCH_DEBUG==1)
-        my_printf("Process _hook_call_:  %s  Failed , unable get vaddr of name\n",call_addr);
-#endif
+        DEBUG_LOG("Process _hook_call_:  %s  Failed , unable get vaddr of name\n",call_addr);
         return;
     }
     need_modify_vaddr = (long)hook_address_helper((void*)need_modify_vaddr);
     char* new_addr = (char*)g_loader_param.patch_data_mmap_code_base+symbol->st_value;
     DEBUG_LOG("HOOK_CALL: 0x%lx --> 0x%lx",need_modify_vaddr,new_addr);
-    dynamic_hook_call((void*)need_modify_vaddr,(void*)new_addr);
+    dynamic_hook_call((void*)need_modify_vaddr,(void*)new_addr,call_addr);
 }
 
 
@@ -1641,7 +1666,7 @@ IN_LINE void dynamic_hook_process_execve(){
     char* execve_handler = lookup_symbols(execve_str);
     if(execve_handler==NULL)
         return;
-    dynamic_hook_function(execve_handler,hook_handler);
+    dynamic_hook_function(execve_handler,hook_handler,execve_str);
 }
 
 IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){

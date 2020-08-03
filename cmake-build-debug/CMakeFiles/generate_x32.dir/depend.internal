@@ -6,6 +6,7 @@ CMakeFiles/generate_x32.dir/cJSON.c.o
  /root/CLionProjects/HookUtilV3/cJSON.h
 CMakeFiles/generate_x32.dir/generate.c.o
  ../arch/amd64/loader_x64.h
+ ../arch/amd64/unistd_syscall.h
  ../arch/amd64/x64_syscall.h
  ../arch/common/arch.h
  ../arch/common/syscall.h

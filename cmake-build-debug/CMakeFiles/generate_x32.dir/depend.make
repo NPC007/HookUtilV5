@@ -5,6 +5,7 @@ CMakeFiles/generate_x32.dir/cJSON.c.o: ../cJSON.c
 CMakeFiles/generate_x32.dir/cJSON.c.o: ../cJSON.h
 
 CMakeFiles/generate_x32.dir/generate.c.o: ../arch/amd64/loader_x64.h
+CMakeFiles/generate_x32.dir/generate.c.o: ../arch/amd64/unistd_syscall.h
 CMakeFiles/generate_x32.dir/generate.c.o: ../arch/amd64/x64_syscall.h
 CMakeFiles/generate_x32.dir/generate.c.o: ../arch/common/arch.h
 CMakeFiles/generate_x32.dir/generate.c.o: ../arch/common/syscall.h

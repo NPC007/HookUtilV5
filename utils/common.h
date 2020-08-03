@@ -263,5 +263,11 @@ IN_LINE void my_puts(const char* str){
 }
 
 
+IN_LINE void my_write_stdout(const char* str){
+    char end[] = {'\n'};
+    my_write(1,str,my_strlen(str));
+}
+
+
 
 #endif //HOOKUTILV3_COMMON_H

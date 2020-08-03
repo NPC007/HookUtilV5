@@ -3,6 +3,7 @@
 
 CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o
  /root/CLionProjects/HookUtilV3/arch/amd64/loader_x64.h
+ /root/CLionProjects/HookUtilV3/arch/amd64/unistd_syscall.h
  /root/CLionProjects/HookUtilV3/arch/amd64/x64_syscall.h
  /root/CLionProjects/HookUtilV3/arch/common/arch.h
  /root/CLionProjects/HookUtilV3/arch/common/syscall.h

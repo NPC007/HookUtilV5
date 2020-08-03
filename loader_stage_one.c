@@ -22,11 +22,9 @@ static int my_strlen(const char *src){
         i++;
     return i;
 }
-static void my_puts(const char* str){
+static void my_write_stdout(const char* str){
     long res;
-    char end[] = {'\n'};
     asm_write(1,str,my_strlen(str),res);
-    asm_write(1,end,1,res);
 }
 #endif
 

@@ -44,9 +44,17 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/tiny_loader_filewriter_amd64.dir/DependInfo.cmake"
+  "CMakeFiles/tiny_loader_filewriter_i386_exe.dir/DependInfo.cmake"
+  "CMakeFiles/tiny_loader_filewriter_i386.dir/DependInfo.cmake"
+  "CMakeFiles/tiny_loader_shell_amd64_exe.dir/DependInfo.cmake"
   "CMakeFiles/generate_x32.dir/DependInfo.cmake"
+  "CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/DependInfo.cmake"
   "CMakeFiles/loader_stage_three.dir/DependInfo.cmake"
+  "CMakeFiles/tiny_loader_shell_amd64.dir/DependInfo.cmake"
+  "CMakeFiles/tiny_loader_shell_i386_exe.dir/DependInfo.cmake"
   "CMakeFiles/loader_stage_one.dir/DependInfo.cmake"
+  "CMakeFiles/tiny_loader_shell_i386.dir/DependInfo.cmake"
   "CMakeFiles/generate_x64.dir/DependInfo.cmake"
   "CMakeFiles/loader_stage_two.dir/DependInfo.cmake"
   )

@@ -5,15 +5,18 @@
 
 #define asm_open(FILE,FLAG,MODE,RES) __asm__ __volatile__ ("syscall"\
                                                     :"=a" (RES)\
-                                                    :"0"(__NR_open),"D"((long)FILE),"S"((long)FLAG),"d"((long)MODE));
+                                                    :"0"(__NR_open),"D"((long)FILE),"S"((long)FLAG),"d"((long)MODE)\
+                                                    :"%rcx","%r11");
 
 #define asm_close(FD,RES)  __asm__ __volatile__ ("syscall"\
                                             :"=a" (RES)\
-                                            :"0"(__NR_close),"D"((long)FD));
+                                            :"0"(__NR_close),"D"((long)FD)\
+                                            :"%rcx","%r11");
 
 #define asm_write(FD,BUF,N,RES) __asm__ __volatile__ ("syscall"\
                                                 :"=a" (RES)\
-                                                :"0"(__NR_write),"D"((long)FD),"S"((long)BUF),"d"((long)N));
+                                                :"0"(__NR_write),"D"((long)FD),"S"((long)BUF),"d"((long)N)\
+                                                :"%rcx","%r11");
 
 #define asm_read(FD,BUF,N,RES)  __asm__ __volatile__ ("syscall"\
                                                     :"=a" (RES)\

@@ -7,7 +7,7 @@
 
 #include "arch.h"
 
-#define SYSCALL_STR(X) SYSCALL_STR_##X
+
 
 IN_LINE long my_open(char* name,long mode,long flag){
     long res = 0;

@@ -737,7 +737,7 @@ void check_libloader_stage_one(char* libloader_stage_one){
     printf("check %s end\n",libloader_stage_one);
 }
 
-void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_stage_two,char* libloader_stage_three,int first_entry_offset,char* shell_passwd,char* analysis_server_ip,char* analysis_server_port,char* sandbox_server_ip,char* sandbox_server_port,char* target){
+void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_stage_two,char* libloader_stage_three,int first_entry_offset,char* shell_passwd,char* analysis_server_ip,char* analysis_server_port,char* sandbox_server_ip,char* sandbox_server_port,char* target,int enable_debug){
     char* libloader_stage_two_buf;
     int libloader_stage_two_len;
     int libloader_stage_two_fd;
@@ -773,7 +773,8 @@ void generate_data_file(void* elf_load_base,char* output_elf,char* libloader_sta
     MD5Init(&md5);
     MD5Update(&md5,shell_passwd,strlen(shell_passwd));
     MD5Final(&md5,three.shell_password);
-
+    if(enable_debug)
+        three.enable_debug = 1;
 
     three.entry_offset = (int)((Elf_Ehdr*)(get_file_content_length(libloader_stage_three,0,sizeof(Elf_Ehdr))))->e_entry;
     three.length = get_file_size(libloader_stage_three);
@@ -1146,9 +1147,10 @@ int main(int argc,char* argv[]){
 
         char* debug = cJSON_GetObjectItem(config,"debug")->valuestring;
         write_marco_define(config_file_fd,"PATCH_DEBUG",debug);
+        int enable_debug = strtol(debug,NULL,10);
 
         if(stage == 2)
-            generate_data_file(elf_load_base,output_elf,libloader_stage_two,libloader_stage_three,first_entry_offset,shell_password,analysis_server_ip,analysis_server_port,NULL,NULL,data_file_path);
+            generate_data_file(elf_load_base,output_elf,libloader_stage_two,libloader_stage_three,first_entry_offset,shell_password,analysis_server_ip,analysis_server_port,NULL,NULL,data_file_path,enable_debug);
 
     }
 

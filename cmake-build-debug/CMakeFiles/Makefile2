@@ -56,18 +56,34 @@ CMAKE_BINARY_DIR = /root/CLionProjects/HookUtilV3/cmake-build-debug
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/tiny_loader_filewriter_amd64.dir/all
+all: CMakeFiles/tiny_loader_filewriter_i386_exe.dir/all
+all: CMakeFiles/tiny_loader_filewriter_i386.dir/all
+all: CMakeFiles/tiny_loader_shell_amd64_exe.dir/all
 all: CMakeFiles/generate_x32.dir/all
+all: CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/all
 all: CMakeFiles/loader_stage_three.dir/all
+all: CMakeFiles/tiny_loader_shell_amd64.dir/all
+all: CMakeFiles/tiny_loader_shell_i386_exe.dir/all
 all: CMakeFiles/loader_stage_one.dir/all
+all: CMakeFiles/tiny_loader_shell_i386.dir/all
 all: CMakeFiles/generate_x64.dir/all
 all: CMakeFiles/loader_stage_two.dir/all
 
 .PHONY : all
 
 # The main recursive "clean" target.
+clean: CMakeFiles/tiny_loader_filewriter_amd64.dir/clean
+clean: CMakeFiles/tiny_loader_filewriter_i386_exe.dir/clean
+clean: CMakeFiles/tiny_loader_filewriter_i386.dir/clean
+clean: CMakeFiles/tiny_loader_shell_amd64_exe.dir/clean
 clean: CMakeFiles/generate_x32.dir/clean
+clean: CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/clean
 clean: CMakeFiles/loader_stage_three.dir/clean
+clean: CMakeFiles/tiny_loader_shell_amd64.dir/clean
+clean: CMakeFiles/tiny_loader_shell_i386_exe.dir/clean
 clean: CMakeFiles/loader_stage_one.dir/clean
+clean: CMakeFiles/tiny_loader_shell_i386.dir/clean
 clean: CMakeFiles/generate_x64.dir/clean
 clean: CMakeFiles/loader_stage_two.dir/clean
 
@@ -77,6 +93,114 @@ clean: CMakeFiles/loader_stage_two.dir/clean
 preinstall:
 
 .PHONY : preinstall
+
+#=============================================================================
+# Target rules for target CMakeFiles/tiny_loader_filewriter_amd64.dir
+
+# All Build rule for target.
+CMakeFiles/tiny_loader_filewriter_amd64.dir/all:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/depend
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=13,14 "Built target tiny_loader_filewriter_amd64"
+.PHONY : CMakeFiles/tiny_loader_filewriter_amd64.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiny_loader_filewriter_amd64.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiny_loader_filewriter_amd64.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/tiny_loader_filewriter_amd64.dir/rule
+
+# Convenience name for target.
+tiny_loader_filewriter_amd64: CMakeFiles/tiny_loader_filewriter_amd64.dir/rule
+
+.PHONY : tiny_loader_filewriter_amd64
+
+# clean rule for target.
+CMakeFiles/tiny_loader_filewriter_amd64.dir/clean:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/clean
+.PHONY : CMakeFiles/tiny_loader_filewriter_amd64.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tiny_loader_filewriter_i386_exe.dir
+
+# All Build rule for target.
+CMakeFiles/tiny_loader_filewriter_i386_exe.dir/all:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/depend
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=19,20 "Built target tiny_loader_filewriter_i386_exe"
+.PHONY : CMakeFiles/tiny_loader_filewriter_i386_exe.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiny_loader_filewriter_i386_exe.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiny_loader_filewriter_i386_exe.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/tiny_loader_filewriter_i386_exe.dir/rule
+
+# Convenience name for target.
+tiny_loader_filewriter_i386_exe: CMakeFiles/tiny_loader_filewriter_i386_exe.dir/rule
+
+.PHONY : tiny_loader_filewriter_i386_exe
+
+# clean rule for target.
+CMakeFiles/tiny_loader_filewriter_i386_exe.dir/clean:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/clean
+.PHONY : CMakeFiles/tiny_loader_filewriter_i386_exe.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tiny_loader_filewriter_i386.dir
+
+# All Build rule for target.
+CMakeFiles/tiny_loader_filewriter_i386.dir/all:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/depend
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=17,18 "Built target tiny_loader_filewriter_i386"
+.PHONY : CMakeFiles/tiny_loader_filewriter_i386.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiny_loader_filewriter_i386.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiny_loader_filewriter_i386.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/tiny_loader_filewriter_i386.dir/rule
+
+# Convenience name for target.
+tiny_loader_filewriter_i386: CMakeFiles/tiny_loader_filewriter_i386.dir/rule
+
+.PHONY : tiny_loader_filewriter_i386
+
+# clean rule for target.
+CMakeFiles/tiny_loader_filewriter_i386.dir/clean:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/clean
+.PHONY : CMakeFiles/tiny_loader_filewriter_i386.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tiny_loader_shell_amd64_exe.dir
+
+# All Build rule for target.
+CMakeFiles/tiny_loader_shell_amd64_exe.dir/all:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/depend
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=23,24 "Built target tiny_loader_shell_amd64_exe"
+.PHONY : CMakeFiles/tiny_loader_shell_amd64_exe.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiny_loader_shell_amd64_exe.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiny_loader_shell_amd64_exe.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/tiny_loader_shell_amd64_exe.dir/rule
+
+# Convenience name for target.
+tiny_loader_shell_amd64_exe: CMakeFiles/tiny_loader_shell_amd64_exe.dir/rule
+
+.PHONY : tiny_loader_shell_amd64_exe
+
+# clean rule for target.
+CMakeFiles/tiny_loader_shell_amd64_exe.dir/clean:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/clean
+.PHONY : CMakeFiles/tiny_loader_shell_amd64_exe.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/generate_x32.dir
@@ -106,6 +230,33 @@ CMakeFiles/generate_x32.dir/clean:
 .PHONY : CMakeFiles/generate_x32.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/tiny_loader_filewriter_amd64_exe.dir
+
+# All Build rule for target.
+CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/all:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/depend
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=15,16 "Built target tiny_loader_filewriter_amd64_exe"
+.PHONY : CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/rule
+
+# Convenience name for target.
+tiny_loader_filewriter_amd64_exe: CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/rule
+
+.PHONY : tiny_loader_filewriter_amd64_exe
+
+# clean rule for target.
+CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/clean:
+	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/clean
+.PHONY : CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/loader_stage_three.dir
 
 # All Build rule for target.
@@ -133,6 +284,60 @@ CMakeFiles/loader_stage_three.dir/clean:
 .PHONY : CMakeFiles/loader_stage_three.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/tiny_loader_shell_amd64.dir
+
+# All Build rule for target.
+CMakeFiles/tiny_loader_shell_amd64.dir/all:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/depend
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=21,22 "Built target tiny_loader_shell_amd64"
+.PHONY : CMakeFiles/tiny_loader_shell_amd64.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiny_loader_shell_amd64.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiny_loader_shell_amd64.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/tiny_loader_shell_amd64.dir/rule
+
+# Convenience name for target.
+tiny_loader_shell_amd64: CMakeFiles/tiny_loader_shell_amd64.dir/rule
+
+.PHONY : tiny_loader_shell_amd64
+
+# clean rule for target.
+CMakeFiles/tiny_loader_shell_amd64.dir/clean:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/clean
+.PHONY : CMakeFiles/tiny_loader_shell_amd64.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tiny_loader_shell_i386_exe.dir
+
+# All Build rule for target.
+CMakeFiles/tiny_loader_shell_i386_exe.dir/all:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/depend
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=27,28 "Built target tiny_loader_shell_i386_exe"
+.PHONY : CMakeFiles/tiny_loader_shell_i386_exe.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiny_loader_shell_i386_exe.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiny_loader_shell_i386_exe.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/tiny_loader_shell_i386_exe.dir/rule
+
+# Convenience name for target.
+tiny_loader_shell_i386_exe: CMakeFiles/tiny_loader_shell_i386_exe.dir/rule
+
+.PHONY : tiny_loader_shell_i386_exe
+
+# clean rule for target.
+CMakeFiles/tiny_loader_shell_i386_exe.dir/clean:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/clean
+.PHONY : CMakeFiles/tiny_loader_shell_i386_exe.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/loader_stage_one.dir
 
 # All Build rule for target.
@@ -158,6 +363,33 @@ loader_stage_one: CMakeFiles/loader_stage_one.dir/rule
 CMakeFiles/loader_stage_one.dir/clean:
 	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/clean
 .PHONY : CMakeFiles/loader_stage_one.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tiny_loader_shell_i386.dir
+
+# All Build rule for target.
+CMakeFiles/tiny_loader_shell_i386.dir/all:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/depend
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=25,26 "Built target tiny_loader_shell_i386"
+.PHONY : CMakeFiles/tiny_loader_shell_i386.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tiny_loader_shell_i386.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tiny_loader_shell_i386.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/tiny_loader_shell_i386.dir/rule
+
+# Convenience name for target.
+tiny_loader_shell_i386: CMakeFiles/tiny_loader_shell_i386.dir/rule
+
+.PHONY : tiny_loader_shell_i386
+
+# clean rule for target.
+CMakeFiles/tiny_loader_shell_i386.dir/clean:
+	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/clean
+.PHONY : CMakeFiles/tiny_loader_shell_i386.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/generate_x64.dir
