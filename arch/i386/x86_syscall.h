@@ -105,9 +105,9 @@
                                                     : "=a" (RES)\
                                                     :"0"(__NR_socketcall),"b"((long)SYS_GETSOCKOPT),"c"((long)&FD));
 
-#define asm_clone(FN,CHILD_STACK,FLAGS,ARG,RES) __asm__ __volatile__("int $0x80"\
+#define asm_clone(FLAGS,CHILD_STACK,PTID,CTID,TLS,RES) __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
-                                                    :"0"(__NR_clone),"b"((long)FN),"c"((long)CHILD_STACK),"d"((long)FLAGS),"S"((long)ARG));
+                                                    :"0"(__NR_clone),"b"((long)FLAGS),"c"((long)CHILD_STACK),"d"((long)PTID),"S"((long)TLS),"D"((long)CTID));
 
 #define asm_mprotect(START,LENGTH,PROTO,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\

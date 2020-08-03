@@ -2,19 +2,19 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_amd64" />
-      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_i386" />
-      <config projectName="HookUtilV3" targetName="generate_x32" />
-      <config projectName="HookUtilV3" targetName="generate_x64" />
-      <config projectName="HookUtilV3" targetName="tiny_loader_shell_i386_exe" />
-      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_amd64_exe" />
-      <config projectName="HookUtilV3" targetName="loader_stage_one" />
-      <config projectName="HookUtilV3" targetName="tiny_loader_shell_i386" />
-      <config projectName="HookUtilV3" targetName="tiny_loader_shell_amd64_exe" />
-      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_i386_exe" />
-      <config projectName="HookUtilV3" targetName="loader_stage_three" />
-      <config projectName="HookUtilV3" targetName="loader_stage_two" />
       <config projectName="HookUtilV3" targetName="tiny_loader_shell_amd64" />
+      <config projectName="HookUtilV3" targetName="loader_stage_three" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_amd64_exe" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_i386" />
+      <config projectName="HookUtilV3" targetName="loader_stage_one" />
+      <config projectName="HookUtilV3" targetName="generate_x32" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_shell_i386_exe" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_amd64" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_shell_i386" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_filewriter_i386_exe" />
+      <config projectName="HookUtilV3" targetName="loader_stage_two" />
+      <config projectName="HookUtilV3" targetName="generate_x64" />
+      <config projectName="HookUtilV3" targetName="tiny_loader_shell_amd64_exe" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -24,61 +24,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arch/amd64/unistd_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/amd64/unistd_syscall.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arch/amd64/x64_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/amd64/x64_syscall.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arch/common/arch.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/common/arch.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arch/common/syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/common/syscall.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arch/i386/unistd_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/i386/unistd_syscall.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arch/i386/x86_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/arch/i386/x86_syscall.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto_generate/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/auto_generate/config.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/babyheap_out" beforeDir="false" afterPath="$PROJECT_DIR$/babyheap_out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/generate.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/generate.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/generate.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/generate.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/loader_stage_two.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/loader_stage_two.dir/loader_stage_two.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/generate_x32" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/generate_x32" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/generate_x64" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/generate_x64" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_one.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_one.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_three.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_three.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_two.so" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libloader_stage_two.so" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/generate.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook.h" beforeDir="false" afterPath="$PROJECT_DIR$/hook.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_stage_one.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_one.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loader_stage_three.c" beforeDir="false" afterPath="$PROJECT_DIR$/loader_stage_three.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/generate" beforeDir="false" afterPath="$PROJECT_DIR$/out/generate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/libloader_stage_one.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_one.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/libloader_stage_three.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_three.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/libloader_stage_two.so" beforeDir="false" afterPath="$PROJECT_DIR$/out/libloader_stage_two.so" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/common.h" beforeDir="false" afterPath="$PROJECT_DIR$/utils/common.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -429,6 +401,7 @@
       <workItem from="1596293755905" duration="5507000" />
       <workItem from="1596335421147" duration="5387000" />
       <workItem from="1596370794038" duration="6535000" />
+      <workItem from="1596460810589" duration="2590000" />
     </task>
     <servers />
   </component>
@@ -440,10 +413,10 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="425" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1596024259140" />
-    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596336196948">
+    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596470045558">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1440@0.0.2560.1440" timestamp="1596336196948" />
+    <state x="945" y="532" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1440@0.0.2560.1440" timestamp="1596470045558" />
     <state x="966" y="450" key="#loader_stage_one" timestamp="1595518304055">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -500,11 +473,11 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="774" y="361" key="SettingsEditor/0.0.2560.1440@0.0.2560.1440" timestamp="1595506599598" />
-    <state x="960" y="566" key="com.intellij.ide.util.TipDialog" timestamp="1596370832081">
+    <state x="960" y="566" key="com.intellij.ide.util.TipDialog" timestamp="1596460837721">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="750" y="524" key="com.intellij.ide.util.TipDialog/0.0.2000.1333@0.0.2000.1333" timestamp="1596288474020" />
-    <state x="960" y="566" key="com.intellij.ide.util.TipDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1596370832081" />
+    <state x="960" y="566" key="com.intellij.ide.util.TipDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1596460837721" />
     <state x="936" y="447" width="690" height="528" key="find.popup" timestamp="1595685732969">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>

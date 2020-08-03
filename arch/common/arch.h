@@ -6,7 +6,7 @@
 #define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
 #else
 #define IN_LINE static inline __attribute__((always_inline))
-#define DEBUG_LOG(format,...)
+#define DEBUG_LOG(STR)
 #endif
 
 

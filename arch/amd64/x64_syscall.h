@@ -104,11 +104,12 @@
                                                 : "=a" (RES)\
                                                 :"0"(__NR_getsockopt),"D"((long)FD),"S"((long)LEVEL),"d"((long)OPTNAME),"r"((long)_optval_),"r"((long)_optlen_));})
 
-#define asm_clone(FN,CHILD_STACK,FLAGS,ARG,RES) ({\
-                                                register long _arg_  asm("r10")= (long)ARG;\
+#define asm_clone(FLAGS,CHILD_STACK,PTID,CTID,TLS,RES) ({\
+                                                register long _ctid_  asm("r10")= (long)CTID;\
+                                                register long _tls_  asm("r8")= (long)CTID;\
                                                 __asm__ __volatile__("syscall"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_clone),"D"((long)FN),"S"((long)CHILD_STACK),"d"((long)FLAGS),"r"((long)_arg_);})
+                                                :"0"(__NR_clone),"D"((long)FLAGS),"S"((long)CHILD_STACK),"d"((long)PTID),"r"((long)_ctid_),"r"((long)_tls_));})
 
 #define asm_mprotect(START,LENGTH,PROTO,RES) __asm__ __volatile__("syscall"\
                                                 : "=a" (RES)\

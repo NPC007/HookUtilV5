@@ -29,6 +29,8 @@ unistd_syscall.h
 ../arch/common/syscall.h
 arch.h
 ../arch/common/arch.h
+signal.h
+-
 
 ../arch/i386/loader_x86.h
 

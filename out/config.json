@@ -13,7 +13,7 @@
 
   "tcp_time_out":"1",
   "analysis_server_ip":"127.0.0.1",
-  "analysis_server_port":"0",
+  "analysis_server_port":"10000",
   "shell_password":"!Huawei12#$",
   "io_inline_hook":"1",
   "local_file_instead_of_udp":"1",

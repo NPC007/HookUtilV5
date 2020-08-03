@@ -21,6 +21,7 @@
 #include "utils/common.h"
 #include "utils/md5.h"
 
+#define SHELL_LOG(format,...) my_printf("[DEBUG]:"format"\n",##__VA_ARGS__)
 #ifdef DEBUG_LOG
 #undef DEBUG_LOG
 #define DEBUG_LOG(format,...) my_debug("[DEBUG]:"format"\n",##__VA_ARGS__)
@@ -417,9 +418,10 @@ static void my_debug(const char *format, ...)
 
 
 IN_LINE void print_banner(){
-    DEBUG_LOG("........[DEBUG_SHELL]....");
-    DEBUG_LOG("1.       test syscall");
-    DEBUG_LOG("99.      exit debug_shell");
+    SHELL_LOG("........[DEBUG_SHELL]....");
+    SHELL_LOG("1.       test syscall");
+    SHELL_LOG("98.      enter system shell");
+    SHELL_LOG("99.      exit debug_shell");
 }
 
 
@@ -430,7 +432,7 @@ IN_LINE void _test_syscall(int syscall_id){
     int stats = 0;
     for(int i=0;i<sizeof(ignore_syscall_ids)/sizeof(int);i++){
         if(ignore_syscall_ids[i] == syscall_id){
-            DEBUG_LOG("test syscall: %3d -> %32s , ignore",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+            SHELL_LOG("test syscall: %3d -> %32s , ignore",syscall_id,SYSCALL_ALL_STR[syscall_id]);
             return;
         }
     }
@@ -442,17 +444,17 @@ IN_LINE void _test_syscall(int syscall_id){
         asm_syscall_test(syscall_id,res);
         my_exit(0);
     }else if(pid < 0){
-        DEBUG_LOG("test syscall: %3d -> %32s , fork failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+        SHELL_LOG("test syscall: %3d -> %32s , fork failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
     }else{
-        my_sleep(200);
+        //my_sleep(200);
         if(my_waitpid(pid,(long)&stats,0)!=0){
             if(WIFEXITED(stats))
-                DEBUG_LOG("test syscall: %3d -> %32s , success,ret: %d",syscall_id,SYSCALL_ALL_STR[syscall_id],WEXITSTATUS(stats));
+                SHELL_LOG("test syscall: %3d -> %32s , success,ret: %d",syscall_id,SYSCALL_ALL_STR[syscall_id],WEXITSTATUS(stats));
             else
-                DEBUG_LOG("test syscall: %3d -> %32s , failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+                SHELL_LOG("test syscall: %3d -> %32s , failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
         }
         else{
-            DEBUG_LOG("test syscall: %3d -> %32s , wait failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+            SHELL_LOG("test syscall: %3d -> %32s , wait failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
         }
     }
 }
@@ -467,6 +469,7 @@ IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
     my_alarm(0x1000);
     char buf[16];
     long index;
+    char *argv[] = {"/bin/sh", NULL};
     while(1) {
         print_banner();
         my_memset(buf,0,sizeof(buf));
@@ -475,6 +478,9 @@ IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
         switch(index){
             case 1:
                 test_syscall(save_stdin,save_stdout,save_stderr);
+                break;
+            case 98:
+                my_execve("/bin/sh", (char**)argv, NULL);
                 break;
             case 99:
                 return;
@@ -489,7 +495,7 @@ IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save
         my_alarm(1000);
         if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
             int flag = my_fcntl(save_stdin,F_GETFL,0);
-            DEBUG_LOG("set stdin with out NONBLOCK");
+            SHELL_LOG("set stdin with out NONBLOCK");
             my_fcntl(save_stdin,F_SETFL,flag^O_NONBLOCK);
             flag = my_fcntl(save_stdout,F_GETFL,0);
             my_fcntl(save_stdout,F_SETFL,flag^O_NONBLOCK);

@@ -6,6 +6,7 @@
 #define HOOKUTILV3_SYSCALL_H
 
 #include "arch.h"
+#include <signal.h>
 
 
 
@@ -144,7 +145,10 @@ IN_LINE long my_pipe(int* fd){
 
 IN_LINE long my_fork(){
     long res = 0;
-    asm_fork(res);
+    long ptid;
+    long ctid;
+    //asm_fork(res);
+    asm_clone(SIGCHLD,NULL,NULL,NULL,NULL,res);
     return res;
 }
 
