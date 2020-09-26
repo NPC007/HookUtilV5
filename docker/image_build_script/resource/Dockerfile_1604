@@ -1,0 +1,32 @@
+FROM ubuntu:ctf_tools_1604
+
+COPY ctf/pwn.start.sh /home/ctf/pwn.start.sh
+COPY output_elf /home/ctf/pwn
+RUN  chmod +x /home/ctf/pwn
+COPY ctf/ctf.xinetd /etc/xinetd.d/ctf
+
+RUN mkdir -p /home/ctf/flags/pwn/
+COPY ctf/flag /home/ctf/flag
+RUN chmod 633 /home/ctf/flag
+
+COPY auto_tracficc_anslysis.py /root/
+COPY tracfic_verify.py /root/
+COPY tracfic_repeater.py /root/
+COPY input_elf /root/input_elf
+COPY libc.so /root/libc.so
+COPY libc.so /home/ctf/libc.so
+COPY io_decrypt_server.py /root/
+
+COPY sandbox_elf /root/sandbox_elf
+COPY sandbox.xinetd /etc/xinetd.d/sandbox
+
+COPY ctf/pwn_test.start.sh /home/ctf/pwn_test.start.sh
+COPY input_elf /home/ctf/pwn_test
+RUN  chmod +x /home/ctf/pwn_test
+COPY ctf/ctf.xinetd.test /etc/xinetd.d/ctf_test
+
+COPY start_analysis.sh /root/start_analysis.sh
+
+RUN  chmod 777 /root/start_analysis.sh
+
+CMD ["/root/start_analysis.sh"]

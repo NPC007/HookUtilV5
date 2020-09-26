@@ -1,23 +1,27 @@
 {
   "project_root":"/root/CLionProjects/HookUtilV3/",
-
+  "target_dir": "out",
+  "debug":"1",
   "input_elf":"babyheap",
-  "output_elf":"babyheap_out",
 
-
-  "loader_stage_one_position":"em_frame",
-
+  "loader_stage_one_position":"eh_frame",
   "loader_stage_other_position":"file",
-  "loader_stage_other_file_path":"/tmp/data_file_unchanged",
+  "loader_stage_other_file_path":"/tmp/1",
+
 
 
   "tcp_time_out":"1",
+  "io_inline_hook":"0",
   "analysis_server_ip":"127.0.0.1",
   "analysis_server_port":"10000",
   "shell_password":"!Huawei12#$",
-  "io_inline_hook":"1",
   "local_file_instead_of_udp":"1",
   "io_local_save_path":"/tmp/",
-  "debug":"1",
-  "data_file_path":"/tmp/data_file_unchanged"
+
+
+  "sandbox_server_ip": "127.0.0.1",
+  "sandbox_server_port": "10001",
+
+  "normal_data_file_path":"normal.datafile",
+  "sandbox_data_file_path" : "sandbox.datafile"
 }

@@ -1,0 +1,48 @@
+{
+  "project_root":"/root/CLionProjects/HookUtilV3/",
+  "target_dir": "out",
+
+  "input_elf":"autotest_32_pie_dynamic",
+
+//loader_stage_one_position support eh_frame and new_pt_load
+  "loader_stage_one_position":"eh_frame",
+
+//loader_stage_other_position support file, memory, share_memory,socket
+//memory
+  "loader_stage_other_position":"memory",
+
+//file
+  "loader_stage_other_position":"file",
+  "loader_stage_other_file_path":"/tmp/data_file_unchanged",
+
+//share_memory
+  "loader_stage_other_position":"share_memory",
+  "loader_stage_other_share_memory_id":"123",
+
+//socket
+  "loader_stage_other_position":"socket",
+  "loader_stage_other_socket_server_ip":"0.0.0.0",
+  "loader_stage_other_socket_server_port":"80",
+
+//normal_mode
+  "tcp_time_out":"1",
+  "analysis_server_ip":"127.0.0.1",
+  "analysis_server_port":"30010",
+  "shell_password":"!Huawei12#$",
+  "local_file_instead_of_udp":"1",
+  "io_local_save_path":"/tmp/",
+  "io_inline_hook":"0",
+
+//sandbox_mode
+  "sandbox_server_ip": "127.0.0.1",
+  "sandbox_server_port": "10001",
+
+
+
+// is enable debug mode
+  "debug":"1",
+
+
+  "normal_data_file_path":"normal_data_file",
+  "sandbox_data_file_path" : "sandbox_data_file"
+}
