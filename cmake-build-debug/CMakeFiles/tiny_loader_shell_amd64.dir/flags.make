@@ -6,5 +6,5 @@ C_FLAGS = -g -fPIC   -m64 -O0 -fno-stack-protector -std=gnu11
 
 C_DEFINES = -Dtiny_loader_shell_amd64_EXPORTS
 
-C_INCLUDES = -I/root/CLionProjects/HookUtilV3/. 
+C_INCLUDES = -I/root/CLionProjects/HookUtilV3/./src 
 

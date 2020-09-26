@@ -20,6 +20,146 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/datafile_generate.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/datafile_generate.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/generate.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/src/build_tools/elf/elf_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/pre_generate.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/ASM.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one.dir/src/arch/amd64/loader.s.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/ASM.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/elf/elf_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file/file_utils.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file_check/checker.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/stage_one_pre_generate.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/ASM.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/src/arch/amd64/loader.s.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/src/stage_three/normal_loader.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/src/stage_two/loader.c.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/C.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/datafile_generate" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/libstage_two.so" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/normal_data_file" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/pre_generate" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/stage_one" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/stage_one_normal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/stage_one_pre_generate" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/stage_one_sandbox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/stage_three" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/stage_three_normal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/stage_three_sandbox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/stage_two" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/docker/image_build_script/base_image/ctf_tools_1604/Dockerfile" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/docker/image_build_script/base_image/ctf_tools_1604/build.sh" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/docker/image_build_script/base_image/ctf_tools_1804/Dockerfile" afterDir="false" />
@@ -45,9 +185,13 @@
       <change afterPath="$PROJECT_DIR$/out/stage_three_normal" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/out/stage_three_sandbox" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/out/stage_two" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arch/amd64/loader.s" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/arch/amd64/loader_x64.h" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/auto_generate/debug_config.h" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/auto_generate/normal_config.h" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/auto_generate/sandbox_config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/auto_generate/stage_one_normal_config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/auto_generate/stage_one_sandbox_config.h" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/build_tools/datafile_generate.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/build_tools/elf/elf_utils.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/build_tools/elf/elf_utils.h" afterDir="false" />
@@ -55,17 +199,20 @@
       <change afterPath="$PROJECT_DIR$/src/build_tools/file/file_utils.h" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/build_tools/file_check/checker.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/build_tools/file_check/checker.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/build_tools/generate.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/build_tools/pre_generate.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/build_tools/stage_one_pre_generate.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/stage_three/common.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stage_three/normal_loader.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/stage_three/sandbox_loader.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stage_two/loader.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analysis_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/analysis_server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analysis_server_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/analysis_server_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arch/amd64/loader.s" beforeDir="false" afterPath="$PROJECT_DIR$/src/arch/amd64/loader.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arch/amd64/loader_x64.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/arch/amd64/loader_x64.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arch/amd64/loader.s" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/arch/amd64/loader_x64.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/arch/amd64/unistd_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/arch/amd64/unistd_syscall.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arch/amd64/x64_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/arch/amd64/x64_syscall.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arch/common/arch.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/arch/common/arch.h" afterDir="false" />
@@ -90,7 +237,7 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/C.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/cJSON.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/cJSON.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/json/cJSON.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/cmake_clean.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/depend.internal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/depend.make" afterDir="false" />
@@ -100,7 +247,7 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/progress.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/cJSON.c.o" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate32.dir/generate.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/cJSON.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/cJSON.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate64.dir/generate.c.o" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/C.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x32.dir/DependInfo.cmake" afterDir="false" />
@@ -116,7 +263,7 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/C.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/cJSON.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/cJSON.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/cmake_clean.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.internal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate_x64.dir/depend.make" afterDir="false" />
@@ -142,7 +289,6 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/C.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/depend.internal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/depend.make" afterDir="false" />
@@ -190,12 +336,12 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libtiny_loader_shell_amd64.so" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/tiny_loader_shell_amd64_exe" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/flag_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/flag_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/generate.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate.c" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/generate_config_json_not_complete.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/generate_config_json_not_complete.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hook.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/include/hook.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loader_stage_one.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/stage_one/loader.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_stage_three.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/stage_three/normal_loader.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader_stage_two.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/stage_two/loader.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader_stage_three.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader_stage_two.c" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/config.json.example" beforeDir="false" afterPath="$PROJECT_DIR$/config.json.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/generate" beforeDir="false" afterPath="$PROJECT_DIR$/out/generate" afterDir="false" />
@@ -522,7 +668,7 @@
       <workItem from="1601082687445" duration="24849000" />
       <workItem from="1601117139235" duration="1778000" />
       <workItem from="1601119399027" duration="1931000" />
-      <workItem from="1601121472925" duration="12526000" />
+      <workItem from="1601121472925" duration="12823000" />
     </task>
     <servers />
   </component>
@@ -531,6 +677,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="refactor v0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor v0.1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="707" y="485" width="1071" height="624" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601118282465">
@@ -558,6 +706,10 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="1660" y="466" key="#xdebugger.evaluate/0.0.2560.1440@0.0.2560.1440" timestamp="1601131180941" />
+    <state x="298" y="322" key="CommitChangelistDialog2" timestamp="1601136272762">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="298" y="322" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1601136272762" />
     <state width="445" height="466" key="DebuggerActiveHint" timestamp="1601131763043">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -602,6 +754,10 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="774" y="361" key="SettingsEditor/0.0.2560.1440@0.0.2560.1440" timestamp="1595506599598" />
+    <state x="880" y="462" key="Vcs.Push.Dialog.v2" timestamp="1601136289807">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="880" y="462" key="Vcs.Push.Dialog.v2/0.0.2560.1440@0.0.2560.1440" timestamp="1601136289807" />
     <state x="960" y="566" key="com.intellij.ide.util.TipDialog" timestamp="1601121548222">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>

@@ -114,434 +114,494 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named tiny_loader_filewriter_amd64
+# Target rules for targets named stage_one_normal
 
 # Build rule for target.
-tiny_loader_filewriter_amd64: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_filewriter_amd64
-.PHONY : tiny_loader_filewriter_amd64
+stage_one_normal: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_one_normal
+.PHONY : stage_one_normal
 
 # fast build rule for target.
-tiny_loader_filewriter_amd64/fast:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/build
-.PHONY : tiny_loader_filewriter_amd64/fast
+stage_one_normal/fast:
+	$(MAKE) -f CMakeFiles/stage_one_normal.dir/build.make CMakeFiles/stage_one_normal.dir/build
+.PHONY : stage_one_normal/fast
 
 #=============================================================================
-# Target rules for targets named tiny_loader_filewriter_i386_exe
+# Target rules for targets named stage_two
 
 # Build rule for target.
-tiny_loader_filewriter_i386_exe: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_filewriter_i386_exe
-.PHONY : tiny_loader_filewriter_i386_exe
+stage_two: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_two
+.PHONY : stage_two
 
 # fast build rule for target.
-tiny_loader_filewriter_i386_exe/fast:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build
-.PHONY : tiny_loader_filewriter_i386_exe/fast
+stage_two/fast:
+	$(MAKE) -f CMakeFiles/stage_two.dir/build.make CMakeFiles/stage_two.dir/build
+.PHONY : stage_two/fast
 
 #=============================================================================
-# Target rules for targets named tiny_loader_filewriter_i386
+# Target rules for targets named pre_generate
 
 # Build rule for target.
-tiny_loader_filewriter_i386: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_filewriter_i386
-.PHONY : tiny_loader_filewriter_i386
+pre_generate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pre_generate
+.PHONY : pre_generate
 
 # fast build rule for target.
-tiny_loader_filewriter_i386/fast:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/build
-.PHONY : tiny_loader_filewriter_i386/fast
+pre_generate/fast:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/build
+.PHONY : pre_generate/fast
 
 #=============================================================================
-# Target rules for targets named tiny_loader_shell_amd64_exe
+# Target rules for targets named stage_three_sandbox
 
 # Build rule for target.
-tiny_loader_shell_amd64_exe: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_shell_amd64_exe
-.PHONY : tiny_loader_shell_amd64_exe
+stage_three_sandbox: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_three_sandbox
+.PHONY : stage_three_sandbox
 
 # fast build rule for target.
-tiny_loader_shell_amd64_exe/fast:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/build
-.PHONY : tiny_loader_shell_amd64_exe/fast
+stage_three_sandbox/fast:
+	$(MAKE) -f CMakeFiles/stage_three_sandbox.dir/build.make CMakeFiles/stage_three_sandbox.dir/build
+.PHONY : stage_three_sandbox/fast
 
 #=============================================================================
-# Target rules for targets named generate_x32
+# Target rules for targets named generate
 
 # Build rule for target.
-generate_x32: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 generate_x32
-.PHONY : generate_x32
+generate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 generate
+.PHONY : generate
 
 # fast build rule for target.
-generate_x32/fast:
-	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/build
-.PHONY : generate_x32/fast
+generate/fast:
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/build
+.PHONY : generate/fast
 
 #=============================================================================
-# Target rules for targets named tiny_loader_filewriter_amd64_exe
+# Target rules for targets named stage_three_normal
 
 # Build rule for target.
-tiny_loader_filewriter_amd64_exe: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_filewriter_amd64_exe
-.PHONY : tiny_loader_filewriter_amd64_exe
+stage_three_normal: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_three_normal
+.PHONY : stage_three_normal
 
 # fast build rule for target.
-tiny_loader_filewriter_amd64_exe/fast:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build
-.PHONY : tiny_loader_filewriter_amd64_exe/fast
+stage_three_normal/fast:
+	$(MAKE) -f CMakeFiles/stage_three_normal.dir/build.make CMakeFiles/stage_three_normal.dir/build
+.PHONY : stage_three_normal/fast
 
 #=============================================================================
-# Target rules for targets named loader_stage_three
+# Target rules for targets named stage_one_sandbox
 
 # Build rule for target.
-loader_stage_three: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 loader_stage_three
-.PHONY : loader_stage_three
+stage_one_sandbox: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_one_sandbox
+.PHONY : stage_one_sandbox
 
 # fast build rule for target.
-loader_stage_three/fast:
-	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/build
-.PHONY : loader_stage_three/fast
+stage_one_sandbox/fast:
+	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/build
+.PHONY : stage_one_sandbox/fast
 
 #=============================================================================
-# Target rules for targets named tiny_loader_shell_amd64
+# Target rules for targets named datafile_generate
 
 # Build rule for target.
-tiny_loader_shell_amd64: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_shell_amd64
-.PHONY : tiny_loader_shell_amd64
+datafile_generate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 datafile_generate
+.PHONY : datafile_generate
 
 # fast build rule for target.
-tiny_loader_shell_amd64/fast:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/build
-.PHONY : tiny_loader_shell_amd64/fast
+datafile_generate/fast:
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/build
+.PHONY : datafile_generate/fast
 
 #=============================================================================
-# Target rules for targets named tiny_loader_shell_i386_exe
+# Target rules for targets named stage_one_pre_generate
 
 # Build rule for target.
-tiny_loader_shell_i386_exe: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_shell_i386_exe
-.PHONY : tiny_loader_shell_i386_exe
+stage_one_pre_generate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_one_pre_generate
+.PHONY : stage_one_pre_generate
 
 # fast build rule for target.
-tiny_loader_shell_i386_exe/fast:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/build
-.PHONY : tiny_loader_shell_i386_exe/fast
+stage_one_pre_generate/fast:
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/build
+.PHONY : stage_one_pre_generate/fast
 
-#=============================================================================
-# Target rules for targets named loader_stage_one
+src/arch/amd64/loader.o: src/arch/amd64/loader.s.o
 
-# Build rule for target.
-loader_stage_one: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 loader_stage_one
-.PHONY : loader_stage_one
-
-# fast build rule for target.
-loader_stage_one/fast:
-	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/build
-.PHONY : loader_stage_one/fast
-
-#=============================================================================
-# Target rules for targets named tiny_loader_shell_i386
-
-# Build rule for target.
-tiny_loader_shell_i386: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tiny_loader_shell_i386
-.PHONY : tiny_loader_shell_i386
-
-# fast build rule for target.
-tiny_loader_shell_i386/fast:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/build
-.PHONY : tiny_loader_shell_i386/fast
-
-#=============================================================================
-# Target rules for targets named generate_x64
-
-# Build rule for target.
-generate_x64: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 generate_x64
-.PHONY : generate_x64
-
-# fast build rule for target.
-generate_x64/fast:
-	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/build
-.PHONY : generate_x64/fast
-
-#=============================================================================
-# Target rules for targets named loader_stage_two
-
-# Build rule for target.
-loader_stage_two: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 loader_stage_two
-.PHONY : loader_stage_two
-
-# fast build rule for target.
-loader_stage_two/fast:
-	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/build
-.PHONY : loader_stage_two/fast
-
-cJSON.o: cJSON.c.o
-
-.PHONY : cJSON.o
+.PHONY : src/arch/amd64/loader.o
 
 # target to build an object file
-cJSON.c.o:
-	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/cJSON.c.o
-	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/cJSON.c.o
-.PHONY : cJSON.c.o
+src/arch/amd64/loader.s.o:
+	$(MAKE) -f CMakeFiles/stage_one_normal.dir/build.make CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o
+	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/src/arch/amd64/loader.s.o
+.PHONY : src/arch/amd64/loader.s.o
 
-cJSON.i: cJSON.c.i
+src/build_tools/datafile_generate.o: src/build_tools/datafile_generate.c.o
 
-.PHONY : cJSON.i
-
-# target to preprocess a source file
-cJSON.c.i:
-	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/cJSON.c.i
-	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/cJSON.c.i
-.PHONY : cJSON.c.i
-
-cJSON.s: cJSON.c.s
-
-.PHONY : cJSON.s
-
-# target to generate assembly for a file
-cJSON.c.s:
-	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/cJSON.c.s
-	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/cJSON.c.s
-.PHONY : cJSON.c.s
-
-generate.o: generate.c.o
-
-.PHONY : generate.o
+.PHONY : src/build_tools/datafile_generate.o
 
 # target to build an object file
-generate.c.o:
-	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/generate.c.o
-	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/generate.c.o
-.PHONY : generate.c.o
+src/build_tools/datafile_generate.c.o:
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/datafile_generate.c.o
+.PHONY : src/build_tools/datafile_generate.c.o
 
-generate.i: generate.c.i
+src/build_tools/datafile_generate.i: src/build_tools/datafile_generate.c.i
 
-.PHONY : generate.i
+.PHONY : src/build_tools/datafile_generate.i
 
 # target to preprocess a source file
-generate.c.i:
-	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/generate.c.i
-	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/generate.c.i
-.PHONY : generate.c.i
+src/build_tools/datafile_generate.c.i:
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/datafile_generate.c.i
+.PHONY : src/build_tools/datafile_generate.c.i
 
-generate.s: generate.c.s
+src/build_tools/datafile_generate.s: src/build_tools/datafile_generate.c.s
 
-.PHONY : generate.s
+.PHONY : src/build_tools/datafile_generate.s
 
 # target to generate assembly for a file
-generate.c.s:
-	$(MAKE) -f CMakeFiles/generate_x32.dir/build.make CMakeFiles/generate_x32.dir/generate.c.s
-	$(MAKE) -f CMakeFiles/generate_x64.dir/build.make CMakeFiles/generate_x64.dir/generate.c.s
-.PHONY : generate.c.s
+src/build_tools/datafile_generate.c.s:
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/datafile_generate.c.s
+.PHONY : src/build_tools/datafile_generate.c.s
 
-loader_stage_one.o: loader_stage_one.c.o
+src/build_tools/elf/elf_utils.o: src/build_tools/elf/elf_utils.c.o
 
-.PHONY : loader_stage_one.o
+.PHONY : src/build_tools/elf/elf_utils.o
 
 # target to build an object file
-loader_stage_one.c.o:
-	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o
-.PHONY : loader_stage_one.c.o
+src/build_tools/elf/elf_utils.c.o:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.o
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.o
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/elf/elf_utils.c.o
+.PHONY : src/build_tools/elf/elf_utils.c.o
 
-loader_stage_one.i: loader_stage_one.c.i
+src/build_tools/elf/elf_utils.i: src/build_tools/elf/elf_utils.c.i
 
-.PHONY : loader_stage_one.i
+.PHONY : src/build_tools/elf/elf_utils.i
 
 # target to preprocess a source file
-loader_stage_one.c.i:
-	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/loader_stage_one.c.i
-.PHONY : loader_stage_one.c.i
+src/build_tools/elf/elf_utils.c.i:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.i
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.i
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.i
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/elf/elf_utils.c.i
+.PHONY : src/build_tools/elf/elf_utils.c.i
 
-loader_stage_one.s: loader_stage_one.c.s
+src/build_tools/elf/elf_utils.s: src/build_tools/elf/elf_utils.c.s
 
-.PHONY : loader_stage_one.s
+.PHONY : src/build_tools/elf/elf_utils.s
 
 # target to generate assembly for a file
-loader_stage_one.c.s:
-	$(MAKE) -f CMakeFiles/loader_stage_one.dir/build.make CMakeFiles/loader_stage_one.dir/loader_stage_one.c.s
-.PHONY : loader_stage_one.c.s
+src/build_tools/elf/elf_utils.c.s:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.s
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.s
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.s
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/elf/elf_utils.c.s
+.PHONY : src/build_tools/elf/elf_utils.c.s
 
-loader_stage_three.o: loader_stage_three.c.o
+src/build_tools/file/file_utils.o: src/build_tools/file/file_utils.c.o
 
-.PHONY : loader_stage_three.o
+.PHONY : src/build_tools/file/file_utils.o
 
 # target to build an object file
-loader_stage_three.c.o:
-	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/loader_stage_three.c.o
-.PHONY : loader_stage_three.c.o
+src/build_tools/file/file_utils.c.o:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.o
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.o
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file/file_utils.c.o
+.PHONY : src/build_tools/file/file_utils.c.o
 
-loader_stage_three.i: loader_stage_three.c.i
+src/build_tools/file/file_utils.i: src/build_tools/file/file_utils.c.i
 
-.PHONY : loader_stage_three.i
+.PHONY : src/build_tools/file/file_utils.i
 
 # target to preprocess a source file
-loader_stage_three.c.i:
-	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/loader_stage_three.c.i
-.PHONY : loader_stage_three.c.i
+src/build_tools/file/file_utils.c.i:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.i
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.i
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.i
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file/file_utils.c.i
+.PHONY : src/build_tools/file/file_utils.c.i
 
-loader_stage_three.s: loader_stage_three.c.s
+src/build_tools/file/file_utils.s: src/build_tools/file/file_utils.c.s
 
-.PHONY : loader_stage_three.s
+.PHONY : src/build_tools/file/file_utils.s
 
 # target to generate assembly for a file
-loader_stage_three.c.s:
-	$(MAKE) -f CMakeFiles/loader_stage_three.dir/build.make CMakeFiles/loader_stage_three.dir/loader_stage_three.c.s
-.PHONY : loader_stage_three.c.s
+src/build_tools/file/file_utils.c.s:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.s
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.s
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.s
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file/file_utils.c.s
+.PHONY : src/build_tools/file/file_utils.c.s
 
-loader_stage_two.o: loader_stage_two.c.o
+src/build_tools/file_check/checker.o: src/build_tools/file_check/checker.c.o
 
-.PHONY : loader_stage_two.o
+.PHONY : src/build_tools/file_check/checker.o
 
 # target to build an object file
-loader_stage_two.c.o:
-	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/loader_stage_two.c.o
-.PHONY : loader_stage_two.c.o
+src/build_tools/file_check/checker.c.o:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.o
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.o
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file_check/checker.c.o
+.PHONY : src/build_tools/file_check/checker.c.o
 
-loader_stage_two.i: loader_stage_two.c.i
+src/build_tools/file_check/checker.i: src/build_tools/file_check/checker.c.i
 
-.PHONY : loader_stage_two.i
+.PHONY : src/build_tools/file_check/checker.i
 
 # target to preprocess a source file
-loader_stage_two.c.i:
-	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/loader_stage_two.c.i
-.PHONY : loader_stage_two.c.i
+src/build_tools/file_check/checker.c.i:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.i
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.i
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.i
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file_check/checker.c.i
+.PHONY : src/build_tools/file_check/checker.c.i
 
-loader_stage_two.s: loader_stage_two.c.s
+src/build_tools/file_check/checker.s: src/build_tools/file_check/checker.c.s
 
-.PHONY : loader_stage_two.s
+.PHONY : src/build_tools/file_check/checker.s
 
 # target to generate assembly for a file
-loader_stage_two.c.s:
-	$(MAKE) -f CMakeFiles/loader_stage_two.dir/build.make CMakeFiles/loader_stage_two.dir/loader_stage_two.c.s
-.PHONY : loader_stage_two.c.s
+src/build_tools/file_check/checker.c.s:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.s
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.s
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.s
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file_check/checker.c.s
+.PHONY : src/build_tools/file_check/checker.c.s
 
-strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.o: strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o
+src/build_tools/generate.o: src/build_tools/generate.c.o
 
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.o
+.PHONY : src/build_tools/generate.o
 
 # target to build an object file
-strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o
+src/build_tools/generate.c.o:
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/generate.c.o
+.PHONY : src/build_tools/generate.c.o
 
-strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.i: strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i
+src/build_tools/generate.i: src/build_tools/generate.c.i
 
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.i
+.PHONY : src/build_tools/generate.i
 
 # target to preprocess a source file
-strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.i
+src/build_tools/generate.c.i:
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/generate.c.i
+.PHONY : src/build_tools/generate.c.i
 
-strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.s: strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s
+src/build_tools/generate.s: src/build_tools/generate.c.s
 
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.s
+.PHONY : src/build_tools/generate.s
 
 # target to generate assembly for a file
-strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.s
+src/build_tools/generate.c.s:
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/generate.c.s
+.PHONY : src/build_tools/generate.c.s
 
-strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.o: strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o
+src/build_tools/json/cJSON.o: src/build_tools/json/cJSON.c.o
 
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.o
+.PHONY : src/build_tools/json/cJSON.o
 
 # target to build an object file
-strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.o
+src/build_tools/json/cJSON.c.o:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.o
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.o
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/json/cJSON.c.o
+.PHONY : src/build_tools/json/cJSON.c.o
 
-strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.i: strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i
+src/build_tools/json/cJSON.i: src/build_tools/json/cJSON.c.i
 
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.i
+.PHONY : src/build_tools/json/cJSON.i
 
 # target to preprocess a source file
-strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.i
+src/build_tools/json/cJSON.c.i:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.i
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.i
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.i
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/json/cJSON.c.i
+.PHONY : src/build_tools/json/cJSON.c.i
 
-strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.s: strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s
+src/build_tools/json/cJSON.s: src/build_tools/json/cJSON.c.s
 
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.s
+.PHONY : src/build_tools/json/cJSON.s
 
 # target to generate assembly for a file
-strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64_exe.dir/build.make CMakeFiles/tiny_loader_shell_amd64_exe.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_amd64.dir/build.make CMakeFiles/tiny_loader_shell_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s
-.PHONY : strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c.s
+src/build_tools/json/cJSON.c.s:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.s
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.s
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.s
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/json/cJSON.c.s
+.PHONY : src/build_tools/json/cJSON.c.s
 
-strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.o: strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o
+src/build_tools/pre_generate.o: src/build_tools/pre_generate.c.o
 
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.o
+.PHONY : src/build_tools/pre_generate.o
 
 # target to build an object file
-strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o
+src/build_tools/pre_generate.c.o:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/pre_generate.c.o
+.PHONY : src/build_tools/pre_generate.c.o
 
-strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.i: strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i
+src/build_tools/pre_generate.i: src/build_tools/pre_generate.c.i
 
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.i
+.PHONY : src/build_tools/pre_generate.i
 
 # target to preprocess a source file
-strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.i
+src/build_tools/pre_generate.c.i:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/pre_generate.c.i
+.PHONY : src/build_tools/pre_generate.c.i
 
-strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.s: strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s
+src/build_tools/pre_generate.s: src/build_tools/pre_generate.c.s
 
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.s
+.PHONY : src/build_tools/pre_generate.s
 
 # target to generate assembly for a file
-strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s:
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386_exe.dir/build.make CMakeFiles/tiny_loader_filewriter_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s
-	$(MAKE) -f CMakeFiles/tiny_loader_filewriter_i386.dir/build.make CMakeFiles/tiny_loader_filewriter_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.s
+src/build_tools/pre_generate.c.s:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/pre_generate.c.s
+.PHONY : src/build_tools/pre_generate.c.s
 
-strict_mode/tiny_loader/arch/i386/tiny_loader_shell.o: strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o
+src/build_tools/stage_one_pre_generate.o: src/build_tools/stage_one_pre_generate.c.o
 
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.o
+.PHONY : src/build_tools/stage_one_pre_generate.o
 
 # target to build an object file
-strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.o
+src/build_tools/stage_one_pre_generate.c.o:
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/stage_one_pre_generate.c.o
+.PHONY : src/build_tools/stage_one_pre_generate.c.o
 
-strict_mode/tiny_loader/arch/i386/tiny_loader_shell.i: strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i
+src/build_tools/stage_one_pre_generate.i: src/build_tools/stage_one_pre_generate.c.i
 
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.i
+.PHONY : src/build_tools/stage_one_pre_generate.i
 
 # target to preprocess a source file
-strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.i
+src/build_tools/stage_one_pre_generate.c.i:
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/stage_one_pre_generate.c.i
+.PHONY : src/build_tools/stage_one_pre_generate.c.i
 
-strict_mode/tiny_loader/arch/i386/tiny_loader_shell.s: strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s
+src/build_tools/stage_one_pre_generate.s: src/build_tools/stage_one_pre_generate.c.s
 
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.s
+.PHONY : src/build_tools/stage_one_pre_generate.s
 
 # target to generate assembly for a file
-strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s:
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386_exe.dir/build.make CMakeFiles/tiny_loader_shell_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s
-	$(MAKE) -f CMakeFiles/tiny_loader_shell_i386.dir/build.make CMakeFiles/tiny_loader_shell_i386.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s
-.PHONY : strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c.s
+src/build_tools/stage_one_pre_generate.c.s:
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/stage_one_pre_generate.c.s
+.PHONY : src/build_tools/stage_one_pre_generate.c.s
+
+src/stage_one/loader.o: src/stage_one/loader.c.o
+
+.PHONY : src/stage_one/loader.o
+
+# target to build an object file
+src/stage_one/loader.c.o:
+	$(MAKE) -f CMakeFiles/stage_one_normal.dir/build.make CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o
+	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o
+.PHONY : src/stage_one/loader.c.o
+
+src/stage_one/loader.i: src/stage_one/loader.c.i
+
+.PHONY : src/stage_one/loader.i
+
+# target to preprocess a source file
+src/stage_one/loader.c.i:
+	$(MAKE) -f CMakeFiles/stage_one_normal.dir/build.make CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.i
+	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.i
+.PHONY : src/stage_one/loader.c.i
+
+src/stage_one/loader.s: src/stage_one/loader.c.s
+
+.PHONY : src/stage_one/loader.s
+
+# target to generate assembly for a file
+src/stage_one/loader.c.s:
+	$(MAKE) -f CMakeFiles/stage_one_normal.dir/build.make CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.s
+	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.s
+.PHONY : src/stage_one/loader.c.s
+
+src/stage_three/normal_loader.o: src/stage_three/normal_loader.c.o
+
+.PHONY : src/stage_three/normal_loader.o
+
+# target to build an object file
+src/stage_three/normal_loader.c.o:
+	$(MAKE) -f CMakeFiles/stage_three_normal.dir/build.make CMakeFiles/stage_three_normal.dir/src/stage_three/normal_loader.c.o
+.PHONY : src/stage_three/normal_loader.c.o
+
+src/stage_three/normal_loader.i: src/stage_three/normal_loader.c.i
+
+.PHONY : src/stage_three/normal_loader.i
+
+# target to preprocess a source file
+src/stage_three/normal_loader.c.i:
+	$(MAKE) -f CMakeFiles/stage_three_normal.dir/build.make CMakeFiles/stage_three_normal.dir/src/stage_three/normal_loader.c.i
+.PHONY : src/stage_three/normal_loader.c.i
+
+src/stage_three/normal_loader.s: src/stage_three/normal_loader.c.s
+
+.PHONY : src/stage_three/normal_loader.s
+
+# target to generate assembly for a file
+src/stage_three/normal_loader.c.s:
+	$(MAKE) -f CMakeFiles/stage_three_normal.dir/build.make CMakeFiles/stage_three_normal.dir/src/stage_three/normal_loader.c.s
+.PHONY : src/stage_three/normal_loader.c.s
+
+src/stage_three/sandbox_loader.o: src/stage_three/sandbox_loader.c.o
+
+.PHONY : src/stage_three/sandbox_loader.o
+
+# target to build an object file
+src/stage_three/sandbox_loader.c.o:
+	$(MAKE) -f CMakeFiles/stage_three_sandbox.dir/build.make CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o
+.PHONY : src/stage_three/sandbox_loader.c.o
+
+src/stage_three/sandbox_loader.i: src/stage_three/sandbox_loader.c.i
+
+.PHONY : src/stage_three/sandbox_loader.i
+
+# target to preprocess a source file
+src/stage_three/sandbox_loader.c.i:
+	$(MAKE) -f CMakeFiles/stage_three_sandbox.dir/build.make CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.i
+.PHONY : src/stage_three/sandbox_loader.c.i
+
+src/stage_three/sandbox_loader.s: src/stage_three/sandbox_loader.c.s
+
+.PHONY : src/stage_three/sandbox_loader.s
+
+# target to generate assembly for a file
+src/stage_three/sandbox_loader.c.s:
+	$(MAKE) -f CMakeFiles/stage_three_sandbox.dir/build.make CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.s
+.PHONY : src/stage_three/sandbox_loader.c.s
+
+src/stage_two/loader.o: src/stage_two/loader.c.o
+
+.PHONY : src/stage_two/loader.o
+
+# target to build an object file
+src/stage_two/loader.c.o:
+	$(MAKE) -f CMakeFiles/stage_two.dir/build.make CMakeFiles/stage_two.dir/src/stage_two/loader.c.o
+.PHONY : src/stage_two/loader.c.o
+
+src/stage_two/loader.i: src/stage_two/loader.c.i
+
+.PHONY : src/stage_two/loader.i
+
+# target to preprocess a source file
+src/stage_two/loader.c.i:
+	$(MAKE) -f CMakeFiles/stage_two.dir/build.make CMakeFiles/stage_two.dir/src/stage_two/loader.c.i
+.PHONY : src/stage_two/loader.c.i
+
+src/stage_two/loader.s: src/stage_two/loader.c.s
+
+.PHONY : src/stage_two/loader.s
+
+# target to generate assembly for a file
+src/stage_two/loader.c.s:
+	$(MAKE) -f CMakeFiles/stage_two.dir/build.make CMakeFiles/stage_two.dir/src/stage_two/loader.c.s
+.PHONY : src/stage_two/loader.c.s
 
 # Help Target
 help:
@@ -550,47 +610,53 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... tiny_loader_filewriter_amd64"
-	@echo "... tiny_loader_filewriter_i386_exe"
-	@echo "... tiny_loader_filewriter_i386"
-	@echo "... tiny_loader_shell_amd64_exe"
-	@echo "... generate_x32"
-	@echo "... tiny_loader_filewriter_amd64_exe"
-	@echo "... loader_stage_three"
 	@echo "... rebuild_cache"
-	@echo "... tiny_loader_shell_amd64"
-	@echo "... tiny_loader_shell_i386_exe"
-	@echo "... loader_stage_one"
-	@echo "... tiny_loader_shell_i386"
-	@echo "... generate_x64"
-	@echo "... loader_stage_two"
-	@echo "... cJSON.o"
-	@echo "... cJSON.i"
-	@echo "... cJSON.s"
-	@echo "... generate.o"
-	@echo "... generate.i"
-	@echo "... generate.s"
-	@echo "... loader_stage_one.o"
-	@echo "... loader_stage_one.i"
-	@echo "... loader_stage_one.s"
-	@echo "... loader_stage_three.o"
-	@echo "... loader_stage_three.i"
-	@echo "... loader_stage_three.s"
-	@echo "... loader_stage_two.o"
-	@echo "... loader_stage_two.i"
-	@echo "... loader_stage_two.s"
-	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.o"
-	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.i"
-	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.s"
-	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.o"
-	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.i"
-	@echo "... strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.s"
-	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.o"
-	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.i"
-	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.s"
-	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_shell.o"
-	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_shell.i"
-	@echo "... strict_mode/tiny_loader/arch/i386/tiny_loader_shell.s"
+	@echo "... stage_one_normal"
+	@echo "... stage_two"
+	@echo "... pre_generate"
+	@echo "... stage_three_sandbox"
+	@echo "... generate"
+	@echo "... stage_three_normal"
+	@echo "... stage_one_sandbox"
+	@echo "... datafile_generate"
+	@echo "... stage_one_pre_generate"
+	@echo "... src/arch/amd64/loader.o"
+	@echo "... src/build_tools/datafile_generate.o"
+	@echo "... src/build_tools/datafile_generate.i"
+	@echo "... src/build_tools/datafile_generate.s"
+	@echo "... src/build_tools/elf/elf_utils.o"
+	@echo "... src/build_tools/elf/elf_utils.i"
+	@echo "... src/build_tools/elf/elf_utils.s"
+	@echo "... src/build_tools/file/file_utils.o"
+	@echo "... src/build_tools/file/file_utils.i"
+	@echo "... src/build_tools/file/file_utils.s"
+	@echo "... src/build_tools/file_check/checker.o"
+	@echo "... src/build_tools/file_check/checker.i"
+	@echo "... src/build_tools/file_check/checker.s"
+	@echo "... src/build_tools/generate.o"
+	@echo "... src/build_tools/generate.i"
+	@echo "... src/build_tools/generate.s"
+	@echo "... src/build_tools/json/cJSON.o"
+	@echo "... src/build_tools/json/cJSON.i"
+	@echo "... src/build_tools/json/cJSON.s"
+	@echo "... src/build_tools/pre_generate.o"
+	@echo "... src/build_tools/pre_generate.i"
+	@echo "... src/build_tools/pre_generate.s"
+	@echo "... src/build_tools/stage_one_pre_generate.o"
+	@echo "... src/build_tools/stage_one_pre_generate.i"
+	@echo "... src/build_tools/stage_one_pre_generate.s"
+	@echo "... src/stage_one/loader.o"
+	@echo "... src/stage_one/loader.i"
+	@echo "... src/stage_one/loader.s"
+	@echo "... src/stage_three/normal_loader.o"
+	@echo "... src/stage_three/normal_loader.i"
+	@echo "... src/stage_three/normal_loader.s"
+	@echo "... src/stage_three/sandbox_loader.o"
+	@echo "... src/stage_three/sandbox_loader.i"
+	@echo "... src/stage_three/sandbox_loader.s"
+	@echo "... src/stage_two/loader.o"
+	@echo "... src/stage_two/loader.i"
+	@echo "... src/stage_two/loader.s"
 .PHONY : help
 
 

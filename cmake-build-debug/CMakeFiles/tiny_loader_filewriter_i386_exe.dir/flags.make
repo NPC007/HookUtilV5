@@ -6,5 +6,5 @@ C_FLAGS = -g   -m32 -O0 -fno-stack-protector -std=gnu11
 
 C_DEFINES = 
 
-C_INCLUDES = -I/root/CLionProjects/HookUtilV3/. 
+C_INCLUDES = -I/root/CLionProjects/HookUtilV3/./src 
 

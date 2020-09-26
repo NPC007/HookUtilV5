@@ -27,300 +27,6 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="tiny_loader_filewriter_amd64">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libtiny_loader_filewriter_amd64.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_filewriter_amd64"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_filewriter_amd64/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libtiny_loader_filewriter_amd64.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_filewriter_amd64/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_filewriter_i386_exe">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/tiny_loader_filewriter_i386_exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_filewriter_i386_exe"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_filewriter_i386_exe/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/tiny_loader_filewriter_i386_exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_filewriter_i386_exe/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_filewriter_i386">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libtiny_loader_filewriter_i386.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_filewriter_i386"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_filewriter_i386/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libtiny_loader_filewriter_i386.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_filewriter_i386/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_shell_amd64_exe">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/tiny_loader_shell_amd64_exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_shell_amd64_exe"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_shell_amd64_exe/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/tiny_loader_shell_amd64_exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_shell_amd64_exe/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="generate_x32">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/generate_x32" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate_x32"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="generate_x32/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/generate_x32" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate_x32/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_filewriter_amd64_exe">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/tiny_loader_filewriter_amd64_exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_filewriter_amd64_exe"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_filewriter_amd64_exe/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/tiny_loader_filewriter_amd64_exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_filewriter_amd64_exe/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="loader_stage_three">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libloader_stage_three.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_three"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="loader_stage_three/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libloader_stage_three.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_three/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="rebuild_cache">
 				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
 				<Option type="4"/>
@@ -331,56 +37,14 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="tiny_loader_shell_amd64">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libtiny_loader_shell_amd64.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_shell_amd64"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_shell_amd64/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libtiny_loader_shell_amd64.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_shell_amd64/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_shell_i386_exe">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/tiny_loader_shell_i386_exe" prefix_auto="0" extension_auto="0"/>
+			<Target title="stage_one_normal">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_one_normal" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
@@ -388,20 +52,20 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_shell_i386_exe"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_one_normal"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="tiny_loader_shell_i386_exe/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/tiny_loader_shell_i386_exe" prefix_auto="0" extension_auto="0"/>
+			<Target title="stage_one_normal/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_one_normal" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
@@ -409,104 +73,20 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_shell_i386_exe/fast"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_one_normal/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="loader_stage_one">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libloader_stage_one.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_one"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="loader_stage_one/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libloader_stage_one.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_one/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_shell_i386">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libtiny_loader_shell_i386.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_shell_i386"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tiny_loader_shell_i386/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libtiny_loader_shell_i386.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 tiny_loader_shell_i386/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="generate_x64">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/generate_x64" prefix_auto="0" extension_auto="0"/>
+			<Target title="stage_two">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_two" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
@@ -514,20 +94,20 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate_x64"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_two"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="generate_x64/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/generate_x64" prefix_auto="0" extension_auto="0"/>
+			<Target title="stage_two/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_two" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
@@ -535,20 +115,20 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate_x64/fast"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_two/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="loader_stage_two">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libloader_stage_two.so" prefix_auto="0" extension_auto="0"/>
+			<Target title="pre_generate">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/pre_generate" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
 				<Option object_output="./"/>
-				<Option type="3"/>
+				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
@@ -556,20 +136,20 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_two"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 pre_generate"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="loader_stage_two/fast">
-				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/libloader_stage_two.so" prefix_auto="0" extension_auto="0"/>
+			<Target title="pre_generate/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/pre_generate" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
 				<Option object_output="./"/>
-				<Option type="3"/>
+				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/root/CLionProjects/HookUtilV3/."/>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
@@ -577,49 +157,341 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 loader_stage_two/fast"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 pre_generate/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stage_three_sandbox">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_three_sandbox" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_three_sandbox"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stage_three_sandbox/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_three_sandbox" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_three_sandbox/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="generate">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/generate" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="generate/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/generate" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 generate/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stage_three_normal">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_three_normal" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_three_normal"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stage_three_normal/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_three_normal" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_three_normal/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stage_one_sandbox">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_one_sandbox" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_one_sandbox"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stage_one_sandbox/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_one_sandbox" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_one_sandbox/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="datafile_generate">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/datafile_generate" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 datafile_generate"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="datafile_generate/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/datafile_generate" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 datafile_generate/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stage_one_pre_generate">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_one_pre_generate" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_one_pre_generate"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stage_one_pre_generate/fast">
+				<Option output="/root/CLionProjects/HookUtilV3/cmake-build-debug/stage_one_pre_generate" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/root/CLionProjects/HookUtilV3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/root/CLionProjects/HookUtilV3/./src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 stage_one_pre_generate/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/root/CLionProjects/HookUtilV3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/root/CLionProjects/HookUtilV3/cJSON.c">
-			<Option target="generate_x32"/>
-			<Option target="generate_x64"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/arch/amd64/loader.s">
+			<Option target="stage_one_normal"/>
+			<Option target="stage_one_sandbox"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/cJSON.h">
-			<Option target="generate_x32"/>
-			<Option target="generate_x64"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/datafile_generate.c">
+			<Option target="datafile_generate"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/generate.c">
-			<Option target="generate_x32"/>
-			<Option target="generate_x64"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/elf/elf_utils.c">
+			<Option target="pre_generate"/>
+			<Option target="generate"/>
+			<Option target="datafile_generate"/>
+			<Option target="stage_one_pre_generate"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/loader_stage_one.c">
-			<Option target="loader_stage_one"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/elf/elf_utils.h">
+			<Option target="pre_generate"/>
+			<Option target="generate"/>
+			<Option target="datafile_generate"/>
+			<Option target="stage_one_pre_generate"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/loader_stage_three.c">
-			<Option target="loader_stage_three"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/file/file_utils.c">
+			<Option target="pre_generate"/>
+			<Option target="generate"/>
+			<Option target="datafile_generate"/>
+			<Option target="stage_one_pre_generate"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/loader_stage_two.c">
-			<Option target="loader_stage_two"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/file/file_utils.h">
+			<Option target="pre_generate"/>
+			<Option target="generate"/>
+			<Option target="datafile_generate"/>
+			<Option target="stage_one_pre_generate"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c">
-			<Option target="tiny_loader_filewriter_amd64"/>
-			<Option target="tiny_loader_filewriter_amd64_exe"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/file_check/checker.c">
+			<Option target="pre_generate"/>
+			<Option target="generate"/>
+			<Option target="datafile_generate"/>
+			<Option target="stage_one_pre_generate"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/strict_mode/tiny_loader/arch/amd64/tiny_loader_shell.c">
-			<Option target="tiny_loader_shell_amd64_exe"/>
-			<Option target="tiny_loader_shell_amd64"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/file_check/checker.h">
+			<Option target="pre_generate"/>
+			<Option target="generate"/>
+			<Option target="datafile_generate"/>
+			<Option target="stage_one_pre_generate"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c">
-			<Option target="tiny_loader_filewriter_i386_exe"/>
-			<Option target="tiny_loader_filewriter_i386"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/generate.c">
+			<Option target="generate"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/HookUtilV3/strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c">
-			<Option target="tiny_loader_shell_i386_exe"/>
-			<Option target="tiny_loader_shell_i386"/>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/json/cJSON.c">
+			<Option target="pre_generate"/>
+			<Option target="generate"/>
+			<Option target="datafile_generate"/>
+			<Option target="stage_one_pre_generate"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/json/cJSON.h">
+			<Option target="pre_generate"/>
+			<Option target="generate"/>
+			<Option target="datafile_generate"/>
+			<Option target="stage_one_pre_generate"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/pre_generate.c">
+			<Option target="pre_generate"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/build_tools/stage_one_pre_generate.c">
+			<Option target="stage_one_pre_generate"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/stage_one/loader.c">
+			<Option target="stage_one_normal"/>
+			<Option target="stage_one_sandbox"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/stage_three/normal_loader.c">
+			<Option target="stage_three_normal"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/stage_three/sandbox_loader.c">
+			<Option target="stage_three_sandbox"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/HookUtilV3/src/stage_two/loader.c">
+			<Option target="stage_two"/>
 		</Unit>
 		<Unit filename="/root/CLionProjects/HookUtilV3/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
