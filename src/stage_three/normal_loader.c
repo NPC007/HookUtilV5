@@ -727,6 +727,7 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 
 void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     g_elf_base = three_base_tmp->elf_load_base;
+    my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
     DEBUG_LOG("stage_three_start");
     DEBUG_LOG("Version: %s %s",__DATE__,__TIME__);
     DEBUG_LOG("g_elf_base: 0x%lx",g_elf_base );
@@ -747,7 +748,7 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     int i = 0;
     char libc_start_main_str[] ={"__libc_start_main"};
     char* target_entry = lookup_symbols(libc_start_main_str);
-    my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
+
     g_errno_handler = NULL;
     while (ev[i] != NULL)
         i++;
