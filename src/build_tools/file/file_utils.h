@@ -16,6 +16,7 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <stdarg.h>
 
 
 long get_file_size(char* file);
@@ -29,6 +30,7 @@ char* get_file_content_length(char* file,int offset,int len);
 void copy_file(char* old_file,char* new_file);
 void open_mmap_check(char* file_name,int mode,int *fd,void** mmap_base,int prot,int flag,long* size);
 void close_and_munmap(char* file_name,int fd,char* base,long *size);
-
+void init_logger(char* name,int re_create);
+void logger(const char* format,...);
 
 #endif //HOOKUTILV3_FILE_UTILS_H

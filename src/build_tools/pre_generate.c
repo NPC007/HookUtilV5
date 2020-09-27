@@ -22,7 +22,7 @@
 
 
 void usage(char* local){
-    printf("usage: %s config.json\n",local);
+    logger("usage: %s config.json\n",local);
     exit(-1);
 }
 
@@ -31,46 +31,51 @@ int main(int argc,char* argv[]){
         usage(argv[0]);
     }
     char* config_file_name = argv[1];
-    printf("config file: %s\n",config_file_name);
+    logger("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){
-        printf("%s parse failed\n",config_file_name);
+        logger("%s parse failed\n",config_file_name);
         exit(-1);
     }
     char* project_root = cJSON_GetObjectItem(config,"project_root")->valuestring;
+    char logger_file[512] = {0};
+    snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
+    init_logger(logger_file,1);
     char debug_config_h[512] = {0};
     char sandbox_config_h[512] = {0};
     char normal_config_h[512] = {0};
     snprintf(debug_config_h,512,"%s/src/auto_generate/debug_config.h",project_root);
-    printf("debug_config.h: %s\n",debug_config_h);
+    logger("debug_config.h: %s\n",debug_config_h);
     snprintf(normal_config_h,512,"%s/src/auto_generate/normal_config.h",project_root);
-    printf("normal_config.h: %s\n",normal_config_h);
+    logger("normal_config.h: %s\n",normal_config_h);
     snprintf(sandbox_config_h,512,"%s/src/auto_generate/sandbox_config.h",project_root);
-    printf("sandbox_config.h: %s\n",sandbox_config_h);
+    logger("sandbox_config.h: %s\n",sandbox_config_h);
     char* input_elf = cJSON_GetObjectItem(config,"input_elf")->valuestring;
-    printf("input elf: %s\n",input_elf);
+    logger("input elf: %s\n",input_elf);
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
     char input_elf_path [512] = {0};
     snprintf(input_elf_path,sizeof(input_elf_path),"%s/%s/%s",project_root,target_dir,input_elf);
     if(access(input_elf_path,R_OK)!= 0 ){
-        printf("Input ELF not exist : %s\n",input_elf_path);
+        logger("Input ELF not exist : %s\n",input_elf_path);
         exit(-1);
     }
     // Process debug_config.h
     {
-        printf("###########################################process debug_config.h#######################################\n");
+        logger("###########################################process debug_config.h#######################################\n");
         int debug_config_file_fd = open(debug_config_h,O_RDWR|O_TRUNC|O_CREAT);
-        char *debug = cJSON_GetObjectItem(config, "debug")->valuestring;
-        if (strncasecmp(debug, "1",sizeof("1")) == 0 || strncasecmp(debug, "true",sizeof("true")) == 0) {
-            write_marco_define(debug_config_file_fd, "PATCH_DEBUG", "1");
-        } else {
-            write_marco_define(debug_config_file_fd, "PATCH_DEBUG", "0");
-        }
+#if PATCH_DEBUG_CONFIG == 1
+        write_marco_define(debug_config_file_fd, "PATCH_DEBUG", "1");
+#elif PATCH_DEBUG_CONFIG == 0
+        write_marco_define(debug_config_file_fd, "PATCH_DEBUG", "0");
+#else
+#error("PATCH_DEBUG Not Defined")
+#endif
+
         close(debug_config_file_fd);
     }
     //Process normal_config.h
     {
-        printf("###########################################process normal_config.h######################################\n");
+        logger("###########################################process normal_config.h######################################\n");
         int normal_config_file_fd = open(normal_config_h,O_RDWR|O_TRUNC|O_CREAT);
 
         char* tcp_time_out = cJSON_GetObjectItem(config,"tcp_time_out")->valuestring;
@@ -98,7 +103,7 @@ int main(int argc,char* argv[]){
     }
     //Process sanbox_config.h
     {
-        printf("###########################################process sandbox_config.h######################################\n");
+        logger("###########################################process sandbox_config.h######################################\n");
         int sandbox_config_file_fd = open(sandbox_config_h,O_RDWR|O_TRUNC|O_CREAT);
 
         char* tcp_time_out = cJSON_GetObjectItem(config,"tcp_time_out")->valuestring;

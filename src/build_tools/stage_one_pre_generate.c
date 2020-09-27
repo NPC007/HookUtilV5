@@ -65,7 +65,7 @@ int capstone_close(csh *handle){
 }
 
 void usage(char* local){
-    printf("usage: %s config.json\n",local);
+    logger("usage: %s config.json\n",local);
     exit(-1);
 }
 
@@ -86,14 +86,13 @@ void process_start_function(char* output_elf,cJSON* config){
     while(total_diassember_size > 0) {
         int count = cs_disasm(handle, start_function,total_diassember_size,start_function_vaddr,1,&insn);
         if(count != 1){
-            printf("disassember start function failed, v_addr: %p, offset: %p\n",(void*)start_function_vaddr,(void*)start_function_vaddr);
+            logger("disassember start function failed, v_addr: %p, offset: %p\n",(void*)start_function_vaddr,(void*)start_function_vaddr);
             exit(-1);
         }
-        printf("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[0].address, insn[0].mnemonic,insn[0].op_str);
+        logger("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[0].address, insn[0].mnemonic,insn[0].op_str);
         if(strncasecmp(insn[0].mnemonic,"CALL",5) ==0 || strncasecmp(insn[0].mnemonic,"BLX",4) ==0|| strncasecmp(insn[0].mnemonic,"BL",3) == 0){
             switch(((Elf_Ehdr*)output_elf_base)->e_machine){
                 case EM_386:
-                case EM_X86_64:
                     if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
                         unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1])));
                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
@@ -103,25 +102,39 @@ void process_start_function(char* output_elf,cJSON* config){
                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
                     }
                     else{
-                        printf("unknown x86 call instructions");
+                        logger("unknown x86 call instructions");
+                        exit(-1);
+                    }
+                    break;
+                case EM_X86_64:
+                    if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
+                        unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1])));
+                        call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
+
+                    }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
+                        unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (unsigned long) *((int*)(&(insn[0].bytes[2])));
+                        call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
+                    }
+                    else{
+                        logger("unknown x86 call instructions");
                         exit(-1);
                     }
                     break;
                 case EM_ARM:
-                    printf("unsupport arm");
+                    logger("unsupport arm");
                     exit(-1);
                 case EM_AARCH64:
-                    printf("unsupport aarch64");
+                    logger("unsupport aarch64");
                     exit(-1);
                 default:
-                    printf("unsupport other");
+                    logger("unsupport other");
                     exit(-1);
             }
             if(call[0] == 0x8B && call[2] == 0x24 && call[3] == 0xc3){
-                printf("find __x86.get_pc_thunk\n");
+                logger("find __x86.get_pc_thunk\n");
             }
             else {
-                printf("find start call libc_start_main\n");
+                logger("find start call libc_start_main\n");
                 break;
             }
         }
@@ -131,7 +144,7 @@ void process_start_function(char* output_elf,cJSON* config){
         cs_free(insn,1);
     }
     if(total_diassember_size <=0 ){
-        printf("unable find call , something wrong in find_start_offset\n");
+        logger("unable find call , something wrong in find_start_offset\n");
         exit(-1);
     }
     char buf[64] = {0};
@@ -148,10 +161,10 @@ void process_start_function(char* output_elf,cJSON* config){
                 cJSON_AddStringToObject(config,"libc_start_main_start_call_offset",buf);
                 sprintf(buf,"%p",(void*)libc_start_main_start_call_vaddr);
                 cJSON_AddStringToObject(config,"libc_start_main_start_call_vaddr",buf);
-                printf("identify libc_start_main_addr_type : code\n");
-                printf("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
-                printf("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
-                printf("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
+                logger("identify libc_start_main_addr_type : code\n");
+                logger("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
+                logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
+                logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
 
             }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
                 unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[0].bytes[2])));
@@ -164,13 +177,13 @@ void process_start_function(char* output_elf,cJSON* config){
                 cJSON_AddStringToObject(config,"libc_start_main_start_call_offset",buf);
                 sprintf(buf,"%p",(void*)libc_start_main_start_call_vaddr);
                 cJSON_AddStringToObject(config,"libc_start_main_start_call_vaddr",buf);
-                printf("identify libc_start_main_addr_type : ptr\n");
-                printf("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
-                printf("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
-                printf("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
+                logger("identify libc_start_main_addr_type : ptr\n");
+                logger("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
+                logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
+                logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
             }
             else{
-                printf("unknown x86 call instructions");
+                logger("unknown x86 call instructions");
                 exit(-1);
             }
             break;
@@ -187,10 +200,10 @@ void process_start_function(char* output_elf,cJSON* config){
                 cJSON_AddStringToObject(config,"libc_start_main_start_call_offset",buf);
                 sprintf(buf,"%p",(void*)libc_start_main_start_call_vaddr);
                 cJSON_AddStringToObject(config,"libc_start_main_start_call_vaddr",buf);
-                printf("identify libc_start_main_addr_type : code\n");
-                printf("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
-                printf("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
-                printf("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
+                logger("identify libc_start_main_addr_type : code\n");
+                logger("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
+                logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
+                logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
 
             }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
                 unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[0].bytes[2]))) +  insn[0].address + insn[0].size;
@@ -203,25 +216,25 @@ void process_start_function(char* output_elf,cJSON* config){
                 cJSON_AddStringToObject(config,"libc_start_main_start_call_offset",buf);
                 sprintf(buf,"%p",(void*)libc_start_main_start_call_vaddr);
                 cJSON_AddStringToObject(config,"libc_start_main_start_call_vaddr",buf);
-                printf("identify libc_start_main_addr_type : ptr\n");
-                printf("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
-                printf("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
-                printf("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
+                logger("identify libc_start_main_addr_type : ptr\n");
+                logger("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
+                logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
+                logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
             }
             else{
-                printf("unknown x86 call instructions");
+                logger("unknown x86 call instructions");
                 exit(-1);
             }
 
             break;
         case EM_ARM:
-            printf("unsupport arm");
+            logger("unsupport arm");
             exit(-1);
         case EM_AARCH64:
-            printf("unsupport aarch64");
+            logger("unsupport aarch64");
             exit(-1);
         default:
-            printf("unsupport other");
+            logger("unsupport other");
             exit(-1);
     }
     cs_free(insn,1);
@@ -242,7 +255,7 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_norm
         if (strcmp("eh_frame", loader_stage_one_position) == 0) {
             Elf_Shdr* eh_frame_shdr = get_elf_section_by_name(".eh_frame",(Elf_Ehdr*)input_elf_base);
             if(eh_frame_shdr==NULL){
-                printf("file:%s have no eh_frame, change first stage code to another place\n",input_elf);
+                logger("file:%s have no eh_frame, change first stage code to another place\n",input_elf);
                 exit(-1);
             }
             unsigned long elf_load_base = get_elf_load_base((Elf_Ehdr*)input_elf_base);
@@ -254,7 +267,7 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_norm
             //asseming stage_one size is smaller than 4K
             increase_file(input_elf,get_file_size(input_elf) + 0x1000);
         } else {
-            printf("unsupport loader_stage_one_position: %s\n", loader_stage_one_position);
+            logger("unsupport loader_stage_one_position: %s\n", loader_stage_one_position);
             exit(-1);
         }
     }
@@ -275,20 +288,23 @@ int main(int argc,char* argv[]){
     }
     int phdr_has_moved = 0;
     char* config_file_name = argv[1];
-    printf("config file: %s\n",config_file_name);
+    logger("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){
-        printf("%s parse failed\n",config_file_name);
+        logger("%s parse failed\n",config_file_name);
         exit(-1);
     }
     char* project_root = cJSON_GetObjectItem(config,"project_root")->valuestring;
+    char logger_file[512] = {0};
+    snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
+    init_logger(logger_file,0);
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
     char stage_one_normal_config_h[512] = {0};
     snprintf(stage_one_normal_config_h,512,"%s/src/auto_generate/stage_one_normal_config.h",project_root);
-    printf("stage_one_normal_config.h: %s\n",stage_one_normal_config_h);
+    logger("stage_one_normal_config.h: %s\n",stage_one_normal_config_h);
     char stage_one_sandbox_config_h[512] = {0};
     snprintf(stage_one_sandbox_config_h,512,"%s/src/auto_generate/stage_one_sandbox_config.h",project_root);
-    printf("stage_one_sandbox_config_h: %s\n",stage_one_sandbox_config_h);
+    logger("stage_one_sandbox_config_h: %s\n",stage_one_sandbox_config_h);
 
 
     char* normal_data_file = cJSON_GetObjectItem(config,"normal_data_file_path")->valuestring;
@@ -298,17 +314,17 @@ int main(int argc,char* argv[]){
     char* sandbox_data_file = cJSON_GetObjectItem(config,"sandbox_data_file_path")->valuestring;
     char sandbox_data_file_path[512] = {0};
     snprintf(sandbox_data_file_path,sizeof(sandbox_data_file_path),"%s/%s/%s",project_root,target_dir,sandbox_data_file);
-    printf("normal_data_file:%s\n",normal_data_file_path);
-    printf("sandbox_data_file:%s\n",sandbox_data_file_path);
+    logger("normal_data_file:%s\n",normal_data_file_path);
+    logger("sandbox_data_file:%s\n",sandbox_data_file_path);
 
     char* input_elf = cJSON_GetObjectItem(config,"input_elf")->valuestring;
     char input_elf_path [512] = {0};
     snprintf(input_elf_path,sizeof(input_elf_path),"%s/%s/%s",project_root,target_dir,input_elf);
     if(access(input_elf_path,R_OK)!= 0 ){
-        printf("Input ELF not exist : %s\n",input_elf_path);
+        logger("Input ELF not exist : %s\n",input_elf_path);
         exit(-1);
     }
-    printf("input_elf: %s\n",input_elf_path);
+    logger("input_elf: %s\n",input_elf_path);
     char* tmp_input_file = "/tmp/input_file_tmp";
     copy_file(input_elf_path,tmp_input_file);
     int stage_one_normal_config_fd = open(stage_one_normal_config_h,O_RDWR|O_TRUNC|O_CREAT);
@@ -321,12 +337,12 @@ int main(int argc,char* argv[]){
 
 #ifdef __x86_64__
         if(ehdr->e_machine != EM_X86_64){
-            printf("Arch not same, something wrong\n");
+            logger("Arch not same, something wrong\n");
             exit(-1);
         }
 #elif __i386__
         if(ehdr->e_machine != EM_386){
-            printf("Arch not same, something wrong\n");
+            logger("Arch not same, something wrong\n");
             exit(-1);
         }
 #endif
@@ -343,7 +359,7 @@ int main(int argc,char* argv[]){
                 write_marco_define(stage_one_sandbox_config_fd,"IS_PIE","0");
                 break;
             default:
-                printf("unknown object type: %d\n",ehdr->e_type);
+                logger("unknown object type: %d\n",ehdr->e_type);
                 exit(-1);
         }
     }
@@ -359,7 +375,7 @@ int main(int argc,char* argv[]){
             write_marco_define(stage_one_sandbox_config_fd,"LIBC_START_MAIN_ADDR_TYPE","PTR");
         }
         else{
-            printf("libc_start_main_addr_type has only two values, one is code, another is ptr\n");
+            logger("libc_start_main_addr_type has only two values, one is code, another is ptr\n");
             exit(-1);
         }
         char* libc_start_main_addr = cJSON_GetObjectItem(config,"libc_start_main_addr")->valuestring;
@@ -408,7 +424,7 @@ int main(int argc,char* argv[]){
         write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_VADDR", tmp_buf);
     }
     else if(strcmp("share_memory",loader_stage_other_position)==0){
-        printf("not implement,exit!!!");
+        logger("not implement,exit!!!");
         exit(-1);
         write_marco_define(stage_one_normal_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
         write_marco_define(stage_one_sandbox_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
@@ -439,7 +455,7 @@ int main(int argc,char* argv[]){
         write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
     }
     else{
-        printf("unsupport loader_stage_other_position: %s\n",loader_stage_other_position);
+        logger("unsupport loader_stage_other_position: %s\n",loader_stage_other_position);
         exit(-1);
     }
     close(stage_one_normal_config_fd);

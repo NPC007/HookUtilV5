@@ -20,29 +20,121 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="refactor v0.1">
-      <change afterPath="$PROJECT_DIR$/out/input_elf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/input_elf_normal" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/input_elf_sandbox" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/autotest_32_nopie_dynamic" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/autotest_32_nopie_static" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/autotest_32_pie_dynamic" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/autotest_32_pie_static" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/autotest_64_nopie_dynamic" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/autotest_64_nopie_static" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/autotest_64_pie_dynamic" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/autotest_64_pie_static" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/build.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/once_time_output" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/datafile_generate.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/datafile_generate.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/generate.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/pre_generate.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/src/build_tools/pre_generate.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/cmake_clean.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/elf/elf_utils.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file/file_utils.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file_check/checker.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/json/cJSON.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/src/build_tools/stage_one_pre_generate.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/cmake_clean.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/src/arch/amd64/loader.s.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/link.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/src/stage_three/normal_loader.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_normal.dir/src/stage_three/normal_loader.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/link.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tiny_loader_filewriter_i386.dir/C.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/stage_one_normal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/stage_one_normal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/stage_one_sandbox" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/stage_one_sandbox" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/src/stage_two/loader.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_two.dir/src/stage_two/loader.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/HookUtilV3.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/datafile_generate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/generate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/pre_generate" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/pre_generate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/stage_one_normal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/stage_one_pre_generate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/stage_one_sandbox" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/stage_three_normal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/stage_three_normal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/stage_three_sandbox" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/stage_three_sandbox" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/stage_two" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/stage_two" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/babyheap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/babyheap_normal" beforeDir="false" afterPath="$PROJECT_DIR$/out/input_elf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/babyheap_sandbox" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/clean.sh" beforeDir="false" afterPath="$PROJECT_DIR$/out/clean.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/normal.datafile" beforeDir="false" afterPath="$PROJECT_DIR$/out/normal.datafile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/sandbox.datafile" beforeDir="false" afterPath="$PROJECT_DIR$/out/sandbox.datafile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/stage_one_normal" beforeDir="false" afterPath="$PROJECT_DIR$/out/stage_one_normal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/stage_one_sandbox" beforeDir="false" afterPath="$PROJECT_DIR$/out/stage_one_sandbox" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/datafile_generate" beforeDir="false" afterPath="$PROJECT_DIR$/out/datafile_generate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/generate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/input_elf_normal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/input_elf_sandbox" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/normal.datafile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/pre_generate" beforeDir="false" afterPath="$PROJECT_DIR$/out/pre_generate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/sandbox.datafile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/stage_one_normal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/stage_one_pre_generate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/stage_one_sandbox" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/stage_three_normal" beforeDir="false" afterPath="$PROJECT_DIR$/out/stage_three_normal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/stage_three_sandbox" beforeDir="false" afterPath="$PROJECT_DIR$/out/stage_three_sandbox" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/stage_two" beforeDir="false" afterPath="$PROJECT_DIR$/out/stage_two" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arch/amd64/x64_syscall.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/arch/amd64/x64_syscall.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arch/i386/loader.s" beforeDir="false" afterPath="$PROJECT_DIR$/src/arch/i386/loader.s" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/arch/i386/loader_x86.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/arch/i386/loader_x86.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/auto_generate/stage_one_normal_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/auto_generate/stage_one_normal_config.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/auto_generate/stage_one_sandbox_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/auto_generate/stage_one_sandbox_config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stage_one/loader.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/stage_one/loader.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build_tools/datafile_generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/datafile_generate.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build_tools/elf/elf_utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/elf/elf_utils.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build_tools/file/file_utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/file/file_utils.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build_tools/file/file_utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/file/file_utils.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build_tools/file_check/checker.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/file_check/checker.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build_tools/generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/generate.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build_tools/pre_generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/pre_generate.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build_tools/stage_one_pre_generate.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/build_tools/stage_one_pre_generate.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stage_three/common.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/stage_three/common.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stage_three/normal_loader.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/stage_three/normal_loader.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stage_three/sandbox_loader.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/stage_three/sandbox_loader.c" afterDir="false" />
     </list>
@@ -117,7 +209,7 @@
       <recent name="$PROJECT_DIR$/src/build_tools/file" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.generate">
+  <component name="RunManager" selected="CMake Application.pre_generate">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="HookUtilV3" RUN_TARGET_NAME="generate" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -360,7 +452,9 @@
       <workItem from="1601082687445" duration="24849000" />
       <workItem from="1601117139235" duration="1778000" />
       <workItem from="1601119399027" duration="1931000" />
-      <workItem from="1601121472925" duration="14163000" />
+      <workItem from="1601121472925" duration="14221000" />
+      <workItem from="1601212084055" duration="5566000" />
+      <workItem from="1601217731591" duration="3985000" />
     </task>
     <task id="LOCAL-00001" summary="refactor v0.1">
       <created>1601136274103</created>
@@ -376,7 +470,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601136371266</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="refactor v0.1">
+      <created>1601137649560</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1601137649560</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -413,10 +514,10 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="1660" y="466" key="#xdebugger.evaluate/0.0.2560.1440@0.0.2560.1440" timestamp="1601131180941" />
-    <state x="298" y="322" key="CommitChangelistDialog2" timestamp="1601136371006">
+    <state x="298" y="322" key="CommitChangelistDialog2" timestamp="1601137649383">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="298" y="322" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1601136371006" />
+    <state x="298" y="322" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1601137649383" />
     <state width="445" height="466" key="DebuggerActiveHint" timestamp="1601131763043">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -425,55 +526,55 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="1038" y="470" key="FileChooserDialogImpl/0.0.2560.1440@0.0.2560.1440" timestamp="1595506585901" />
-    <state width="2518" height="454" key="GridCell.Tab.0.bottom" timestamp="1601135312055">
+    <state width="2518" height="454" key="GridCell.Tab.0.bottom" timestamp="1601216160340">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="454" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1601135312055" />
-    <state width="2518" height="454" key="GridCell.Tab.0.center" timestamp="1601135312050">
+    <state width="2518" height="454" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1601216160340" />
+    <state width="2518" height="454" key="GridCell.Tab.0.center" timestamp="1601216160334">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="454" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1601135312050" />
-    <state width="2518" height="454" key="GridCell.Tab.0.left" timestamp="1601135312047">
+    <state width="2518" height="454" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1601216160334" />
+    <state width="2518" height="454" key="GridCell.Tab.0.left" timestamp="1601216160331">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="454" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1601135312047" />
-    <state width="2518" height="454" key="GridCell.Tab.0.right" timestamp="1601135312052">
+    <state width="2518" height="454" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1601216160331" />
+    <state width="2518" height="454" key="GridCell.Tab.0.right" timestamp="1601216160337">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="454" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1601135312052" />
-    <state width="2518" height="419" key="GridCell.Tab.1.bottom" timestamp="1601135238592">
+    <state width="2518" height="454" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1601216160337" />
+    <state width="2518" height="419" key="GridCell.Tab.1.bottom" timestamp="1601214772933">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="419" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1601135238592" />
-    <state width="2518" height="419" key="GridCell.Tab.1.center" timestamp="1601135238586">
+    <state width="2518" height="419" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1601214772933" />
+    <state width="2518" height="419" key="GridCell.Tab.1.center" timestamp="1601214772928">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="419" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1601135238586" />
-    <state width="2518" height="419" key="GridCell.Tab.1.left" timestamp="1601135238582">
+    <state width="2518" height="419" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1601214772928" />
+    <state width="2518" height="419" key="GridCell.Tab.1.left" timestamp="1601214772925">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="419" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1601135238582" />
-    <state width="2518" height="419" key="GridCell.Tab.1.right" timestamp="1601135238589">
+    <state width="2518" height="419" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1601214772925" />
+    <state width="2518" height="419" key="GridCell.Tab.1.right" timestamp="1601214772931">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="419" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1601135238589" />
+    <state width="2518" height="419" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1601214772931" />
     <state x="774" y="361" key="SettingsEditor" timestamp="1595506599598">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="774" y="361" key="SettingsEditor/0.0.2560.1440@0.0.2560.1440" timestamp="1595506599598" />
-    <state x="880" y="462" key="Vcs.Push.Dialog.v2" timestamp="1601136381269">
+    <state x="880" y="462" key="Vcs.Push.Dialog.v2" timestamp="1601137659111">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="880" y="462" key="Vcs.Push.Dialog.v2/0.0.2560.1440@0.0.2560.1440" timestamp="1601136381269" />
-    <state x="960" y="566" key="com.intellij.ide.util.TipDialog" timestamp="1601121548222">
+    <state x="880" y="462" key="Vcs.Push.Dialog.v2/0.0.2560.1440@0.0.2560.1440" timestamp="1601137659111" />
+    <state x="960" y="566" key="com.intellij.ide.util.TipDialog" timestamp="1601217733453">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="750" y="524" key="com.intellij.ide.util.TipDialog/0.0.2000.1333@0.0.2000.1333" timestamp="1600481339240" />
-    <state x="960" y="566" key="com.intellij.ide.util.TipDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1601121548222" />
-    <state x="936" y="447" width="690" height="528" key="find.popup" timestamp="1595685732969">
+    <state x="960" y="566" key="com.intellij.ide.util.TipDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1601217733453" />
+    <state x="935" y="450" width="844" height="588" key="find.popup" timestamp="1601214506449">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="936" y="447" width="690" height="528" key="find.popup/0.0.2560.1440@0.0.2560.1440" timestamp="1595685732969" />
+    <state x="935" y="450" width="844" height="588" key="find.popup/0.0.2560.1440@0.0.2560.1440" timestamp="1601214506449" />
     <state x="944" y="340" key="run.anything.popup" timestamp="1601107430140">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -482,10 +583,10 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="943" y="336" width="672" height="678" key="search.everywhere.popup/0.0.2560.1440@0.0.2560.1440" timestamp="1601134985449" />
-    <state x="1010" y="641" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1601111366915">
+    <state x="1010" y="641" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1601217108906">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="1010" y="641" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1601111366915" />
+    <state x="1010" y="641" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1601217108906" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -512,43 +613,53 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/build_tools/stage_one_pre_generate.c</url>
-          <line>310</line>
+          <line>326</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/build_tools/generate.c</url>
-          <line>472</line>
+          <line>529</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/build_tools/datafile_generate.c</url>
-          <line>128</line>
+          <line>132</line>
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/build_tools/generate.c</url>
-          <line>504</line>
+          <line>561</line>
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/build_tools/generate.c</url>
-          <line>500</line>
+          <line>557</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/build_tools/stage_one_pre_generate.c</url>
-          <line>387</line>
+          <line>403</line>
           <option name="timeStamp" value="111" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/build_tools/stage_one_pre_generate.c</url>
-          <line>349</line>
+          <line>365</line>
           <option name="timeStamp" value="112" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/build_tools/file_check/checker.c</url>
-          <line>114</line>
+          <line>123</line>
           <option name="timeStamp" value="113" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/build_tools/generate.c</url>
+          <line>275</line>
+          <option name="timeStamp" value="114" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/build_tools/pre_generate.c</url>
+          <line>47</line>
+          <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/tools/auto_test.py</url>

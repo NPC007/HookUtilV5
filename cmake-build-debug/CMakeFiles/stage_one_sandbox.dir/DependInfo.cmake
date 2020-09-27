@@ -5,7 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_ASM
-  "/root/CLionProjects/HookUtilV3/src/arch/amd64/loader.s" "/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/src/arch/amd64/loader.s.o"
+  "/root/CLionProjects/HookUtilV3/src/arch/i386/loader.s" "/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o"
   )
 set(CMAKE_ASM_COMPILER_ID "GNU")
 

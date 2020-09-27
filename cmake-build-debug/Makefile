@@ -230,15 +230,15 @@ stage_one_pre_generate/fast:
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/build
 .PHONY : stage_one_pre_generate/fast
 
-src/arch/amd64/loader.o: src/arch/amd64/loader.s.o
+src/arch/i386/loader.o: src/arch/i386/loader.s.o
 
-.PHONY : src/arch/amd64/loader.o
+.PHONY : src/arch/i386/loader.o
 
 # target to build an object file
-src/arch/amd64/loader.s.o:
-	$(MAKE) -f CMakeFiles/stage_one_normal.dir/build.make CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o
-	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/src/arch/amd64/loader.s.o
-.PHONY : src/arch/amd64/loader.s.o
+src/arch/i386/loader.s.o:
+	$(MAKE) -f CMakeFiles/stage_one_normal.dir/build.make CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o
+	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o
+.PHONY : src/arch/i386/loader.s.o
 
 src/build_tools/datafile_generate.o: src/build_tools/datafile_generate.c.o
 
@@ -620,7 +620,7 @@ help:
 	@echo "... stage_one_sandbox"
 	@echo "... datafile_generate"
 	@echo "... stage_one_pre_generate"
-	@echo "... src/arch/amd64/loader.o"
+	@echo "... src/arch/i386/loader.o"
 	@echo "... src/build_tools/datafile_generate.o"
 	@echo "... src/build_tools/datafile_generate.i"
 	@echo "... src/build_tools/datafile_generate.s"

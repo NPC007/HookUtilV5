@@ -3,13 +3,13 @@
 
 # compile ASM with /usr/bin/cc
 # compile C with /usr/bin/cc
-ASM_FLAGS = -g   -m64  -D_FORTIFY_SOURCE=0  -O1 -fno-stack-protector -DSTAGE_ONE_SANDBOX=1
+ASM_FLAGS = -g   -m32 -D_FORTIFY_SOURCE=0  -O1 -fno-stack-protector -DSTAGE_ONE_SANDBOX=1
 
 ASM_DEFINES = 
 
 ASM_INCLUDES = -I/root/CLionProjects/HookUtilV3/./src 
 
-C_FLAGS = -g   -m64  -D_FORTIFY_SOURCE=0  -O1 -fno-stack-protector -DSTAGE_ONE_SANDBOX=1 -std=gnu11
+C_FLAGS = -g   -m32 -D_FORTIFY_SOURCE=0  -O1 -fno-stack-protector -DSTAGE_ONE_SANDBOX=1 -std=gnu11
 
 C_DEFINES = 
 

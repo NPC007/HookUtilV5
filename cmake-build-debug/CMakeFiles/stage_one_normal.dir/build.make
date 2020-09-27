@@ -60,10 +60,10 @@ include CMakeFiles/stage_one_normal.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/stage_one_normal.dir/flags.make
 
-CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o: CMakeFiles/stage_one_normal.dir/flags.make
-CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o: ../src/arch/amd64/loader.s
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building ASM object CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o"
-	/usr/bin/cc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o -c /root/CLionProjects/HookUtilV3/src/arch/amd64/loader.s
+CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o: CMakeFiles/stage_one_normal.dir/flags.make
+CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o: ../src/arch/i386/loader.s
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building ASM object CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o"
+	/usr/bin/cc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o -c /root/CLionProjects/HookUtilV3/src/arch/i386/loader.s
 
 CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o: CMakeFiles/stage_one_normal.dir/flags.make
 CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o: ../src/stage_one/loader.c
@@ -80,13 +80,13 @@ CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.s: cmake_force
 
 # Object files for target stage_one_normal
 stage_one_normal_OBJECTS = \
-"CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o" \
+"CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o" \
 "CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o"
 
 # External object files for target stage_one_normal
 stage_one_normal_EXTERNAL_OBJECTS =
 
-stage_one_normal: CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o
+stage_one_normal: CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o
 stage_one_normal: CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o
 stage_one_normal: CMakeFiles/stage_one_normal.dir/build.make
 stage_one_normal: CMakeFiles/stage_one_normal.dir/link.txt

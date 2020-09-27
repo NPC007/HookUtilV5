@@ -13,3 +13,5 @@ rm -f sandbox.datafile
 rm -f normal.datafile
 rm -f datafile_generate
 rm -f pre_generate
+rm -f input_elf_normal
+rm -f input_elf_sandbox

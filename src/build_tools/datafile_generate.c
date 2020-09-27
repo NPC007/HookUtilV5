@@ -29,12 +29,12 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
     open_mmap_check(libloader_stage_two,O_RDONLY,&libloader_stage_two_fd,(void**)&libloader_stage_two_base,PROT_READ,MAP_PRIVATE,&libloader_stage_two_size);
     get_section_data((Elf_Ehdr*)libloader_stage_two_base,".rodata",(void**)&libloader_stage_two_buf,&libloader_stage_two_len);
     if(libloader_stage_two_buf!=NULL || libloader_stage_two_len!=0){
-        printf("libloader_stage_two should not have rodata section, change compile flags:\n");
+        logger("libloader_stage_two should not have rodata section, change compile flags:\n");
         exit(-1);
     }
     get_section_data((Elf_Ehdr*)libloader_stage_two_base,".text",(void**)&libloader_stage_two_buf,&libloader_stage_two_len);
     if(libloader_stage_two_buf==NULL || libloader_stage_two_len==0){
-        printf("libloader_stage_two should have text section, but we can not find it:\n");
+        logger("libloader_stage_two should have text section, but we can not find it:\n");
         exit(-1);
     }
     Elf_Shdr* libloader_stage_two_text_section = get_elf_section_by_name(".text",(Elf_Ehdr*)libloader_stage_two_base);
@@ -45,9 +45,9 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
     two.entry_offset = ((Elf_Ehdr*)libloader_stage_two_base)->e_entry - libloader_stage_two_text_section->sh_addr;
     write(target_fd,&two,sizeof(LOADER_STAGE_TWO));
     write(target_fd,libloader_stage_two_buf,libloader_stage_two_len);
-    printf("libloader_stage_two TLV structure values:\n");
-    printf("\tlength:                     0x%x\n",two.length);
-    printf("\tentry_offset:               0x%x\n",two.entry_offset);
+    logger("libloader_stage_two TLV structure values:\n");
+    logger("\tlength:                     0x%x\n",two.length);
+    logger("\tentry_offset:               0x%x\n",two.entry_offset);
 
     LOADER_STAGE_THREE three;
     memset(&three,0,sizeof(LOADER_STAGE_THREE));
@@ -70,13 +70,13 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
         three.sandbox_server.sin_port = htons(atoi(sandbox_server_port));
         three.sandbox_server.sin_family = AF_INET;
     }
-    printf("libloader_stage_three TLV structure values:\n");
-    printf("\tentry_offset:                     0x%x\n",three.entry_offset);
-    printf("\tlength:                           0x%x\n",three.length);
-    printf("\tanalysis_server_ip:               %s\n",inet_ntoa(three.analysis_server.sin_addr));
-    printf("\tanalysis_server_port:             %d\n",htons(three.analysis_server.sin_port));
-    printf("\tsandbox_server_ip:                %s\n",inet_ntoa(three.sandbox_server.sin_addr));
-    printf("\tsandbox_server_port:              %d\n",htons(three.sandbox_server.sin_port));
+    logger("libloader_stage_three TLV structure values:\n");
+    logger("\tentry_offset:                     0x%x\n",three.entry_offset);
+    logger("\tlength:                           0x%x\n",three.length);
+    logger("\tanalysis_server_ip:               %s\n",inet_ntoa(three.analysis_server.sin_addr));
+    logger("\tanalysis_server_port:             %d\n",htons(three.analysis_server.sin_port));
+    logger("\tsandbox_server_ip:                %s\n",inet_ntoa(three.sandbox_server.sin_addr));
+    logger("\tsandbox_server_port:              %d\n",htons(three.sandbox_server.sin_port));
     write(target_fd,&three,sizeof(LOADER_STAGE_THREE));
     char* libloader_stage_three_content = get_file_content(libloader_stage_three);
 
@@ -93,7 +93,7 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
 
 
 void usage(char* local){
-    printf("usage: %s config.json\n",local);
+    logger("usage: %s config.json\n",local);
     exit(-1);
 }
 
@@ -104,27 +104,31 @@ int main(int argc,char* argv[]){
         usage(argv[0]);
     }
     char* config_file_name = argv[1];
-    printf("config file: %s\n",config_file_name);
+    logger("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){
-        printf("%s parse failed\n",config_file_name);
+        logger("%s parse failed\n",config_file_name);
         exit(-1);
     }
+
     char* project_root = cJSON_GetObjectItem(config,"project_root")->valuestring;
+    char logger_file[512] = {0};
+    snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
+    init_logger(logger_file,0);
     char libloader_stage_one[512] = {0};
     snprintf(libloader_stage_one,512,"%s/out/stage_one",project_root);
-    printf("stage_one: %s\n",libloader_stage_one);
+    logger("stage_one: %s\n",libloader_stage_one);
     char libloader_stage_two[512] = {0};
     snprintf(libloader_stage_two,512,"%s/out/stage_two",project_root);
-    printf("stage_two: %s\n",libloader_stage_two);
+    logger("stage_two: %s\n",libloader_stage_two);
     char libloader_stage_three_normal[512] = {0};
     snprintf(libloader_stage_three_normal,512,"%s/out/stage_three_normal",project_root);
-    printf("stage_three_normal: %s\n",libloader_stage_three_normal);
+    logger("stage_three_normal: %s\n",libloader_stage_three_normal);
     char libloader_stage_three_sandbox[512] = {0};
     snprintf(libloader_stage_three_sandbox,512,"%s/out/stage_three_sandbox",project_root);
-    printf("stage_three_sandbox: %s\n",libloader_stage_three_sandbox);
+    logger("stage_three_sandbox: %s\n",libloader_stage_three_sandbox);
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
-    printf("target_dir: %s\n",target_dir);
+    logger("target_dir: %s\n",target_dir);
 
     check_elf_arch(libloader_stage_two);
     check_elf_arch(libloader_stage_three_normal);
@@ -152,9 +156,9 @@ int main(int argc,char* argv[]){
 
     char* sandbox_server_port = cJSON_GetObjectItem(config,"sandbox_server_port")->valuestring;
 
-    printf("generate normal_data_file:%s\n",normal_data_file_path);
+    logger("generate normal_data_file:%s\n",normal_data_file_path);
     generate_data_file(normal_data_file_path,libloader_stage_two,libloader_stage_three_normal,shell_password,analysis_server_ip,analysis_server_port,sandbox_server_ip,sandbox_server_port);
-    printf("generate sandbox_data_file:%s\n",sandbox_data_file_path);
+    logger("generate sandbox_data_file:%s\n",sandbox_data_file_path);
     generate_data_file(sandbox_data_file_path,libloader_stage_two,libloader_stage_three_sandbox,shell_password,analysis_server_ip,analysis_server_port,sandbox_server_ip,sandbox_server_port);
 
 }

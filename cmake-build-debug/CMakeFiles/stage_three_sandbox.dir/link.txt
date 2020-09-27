@@ -1,1 +1,1 @@
-/usr/bin/cc -g  -m64  -D_FORTIFY_SOURCE=0  -nostartfiles -nodefaultlibs -nostdlib CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o  -o stage_three_sandbox 
+/usr/bin/cc -g  -static -pie -m32 -D_FORTIFY_SOURCE=0  -nostartfiles -nodefaultlibs -nostdlib CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o  -o stage_three_sandbox 

@@ -117,6 +117,8 @@ errno.h
 -
 fcntl.h
 -
+stdarg.h
+-
 
 /root/CLionProjects/HookUtilV3/src/build_tools/file_check/checker.c
 checker.h

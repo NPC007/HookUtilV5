@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o"
+  "CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o"
   "CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o"
   "stage_one_normal"
   "stage_one_normal.pdb"

@@ -726,23 +726,7 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 
 
 void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
-    g_elf_base = three_base_tmp->elf_load_base;
-    my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
-    DEBUG_LOG("stage_three_start");
-    DEBUG_LOG("Version: %s %s",__DATE__,__TIME__);
-    DEBUG_LOG("g_elf_base: 0x%lx",g_elf_base );
-    DEBUG_LOG("patch_data_mmap_file_base: 0x%lx",three_base_tmp->patch_data_mmap_file_base);
-    DEBUG_LOG("patch_data_mmap_code_base: 0x%lx",three_base_tmp->patch_data_mmap_code_base);
-    if(g_elf_base == NULL){
-        DEBUG_LOG("g_elf_base is NULL, Failed\n");
-        return;
-    }
-
-    if(check_elf_magic(g_elf_base)==-1){
-        DEBUG_LOG("g_elf_base is wrong,not elf header");
-        my_exit(-1);
-        return;
-    }
+    common_init(LIBC_START_MAIN_ARG_VALUE,three_base_tmp);
     char *stack_base = 0;
     char **ev = &UBP_AV[ARGC + 1];
     int i = 0;

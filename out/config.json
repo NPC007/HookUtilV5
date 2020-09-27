@@ -1,7 +1,6 @@
 {
   "project_root":"/root/CLionProjects/HookUtilV3/",
   "target_dir": "out",
-  "debug":"1",
   "input_elf":"input_elf",
 
   "loader_stage_one_position":"eh_frame",

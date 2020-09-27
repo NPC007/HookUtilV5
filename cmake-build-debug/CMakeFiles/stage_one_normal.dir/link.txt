@@ -1,1 +1,1 @@
-/usr/bin/cc -g  -m64  -D_FORTIFY_SOURCE=0  -nostartfiles -nodefaultlibs -nostdlib CMakeFiles/stage_one_normal.dir/src/arch/amd64/loader.s.o CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o  -o stage_one_normal 
+/usr/bin/cc -g  -static -pie -m32 -D_FORTIFY_SOURCE=0  -nostartfiles -nodefaultlibs -nostdlib CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o  -o stage_one_normal 

@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/stage_one_sandbox.dir/src/arch/amd64/loader.s.o"
+  "CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o"
   "CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o"
   "stage_one_sandbox"
   "stage_one_sandbox.pdb"

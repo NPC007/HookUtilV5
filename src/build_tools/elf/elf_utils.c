@@ -61,11 +61,11 @@ unsigned long get_offset_by_vaddr(unsigned long v_addr,Elf_Ehdr* elf_base){
         pt_load = (Elf_Phdr*)((char*)ehdr+ ehdr->e_phoff + ehdr->e_phentsize*i);
         if(pt_load->p_type == PT_LOAD){
             if ((pt_load->p_vaddr <= v_addr) && (v_addr <= pt_load->p_vaddr + pt_load->p_filesz) )
-                //printf("Convert Virtual Addr to File Offset: %p -> %p \n",(void*)v_addr ,(void*)(pt_load->p_offset + (v_addr - pt_load->p_vaddr)));
+                //logger("Convert Virtual Addr to File Offset: %p -> %p \n",(void*)v_addr ,(void*)(pt_load->p_offset + (v_addr - pt_load->p_vaddr)));
                 return  pt_load->p_offset + (v_addr - pt_load->p_vaddr);
         }
     }
-    printf("Convert Virtual Addr to File Offset failed\n");
+    logger("Convert Virtual Addr to File Offset failed\n");
     exit(0);
 }
 
@@ -135,7 +135,7 @@ void _add_segment_desc(char* elf_base,Elf_Phdr* phdr){
             }
         }
         if(i==ehdr->e_phnum){
-            printf("_add_segment_desc failed, unable to find ori seg, seg type:%d\n",phdr->p_type);
+            logger("_add_segment_desc failed, unable to find ori seg, seg type:%d\n",phdr->p_type);
             return;
         }
 
@@ -145,13 +145,13 @@ void _add_segment_desc(char* elf_base,Elf_Phdr* phdr){
         ehdr->e_phnum += 1;
     }
     else{
-        printf("Unsupport phdr type:%d\n",phdr->p_type);
+        logger("Unsupport phdr type:%d\n",phdr->p_type);
     }
 }
 
 void add_segment(char* elf_file,Elf_Phdr* phdr){
     if(phdr->p_type == PT_PHDR){
-        printf("PT_PHDR can not add manual,it will auto done");
+        logger("PT_PHDR can not add manual,it will auto done");
         exit(0);
     }
     int elf_file_fd;
@@ -174,7 +174,7 @@ void _padding_elf(char* elf_file_base,char *elf_file){
     long _ELF_SIZE = 0;
     long _PHDR_PAGE_SIZE = 0x1000;
     long _PARAMS_PAGE_SIZE = 0x4000;
-    printf("Assuming SO Max Size: 0x%x\n\n",MAX_SO_FILE_SIZE);
+    logger("Assuming SO Max Size: 0x%x\n\n",MAX_SO_FILE_SIZE);
     Elf_Phdr* phdr;
     for(i=0;i<ehdr->e_phnum;i++){
         phdr = (Elf_Phdr*)((long)ehdr + ehdr->e_phoff + i* ehdr->e_phentsize);
@@ -195,12 +195,12 @@ void _padding_elf(char* elf_file_base,char *elf_file){
         }
 
     phdr = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + pt_load_phdr[0]* ehdr->e_phentsize);
-    printf("sort  by vaddr\n");
+    logger("sort  by vaddr\n");
     for(i=0;i<pt_load_phdr_num;i++){
         Elf_Phdr* phdr_i = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + pt_load_phdr[i]* ehdr->e_phentsize);
-        printf("vaddr:%16lx\tfile_offset:%16lx\tfile_size:%16lx\tmem_size:%16lx\n",(long)phdr_i->p_vaddr,(long)phdr_i->p_offset,(long)phdr_i->p_filesz,(long)phdr_i->p_memsz);
+        logger("vaddr:%16lx\tfile_offset:%16lx\tfile_size:%16lx\tmem_size:%16lx\n",(long)phdr_i->p_vaddr,(long)phdr_i->p_offset,(long)phdr_i->p_filesz,(long)phdr_i->p_memsz);
     }
-    printf("sort  by vaddr end\n");
+    logger("sort  by vaddr end\n");
     long elf_file_size = get_file_size(elf_file);
     for(i=0;i<pt_load_phdr_num-1;i++){
         Elf_Phdr* phdr_i = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + pt_load_phdr[i]* ehdr->e_phentsize);
@@ -208,7 +208,7 @@ void _padding_elf(char* elf_file_base,char *elf_file){
         if(DOWN_PADDING(phdr_j->p_vaddr,0x1000)-UP_PADDING(phdr_i->p_vaddr+phdr_i->p_memsz,0x1000)> MAX_SO_FILE_SIZE)
             if(DOWN_PADDING(phdr_j->p_vaddr,0x1000)-UP_PADDING(phdr_i->p_vaddr + padding_size(elf_file_size),0x1000)> MAX_SO_FILE_SIZE){
                 _ELF_SIZE = padding_size(elf_file_size);
-                printf("find a space between %x and %x, space size is:%lx\n",i,i+1,DOWN_PADDING(phdr_j->p_vaddr,0x1000)-UP_PADDING(phdr_i->p_vaddr+phdr_i->p_memsz,0x1000));
+                logger("find a space between %x and %x, space size is:%lx\n",i,i+1,DOWN_PADDING(phdr_j->p_vaddr,0x1000)-UP_PADDING(phdr_i->p_vaddr+phdr_i->p_memsz,0x1000));
             }
     }
     _ELF_BASE = phdr->p_vaddr - phdr->p_offset;
@@ -218,7 +218,7 @@ void _padding_elf(char* elf_file_base,char *elf_file){
         _ELF_SIZE = UP_PADDING(phdr_end->p_vaddr + phdr_end->p_memsz,0x1000) - DOWN_PADDING(phdr_first->p_vaddr,0x1000);
         if(_ELF_SIZE<=UP_PADDING(elf_file_size,0x1000))
             _ELF_SIZE = UP_PADDING(elf_file_size,0x1000);
-        printf("unable to find any space between pt_load segments, just padding and append to file end\n");
+        logger("unable to find any space between pt_load segments, just padding and append to file end\n");
     }
     increase_file(elf_file,_ELF_SIZE);
 }
@@ -228,7 +228,7 @@ void padding_elf(char *elf_file){
     char* elf_file_base;
     elf_file_fd = open(elf_file,O_RDONLY);
     if(elf_file_fd < 0){
-        printf("unable open file: %s, error:%s\n",elf_file,strerror(errno));
+        logger("unable open file: %s, error:%s\n",elf_file,strerror(errno));
         exit(-1);
     }
     long file_size = get_file_size(elf_file);
@@ -236,7 +236,7 @@ void padding_elf(char *elf_file){
         file_size = UP_PADDING(file_size,0x1000);
     elf_file_base = mmap(NULL,file_size,PROT_READ,MAP_PRIVATE,elf_file_fd,0);
     if(elf_file_base <= 0){
-        printf("unable mmap file: %s, error:%s\n",elf_file,strerror(errno));
+        logger("unable mmap file: %s, error:%s\n",elf_file,strerror(errno));
         exit(-1);
     }
     _padding_elf(elf_file_base,elf_file);
@@ -277,10 +277,10 @@ void mov_phdr(char* elf_file){
             }
         }
         if(phdr_pt_load_phdr.p_paddr == 0){
-            printf("Unable to get PT_LOAD segment, must wrong\n");
+            logger("Unable to get PT_LOAD segment, must wrong\n");
             return;
         }
-        printf("Add PHDR pt_load: vaddr:%16lx\tfile_offset:%16lx\n",(long)phdr_pt_load_phdr.p_paddr,(long)phdr_pt_load_phdr.p_offset);
+        logger("Add PHDR pt_load: vaddr:%16lx\tfile_offset:%16lx\n",(long)phdr_pt_load_phdr.p_paddr,(long)phdr_pt_load_phdr.p_offset);
         _add_segment_desc(elf_file_base,&phdr_pt_load_phdr);
         for(int i=0;i<ehdr->e_phnum;i++){
             Elf_Phdr* phdr_self_phdr = (Elf_Phdr*)(elf_file_base + ehdr->e_phoff + ehdr->e_phentsize*i);
@@ -303,12 +303,12 @@ void check_elf_arch(char* file_name){
     Elf_Ehdr* ehdr = (Elf_Ehdr*)get_file_content_length(file_name,0,sizeof(Elf_Ehdr));
 #ifdef __x86_64__
     if(ehdr->e_machine != EM_X86_64){
-            printf("Arch not same, something wrong\n");
+            logger("Arch not same, something wrong\n");
             exit(-1);
         }
 #elif __i386__
     if(ehdr->e_machine != EM_386){
-        printf("Arch not same, something wrong\n");
+        logger("Arch not same, something wrong\n");
         exit(-1);
     }
 #endif
