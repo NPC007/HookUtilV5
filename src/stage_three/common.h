@@ -29,7 +29,14 @@
 #define IN_LINE static inline __attribute__((always_inline))
 #endif
 
-static char SYSCALL_ALL_STR [][0x20] = {SYSCALL_ALL};
+
+
+
+static char  SYSCALL_ALL_STR [][0x40] = {SYSCALL_ALL} ;
+
+
+
+
 
 #define UN_KNOWN_ERROR_CODE 0xFF99FF99
 
@@ -56,6 +63,20 @@ static PATCH_CODE_SLOT* g_patch_code_slot;
 static int g_patch_code_index;
 static char* g_elf_base = 0;
 static LOADER_STAGE_THREE g_loader_param;
+
+#include "snprintf_s.h"
+
+static void my_debug_0(const char *format, ...){
+    char buf[4096] = {0};
+    if(g_loader_param.enable_debug) {
+        va_list args;       //定义一个va_list类型的变量，用来储存单个参数
+        va_start(args, format); //使args指向可变参数的第一个参数
+        vsnprintf_s(buf,sizeof(buf),sizeof(buf),format,args);
+        my_write_stdout(buf);
+        va_end(args);
+    }
+}
+
 
 IN_LINE char* get_elf_base(){
     return g_elf_base;
@@ -295,6 +316,73 @@ IN_LINE void* find_symbol_in_lib_slow(char *symbols,char * elf_base){
     return NULL;
 }
 
+IN_LINE void* find_symbol_in_mmap_file(char* symbols,char* elf_file_name){
+    int i = 0, j = 0;
+    void* result = NULL;
+    int elf_file_handle = my_open(elf_file_name,O_RDONLY,0644);
+    if(elf_file_handle < 0){
+        my_debug_0("Unable to open file: %s for symbol: %s",elf_file_handle,symbols);
+        return NULL;
+    }
+    void* elf_mmap_addr = (void*)my_mmap(0,0x1000000,PROT_READ, MAP_PRIVATE,elf_file_handle,0);
+    if(elf_mmap_addr == NULL){
+        my_debug_0("Unable to mmap file: %s for symbol: %s",elf_file_handle,symbols);
+        return NULL;
+    }
+
+    Elf_Ehdr* elf_ehdr = ( Elf_Ehdr* )elf_mmap_addr ;
+    unsigned char* tmp_symbol_name;
+    int section_entry_size = elf_ehdr->e_shentsize;
+    int section_entry_num = elf_ehdr->e_shnum;
+    int section_file_offset = elf_ehdr->e_shoff;
+
+    Elf_Shdr* lib_section_shdr;
+    Elf_Shdr* lib_section_shdr_link;
+    for(i=0;i<section_entry_num;i++){
+        lib_section_shdr = ( Elf_Shdr*)((char*)elf_mmap_addr +section_file_offset+i * section_entry_size );
+        if(lib_section_shdr->sh_type == SHT_DYNSYM || lib_section_shdr->sh_type == SHT_SYMTAB){
+        }
+        else
+            continue;
+        int link_section = lib_section_shdr->sh_link;
+        if(link_section>=0){
+            lib_section_shdr_link =( Elf_Shdr*)((char*)elf_mmap_addr +section_file_offset+link_section * section_entry_size );
+        }
+        else
+            continue;
+        int symbol_section_file_offset = lib_section_shdr->sh_offset;
+        int symbol_section_file_entsize = lib_section_shdr->sh_entsize;
+        int symbol_section_file_size = lib_section_shdr->sh_size;
+        Elf_Sym* symbol ;
+        for(j=0;j*symbol_section_file_entsize < symbol_section_file_size;j++){
+            symbol = (Elf_Sym*)((char*)elf_mmap_addr + symbol_section_file_offset+j * symbol_section_file_entsize);
+            if(symbol->st_value == 0)
+                continue;
+            int symbol_length = my_strlen(symbols);
+            if(symbol_length>=98)
+                break;
+            int str_section_file_offset = lib_section_shdr_link->sh_offset;
+            tmp_symbol_name = (char*)elf_mmap_addr + str_section_file_offset + symbol->st_name;
+            if(my_strcmp(tmp_symbol_name,symbols)==0) {
+                result = (void *) ELF_ADDR_ADD(get_elf_base(), symbol->st_value);
+                goto out;
+            }
+            /*
+            if(!(my_strcmp(read_symbol_name,symbols,symbol_length)==0))
+                continue;
+            if (read_symbol_name[symbol_length] == '@'&& read_symbol_name[symbol_length+1] == '@'){
+                return st_value;
+            }
+             */
+        }
+    }
+out:
+    my_munmap(elf_mmap_addr,0x1000000);
+    my_close(elf_file_handle);
+    return result;
+}
+
+
 IN_LINE void* lookup_symbools_from_dynamic_symbol(char* symbols,void* elf_base){
     Elf_Sym* sym;
     void* sym_addr = NULL;
@@ -330,22 +418,30 @@ IN_LINE  void* lookup_symbols(char* symbol){
         return NULL;
     while(map->l_prev!=NULL) map = map->l_prev;
     void* sym_addr = 0;
-    char vdso[] = {"[vdso]"};
-    char linux_vdso[] = {"linux-vdso.so.1"};
-    char linux_gate[] = {"linux-gate.so.1"};
+    char black_bin_list[][32] = {"linux-vdso","linux-gate","[vdso]"};
+    int i = 0;
+    int continue_flag = 0;
     while (!sym_addr && map){
         char* so_name = map->l_name;
-        if(my_strstr(so_name,vdso)!=NULL||my_strstr(so_name,linux_vdso)!=NULL ||my_strstr(so_name,linux_gate)!=NULL){
-            map = map->l_next;
+        continue_flag = 0;
+        if(so_name != NULL)
+            for(i=0;i<sizeof(black_bin_list)/sizeof(black_bin_list[0]);i++)
+                if(my_strstr(so_name,black_bin_list[i])!=NULL){
+                    map = map->l_next;
+                    continue_flag = 1;
+                    break;
+            }
+        if(continue_flag)
             continue;
-        }
         if(map->l_addr == 0){
             map = map->l_next;
             continue;
         }
         sym_addr = (void*)lookup_symbols_in_elf(symbol,(char*)map->l_addr);
-        if(sym_addr!=NULL)
+        if(sym_addr!=NULL) {
+            //my_debug_0("Find Symbol:%s --> %s : 0x%lx\n",symbol,so_name,sym_addr);
             return sym_addr;
+        }
         map = map->l_next;
     }
     return NULL;
@@ -858,6 +954,18 @@ IN_LINE int connect_timeout(int sockfd, const struct sockaddr *addr,
     return 1;
 }
 
+IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
+    DEBUG_LOG("MAIN at: %p",MAIN);
+    DEBUG_LOG("ARGC   : %d",ARGC);
+    DEBUG_LOG("UBP_AV : %p",UBP_AV);
+    char **ev = &UBP_AV[ARGC + 1];
+    int i = 0;
+    while (ev[i] != NULL){
+        DEBUG_LOG("ev[%d]=%p, %s",i,ev[i],ev[i]);
+        i++;
+    }
+}
+
 IN_LINE void common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
     g_elf_base = three_base_tmp->elf_load_base;
     my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
@@ -870,10 +978,10 @@ IN_LINE void common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp)
         DEBUG_LOG("g_elf_base is NULL, Failed\n");
         return;
     }
-
     if(check_elf_magic(g_elf_base)==-1){
         DEBUG_LOG("g_elf_base is wrong,not elf header");
         my_exit(-1);
         return;
     }
+    dump_program_info(LIBC_START_MAIN_ARG_VALUE);
 }

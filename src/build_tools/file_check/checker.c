@@ -139,7 +139,15 @@ void check_libloader_stage_one(char* libloader_stage_one){
     //check_so_file_no_dynsym_section  ((Elf_Ehdr*)libloader_stage_one_base);
     check_so_file_no_rodata_section  ((Elf_Ehdr*)libloader_stage_one_base);
     check_so_file_no_data_section    ((Elf_Ehdr*)libloader_stage_one_base);
-    check_so_file_no_got_section     ((Elf_Ehdr*)libloader_stage_one_base);
+    switch(((Elf_Ehdr*)libloader_stage_one_base)->e_machine) {
+        case EM_386:
+            logger("when target is i386, ignore got check");
+            break;
+        default:
+            check_so_file_no_got_section     ((Elf_Ehdr*)libloader_stage_one_base);
+            break;
+    }
+
     check_so_file_no_gotplt_section  ((Elf_Ehdr*)libloader_stage_one_base);
     check_so_file_no_plt_section     ((Elf_Ehdr*)libloader_stage_one_base);
     check_so_file_no_bss_section     ((Elf_Ehdr*)libloader_stage_one_base);

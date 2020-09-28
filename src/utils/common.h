@@ -258,6 +258,7 @@ IN_LINE int  my_memcmp(void *dst, void *src,int len){
 
 IN_LINE void my_puts(const char* str){
     char end[] = {'\n'};
+    //int end = 0x0000000a;
     my_write(1,str,my_strlen(str));
     my_write(1,end,1);
 }

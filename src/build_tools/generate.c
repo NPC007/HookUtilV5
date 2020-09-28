@@ -581,7 +581,7 @@ int main(int argc,char* argv[]){
         logger("unsupport loader_stage_other_position: %s\n",loader_stage_other_position);
         exit(-1);
     }
-    char tmp_buf[512];
+    char tmp_buf[530];
     snprintf(tmp_buf,sizeof(tmp_buf),"chmod +x %s",output_normal_elf_path);
     system(tmp_buf);
     snprintf(tmp_buf,sizeof(tmp_buf),"chmod +x %s",output_sandbox_elf_path);

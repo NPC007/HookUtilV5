@@ -734,8 +734,9 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     char* target_entry = lookup_symbols(libc_start_main_str);
 
     g_errno_handler = NULL;
-    while (ev[i] != NULL)
+    while (ev[i] != NULL){
         i++;
+    }
     if (i >= 1)
         stack_base = (char *) UP_PADDING((long) ev[i - 1], 0x1000);
     else

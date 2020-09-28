@@ -16,3 +16,4 @@ CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o
  ../src/utils/md5.h
  /root/CLionProjects/HookUtilV3/src/stage_three/common.h
  /root/CLionProjects/HookUtilV3/src/stage_three/sandbox_loader.c
+ /root/CLionProjects/HookUtilV3/src/stage_three/snprintf_s.h

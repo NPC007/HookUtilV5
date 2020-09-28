@@ -93,10 +93,14 @@ arch/common/syscall.h
 /root/CLionProjects/HookUtilV3/src/stage_three/arch/common/syscall.h
 utils/common.h
 /root/CLionProjects/HookUtilV3/src/stage_three/utils/common.h
+snprintf_s.h
+/root/CLionProjects/HookUtilV3/src/stage_three/snprintf_s.h
 
 /root/CLionProjects/HookUtilV3/src/stage_three/normal_loader.c
 common.h
 /root/CLionProjects/HookUtilV3/src/stage_three/common.h
 auto_generate/normal_config.h
 /root/CLionProjects/HookUtilV3/src/stage_three/auto_generate/normal_config.h
+
+/root/CLionProjects/HookUtilV3/src/stage_three/snprintf_s.h
 

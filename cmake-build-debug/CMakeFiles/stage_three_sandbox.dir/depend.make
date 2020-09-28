@@ -15,4 +15,5 @@ CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o: ../src/ut
 CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o: ../src/utils/md5.h
 CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o: ../src/stage_three/common.h
 CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o: ../src/stage_three/sandbox_loader.c
+CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o: ../src/stage_three/snprintf_s.h
 
