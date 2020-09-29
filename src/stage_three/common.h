@@ -62,6 +62,7 @@ typedef struct PATCH_CODE_SLOT{
 static PATCH_CODE_SLOT* g_patch_code_slot;
 static int g_patch_code_index;
 static char* g_elf_base = 0;
+static char g_elf_path[512] ;
 static LOADER_STAGE_THREE g_loader_param;
 
 #include "snprintf_s.h"
@@ -317,6 +318,7 @@ IN_LINE void* find_symbol_in_lib_slow(char *symbols,char * elf_base){
 }
 
 IN_LINE void* find_symbol_in_mmap_file(char* symbols,char* elf_file_name){
+    //my_debug_0("Start find Symbol:%s --> %s \n",symbols,elf_file_name);
     int i = 0, j = 0;
     void* result = NULL;
     int elf_file_handle = my_open(elf_file_name,O_RDONLY,0644);
@@ -363,8 +365,12 @@ IN_LINE void* find_symbol_in_mmap_file(char* symbols,char* elf_file_name){
                 break;
             int str_section_file_offset = lib_section_shdr_link->sh_offset;
             tmp_symbol_name = (char*)elf_mmap_addr + str_section_file_offset + symbol->st_name;
-            if(my_strcmp(tmp_symbol_name,symbols)==0) {
+            if(my_strlen(tmp_symbol_name) < my_strlen(symbols))
+                continue;
+            //my_debug_0("compare: %s -- %s\n",tmp_symbol_name,symbols);
+            if(my_strcmp(tmp_symbol_name,symbols) ==0 ) {
                 result = (void *) ELF_ADDR_ADD(get_elf_base(), symbol->st_value);
+                //my_debug_0("Success find Symbol:%s --> %s : 0x%lx \n",symbols,elf_file_name,(void*)result);
                 goto out;
             }
             /*
@@ -414,8 +420,11 @@ IN_LINE  void* lookup_symbols(char* symbol){
     if(map == NULL){
         map = get_elf_linkmap_from_dt_debug(get_elf_base());
     }
-    if(map == NULL)
+    if(map == NULL) {
+        if(my_strlen(g_elf_path)!=0)
+            return find_symbol_in_mmap_file(symbol,g_elf_path);
         return NULL;
+    }
     while(map->l_prev!=NULL) map = map->l_prev;
     void* sym_addr = 0;
     char black_bin_list[][32] = {"linux-vdso","linux-gate","[vdso]"};
@@ -439,7 +448,6 @@ IN_LINE  void* lookup_symbols(char* symbol){
         }
         sym_addr = (void*)lookup_symbols_in_elf(symbol,(char*)map->l_addr);
         if(sym_addr!=NULL) {
-            //my_debug_0("Find Symbol:%s --> %s : 0x%lx\n",symbol,so_name,sym_addr);
             return sym_addr;
         }
         map = map->l_next;
@@ -960,6 +968,11 @@ IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
     DEBUG_LOG("UBP_AV : %p",UBP_AV);
     char **ev = &UBP_AV[ARGC + 1];
     int i = 0;
+    char** argv = &UBP_AV[0];
+    for(i=0;i<ARGC;i++){
+        my_debug_0("argc[%d]=%s\n",i,argv[i]);
+    }
+    i = 0;
     while (ev[i] != NULL){
         DEBUG_LOG("ev[%d]=%p, %s",i,ev[i],ev[i]);
         i++;
@@ -969,6 +982,7 @@ IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
 IN_LINE void common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
     g_elf_base = three_base_tmp->elf_load_base;
     my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
+    //my_strcpy(g_elf_path,((char**)(&UBP_AV[0])) [0] ,0);
     DEBUG_LOG("stage_three_start");
     DEBUG_LOG("Version: %s %s",__DATE__,__TIME__);
     DEBUG_LOG("g_elf_base: 0x%lx",g_elf_base );

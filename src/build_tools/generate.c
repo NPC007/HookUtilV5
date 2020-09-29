@@ -586,4 +586,6 @@ int main(int argc,char* argv[]){
     system(tmp_buf);
     snprintf(tmp_buf,sizeof(tmp_buf),"chmod +x %s",output_sandbox_elf_path);
     system(tmp_buf);
+    logger("generate done\n");
+    logger("-------------------------------------------------------------------------------------------------------------\n");
 }
