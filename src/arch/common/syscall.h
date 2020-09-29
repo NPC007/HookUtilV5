@@ -159,6 +159,11 @@ IN_LINE long my_fcntl(int fd,long cmd,long flag){
     return res;
 }
 
+IN_LINE long my_brk(void* addr){
+    long res = 0;
+    asm_brk(addr,res);
+    return res;
+}
 
 
 

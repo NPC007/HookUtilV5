@@ -889,7 +889,9 @@ IN_LINE void build_packet(char type,char* buf,int buf_len,char* packet,int* pack
     *packet_len = sizeof(UUID)+1+4 + buf_len;
 }
 
+static void* __heap_base;
 IN_LINE char* get_heap_base(){
+    /*
     char* tmp_address = 0;
     void*(*malloc_handler)(int) = lookup_symbols("malloc");
     void (*free_handler)(void*) = lookup_symbols("free");
@@ -900,8 +902,14 @@ IN_LINE char* get_heap_base(){
             return (char*)((long)(tmp_address) - (long)tmp_address%0x1000);
         }
     }
-    return 0;
+    return 0;*/
+    return (void*)__heap_base;
 }
+
+IN_LINE void init_heap_base(){
+    __heap_base =  (void**)my_brk(0);
+}
+
 IN_LINE void destory_patch_data(){
 #if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
     my_munmap((void*)g_loader_param.patch_data_mmap_file_base,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
@@ -981,6 +989,7 @@ IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
 
 IN_LINE void common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
     g_elf_base = three_base_tmp->elf_load_base;
+    init_heap_base();
     my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
     //my_strcpy(g_elf_path,((char**)(&UBP_AV[0])) [0] ,0);
     DEBUG_LOG("stage_three_start");

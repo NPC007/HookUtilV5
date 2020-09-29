@@ -137,4 +137,8 @@
                                                 :"0"(SYSCALL_ID));
 
 
+#define asm_brk(ADDR,RES) __asm__ __volatile__("int $0x80"\
+                                    : "=a" (RES)\
+                                    :"0"(__NR_brk),"b"((long)ADDR));
+
 #endif
