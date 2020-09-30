@@ -15,6 +15,9 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_TWO* two_base){
     three_base->patch_data_mmap_file_base = (void*)two_base;
     //todo elf_load_base should find an empty space, not just add 0x1000100
     char* stage_three_load_base = (char*)three_base->patch_data_mmap_file_base + 0x10001000 ;
+    if(sizeof(void*)==8){
+        stage_three_load_base = 0x5678ff0000;
+    }
 
     unsigned char xor_data[] = {'\x45','\xf8','\x66','\xab','\x55'};
     unsigned char *encry_data = (unsigned char*)three_base + sizeof(LOADER_STAGE_THREE);
@@ -33,6 +36,7 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_TWO* two_base){
     int flag = 0;
     char* base_addr = (char*)ehdr;
     for(int i=0;i<ehdr->e_phnum;i++){
+        flag = 0;
         phdr = (Elf_Phdr*)((char*)ehdr + ehdr->e_phoff + ehdr->e_phentsize*i);
         if(phdr->p_type == PT_LOAD){
             if(phdr->p_flags & 0x1)

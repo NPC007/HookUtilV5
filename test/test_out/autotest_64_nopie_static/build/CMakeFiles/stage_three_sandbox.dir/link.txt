@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG  -static-pie -m64 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0  -nostartfiles -nodefaultlibs -nostdlib CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o  -o stage_three_sandbox 

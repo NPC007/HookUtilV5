@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG  -static-pie -m64 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0  -nostartfiles -nodefaultlibs -nostdlib CMakeFiles/stage_one_sandbox.dir/src/arch/amd64/loader.s.o CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o  -o stage_one_sandbox 

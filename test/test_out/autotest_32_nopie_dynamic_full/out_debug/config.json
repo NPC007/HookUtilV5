@@ -1,13 +1,12 @@
 {
-  "project_root":"/root/CLionProjects/HookUtilV3/",
+  "project_root":"/root/CLionProjects/HookUtilV3/test/../",
   "target_dir": "out",
   "input_elf":"input_elf",
 
-  "loader_stage_one_position":"eh_frame",
+  "loader_stage_one_position":"new_pt_load",
   "loader_stage_other_position":"memory",
   "loader_stage_other_file_path":"/tmp/1",
-
-
+  
 
   "tcp_time_out":"1",
   "io_inline_hook":"0",

@@ -54,15 +54,15 @@ default : all
 	echo 'done'
 
 clean :
-	rm autotest_64_nopie_dynamic_full -f
-	rm autotest_64_nopie_dynamic_half -f
-	rm autotest_64_pie_dynamic_full -f
-	rm autotest_64_pie_dynamic_half -f
-	rm autotest_64_nopie_static -f
-	rm autotest_64_pie_static -f
-	rm autotest_32_nopie_dynamic_full -f
-	rm autotest_32_nopie_dynamic_half -f
-	rm autotest_32_pie_dynamic_full  -f
-	rm autotest_32_pie_dynamic_half -f
-	rm autotest_32_nopie_static -f
-	rm autotest_32_pie_static -f
+	rm ${out}/autotest_64_nopie_dynamic_full -f
+	rm ${out}/autotest_64_nopie_dynamic_half -f
+	rm ${out}/autotest_64_pie_dynamic_full -f
+	rm ${out}/autotest_64_pie_dynamic_half -f
+	rm ${out}/autotest_64_nopie_static -f
+	rm ${out}/autotest_64_pie_static -f
+	rm ${out}/autotest_32_nopie_dynamic_full -f
+	rm ${out}/autotest_32_nopie_dynamic_half -f
+	rm ${out}/autotest_32_pie_dynamic_full  -f
+	rm ${out}/autotest_32_pie_dynamic_half -f
+	rm ${out}/autotest_32_nopie_static -f
+	rm ${out}/autotest_32_pie_static -f

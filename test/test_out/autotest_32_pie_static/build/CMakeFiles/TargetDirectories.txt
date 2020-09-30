@@ -1,0 +1,11 @@
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/rebuild_cache.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/edit_cache.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/stage_one_pre_generate.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/datafile_generate.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/generate.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/stage_three_sandbox.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/stage_three_normal.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/stage_one_sandbox.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/stage_two.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/stage_one_normal.dir
+/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_pie_static/build/CMakeFiles/pre_generate.dir

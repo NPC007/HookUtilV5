@@ -17,21 +17,27 @@ for file in ${test_dir_files};do
   mkdir -p ./test_out/${file}
   cp -f ${test_file} ./test_out/${file}/
   cp -f ${test_file}  ${target_out_dir}/input_elf
-  TARGET_ARCH=$(file ${target_out_dir}/input_elf | grep 80386)
-  if [ ! -n "${TARGET_ARCH}" ];then
+  TEST_TARGET_ARCH=$(file ${target_out_dir}/input_elf | grep 80386)
+  if [ ! -z "${TEST_TARGET_ARCH}" ];then
     TARGET_ARCH=X86
+    echo "set TARGET_ARCH: X86"
   fi
-  TARGET_ARCH=$(file ${target_out_dir}/input_elf | grep x86-64)
-  if [ ! -n "${TARGET_ARCH}" ];then
+  TEST_TARGET_ARCH=$(file ${target_out_dir}/input_elf | grep x86-64)
+  if [ ! -z "${TEST_TARGET_ARCH}" ];then
     TARGET_ARCH=X86_64
+     echo "set TARGET_ARCH: X86_64"
   fi
-  echo ${TARGET_ARCH}
+  if [ -z "${TARGET_ARCH}" ];then
+    echo 'TARGET_ARCH Unknown, failed, exit'
+    file ${target_out_dir}/input_elf
+    exit 255
+  fi
 
 
   rm -rf ./test_out/${file}/build
   mkdir -p ./test_out/${file}/build
   cd ./test_out/${file}/build
-  cmake -D CMAKE_BUILD_TYPE=Debug TARGET_ARCH=${TARGET_ARCH} ../../../../
+  cmake -D CMAKE_BUILD_TYPE=Debug -D TARGET_ARCH=${TARGET_ARCH} ../../../../
   if [ $? -ne 0 ]; then
     echo "cmake failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     echo ${test_file}
@@ -49,12 +55,12 @@ for file in ${test_dir_files};do
   echo -e "3\n" | ./test_out/${file}/out_debug/input_elf_normal  > ./test_out/${file}/input_elf_normal_debug.log
   echo -e "3\n" | ./test_out/${file}/out_debug/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_debug.log
 
-  exit 0
+  #exit 0
 
   rm -rf ./test_out/${file}/build
   mkdir -p ./test_out/${file}/build
   cd ./test_out/${file}/build
-  cmake -D CMAKE_BUILD_TYPE=Release TARGET_ARCH=${TARGET_ARCH} ../../../../
+  cmake -D CMAKE_BUILD_TYPE=Release -D TARGET_ARCH=${TARGET_ARCH} ../../../../
   if [ $? -ne 0 ]; then
     echo "cmake failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     echo ${test_file}

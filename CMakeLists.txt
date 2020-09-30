@@ -12,6 +12,7 @@ if (NOT DEFINED TARGET_ARCH)
 set(TARGET_ARCH X86)
 endif()
 
+MESSAGE("TARGET_ARCH IS: ${TARGET_ARCH}")
 
 FILE(GLOB STAGE_TWO src/stage_two/*.c)
 FILE(GLOB STAGE_THREE_NORMAL src/stage_three/normal_loader.c)
@@ -46,11 +47,12 @@ else()
     message( SEND_ERROR "TARGET_ARCH Failed" )
 endif()
 
-
+set(TOOLS_LINK_FLAGS "-static -L${CMAKE_SOURCE_DIR}/3rd/capstone/lib/${TARGET_ARCH}")
+set(TOOLS_COMPILE_FLAGS "-I${CMAKE_SOURCE_DIR}/3rd/capstone/include")
 
 add_executable(pre_generate ${PRE_GENERATE_TOOLS})
 target_link_libraries(pre_generate m)
-set_target_properties(pre_generate PROPERTIES COMPILE_FLAGS "${PATCH_DEBUG} ${TARGET_ARCH_COMPILE_FLAG}" LINK_FLAGS  "${TARGET_ARCH_LINKER_FLAG}")
+set_target_properties(pre_generate PROPERTIES COMPILE_FLAGS "${PATCH_DEBUG} ${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS  "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET pre_generate PRE_BUILD
                     COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/clean.sh
         )
@@ -82,7 +84,7 @@ add_dependencies(stage_three_sandbox pre_generate)
 
 add_executable(datafile_generate ${DATAFILE_GENERATE_TOOLS})
 target_link_libraries(datafile_generate m)
-set_target_properties(datafile_generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG}")
+set_target_properties(datafile_generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET datafile_generate POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/datafile_generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/"
         COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/config.json"
@@ -91,7 +93,7 @@ add_dependencies(datafile_generate stage_two stage_three_normal stage_three_sand
 
 add_executable(stage_one_pre_generate ${STAGE_ONE_REGENERATE_TOOLS})
 target_link_libraries(stage_one_pre_generate m capstone)
-set_target_properties(stage_one_pre_generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG}")
+set_target_properties(stage_one_pre_generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET stage_one_pre_generate POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_one_pre_generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/"
         COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/stage_one_pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/config.json"
@@ -114,7 +116,7 @@ add_dependencies(stage_one_sandbox stage_one_pre_generate)
 
 add_executable(generate ${GENERATE_BUILD_TOOLS})
 target_link_libraries(generate m capstone)
-set_target_properties(generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG}")
+set_target_properties(generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET generate POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/"
         COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/config.json"

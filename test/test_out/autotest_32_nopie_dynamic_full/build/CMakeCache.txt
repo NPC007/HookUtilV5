@@ -48,7 +48,7 @@ CMAKE_ASM_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=Debug
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -214,6 +214,9 @@ HookUtilV3_BINARY_DIR:STATIC=/root/CLionProjects/HookUtilV3/test/test_out/autote
 
 //Value Computed by CMake
 HookUtilV3_SOURCE_DIR:STATIC=/root/CLionProjects/HookUtilV3
+
+//No help, variable specified on the command line.
+TARGET_ARCH:UNINITIALIZED=X86
 
 
 ########################

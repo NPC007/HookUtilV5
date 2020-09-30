@@ -1,0 +1,13 @@
+uid=0(root) gid=0(root) groups=0(root)
+test_hook_got normal
+
+test_hook_elf_addr
+test_hook_elf_sym
+test_hook_part_start_end start
+test_hook_part_start_end 333
+1 : malloc 
+2 : free 
+3 : exit 
+alloc 8 bytes
+
+bye

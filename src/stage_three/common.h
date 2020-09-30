@@ -179,7 +179,14 @@ IN_LINE void* get_elf_linkmap_from_plt_got(void* elf_base){
                 while(1){
                     Elf_Dyn* dyn = (Elf_Dyn*)(ELF_ADDR_ADD(elf_base,(long)phdr->p_vaddr+j*sizeof(Elf_Dyn)));
                     if(dyn->d_tag == DT_PLTGOT){
+                        if(dyn->d_un.d_ptr == 0)
+                            return NULL;
+                        if(dyn->d_un.d_ptr < 0x400000 )
+                            return NULL;
                         struct link_map ** link = (struct link_map** )(dyn->d_un.d_ptr + sizeof(long));
+
+                        if(link == NULL)
+                            return NULL;
                         return *link;
                     }
                     if(dyn->d_tag == 0)
@@ -201,6 +208,8 @@ IN_LINE void* get_elf_linkmap_from_dt_debug(void* elf_base) {
     if(dyn == NULL)
         return NULL;
     struct r_debug* debug =  (struct r_debug*)dyn->d_un.d_val;
+    if(debug == NULL)
+        return NULL;
     return debug->r_map;
 }
 

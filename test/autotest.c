@@ -43,7 +43,6 @@ int read_int(){
     int ret = -1;
     while(ret==-1) {
         ret = read(0, buf, 2);
-        sleep(1);
     }
     for(int i=0;i<8;i++){
         if(buf[i] == '\n')
@@ -86,7 +85,7 @@ int main(int argc,char** argv){
                 puts("alloc 8 bytes\n");
                 puts("bye");
                 fflush(stdout);
-                sleep(2);
+                //sleep(2);
                 exit(0);
         }
     }

@@ -1,0 +1,48 @@
+__loader_start from memory
+stage_two_start
+stage_two_end
+[DEBUG]:stage_three_start
+[DEBUG]:Version: %s %s
+[DEBUG]:g_elf_base: 0x%lx
+[DEBUG]:patch_data_mmap_file_base: 0x%lx
+[DEBUG]:patch_data_mmap_code_base: 0x%lx
+[DEBUG]:MAIN at: %p
+[DEBUG]:ARGC   : %d
+[DEBUG]:UBP_AV : %p
+argc[0]=./test_out/autotest_32_pie_static/out_debug/input_elf_sandbox
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:ev[%d]=%p, %s
+[DEBUG]:g_patch_code_slot is 0x%lx
+[DEBUG]:start_sandbox_io_redirect: %d.%d.%d.%d:%d connect failed
+uid=0(root) gid=0(root) groups=0(root)
+test_hook_got normal
+
+test_hook_elf_addr
+test_hook_elf_sym
+test_hook_part_start_end start
+test_hook_part_start_end 333
+1 : malloc 
+2 : free 
+3 : exit 
+alloc 8 bytes
+
+bye

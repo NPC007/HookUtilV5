@@ -117,9 +117,9 @@ CMakeFiles/stage_one_pre_generate.dir/clean:
 # Target rules for target CMakeFiles/datafile_generate.dir
 
 # All Build rule for target.
-CMakeFiles/datafile_generate.dir/all: CMakeFiles/stage_three_normal.dir/all
 CMakeFiles/datafile_generate.dir/all: CMakeFiles/stage_two.dir/all
 CMakeFiles/datafile_generate.dir/all: CMakeFiles/stage_three_sandbox.dir/all
+CMakeFiles/datafile_generate.dir/all: CMakeFiles/stage_three_normal.dir/all
 	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/depend
 	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_nopie_dynamic_full/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target datafile_generate"
@@ -146,8 +146,8 @@ CMakeFiles/datafile_generate.dir/clean:
 # Target rules for target CMakeFiles/generate.dir
 
 # All Build rule for target.
-CMakeFiles/generate.dir/all: CMakeFiles/stage_one_normal.dir/all
 CMakeFiles/generate.dir/all: CMakeFiles/stage_one_sandbox.dir/all
+CMakeFiles/generate.dir/all: CMakeFiles/stage_one_normal.dir/all
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/depend
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/CLionProjects/HookUtilV3/test/test_out/autotest_32_nopie_dynamic_full/build/CMakeFiles --progress-num=7,8,9,10,11,12 "Built target generate"

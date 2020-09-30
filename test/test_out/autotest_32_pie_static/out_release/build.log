@@ -1,0 +1,161 @@
+---------------------------------------------------------------------------------------------------------
+debug_config.h: /root/CLionProjects/HookUtilV3/test/..//src/auto_generate/debug_config.h
+normal_config.h: /root/CLionProjects/HookUtilV3/test/..//src/auto_generate/normal_config.h
+sandbox_config.h: /root/CLionProjects/HookUtilV3/test/..//src/auto_generate/sandbox_config.h
+input elf: input_elf
+###########################################process debug_config.h#######################################
+#define PATCH_DEBUG 0
+###########################################process normal_config.h######################################
+#define TCP_TIME_OUT 1
+#define REDIRECT_HOST "127.0.0.1"
+#define REDIRECT_PORT 10000
+#define SHELL_PASSWD "!Huawei12#$"
+#define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
+#define IO_REDIRECT_PATH "/tmp/"
+#define USE_IO_INLINE_REDIRECT 0
+###########################################process sandbox_config.h######################################
+#define TCP_TIME_OUT 1
+#define SANDBOX_HOST "127.0.0.1"
+#define SANDBOX_PORT 10001
+---------------------------------------------------------------------------------------------------------
+stage_one: /root/CLionProjects/HookUtilV3/test/..//out/stage_one
+stage_two: /root/CLionProjects/HookUtilV3/test/..//out/stage_two
+stage_three_normal: /root/CLionProjects/HookUtilV3/test/..//out/stage_three_normal
+stage_three_sandbox: /root/CLionProjects/HookUtilV3/test/..//out/stage_three_sandbox
+target_dir: out
+check /root/CLionProjects/HookUtilV3/test/..//out/stage_two start
+check /root/CLionProjects/HookUtilV3/test/..//out/stage_two end
+generate normal_data_file:/root/CLionProjects/HookUtilV3/test/..//out/normal.datafile
+libloader_stage_two TLV structure values:
+	length:                     0x206
+	entry_offset:               0x0
+libloader_stage_three TLV structure values:
+	entry_offset:                     0x52b2
+	length:                           0x13a68
+	analysis_server_ip:               127.0.0.1
+	analysis_server_port:             10000
+	sandbox_server_ip:                127.0.0.1
+	sandbox_server_port:              10001
+generate sandbox_data_file:/root/CLionProjects/HookUtilV3/test/..//out/sandbox.datafile
+libloader_stage_two TLV structure values:
+	length:                     0x206
+	entry_offset:               0x0
+libloader_stage_three TLV structure values:
+	entry_offset:                     0x37dc
+	length:                           0x897c
+	analysis_server_ip:               127.0.0.1
+	analysis_server_port:             10000
+	sandbox_server_ip:                127.0.0.1
+	sandbox_server_port:              10001
+---------------------------------------------------------------------------------------------------------
+stage_one_normal_config.h: /root/CLionProjects/HookUtilV3/test/..//src/auto_generate/stage_one_normal_config.h
+stage_one_sandbox_config_h: /root/CLionProjects/HookUtilV3/test/..//src/auto_generate/stage_one_sandbox_config.h
+normal_data_file:/root/CLionProjects/HookUtilV3/test/..//out/normal.datafile
+sandbox_data_file:/root/CLionProjects/HookUtilV3/test/..//out/sandbox.datafile
+input_elf: /root/CLionProjects/HookUtilV3/test/..//out/input_elf
+#define IS_PIE 1
+#define IS_PIE 1
+0x3da0:	endbr32		
+0x3da4:	xor		ebp, ebp
+0x3da6:	pop		esi
+0x3da7:	mov		ecx, esp
+0x3da9:	and		esp, 0xfffffff0
+0x3dac:	push		eax
+0x3dad:	push		esp
+0x3dae:	push		edx
+0x3daf:	call		0x3dd7
+find __x86.get_pc_thunk
+0x3db4:	add		ebx, 0xa1178
+0x3dba:	lea		eax, [ebx - 0x9fcbc]
+0x3dc0:	push		eax
+0x3dc1:	lea		eax, [ebx - 0x9fd6c]
+0x3dc7:	push		eax
+0x3dc8:	push		ecx
+0x3dc9:	push		esi
+0x3dca:	lea		eax, [ebx - 0xa0e2f]
+0x3dd0:	push		eax
+0x3dd1:	call		0x45a0
+find start call libc_start_main
+identify libc_start_main_addr_type : code
+identify libc_start_main_addr              : 0x45a0
+identify libc_start_main_start_call_offset : 0x3dd1
+identify libc_start_main_start_call_vaddr  : 0x3dd1
+#define LIBC_START_MAIN_ADDR_TYPE CODE
+#define LIBC_START_MAIN_ADDR_TYPE CODE
+#define LIB_C_START_MAIN_ADDR 0x45a0
+#define LIB_C_START_MAIN_ADDR 0x45a0
+Assuming SO Max Size: 0x1000000
+
+sort  by vaddr
+vaddr:               0	file_offset:               0	file_size:            2ba4	mem_size:            2ba4
+vaddr:            3000	file_offset:            3000	file_size:           6d0f8	mem_size:           6d0f8
+vaddr:           71000	file_offset:           71000	file_size:           310a3	mem_size:           310a3
+vaddr:           a3520	file_offset:           a2520	file_size:            2d38	mem_size:            3bb0
+sort  by vaddr end
+unable to find any space between pt_load segments, just padding and append to file end
+Add PHDR pt_load: vaddr:           b6000	file_offset:           b6000
+#define FIRST_ENTRY_OFFSET 0xb7000
+#define FIRST_ENTRY_OFFSET 0xb7000
+#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
+#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
+#define PATCH_DATA_MMAP_FILE_SIZE 0x13cfa
+#define PATCH_DATA_MMAP_FILE_SIZE 0x8c0e
+#define PATCH_DATA_MMAP_FILE_VADDR 0xb8000
+#define PATCH_DATA_MMAP_FILE_VADDR 0xb8000
+---------------------------------------------------------------------------------------------------------
+normal_data_file:/root/CLionProjects/HookUtilV3/test/..//out/normal.datafile
+sandbox_data_file:/root/CLionProjects/HookUtilV3/test/..//out/sandbox.datafile
+input_elf: /root/CLionProjects/HookUtilV3/test/..//out/input_elf
+stage_one_normal: /root/CLionProjects/HookUtilV3/test/..//out/stage_one_normal
+stage_one_sandbox: /root/CLionProjects/HookUtilV3/test/..//out/stage_one_sandbox
+check /root/CLionProjects/HookUtilV3/test/..//out/stage_one_normal start
+when target is i386, ignore got checkcheck /root/CLionProjects/HookUtilV3/test/..//out/stage_one_normal end
+check /root/CLionProjects/HookUtilV3/test/..//out/stage_one_sandbox start
+when target is i386, ignore got checkcheck /root/CLionProjects/HookUtilV3/test/..//out/stage_one_sandbox end
+0x3da0:	endbr32		
+0x3da4:	xor		ebp, ebp
+0x3da6:	pop		esi
+0x3da7:	mov		ecx, esp
+0x3da9:	and		esp, 0xfffffff0
+0x3dac:	push		eax
+0x3dad:	push		esp
+0x3dae:	push		edx
+0x3daf:	call		0x3dd7
+find __x86.get_pc_thunk
+0x3db4:	add		ebx, 0xa1178
+0x3dba:	lea		eax, [ebx - 0x9fcbc]
+0x3dc0:	push		eax
+0x3dc1:	lea		eax, [ebx - 0x9fd6c]
+0x3dc7:	push		eax
+0x3dc8:	push		ecx
+0x3dc9:	push		esi
+0x3dca:	lea		eax, [ebx - 0xa0e2f]
+0x3dd0:	push		eax
+0x3dd1:	call		0x45a0
+find start call libc_start_main
+identify libc_start_main_addr_type : code
+identify libc_start_main_addr              : 0x45a0
+identify libc_start_main_start_call_offset : 0x3dd1
+identify libc_start_main_start_call_vaddr  : 0x3dd1
+Assuming SO Max Size: 0x1000000
+
+sort  by vaddr
+vaddr:               0	file_offset:               0	file_size:            2ba4	mem_size:            2ba4
+vaddr:            3000	file_offset:            3000	file_size:           6d0f8	mem_size:           6d0f8
+vaddr:           71000	file_offset:           71000	file_size:           310a3	mem_size:           310a3
+vaddr:           a3520	file_offset:           a2520	file_size:            2d38	mem_size:            3bb0
+sort  by vaddr end
+unable to find any space between pt_load segments, just padding and append to file end
+Add PHDR pt_load: vaddr:           b6000	file_offset:           b6000
+Assuming SO Max Size: 0x1000000
+
+sort  by vaddr
+vaddr:               0	file_offset:               0	file_size:            2ba4	mem_size:            2ba4
+vaddr:            3000	file_offset:            3000	file_size:           6d0f8	mem_size:           6d0f8
+vaddr:           71000	file_offset:           71000	file_size:           310a3	mem_size:           310a3
+vaddr:           a3520	file_offset:           a2520	file_size:            2d38	mem_size:            3bb0
+sort  by vaddr end
+unable to find any space between pt_load segments, just padding and append to file end
+Add PHDR pt_load: vaddr:           b6000	file_offset:           b6000
+generate done
+-------------------------------------------------------------------------------------------------------------

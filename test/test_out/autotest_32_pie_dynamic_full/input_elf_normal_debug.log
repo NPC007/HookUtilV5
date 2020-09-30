@@ -1,0 +1,4 @@
+__loader_start from memory
+stage_two_start
+stage_two_end
+argc[0]=./test_out/autotest_32_pie_dynamic_full/out_debug/input_elf_normal
