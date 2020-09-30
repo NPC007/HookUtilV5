@@ -26,6 +26,7 @@
 
 
 Elf_Phdr* get_elf_phdr_type(void* elf_base,int type);
+Elf_Dyn* get_elf_dyn_by_type(void* elf_base,int type);
 Elf_Shdr* get_elf_section_by_index(long index,Elf_Ehdr* elf_base);
 Elf_Shdr* get_elf_shstrtab(Elf_Ehdr* elf_base);
 Elf_Shdr* get_elf_section_by_type(int type,Elf_Ehdr* elf_base);

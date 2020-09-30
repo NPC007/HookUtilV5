@@ -68,7 +68,32 @@ void usage(char* local){
     logger("usage: %s config.json\n",local);
     exit(-1);
 }
+typedef enum _RELRO_STATE{
+    NONE_RELRO,
+    PARTIAL_RELRO,
+    FULL_RELRO
+}RELRO_STATE;
 
+RELRO_STATE get_elf_relro_state(Elf_Ehdr* ehdr){
+    Elf_Phdr* phdr = get_elf_phdr_type(ehdr,PT_GNU_RELRO);
+    if(phdr == NULL) {
+        logger("Elf is NONE_RELRO");
+        return NONE_RELRO;
+    }
+    Elf_Dyn* dyn = get_elf_dyn_by_type(ehdr,DT_FLAGS);
+    if(dyn == NULL) {
+        logger("Elf is PARTIAL_RELRO");
+        return PARTIAL_RELRO;
+    }
+    if( (dyn->d_un.d_val & DF_BIND_NOW)!=0 ) {
+        logger("Elf is FULL_RELRO");
+        return FULL_RELRO;
+    }
+    else {
+        logger("Elf is PARTIAL_RELRO");
+        return PARTIAL_RELRO;
+    }
+}
 
 void process_start_function(char* output_elf,cJSON* config){
     int output_elf_fd;

@@ -12,6 +12,49 @@ Elf_Phdr* get_elf_phdr_type(void* elf_base,int type){
     return NULL;
 }
 
+int is_pie(char* elf_base){
+    Elf_Ehdr * ehdr = (Elf_Ehdr*) elf_base;
+    if(ehdr->e_type == ET_EXEC)
+        return 0;
+    else if(ehdr->e_type == ET_DYN)
+        return 1;
+    return -1;
+}
+
+char* ELF_ADDR_ADD(char* elf_base,long p_vaddr){
+    if(is_pie(elf_base))
+        return elf_base + p_vaddr;
+    else
+        return (char*)p_vaddr;
+}
+
+Elf_Dyn* get_elf_dyn_by_type(void* elf_base,int type){
+    Elf_Ehdr* ehdr= (Elf_Ehdr*)elf_base;
+    int j = 0;
+    for(int i=0;i<ehdr->e_phnum;i++){
+        Elf_Phdr* phdr = (Elf_Phdr*)((char*)ehdr+ehdr->e_phoff+ehdr->e_phentsize*i);
+        switch (phdr->p_type)
+        {
+            case PT_DYNAMIC:
+                j = 0;
+                while(1){
+                    Elf_Dyn* dyn = (Elf_Dyn*)(ELF_ADDR_ADD(elf_base,(long)phdr->p_vaddr+j*sizeof(Elf_Dyn)));
+                    if(dyn->d_tag == type){
+                        return dyn;
+                    }
+                    if(dyn->d_tag == 0)
+                        break;
+                    j++;
+                }
+                break;
+            case PT_LOAD:
+                break;
+            default:
+                break;
+        }
+    }
+    return NULL;
+}
 
 Elf_Shdr* get_elf_section_by_index(long index,Elf_Ehdr* elf_base){
     Elf_Ehdr* ehdr = (Elf_Ehdr*) elf_base;

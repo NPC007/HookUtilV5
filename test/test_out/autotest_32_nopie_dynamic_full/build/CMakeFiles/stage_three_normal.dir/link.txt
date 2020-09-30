@@ -1,1 +1,0 @@
-/usr/bin/cc -O3 -DNDEBUG  -static-pie -m32 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0  -nostartfiles -nodefaultlibs -nostdlib CMakeFiles/stage_three_normal.dir/src/stage_three/normal_loader.c.o  -o stage_three_normal 

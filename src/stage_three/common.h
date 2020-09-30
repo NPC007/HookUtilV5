@@ -1000,7 +1000,7 @@ IN_LINE void common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp)
     g_elf_base = three_base_tmp->elf_load_base;
     init_heap_base();
     my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
-    //my_strcpy(g_elf_path,((char**)(&UBP_AV[0])) [0] ,0);
+    my_strcpy(g_elf_path,((char**)(&UBP_AV[0])) [0] ,0);
     DEBUG_LOG("stage_three_start");
     DEBUG_LOG("Version: %s %s",__DATE__,__TIME__);
     DEBUG_LOG("g_elf_base: 0x%lx",g_elf_base );

@@ -66,3 +66,4 @@ clean :
 	rm ${out}/autotest_32_pie_dynamic_half -f
 	rm ${out}/autotest_32_nopie_static -f
 	rm ${out}/autotest_32_pie_static -f
+	rm test_out -fr
