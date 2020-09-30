@@ -7,8 +7,11 @@ target_out_dir=../out/
 test_dir=test_target_bin
 test_dir_files=$(ls ./${test_dir}/)
 current_dir=$(pwd)
+echo 's/\s*"project_root.*$/  "project_root":"'${current_dir//\//\\\/}'\/..\/",/g'
+sed 's/\s*"project_root.*$/  "project_root":"'${current_dir//\//\\\/}'\/..\/",/g' -i ../out/config.json
 for file in ${test_dir_files};do
   cd ${current_dir}
+
   test_file=${test_dir}/${file}
   echo ${test_file}
   mkdir -p ./test_out/${file}
@@ -30,11 +33,16 @@ for file in ${test_dir_files};do
   cd ./test_out/${file}/build
   cmake -D CMAKE_BUILD_TYPE=Debug TARGET_ARCH=${TARGET_ARCH} ../../../../
   if [ $? -ne 0 ]; then
-    echo "cmake failed"
+    echo "cmake failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     echo ${test_file}
     exit 255
   fi
   make
+    if [ $? -ne 0 ]; then
+    echo "make failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    echo ${test_file}
+    exit 255
+  fi
   cd ${current_dir}
   mkdir -p ./test_out/${file}/out_debug/
   cp -r ../out/* ./test_out/${file}/out_debug/
@@ -48,11 +56,16 @@ for file in ${test_dir_files};do
   cd ./test_out/${file}/build
   cmake -D CMAKE_BUILD_TYPE=Release TARGET_ARCH=${TARGET_ARCH} ../../../../
   if [ $? -ne 0 ]; then
-    echo "cmake failed"
+    echo "cmake failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     echo ${test_file}
     exit 255
   fi
   make
+    if [ $? -ne 0 ]; then
+    echo "make failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    echo ${test_file}
+    exit 255
+  fi
   cd ${current_dir}
   mkdir -p ./test_out/${file}/out_release/
   cp -r ../out/* ./test_out/${file}/out_release/
