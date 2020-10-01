@@ -4,7 +4,7 @@
   "input_elf":"input_elf",
 
   "loader_stage_one_position":"new_pt_load",
-  "loader_stage_other_position":"file",
+  "loader_stage_other_position":"memory",
   "loader_stage_other_file_path":"/tmp/1",
   
 

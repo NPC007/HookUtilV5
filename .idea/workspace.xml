@@ -19,40 +19,25 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="v0.20 - become stable">
+    <list default="true" id="27ccb08b-7956-4299-adf0-fd5aa03cf87b" name="Default" comment="v0.21 - test add input.txt support">
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_nopie_dynamic_full/autotest_32_nopie_dynamic_full" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_nopie_dynamic_full/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_nopie_dynamic_half/autotest_32_nopie_dynamic_half" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_nopie_dynamic_half/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_nopie_static/autotest_32_nopie_static" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_nopie_static/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_pie_dynamic_full/autotest_32_pie_dynamic_full" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_pie_dynamic_full/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_pie_dynamic_half/autotest_32_pie_dynamic_half" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_pie_dynamic_half/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_pie_static/autotest_32_pie_static" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_32_pie_static/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_nopie_dynamic_full/autotest_64_nopie_dynamic_full" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_nopie_dynamic_full/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_nopie_dynamic_half/autotest_64_nopie_dynamic_half" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_nopie_dynamic_half/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_nopie_static/autotest_64_nopie_static" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_nopie_static/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_pie_dynamic_full/autotest_64_pie_dynamic_full" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_pie_dynamic_full/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_pie_dynamic_half/autotest_64_pie_dynamic_half" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_pie_dynamic_half/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_pie_static/autotest_64_pie_static" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/autotest_64_pie_static/input.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/b0ve0fl0w/b0verfl0w" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/b0ve0fl0w/input.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/freenote/freenote" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/freenote/input.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/just_pwn/input.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/binary/just_pwn/just_pwn" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pre_generate.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/datafile_generate.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/generate.dir/C.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stage_one_pre_generate.dir/C.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/build.log" beforeDir="false" afterPath="$PROJECT_DIR$/out/build.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/out/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/datafile_generate" beforeDir="false" afterPath="$PROJECT_DIR$/out/datafile_generate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/generate" beforeDir="false" afterPath="$PROJECT_DIR$/out/generate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/input_elf" beforeDir="false" afterPath="$PROJECT_DIR$/out/input_elf" afterDir="false" />
@@ -70,20 +55,6 @@
       <change beforePath="$PROJECT_DIR$/src/auto_generate/debug_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/auto_generate/debug_config.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/auto_generate/stage_one_normal_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/auto_generate/stage_one_normal_config.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/auto_generate/stage_one_sandbox_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/auto_generate/stage_one_sandbox_config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/test/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/test/test.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_32_nopie_dynamic_full" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_32_nopie_dynamic_half" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_32_nopie_static" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_32_pie_dynamic_full" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_32_pie_dynamic_half" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_32_pie_static" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_64_nopie_dynamic_full" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_64_nopie_dynamic_half" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_64_nopie_static" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_64_pie_dynamic_full" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_64_pie_dynamic_half" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_target_bin/autotest_64_pie_static" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -407,7 +378,7 @@
       <workItem from="1601334500630" duration="5137000" />
       <workItem from="1601385165701" duration="3641000" />
       <workItem from="1601389090575" duration="6800000" />
-      <workItem from="1601422744970" duration="20224000" />
+      <workItem from="1601422744970" duration="22232000" />
     </task>
     <task id="LOCAL-00001" summary="refactor v0.1">
       <created>1601136274103</created>
@@ -514,7 +485,21 @@
       <option name="project" value="LOCAL" />
       <updated>1601519727360</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="v0.21 - test add input.txt support">
+      <created>1601546102848</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1601546102848</updated>
+    </task>
+    <task id="LOCAL-00017" summary="v0.21 - test add input.txt support">
+      <created>1601546194469</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1601546194469</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -530,7 +515,8 @@
     <MESSAGE value="refactor v0.122" />
     <MESSAGE value="refactor v0.13" />
     <MESSAGE value="v0.20 - become stable" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.20 - become stable" />
+    <MESSAGE value="v0.21 - test add input.txt support" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.21 - test add input.txt support" />
   </component>
   <component name="WindowStateProjectService">
     <state x="707" y="485" width="1071" height="624" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601118282465">
@@ -558,10 +544,10 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="1660" y="466" key="#xdebugger.evaluate/0.0.2560.1440@0.0.2560.1440" timestamp="1601131180941" />
-    <state x="472" y="245" width="832" height="1010" key="CommitChangelistDialog2" timestamp="1601546036006">
+    <state x="472" y="245" width="832" height="1010" key="CommitChangelistDialog2" timestamp="1601553161408">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="472" y="245" width="832" height="1010" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1601546036006" />
+    <state x="472" y="245" width="832" height="1010" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1601553161408" />
     <state width="445" height="466" key="DebuggerActiveHint" timestamp="1601131763043">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -606,10 +592,10 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="774" y="361" key="SettingsEditor/0.0.2560.1440@0.0.2560.1440" timestamp="1595506599598" />
-    <state x="880" y="462" key="Vcs.Push.Dialog.v2" timestamp="1601519733693">
+    <state x="880" y="462" key="Vcs.Push.Dialog.v2" timestamp="1601546201749">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="880" y="462" key="Vcs.Push.Dialog.v2/0.0.2560.1440@0.0.2560.1440" timestamp="1601519733693" />
+    <state x="880" y="462" key="Vcs.Push.Dialog.v2/0.0.2560.1440@0.0.2560.1440" timestamp="1601546201749" />
     <state x="960" y="566" key="com.intellij.ide.util.TipDialog" timestamp="1601422890037">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
