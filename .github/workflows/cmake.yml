@@ -25,6 +25,6 @@ jobs:
     - name: Build And Test
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
-      run: cd test && ./start.sh
+      run: cd test && ./test.sh
 
 
