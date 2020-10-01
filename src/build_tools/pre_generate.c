@@ -21,6 +21,43 @@
 #include "file_check/checker.h"
 
 
+
+void check_eh_frame_section_executable(Elf_Ehdr* ehdr){
+    Elf_Shdr* eh_frame_shdr = get_elf_section_by_name(".eh_frame",(Elf_Ehdr*)ehdr);
+    if(eh_frame_shdr==NULL){
+        logger("check_eh_frame_section_executable failed, no find ef_frame section, you should consider place stage_one to other position\n");
+        exit(-1);
+    }
+    for(int i=0;i<ehdr->e_phnum;i++){
+        Elf_Phdr* pt_load = (Elf_Phdr*)((char*)ehdr+ ehdr->e_phoff + ehdr->e_phentsize*i);
+        if(pt_load->p_type == PT_LOAD){
+            if((pt_load->p_flags & PF_X )!=0){
+                if(pt_load->p_vaddr <= eh_frame_shdr->sh_addr  && eh_frame_shdr->sh_addr <= pt_load->p_vaddr + pt_load->p_memsz){
+                    logger("check_eh_frame_section_executable success, ef_frame is executable\n");
+                    return;
+                }
+            }
+        }
+    }
+    logger("check_eh_frame_section_executable failed, ef_frame is not executable, you should consider place stage_one to other position\n");
+    exit(-1);
+}
+
+
+void check_elf_file_and_config_compatible(char* elf_path,cJSON* config){
+    char* elf_base;
+    int elf_file_fd;
+    long elf_file_size;
+    open_mmap_check(elf_path,O_RDONLY,&elf_file_fd,(void**)&elf_base,PROT_READ,MAP_PRIVATE,&elf_file_size);
+    char* loader_stage_one_position = cJSON_GetObjectItem(config,"loader_stage_one_position")->valuestring;
+    if (strcmp("eh_frame", loader_stage_one_position) == 0) {
+        check_eh_frame_section_executable((Elf_Ehdr*)elf_base);
+    }
+    close_and_munmap(elf_path,elf_file_fd,elf_base,&elf_file_size);
+}
+
+
+
 void usage(char* local){
     logger("usage: %s config.json\n",local);
     exit(-1);
@@ -60,6 +97,7 @@ int main(int argc,char* argv[]){
         exit(-1);
     }
     // Process debug_config.h
+    check_elf_file_and_config_compatible(input_elf_path,config);
     {
         logger("###########################################process debug_config.h#######################################\n");
         int debug_config_file_fd = open(debug_config_h,O_RDWR|O_TRUNC|O_CREAT);

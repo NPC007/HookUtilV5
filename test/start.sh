@@ -1,7 +1,6 @@
 #!/bin/bash
 
-make clean
-make all
+
 rm -rf ./test_out/ 2>/dev/null
 target_out_dir=../out/
 test_dir=test_target_bin
@@ -52,7 +51,9 @@ for file in ${test_dir_files};do
   cd ${current_dir}
   mkdir -p ./test_out/${file}/out_debug/
   cp -r ../out/* ./test_out/${file}/out_debug/
+  cp -f ../out/normal.datafile /tmp/1
   echo -e "3\n" | ./test_out/${file}/out_debug/input_elf_normal  > ./test_out/${file}/input_elf_normal_debug.log
+  cp -f ../out/sandbox.datafile /tmp/1
   echo -e "3\n" | ./test_out/${file}/out_debug/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_debug.log
 
   #exit 0
@@ -75,7 +76,9 @@ for file in ${test_dir_files};do
   cd ${current_dir}
   mkdir -p ./test_out/${file}/out_release/
   cp -r ../out/* ./test_out/${file}/out_release/
+  cp -f ../out/normal.datafile /tmp/1
   echo -e "3\n" | ./test_out/${file}/out_release/input_elf_normal  > ./test_out/${file}/input_elf_normal_release.log
+  cp -f ../out/sandbox.datafile /tmp/1
   echo -e "3\n" | ./test_out/${file}/out_release/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_release.log
 done
 

@@ -84,10 +84,12 @@ void check_so_file_no_bss_section(Elf_Ehdr *ehdr){
 
 void check_so_file_is_pie_execute_file(Elf_Ehdr *ehdr){
     if(get_elf_load_base(ehdr)!=0){
-        logger("check_so_file_is_pie_execute_file failed\n");
+        logger("check_so_file_is_pie_execute_file failed, loader should be PIE compiled\n");
         exit(-1);
     }
 }
+
+
 
 void check_libloader_stage_three(char* libloader_stage_three){
     int libloader_stage_threefd;

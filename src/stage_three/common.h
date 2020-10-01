@@ -17,10 +17,10 @@
 #include "arch/common/syscall.h"
 #include "utils/common.h"
 
-#define SHELL_LOG(format,...) my_printf("[DEBUG]:"format"\n",##__VA_ARGS__)
+#define SHELL_LOG(format,...) my_debug_0("[DEBUG]:"format"\n",##__VA_ARGS__)
 #ifdef DEBUG_LOG
 #undef DEBUG_LOG
-#define DEBUG_LOG(format,...) my_debug("[DEBUG]:"format"\n",##__VA_ARGS__)
+#define DEBUG_LOG(format,...) my_debug_0("[DEBUG]:"format"\n",##__VA_ARGS__)
 #endif
 
 #if(PATCH_DEBUG == 1)
