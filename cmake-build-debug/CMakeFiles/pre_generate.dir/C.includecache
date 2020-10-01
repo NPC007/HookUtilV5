@@ -56,12 +56,6 @@ arch/common/syscall.h
 common.h
 ../src/utils/common.h
 
-/root/CLionProjects/HookUtilV3/src/build_tools/elf/elf_utils.c
-elf_utils.h
-/root/CLionProjects/HookUtilV3/src/build_tools/elf/elf_utils.h
-../file/file_utils.h
-/root/CLionProjects/HookUtilV3/src/build_tools/file/file_utils.h
-
 /root/CLionProjects/HookUtilV3/src/build_tools/elf/elf_utils.h
 elf.h
 -

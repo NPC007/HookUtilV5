@@ -3,19 +3,57 @@
 
 rm -rf ./test_out/ 2>/dev/null
 target_out_dir=../out/
-test_dir=test_target_bin
+test_dir=binary
 test_dir_files=$(ls ./${test_dir}/)
 current_dir=$(pwd)
 echo 's/\s*"project_root.*$/  "project_root":"'${current_dir//\//\\\/}'\/..\/",/g'
 sed 's/\s*"project_root.*$/  "project_root":"'${current_dir//\//\\\/}'\/..\/",/g' -i ../out/config.json
-for file in ${test_dir_files};do
-  cd ${current_dir}
 
-  test_file=${test_dir}/${file}
-  echo ${test_file}
+g_test_file=
+get_test_file(){
+  g_test_file=
+    files=$(ls ./${1}/)
+    for file in ${files};do
+      test_execute=$(file ${1}/${file} | grep 80386)
+      if [ ! -z "${test_execute}" ];then
+        g_test_file=${1}/${file}
+        echo "get test_file ${g_test_file}"
+        return 0
+      fi
+      test_execute=$(file ${1}/${file} | grep x86-64)
+      if [ ! -z "${test_execute}" ];then
+        g_test_file=${1}/${file}
+        echo "get test_file ${g_test_file}"
+        return 0
+      fi
+    done
+}
+
+
+for binary_dir in ${test_dir_files};do
+  cd ${current_dir}
+  test_sub_dir=${test_dir}/${binary_dir}
+  echo "begin test ${test_sub_dir}"
+  get_test_file ${test_sub_dir}
+  if [ -z "${g_test_file}" ];then
+    echo "Dir ${test_sub_dir} not find test file,ignore"
+    continue
+  fi
+  input_file=${test_sub_dir}/input.txt
+  if [ ! -f ${input_file} ];then
+    echo "Unable find input.ext in Dir: ${test_sub_dir},ignore this DIR"
+    continue
+  fi
+
+  echo "Input File test ok: ${input_file}"
+
+  test_file=${g_test_file}
+  file=${binary_dir}
   mkdir -p ./test_out/${file}
   cp -f ${test_file} ./test_out/${file}/
   cp -f ${test_file}  ${target_out_dir}/input_elf
+
+
   TEST_TARGET_ARCH=$(file ${target_out_dir}/input_elf | grep 80386)
   if [ ! -z "${TEST_TARGET_ARCH}" ];then
     TARGET_ARCH=X86
@@ -52,11 +90,11 @@ for file in ${test_dir_files};do
   mkdir -p ./test_out/${file}/out_debug/
   cp -r ../out/* ./test_out/${file}/out_debug/
   cp -f ../out/normal.datafile /tmp/1
-  echo -e "3\n" | ./test_out/${file}/out_debug/input_elf_normal  > ./test_out/${file}/input_elf_normal_debug.log
+  cat ${input_file} | ./test_out/${file}/out_debug/input_elf_normal  > ./test_out/${file}/input_elf_normal_debug.log
   cp -f ../out/sandbox.datafile /tmp/1
-  echo -e "3\n" | ./test_out/${file}/out_debug/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_debug.log
+  cat ${input_file} | ./test_out/${file}/out_debug/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_debug.log
 
-  #exit 0
+
 
   rm -rf ./test_out/${file}/build
   mkdir -p ./test_out/${file}/build
@@ -77,9 +115,11 @@ for file in ${test_dir_files};do
   mkdir -p ./test_out/${file}/out_release/
   cp -r ../out/* ./test_out/${file}/out_release/
   cp -f ../out/normal.datafile /tmp/1
-  echo -e "3\n" | ./test_out/${file}/out_release/input_elf_normal  > ./test_out/${file}/input_elf_normal_release.log
+  cat ${input_file} | ./test_out/${file}/out_release/input_elf_normal  > ./test_out/${file}/input_elf_normal_release.log
   cp -f ../out/sandbox.datafile /tmp/1
-  echo -e "3\n" | ./test_out/${file}/out_release/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_release.log
+  cat ${input_file} | ./test_out/${file}/out_release/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_release.log
+
+   #exit 0
 done
 
 for file in ${test_dir_files};do

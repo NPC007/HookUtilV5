@@ -55,39 +55,36 @@ sandbox_data_file:/root/CLionProjects/HookUtilV3/test/..//out/sandbox.datafile
 input_elf: /root/CLionProjects/HookUtilV3/test/..//out/input_elf
 #define IS_PIE 1
 #define IS_PIE 1
-0x9d80:	endbr64		
-0x9d84:	xor		ebp, ebp
-0x9d86:	mov		r9, rdx
-0x9d89:	pop		rsi
-0x9d8a:	mov		rdx, rsp
-0x9d8d:	and		rsp, 0xfffffffffffffff0
-0x9d91:	push		rax
-0x9d92:	push		rsp
-0x9d93:	lea		r8, [rip + 0x1446]
-0x9d9a:	lea		rcx, [rip + 0x139f]
-0x9da1:	lea		rdi, [rip + 0x238]
-0x9da8:	call		0xa4e0
+0xbe0:	xor		ebp, ebp
+0xbe2:	mov		r9, rdx
+0xbe5:	pop		rsi
+0xbe6:	mov		rdx, rsp
+0xbe9:	and		rsp, 0xfffffffffffffff0
+0xbed:	push		rax
+0xbee:	push		rsp
+0xbef:	lea		r8, [rip + 0x189a]
+0xbf6:	lea		rcx, [rip + 0x1823]
+0xbfd:	lea		rdi, [rip + 0x10c]
+0xc04:	call		0xb10
 find start call libc_start_main
 identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0xa4e0
-identify libc_start_main_start_call_offset : 0x9da8
-identify libc_start_main_start_call_vaddr  : 0x9da8
+identify libc_start_main_addr              : 0xb10
+identify libc_start_main_start_call_offset : 0xc04
+identify libc_start_main_start_call_vaddr  : 0xc04
 #define LIBC_START_MAIN_ADDR_TYPE CODE
 #define LIBC_START_MAIN_ADDR_TYPE CODE
-#define LIB_C_START_MAIN_ADDR 0xa4e0
-#define LIB_C_START_MAIN_ADDR 0xa4e0
+#define LIB_C_START_MAIN_ADDR 0xb10
+#define LIB_C_START_MAIN_ADDR 0xb10
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            80c8	mem_size:            80c8
-vaddr:            9000	file_offset:            9000	file_size:           96431	mem_size:           96431
-vaddr:           a0000	file_offset:           a0000	file_size:           28c43	mem_size:           28c43
-vaddr:           c9de0	file_offset:           c8de0	file_size:            5350	mem_size:            6be0
+vaddr:               0	file_offset:               0	file_size:            2d94	mem_size:            2d94
+vaddr:          202de0	file_offset:            2de0	file_size:             2e0	mem_size:             3e0
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:           e3000	file_offset:           e3000
-#define FIRST_ENTRY_OFFSET 0xe4000
-#define FIRST_ENTRY_OFFSET 0xe4000
+Add PHDR pt_load: vaddr:          204000	file_offset:          204000
+#define FIRST_ENTRY_OFFSET 0x205000
+#define FIRST_ENTRY_OFFSET 0x205000
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
 #define PATCH_DATA_PATH "/tmp/1"
@@ -104,42 +101,37 @@ check /root/CLionProjects/HookUtilV3/test/..//out/stage_one_normal start
 check /root/CLionProjects/HookUtilV3/test/..//out/stage_one_normal end
 check /root/CLionProjects/HookUtilV3/test/..//out/stage_one_sandbox start
 check /root/CLionProjects/HookUtilV3/test/..//out/stage_one_sandbox end
-0x9d80:	endbr64		
-0x9d84:	xor		ebp, ebp
-0x9d86:	mov		r9, rdx
-0x9d89:	pop		rsi
-0x9d8a:	mov		rdx, rsp
-0x9d8d:	and		rsp, 0xfffffffffffffff0
-0x9d91:	push		rax
-0x9d92:	push		rsp
-0x9d93:	lea		r8, [rip + 0x1446]
-0x9d9a:	lea		rcx, [rip + 0x139f]
-0x9da1:	lea		rdi, [rip + 0x238]
-0x9da8:	call		0xa4e0
+0xbe0:	xor		ebp, ebp
+0xbe2:	mov		r9, rdx
+0xbe5:	pop		rsi
+0xbe6:	mov		rdx, rsp
+0xbe9:	and		rsp, 0xfffffffffffffff0
+0xbed:	push		rax
+0xbee:	push		rsp
+0xbef:	lea		r8, [rip + 0x189a]
+0xbf6:	lea		rcx, [rip + 0x1823]
+0xbfd:	lea		rdi, [rip + 0x10c]
+0xc04:	call		0xb10
 find start call libc_start_main
 identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0xa4e0
-identify libc_start_main_start_call_offset : 0x9da8
-identify libc_start_main_start_call_vaddr  : 0x9da8
+identify libc_start_main_addr              : 0xb10
+identify libc_start_main_start_call_offset : 0xc04
+identify libc_start_main_start_call_vaddr  : 0xc04
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            80c8	mem_size:            80c8
-vaddr:            9000	file_offset:            9000	file_size:           96431	mem_size:           96431
-vaddr:           a0000	file_offset:           a0000	file_size:           28c43	mem_size:           28c43
-vaddr:           c9de0	file_offset:           c8de0	file_size:            5350	mem_size:            6be0
+vaddr:               0	file_offset:               0	file_size:            2d94	mem_size:            2d94
+vaddr:          202de0	file_offset:            2de0	file_size:             2e0	mem_size:             3e0
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:           e3000	file_offset:           e3000
+Add PHDR pt_load: vaddr:          204000	file_offset:          204000
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            80c8	mem_size:            80c8
-vaddr:            9000	file_offset:            9000	file_size:           96431	mem_size:           96431
-vaddr:           a0000	file_offset:           a0000	file_size:           28c43	mem_size:           28c43
-vaddr:           c9de0	file_offset:           c8de0	file_size:            5350	mem_size:            6be0
+vaddr:               0	file_offset:               0	file_size:            2d94	mem_size:            2d94
+vaddr:          202de0	file_offset:            2de0	file_size:             2e0	mem_size:             3e0
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:           e3000	file_offset:           e3000
+Add PHDR pt_load: vaddr:          204000	file_offset:          204000
 generate done
 -------------------------------------------------------------------------------------------------------------
