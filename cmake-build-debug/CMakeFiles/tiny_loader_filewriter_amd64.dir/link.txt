@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC -g -nostartfiles -nodefaultlibs -nostdlib -m64 -shared -Wl,-soname,libtiny_loader_filewriter_amd64.so -o libtiny_loader_filewriter_amd64.so CMakeFiles/tiny_loader_filewriter_amd64.dir/strict_mode/tiny_loader/arch/amd64/tiny_loader_filewriter.c.o 

@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC -g  -shared -Wl,-soname,libloader_stage_three_base.so -o libloader_stage_three_base.so CMakeFiles/loader_stage_three_base.dir/loader_stage_three_base.c.o 

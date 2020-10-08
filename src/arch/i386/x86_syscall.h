@@ -70,18 +70,46 @@
                                             : "=a" (RES)\
                                             :"0"(__NR_dup2),"b"((long)OLDFD),"c"((long)NEWFD));
 
-#define asm_socket(AF,SOCKET,ARG,RES) __asm__ __volatile__("int $0x80"\
+typedef struct SYS_SOCKET_STRUCT{
+    void* af;
+    void* socket;
+    void* arg;
+}SYS_SOCKET_STRUCT;
+#define asm_socket(AF,SOCKET,ARG,RES) {      SYS_SOCKET_STRUCT arg_struct;      \
+                                             arg_struct.af = (void*)AF;         \
+                                             arg_struct.socket = (void*)SOCKET; \
+                                             arg_struct.arg = (void*)ARG;       \
+                                            __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_socketcall),"b"((long)SYS_SOCKET),"c"((long)&AF));
+                                                :"0"(__NR_socketcall),"b"((long)SYS_SOCKET),"c"((long)&arg_struct));}
 
+typedef struct SYS_CONNECT_STRUCT{
+    void* fd;
+    void* addr;
+    void* addr_size;
+}SYS_CONNECT_STRUCT;
 #define asm_connect(FD,ADDR,ADDR_SIZE,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
                                                 :"0"(__NR_socketcall),"b"((long)SYS_CONNECT),"c"((long)&FD));
 
+typedef struct SYS_SEND_STRUCT{
+    void* fd;
+    void* buf;
+    void* buf_size;
+    void* flag;
+}SYS_SEND_STRUCT;
 #define asm_send(FD,BUF,BUF_SIZE,FLAG,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
                                                 :"0"(__NR_socketcall),"b"((long)SYS_SEND),"c"((long)&FD));
 
+typedef struct SYS_SENDTO_STRUCT{
+    void* fd;
+    void* buf;
+    void* len;
+    void* flag;
+    void* addr;
+    void* addr_size;
+}SYS_SENDTO_STRUCT;
 #define asm_sendto(FD,BUF,LEN,FLAG,ADDR,ADDR_SIZE,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
                                                 : "0"(__NR_socketcall),"b"((long)SYS_SENDTO),"c"((long)&FD));
@@ -98,9 +126,26 @@
                                                     : "=a" (RES)\
                                                     :"0"(__NR__newselect),"b"((long)NFDS),"c"((long)READFDS),"d"((long)WRITEFDS),"S"((long)EXCEPTFDS),"D"((long)TIMEOUT));
 
+typedef struct SYS_SETSOCKOPT_STRUCT{
+    void* fd;
+    void* level;
+    void* optname;
+    void* optval;
+    void* optlen;
+}SYS_SETSOCKOPT_STRUCT;
+
 #define asm_setsockopt(FD,LEVEL,OPTNAME,OPTVAL,OPTLEN,RES) __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
                                                     :"0"(__NR_socketcall),"b"((long)SYS_SETSOCKOPT),"c"((long)&FD));
+
+typedef struct SYS_GETSOCKOPT_STRUCT{
+    void* fd;
+    void* level;
+    void* optname;
+    void* optval;
+    void* optlen;
+}SYS_GETSOCKOPT_STRUCT;
+
 #define asm_getsockopt(FD,LEVEL,OPTNAME,OPTVAL,OPTLEN,RES) __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
                                                     :"0"(__NR_socketcall),"b"((long)SYS_GETSOCKOPT),"c"((long)&FD));

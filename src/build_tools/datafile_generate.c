@@ -89,6 +89,9 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
 
     write(target_fd,libloader_stage_three_content,get_file_size(libloader_stage_three));
     close_and_munmap(libloader_stage_two,libloader_stage_two_fd,libloader_stage_two_base,&libloader_stage_two_size);
+    char command[512] = {0};
+    snprintf(command,sizeof(command),"chmod 660 %s ",data_file_path);
+    system(command);
 }
 
 

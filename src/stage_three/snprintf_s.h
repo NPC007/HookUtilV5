@@ -190,6 +190,17 @@ IN_LINE int SecDecodePrecision(SecChar ch, SecFormatAttr *formatAttr)
     return 0;
 }
 
+#if __x86_64__
+    #define SECUREC_ON_64BITS
+    //#define SECUREC_COMPATIBLE_LINUX_FORMAT
+
+#elif __i386__
+    //#define SECUREC_COMPATIBLE_LINUX_FORMAT
+#else
+#error Unknown OS Bits
+#endif
+
+
 IN_LINE int SecDecodeSizeI(SecFormatAttr *attr, const SecChar **format)
 {
 #ifdef SECUREC_ON_64BITS
@@ -757,6 +768,8 @@ IN_LINE int SecDecodeTypeC(SecFormatAttr *attr, unsigned int cValue, SecFormatBu
 #else
                                     formatAttr.flags |= SECUREC_FLAG_POINTER;
 #endif
+
+
 #ifdef SECUREC_ON_64BITS
                                     formatAttr.flags |= SECUREC_FLAG_I64;   /* converting an int64 */
 #else
@@ -976,7 +989,34 @@ IN_LINE int SecDecodeTypeC(SecFormatAttr *attr, unsigned int cValue, SecFormatBu
 #ifdef SECUREC_ON_64BITS
                                     switch (radix) {
                                     /* the compiler will optimize each one */
-                                    case SECUREC_RADIX_DECIMAL:
+
+
+
+#if defined(SECUREC_USE_SPECIAL_DIV64)
+                                        /* The compiler does not provide 64 bit division problems */
+#define SECUREC_SPECIAL_QWORD_BASE10(val64) do { \
+    SecUnsignedInt64 quotient = 0; \
+    SecUnsignedInt32 digit = 0; \
+    SecU64Div10((val64), &(quotient), &(digit)); \
+    --formatBuf.str; \
+    *(formatBuf.str) = digits[digit]; \
+    (val64) = quotient; \
+} while ((val64) != 0)
+#else
+#define SECUREC_SPECIAL_QWORD_BASE10(val64) do { \
+    --formatBuf.str; \
+    *(formatBuf.str) = digits[(val64) % SECUREC_RADIX_DECIMAL]; \
+} while (((val64) /= SECUREC_RADIX_DECIMAL) != 0)
+#endif
+
+#define SECUREC_SPECIAL_QWORD(val64, numBase) do { \
+    --formatBuf.str; \
+    *(formatBuf.str) = digits[(val64) % (numBase)]; \
+} while (((val64) /= (numBase)) != 0)
+
+
+
+                                        case SECUREC_RADIX_DECIMAL:
                                         SECUREC_SPECIAL_QWORD_BASE10(number);
                                         break;
                                     case SECUREC_RADIX_HEX:

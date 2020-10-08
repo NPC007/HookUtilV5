@@ -1,1 +1,0 @@
-/usr/bin/cc -g  -m32 CMakeFiles/generate_base32.dir/generate_base.c.o CMakeFiles/generate_base32.dir/cJSON.c.o  -o generate_base32 -lm 

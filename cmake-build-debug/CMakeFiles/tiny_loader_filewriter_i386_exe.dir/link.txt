@@ -1,1 +1,0 @@
-/usr/bin/cc -g  -nostartfiles -nodefaultlibs -nostdlib -m32 CMakeFiles/tiny_loader_filewriter_i386_exe.dir/strict_mode/tiny_loader/arch/i386/tiny_loader_filewriter.c.o  -o tiny_loader_filewriter_i386_exe 

@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC -g -nostartfiles -nodefaultlibs -nostdlib -shared -Wl,-soname,libloader_stage_one.so -o libloader_stage_one.so CMakeFiles/loader_stage_one.dir/loader_stage_one.c.o 

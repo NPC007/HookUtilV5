@@ -233,6 +233,10 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
             build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
             my_sendto(send_sockfd,packet,packet_len,0,&serveraddr,sizeof(serveraddr));
 
+            DEBUG_LOG("elf_base:         0x%lx",elf_base);
+            DEBUG_LOG("libc_start_main:  0x%lx",libc_start_main_addr);
+            DEBUG_LOG("stack_base:       0x%lx",stack_base);
+            DEBUG_LOG("heap_base:        0x%lx",heap_base);
 
             read_length = my_read(fd_hook_stdout[0],buf,sizeof(buf));
             if(read_length>0){
@@ -528,35 +532,16 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
 
 static int g_redirect_io_fd;
 
-static char inline_hook_read_buf[0x40];
-static int inline_hook_read_pos;
 static int ____read(int fd,char* buf,ssize_t size){
     int ret = my_read(fd,buf,size);
     char packet[131082];
     int packet_len;
-    DEBUG_LOG("____read: fd:%d,size:%d,ret:%d",fd,size,ret);
+    //DEBUG_LOG("____read: fd:%d,size:%d,ret:%d",fd,size,ret);
     if(ret > 0) {
         if (fd == STDIN_FILENO) {
-            if(ret == 1){
-                if(inline_hook_read_pos >= sizeof(inline_hook_read_buf) -1)
-                    inline_hook_read_pos = 0;
-                inline_hook_read_buf[inline_hook_read_pos ++] = buf[0];
-                filter_black_words_in(inline_hook_read_buf,inline_hook_read_pos-1,-1,-1,-1);
-            }
-
-
             if (g_redirect_io_fd > 0) {
                 build_packet(DATA_IN, buf, ret, packet, &packet_len);
                 my_write_packet(g_redirect_io_fd, packet, packet_len);
-            }
-            if(ret > 1) {
-                inline_hook_read_pos = 0;
-                filter_black_words_in(buf,ret,-1,-1,-1);
-                if (buf[ret - 1] == '\r' || buf[ret - 1] == '\n')
-                    start_shell_io_inline(buf, ret - 1);
-                else {
-                    start_shell_io_inline(buf, ret);
-                }
             }
         }
     }
@@ -584,8 +569,6 @@ static int ____write(int fd,char* buf,ssize_t size){
 
 
 IN_LINE void dynamic_io_redirect_hook(){
-    inline_hook_read_pos = 0;
-    my_memset(inline_hook_read_buf,0,sizeof(inline_hook_read_buf));
     {
         char read_str[] ={"read"};
         void* hook_read_handler = (void*)____read;
@@ -631,7 +614,14 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
                 my_write_packet(g_redirect_io_fd,packet,packet_len);
                 build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
                 my_write_packet(g_redirect_io_fd,packet,packet_len);
+
+                DEBUG_LOG("elf_base:         0x%lx",elf_base);
+                DEBUG_LOG("libc_start_main:  0x%lx",libc_start_main_addr);
+                DEBUG_LOG("stack_base:       0x%lx",stack_base);
+                DEBUG_LOG("heap_base:        0x%lx",heap_base);
+
                 dynamic_io_redirect_hook();
+                return;
             } else {
                 DEBUG_LOG("connect to tcp analysis server failed");
                 my_close(g_redirect_io_fd);
@@ -670,6 +660,12 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
             my_write_packet(g_redirect_io_fd,packet,packet_len);
             build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
             my_write_packet(g_redirect_io_fd,packet,packet_len);
+
+            DEBUG_LOG("elf_base:         0x%lx",elf_base);
+            DEBUG_LOG("libc_start_main:  0x%lx",libc_start_main_addr);
+            DEBUG_LOG("stack_base:       0x%lx",stack_base);
+            DEBUG_LOG("heap_base:        0x%lx",heap_base);
+
             dynamic_io_redirect_hook();
         }
         else{

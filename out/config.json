@@ -1,5 +1,5 @@
 {
-  "project_root":"/root/CLionProjects/HookUtilV3/test/../",
+  "project_root":"/home/runshine/HookUtilV3/test/../",
   "target_dir": "out",
   "input_elf":"input_elf",
 
@@ -9,7 +9,7 @@
   
 
   "tcp_time_out":"1",
-  "io_inline_hook":"1",
+  "io_inline_hook":"0",
   "analysis_server_ip":"127.0.0.1",
   "analysis_server_port":"10000",
   "shell_password":"!Huawei12#$",
