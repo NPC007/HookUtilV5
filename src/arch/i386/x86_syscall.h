@@ -28,7 +28,8 @@
 
 #define asm_open(FILE,FLAG,MODE,RES) __asm__ __volatile__ ("int $0x80"\
                                                         :"=a" (RES)\
-                                                        :"0"(__NR_open),"b"((long)FILE),"c"((long)FLAG),"d"((long)MODE));
+                                                        :"0"(__NR_open),"b"((long)FILE),"c"((long)FLAG),"d"((long)MODE)\
+                                                        :"cc","memory");
 
 #define asm_close(FD,RES) __asm__ __volatile__ ("int $0x80"\
                                             :"=a" (RES)\
@@ -36,71 +37,92 @@
 
 #define asm_write(FD,BUF,N,RES) __asm__ __volatile__ ("int $0x80"\
                                                 :"=a" (RES)\
-                                                :"0"(__NR_write),"b"((long)FD),"c"((long)BUF),"d"((long)N));
+                                                :"0"(__NR_write),"b"((long)FD),"c"((long)BUF),"d"((long)N)\
+                                                :"cc","memory");
 
 #define asm_read(FD,BUF,N,RES) __asm__ __volatile__ ("int $0x80"\
                                                 :"=a" (RES)\
-                                                :"0"(__NR_read),"b"((long)FD),"c"((long)BUF),"d"((long)N));
+                                                :"0"(__NR_read),"b"((long)FD),"c"((long)BUF),"d"((long)N)\
+                                                :"cc","memory");
 
 #define asm_nanosleep(TIMESPEC,ARGV,RES) __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
-                                                    :"0"(__NR_nanosleep),"b"((long) TIMESPEC),"c"((long )ARGV));
+                                                    :"0"(__NR_nanosleep),"b"((long) TIMESPEC),"c"((long )ARGV)\
+                                                    :"cc","memory");
 
 #define asm_pipe(FDS,RES) __asm__ __volatile__("int $0x80"\
                                     : "=a" (RES)\
-                                    :"0"(__NR_pipe),"b"((long)FDS));
+                                    :"0"(__NR_pipe),"b"((long)FDS)\
+                                    :"cc","memory");
 
 #define asm_execve(BASH,ARG,ENV,RES) __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
-                                                    :"0"(__NR_execve),"b"((long)BASH),"c"((long)ARG),"d"((long)ENV));
+                                                    :"0"(__NR_execve),"b"((long)BASH),"c"((long)ARG),"d"((long)ENV)\
+                                                    :"cc","memory");
 
 #define asm_fork(RES) __asm__ __volatile__("int $0x80"\
                                 : "=a" (RES)\
-                                : "0" (__NR_fork));
+                                : "0" (__NR_fork)\
+                                :"cc","memory");
 
 #define asm_waitpid(PID,STAT,ARG,RES)  __asm__ __volatile__("int $0x80"\
                                                         : "=a" (RES)\
-                                                        :"0"(__NR_wait4),"b"((long)PID),"c"((long)STAT),"d"((long)ARG));
+                                                        :"0"(__NR_wait4),"b"((long)PID),"c"((long)STAT),"d"((long)ARG)\
+                                                        :"cc","memory");
 
 #define asm_fcntl(FD,CMD,ARG,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_fcntl),"b"((long)FD),"c"((long)CMD),"d"((long)ARG));
+                                                :"0"(__NR_fcntl),"b"((long)FD),"c"((long)CMD),"d"((long)ARG)\
+                                                :"cc","memory");
 
 #define asm_dup2(OLDFD,NEWFD,RES) __asm__ __volatile__("int $0x80"\
                                             : "=a" (RES)\
-                                            :"0"(__NR_dup2),"b"((long)OLDFD),"c"((long)NEWFD));
+                                            :"0"(__NR_dup2),"b"((long)OLDFD),"c"((long)NEWFD)\
+                                            :"cc","memory");
 
 typedef struct SYS_SOCKET_STRUCT{
     void* af;
     void* socket;
     void* arg;
-}SYS_SOCKET_STRUCT;
+} __attribute__((aligned (4)))  SYS_SOCKET_STRUCT;
 #define asm_socket(AF,SOCKET,ARG,RES) {      SYS_SOCKET_STRUCT arg_struct;      \
                                              arg_struct.af = (void*)AF;         \
                                              arg_struct.socket = (void*)SOCKET; \
                                              arg_struct.arg = (void*)ARG;       \
                                             __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_socketcall),"b"((long)SYS_SOCKET),"c"((long)&arg_struct));}
+                                                :"0"(__NR_socketcall),"b"((long)SYS_SOCKET),"c"((long)&arg_struct)\
+                                                :"cc","memory");}
 
 typedef struct SYS_CONNECT_STRUCT{
     void* fd;
     void* addr;
     void* addr_size;
-}SYS_CONNECT_STRUCT;
-#define asm_connect(FD,ADDR,ADDR_SIZE,RES) __asm__ __volatile__("int $0x80"\
+}__attribute__((aligned (4))) SYS_CONNECT_STRUCT;
+#define asm_connect(FD,ADDR,ADDR_SIZE,RES){    SYS_CONNECT_STRUCT arg_struct; \
+                                               arg_struct.fd = (void*)FD;     \
+                                               arg_struct.addr = (void*)ADDR; \
+                                               arg_struct.addr_size = (void*)ADDR_SIZE;\
+                                                __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_socketcall),"b"((long)SYS_CONNECT),"c"((long)&FD));
+                                                :"0"(__NR_socketcall),"b"((long)SYS_CONNECT),"c"((long)&arg_struct)\
+                                                :"cc","memory");}
 
 typedef struct SYS_SEND_STRUCT{
     void* fd;
     void* buf;
     void* buf_size;
     void* flag;
-}SYS_SEND_STRUCT;
-#define asm_send(FD,BUF,BUF_SIZE,FLAG,RES) __asm__ __volatile__("int $0x80"\
+}__attribute__((aligned (4))) SYS_SEND_STRUCT;
+#define asm_send(FD,BUF,BUF_SIZE,FLAG,RES) {   SYS_SEND_STRUCT arg_struct;\
+                                               arg_struct.fd = (void*)FD; \
+                                               arg_struct.buf = (void*)BUF; \
+                                               arg_struct.buf_size = (void*)BUF_SIZE;\
+                                               arg_struct.FLAG = (void*)FLAG;\
+                                                __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_socketcall),"b"((long)SYS_SEND),"c"((long)&FD));
+                                                :"0"(__NR_socketcall),"b"((long)SYS_SEND),"c"((long)&arg_struct)\
+                                                :"cc","memory");}
 
 typedef struct SYS_SENDTO_STRUCT{
     void* fd;
@@ -109,22 +131,33 @@ typedef struct SYS_SENDTO_STRUCT{
     void* flag;
     void* addr;
     void* addr_size;
-}SYS_SENDTO_STRUCT;
-#define asm_sendto(FD,BUF,LEN,FLAG,ADDR,ADDR_SIZE,RES) __asm__ __volatile__("int $0x80"\
+}__attribute__((aligned (4))) SYS_SENDTO_STRUCT;
+#define asm_sendto(FD,BUF,LEN,FLAG,ADDR,ADDR_SIZE,RES) {  SYS_SENDTO_STRUCT   arg_struct;\
+                                                arg_struct.fd = (void*)FD;\
+                                                arg_struct.buf = (void*)BUF;\
+                                                arg_struct.len = (void*)LEN;\
+                                                arg_struct.flag = (void*)FLAG;\
+                                                arg_struct.addr = (void*)ADDR;\
+                                                arg_struct.addr_size = (void*)ADDR_SIZE;\
+                                                __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                : "0"(__NR_socketcall),"b"((long)SYS_SENDTO),"c"((long)&FD));
+                                                : "0"(__NR_socketcall),"b"((long)SYS_SENDTO),"c"((long)&arg_struct)\
+                                                :"cc","memory");}
 
 #define asm_exit(CODE,RES)  __asm__ __volatile__("int $0x80"\
                                             : "=a" (RES)\
-                                            :"0"(__NR_exit),"b"((long)CODE));
+                                            :"0"(__NR_exit),"b"((long)CODE)\
+                                            :"cc","memory");
 
 #define asm_kill(PID,SIG,RES)  __asm__ __volatile__("int $0x80"\
                                             : "=a" (RES)\
-                                            :"0"(__NR_kill),"b"((long)PID),"c"((long)SIG));
+                                            :"0"(__NR_kill),"b"((long)PID),"c"((long)SIG)\
+                                            :"cc","memory");
 
 #define asm_select(NFDS,READFDS,WRITEFDS,EXCEPTFDS,TIMEOUT,RES) __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
-                                                    :"0"(__NR__newselect),"b"((long)NFDS),"c"((long)READFDS),"d"((long)WRITEFDS),"S"((long)EXCEPTFDS),"D"((long)TIMEOUT));
+                                                    :"0"(__NR__newselect),"b"((long)NFDS),"c"((long)READFDS),"d"((long)WRITEFDS),"S"((long)EXCEPTFDS),"D"((long)TIMEOUT)\
+                                                    :"cc","memory");
 
 typedef struct SYS_SETSOCKOPT_STRUCT{
     void* fd;
@@ -132,11 +165,18 @@ typedef struct SYS_SETSOCKOPT_STRUCT{
     void* optname;
     void* optval;
     void* optlen;
-}SYS_SETSOCKOPT_STRUCT;
+}__attribute__((aligned (4))) SYS_SETSOCKOPT_STRUCT;
 
-#define asm_setsockopt(FD,LEVEL,OPTNAME,OPTVAL,OPTLEN,RES) __asm__ __volatile__("int $0x80"\
+#define asm_setsockopt(FD,LEVEL,OPTNAME,OPTVAL,OPTLEN,RES) {SYS_SETSOCKOPT_STRUCT arg_struct;\
+                                                    arg_struct.fd = (void*)FD;\
+                                                    arg_struct.level = (void*)LEVEL;\
+                                                    arg_struct.optname = (void*)OPTNAME;\
+                                                    arg_struct.optval = (void*)OPTVAL;\
+                                                    arg_struct.optlen = (void*)OPTLEN;\
+                                                    __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
-                                                    :"0"(__NR_socketcall),"b"((long)SYS_SETSOCKOPT),"c"((long)&FD));
+                                                    :"0"(__NR_socketcall),"b"((long)SYS_SETSOCKOPT),"c"((long)&arg_struct)\
+                                                    :"cc","memory");}
 
 typedef struct SYS_GETSOCKOPT_STRUCT{
     void* fd;
@@ -144,46 +184,63 @@ typedef struct SYS_GETSOCKOPT_STRUCT{
     void* optname;
     void* optval;
     void* optlen;
-}SYS_GETSOCKOPT_STRUCT;
+}__attribute__((aligned (4))) SYS_GETSOCKOPT_STRUCT;
 
-#define asm_getsockopt(FD,LEVEL,OPTNAME,OPTVAL,OPTLEN,RES) __asm__ __volatile__("int $0x80"\
+#define asm_getsockopt(FD,LEVEL,OPTNAME,OPTVAL,OPTLEN,RES) { SYS_SETSOCKOPT_STRUCT arg_struct;\
+                                                    arg_struct.fd = (void*)FD;\
+                                                    arg_struct.level = (void*)LEVEL;\
+                                                    arg_struct.optname = (void*)OPTNAME;\
+                                                    arg_struct.optval = (void*)OPTVAL;\
+                                                    arg_struct.optlen = (void*)OPTLEN;\
+                                                    __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
-                                                    :"0"(__NR_socketcall),"b"((long)SYS_GETSOCKOPT),"c"((long)&FD));
+                                                    :"0"(__NR_socketcall),"b"((long)SYS_GETSOCKOPT),"c"((long)&arg_struct)\
+                                                    :"cc","memory");}
+
+
+
 
 #define asm_clone(FLAGS,CHILD_STACK,PTID,CTID,TLS,RES) __asm__ __volatile__("int $0x80"\
                                                     : "=a" (RES)\
-                                                    :"0"(__NR_clone),"b"((long)FLAGS),"c"((long)CHILD_STACK),"d"((long)PTID),"S"((long)TLS),"D"((long)CTID));
+                                                    :"0"(__NR_clone),"b"((long)FLAGS),"c"((long)CHILD_STACK),"d"((long)PTID),"S"((long)TLS),"D"((long)CTID)\
+                                                    :"cc","memory");
 
 #define asm_mprotect(START,LENGTH,PROTO,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_mprotect),"b"((long)START),"c"((long)LENGTH),"d"((long)PROTO));
+                                                :"0"(__NR_mprotect),"b"((long)START),"c"((long)LENGTH),"d"((long)PROTO)\
+                                                :"cc","memory");
 
 #define asm_alarm(TIME,RES)  __asm__ __volatile__("int $0x80"\
                                             : "=a" (RES)\
-                                            :"0"(__NR_alarm),"b"((long)TIME));
+                                            :"0"(__NR_alarm),"b"((long)TIME)\
+                                            :"cc","memory");
 
 #define asm_chroot(PATH,RES)  __asm__ __volatile__("int $0x80"\
                                             : "=a" (RES)\
-                                            :"0"(__NR_chroot),"b"((long)PATH));
+                                            :"0"(__NR_chroot),"b"((long)PATH)\
+                                            :"cc","memory");
 
 #define asm_mmap(ADDR,LENGTH,PROT,FLAGS,FD,OFFSET,RES) ({\
                                                 __asm__ __volatile__("pushl %%ebp;xor %%ebp,%%ebp;int $0x80;popl %%ebp"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_mmap2),"b"((long)ADDR),"c"((long)LENGTH),"d"((long)PROT),"S"((long)FLAGS),"D"((long)FD));\
-                                                })
+                                                :"0"(__NR_mmap2),"b"((long)ADDR),"c"((long)LENGTH),"d"((long)PROT),"S"((long)FLAGS),"D"((long)FD)\
+                                                :"cc","memory");})
 
 
 #define asm_munmap(ADDR,LENGTH,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_munmap),"b"((long)ADDR),"c"((long)LENGTH));
+                                                :"0"(__NR_munmap),"b"((long)ADDR),"c"((long)LENGTH)\
+                                                :"cc","memory");
 
 #define asm_syscall_test(SYSCALL_ID,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
-                                                :"0"(SYSCALL_ID));
+                                                :"0"(SYSCALL_ID)\
+                                                :"cc","memory");
 
 
 #define asm_brk(ADDR,RES) __asm__ __volatile__("int $0x80"\
                                     : "=a" (RES)\
-                                    :"0"(__NR_brk),"b"((long)ADDR));
+                                    :"0"(__NR_brk),"b"((long)ADDR)\
+                                    :"cc","memory");
 
 #endif

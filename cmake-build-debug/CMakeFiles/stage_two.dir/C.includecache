@@ -54,17 +54,17 @@ netinet/in.h
 arch/common/syscall.h
 ../src/utils/arch/common/syscall.h
 
-/home/runshine/HookUtilV3/src/stage_two/loader.c
+/root/CLionProjects/HookUtilV3/src/stage_two/loader.c
 stddef.h
 -
 errno.h
-/home/runshine/HookUtilV3/src/stage_two/errno.h
+/root/CLionProjects/HookUtilV3/src/stage_two/errno.h
 elf.h
 -
 include/hook.h
-/home/runshine/HookUtilV3/src/stage_two/include/hook.h
+/root/CLionProjects/HookUtilV3/src/stage_two/include/hook.h
 auto_generate/debug_config.h
-/home/runshine/HookUtilV3/src/stage_two/auto_generate/debug_config.h
+/root/CLionProjects/HookUtilV3/src/stage_two/auto_generate/debug_config.h
 utils/common.h
-/home/runshine/HookUtilV3/src/stage_two/utils/common.h
+/root/CLionProjects/HookUtilV3/src/stage_two/utils/common.h
 

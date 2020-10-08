@@ -14,6 +14,6 @@ CMakeFiles/stage_three_normal.dir/src/stage_three/normal_loader.c.o
  ../src/include/hook.h
  ../src/utils/common.h
  ../src/utils/md5.h
- /home/runshine/HookUtilV3/src/stage_three/common.h
- /home/runshine/HookUtilV3/src/stage_three/normal_loader.c
- /home/runshine/HookUtilV3/src/stage_three/snprintf_s.h
+ /root/CLionProjects/HookUtilV3/src/stage_three/common.h
+ /root/CLionProjects/HookUtilV3/src/stage_three/normal_loader.c
+ /root/CLionProjects/HookUtilV3/src/stage_three/snprintf_s.h

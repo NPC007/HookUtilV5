@@ -6,5 +6,5 @@ C_FLAGS = -g   -m32 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0  -fno-stack-protector 
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/runshine/HookUtilV3/./src 
+C_INCLUDES = -I/root/CLionProjects/HookUtilV3/./src 
 

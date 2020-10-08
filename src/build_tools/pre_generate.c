@@ -59,7 +59,7 @@ void check_elf_file_and_config_compatible(char* elf_path,cJSON* config){
 
 
 void usage(char* local){
-    logger("usage: %s config.json\n",local);
+    printf("usage: %s config.json\n",local);
     exit(-1);
 }
 
@@ -68,13 +68,18 @@ int main(int argc,char* argv[]){
         usage(argv[0]);
     }
     char* config_file_name = argv[1];
-    logger("config file: %s\n",config_file_name);
+    printf("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){
-        logger("%s parse failed\n",config_file_name);
+        printf("%s parse failed\n",config_file_name);
         exit(-1);
     }
     char* project_root = cJSON_GetObjectItem(config,"project_root")->valuestring;
+    if(check_file_exist(project_root)<0)
+    {
+        printf("project_root not exist:%s \n",project_root);
+        exit(-1);
+    }
     char logger_file[512] = {0};
     snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
     init_logger(logger_file,1);

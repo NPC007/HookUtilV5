@@ -145,7 +145,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                 self.env_info.heap_end = u64(store_data) + 132 * 1024
             else:
                 self.env_info.heap_base = u32(store_data)
-                self.env_info.heap_end = u32(dstore_dataata) + 132 * 1024
+                self.env_info.heap_end = u32(store_data) + 132 * 1024
             self.json_data.append('7' + 'heap: ' + hex(self.env_info.heap_base) + " --> " + hex(self.env_info.heap_end))
             logging.debug('heap: ' + hex(self.env_info.heap_base) + " --> " + hex(self.env_info.heap_end))
 

@@ -629,7 +629,7 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
                 use_file = 1;
             }
         } else {
-            DEBUG_LOG("cp analysis server socket open failed");
+            DEBUG_LOG("tcp analysis server socket open failed: %d",g_redirect_io_fd);
             use_file = 1;
         }
     }

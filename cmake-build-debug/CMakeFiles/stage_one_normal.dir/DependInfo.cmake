@@ -5,7 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_ASM
-  "/home/runshine/HookUtilV3/src/arch/i386/loader.s" "/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o"
+  "/root/CLionProjects/HookUtilV3/src/arch/i386/loader.s" "/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/arch/i386/loader.s.o"
   )
 set(CMAKE_ASM_COMPILER_ID "GNU")
 
@@ -14,7 +14,7 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
   ".././src"
   )
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/runshine/HookUtilV3/src/stage_one/loader.c" "/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o"
+  "/root/CLionProjects/HookUtilV3/src/stage_one/loader.c" "/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/stage_one_normal.dir/src/stage_one/loader.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

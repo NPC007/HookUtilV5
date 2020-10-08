@@ -7,11 +7,11 @@ ASM_FLAGS = -g   -m32 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0  -fno-stack-protecto
 
 ASM_DEFINES = 
 
-ASM_INCLUDES = -I/home/runshine/HookUtilV3/./src 
+ASM_INCLUDES = -I/root/CLionProjects/HookUtilV3/./src 
 
 C_FLAGS = -g   -m32 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0  -fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop  -DSTAGE_ONE_NORMAL=1 -std=gnu11
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/runshine/HookUtilV3/./src 
+C_INCLUDES = -I/root/CLionProjects/HookUtilV3/./src 
 

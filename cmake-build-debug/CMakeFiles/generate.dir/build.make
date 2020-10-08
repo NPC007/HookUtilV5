@@ -37,19 +37,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/runshine/clion-2020.1.1/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /home/runshine/clion-2020.1.1/bin/cmake/linux/bin/cmake -E remove -f
+RM = /usr/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/runshine/HookUtilV3
+CMAKE_SOURCE_DIR = /root/CLionProjects/HookUtilV3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/runshine/HookUtilV3/cmake-build-debug
+CMAKE_BINARY_DIR = /root/CLionProjects/HookUtilV3/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/generate.dir/depend.make
@@ -62,68 +62,68 @@ include CMakeFiles/generate.dir/flags.make
 
 CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o: CMakeFiles/generate.dir/flags.make
 CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o: ../src/build_tools/elf/elf_utils.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o   -c /home/runshine/HookUtilV3/src/build_tools/elf/elf_utils.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o   -c /root/CLionProjects/HookUtilV3/src/build_tools/elf/elf_utils.c
 
 CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/runshine/HookUtilV3/src/build_tools/elf/elf_utils.c > CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/CLionProjects/HookUtilV3/src/build_tools/elf/elf_utils.c > CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.i
 
 CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/runshine/HookUtilV3/src/build_tools/elf/elf_utils.c -o CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/CLionProjects/HookUtilV3/src/build_tools/elf/elf_utils.c -o CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.s
 
 CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o: CMakeFiles/generate.dir/flags.make
 CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o: ../src/build_tools/file/file_utils.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o   -c /home/runshine/HookUtilV3/src/build_tools/file/file_utils.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o   -c /root/CLionProjects/HookUtilV3/src/build_tools/file/file_utils.c
 
 CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/runshine/HookUtilV3/src/build_tools/file/file_utils.c > CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/CLionProjects/HookUtilV3/src/build_tools/file/file_utils.c > CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.i
 
 CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/runshine/HookUtilV3/src/build_tools/file/file_utils.c -o CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/CLionProjects/HookUtilV3/src/build_tools/file/file_utils.c -o CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.s
 
 CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o: CMakeFiles/generate.dir/flags.make
 CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o: ../src/build_tools/file_check/checker.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o   -c /home/runshine/HookUtilV3/src/build_tools/file_check/checker.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o   -c /root/CLionProjects/HookUtilV3/src/build_tools/file_check/checker.c
 
 CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/runshine/HookUtilV3/src/build_tools/file_check/checker.c > CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/CLionProjects/HookUtilV3/src/build_tools/file_check/checker.c > CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.i
 
 CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/runshine/HookUtilV3/src/build_tools/file_check/checker.c -o CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/CLionProjects/HookUtilV3/src/build_tools/file_check/checker.c -o CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.s
 
 CMakeFiles/generate.dir/src/build_tools/generate.c.o: CMakeFiles/generate.dir/flags.make
 CMakeFiles/generate.dir/src/build_tools/generate.c.o: ../src/build_tools/generate.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/generate.dir/src/build_tools/generate.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/generate.c.o   -c /home/runshine/HookUtilV3/src/build_tools/generate.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/generate.dir/src/build_tools/generate.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/generate.c.o   -c /root/CLionProjects/HookUtilV3/src/build_tools/generate.c
 
 CMakeFiles/generate.dir/src/build_tools/generate.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/generate.dir/src/build_tools/generate.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/runshine/HookUtilV3/src/build_tools/generate.c > CMakeFiles/generate.dir/src/build_tools/generate.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/CLionProjects/HookUtilV3/src/build_tools/generate.c > CMakeFiles/generate.dir/src/build_tools/generate.c.i
 
 CMakeFiles/generate.dir/src/build_tools/generate.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/generate.dir/src/build_tools/generate.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/runshine/HookUtilV3/src/build_tools/generate.c -o CMakeFiles/generate.dir/src/build_tools/generate.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/CLionProjects/HookUtilV3/src/build_tools/generate.c -o CMakeFiles/generate.dir/src/build_tools/generate.c.s
 
 CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o: CMakeFiles/generate.dir/flags.make
 CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o: ../src/build_tools/json/cJSON.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o   -c /home/runshine/HookUtilV3/src/build_tools/json/cJSON.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o   -c /root/CLionProjects/HookUtilV3/src/build_tools/json/cJSON.c
 
 CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/runshine/HookUtilV3/src/build_tools/json/cJSON.c > CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/CLionProjects/HookUtilV3/src/build_tools/json/cJSON.c > CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.i
 
 CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/runshine/HookUtilV3/src/build_tools/json/cJSON.c -o CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/CLionProjects/HookUtilV3/src/build_tools/json/cJSON.c -o CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.s
 
 # Object files for target generate
 generate_OBJECTS = \
@@ -143,10 +143,10 @@ generate: CMakeFiles/generate.dir/src/build_tools/generate.c.o
 generate: CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o
 generate: CMakeFiles/generate.dir/build.make
 generate: CMakeFiles/generate.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable generate"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable generate"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/generate.dir/link.txt --verbose=$(VERBOSE)
-	cp -f /home/runshine/HookUtilV3/cmake-build-debug/generate /home/runshine/HookUtilV3/out/
-	../out/generate /home/runshine/HookUtilV3/out/config.json
+	cp -f /root/CLionProjects/HookUtilV3/cmake-build-debug/generate /root/CLionProjects/HookUtilV3/out/
+	../out/generate /root/CLionProjects/HookUtilV3/out/config.json
 
 # Rule to build all files generated by this target.
 CMakeFiles/generate.dir/build: generate
@@ -158,6 +158,6 @@ CMakeFiles/generate.dir/clean:
 .PHONY : CMakeFiles/generate.dir/clean
 
 CMakeFiles/generate.dir/depend:
-	cd /home/runshine/HookUtilV3/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/runshine/HookUtilV3 /home/runshine/HookUtilV3 /home/runshine/HookUtilV3/cmake-build-debug /home/runshine/HookUtilV3/cmake-build-debug /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/generate.dir/DependInfo.cmake --color=$(COLOR)
+	cd /root/CLionProjects/HookUtilV3/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/CLionProjects/HookUtilV3 /root/CLionProjects/HookUtilV3 /root/CLionProjects/HookUtilV3/cmake-build-debug /root/CLionProjects/HookUtilV3/cmake-build-debug /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/generate.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/generate.dir/depend
 

@@ -17,6 +17,8 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_TWO* two_base){
     char* stage_three_load_base = (char*)three_base->patch_data_mmap_file_base + 0x10001000 ;
     if(sizeof(void*)==8){
         stage_three_load_base = (char*)0x5678ff0000;
+    } else if(sizeof(void*)==4){
+        stage_three_load_base = (char*)0x56780000;
     }
 
     unsigned char xor_data[] = {'\x45','\xf8','\x66','\xab','\x55'};

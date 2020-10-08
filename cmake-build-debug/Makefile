@@ -42,19 +42,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/runshine/clion-2020.1.1/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /home/runshine/clion-2020.1.1/bin/cmake/linux/bin/cmake -E remove -f
+RM = /usr/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/runshine/HookUtilV3
+CMAKE_SOURCE_DIR = /root/CLionProjects/HookUtilV3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/runshine/HookUtilV3/cmake-build-debug
+CMAKE_BINARY_DIR = /root/CLionProjects/HookUtilV3/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -62,7 +62,7 @@ CMAKE_BINARY_DIR = /home/runshine/HookUtilV3/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/runshine/clion-2020.1.1/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -72,8 +72,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/runshine/clion-2020.1.1/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/opt/clion-2019.3.2/bin/cmake/linux/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -83,9 +83,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -114,69 +114,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named stage_three_normal
+# Target rules for targets named stage_one_pre_generate
 
 # Build rule for target.
-stage_three_normal: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stage_three_normal
-.PHONY : stage_three_normal
+stage_one_pre_generate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_one_pre_generate
+.PHONY : stage_one_pre_generate
 
 # fast build rule for target.
-stage_three_normal/fast:
-	$(MAKE) -f CMakeFiles/stage_three_normal.dir/build.make CMakeFiles/stage_three_normal.dir/build
-.PHONY : stage_three_normal/fast
-
-#=============================================================================
-# Target rules for targets named pre_generate
-
-# Build rule for target.
-pre_generate: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 pre_generate
-.PHONY : pre_generate
-
-# fast build rule for target.
-pre_generate/fast:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/build
-.PHONY : pre_generate/fast
-
-#=============================================================================
-# Target rules for targets named stage_one_sandbox
-
-# Build rule for target.
-stage_one_sandbox: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stage_one_sandbox
-.PHONY : stage_one_sandbox
-
-# fast build rule for target.
-stage_one_sandbox/fast:
-	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/build
-.PHONY : stage_one_sandbox/fast
-
-#=============================================================================
-# Target rules for targets named stage_three_sandbox
-
-# Build rule for target.
-stage_three_sandbox: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stage_three_sandbox
-.PHONY : stage_three_sandbox
-
-# fast build rule for target.
-stage_three_sandbox/fast:
-	$(MAKE) -f CMakeFiles/stage_three_sandbox.dir/build.make CMakeFiles/stage_three_sandbox.dir/build
-.PHONY : stage_three_sandbox/fast
-
-#=============================================================================
-# Target rules for targets named stage_two
-
-# Build rule for target.
-stage_two: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stage_two
-.PHONY : stage_two
-
-# fast build rule for target.
-stage_two/fast:
-	$(MAKE) -f CMakeFiles/stage_two.dir/build.make CMakeFiles/stage_two.dir/build
-.PHONY : stage_two/fast
+stage_one_pre_generate/fast:
+	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/build
+.PHONY : stage_one_pre_generate/fast
 
 #=============================================================================
 # Target rules for targets named datafile_generate
@@ -192,17 +140,69 @@ datafile_generate/fast:
 .PHONY : datafile_generate/fast
 
 #=============================================================================
-# Target rules for targets named stage_one_pre_generate
+# Target rules for targets named generate
 
 # Build rule for target.
-stage_one_pre_generate: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stage_one_pre_generate
-.PHONY : stage_one_pre_generate
+generate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 generate
+.PHONY : generate
 
 # fast build rule for target.
-stage_one_pre_generate/fast:
-	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/build
-.PHONY : stage_one_pre_generate/fast
+generate/fast:
+	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/build
+.PHONY : generate/fast
+
+#=============================================================================
+# Target rules for targets named stage_three_sandbox
+
+# Build rule for target.
+stage_three_sandbox: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_three_sandbox
+.PHONY : stage_three_sandbox
+
+# fast build rule for target.
+stage_three_sandbox/fast:
+	$(MAKE) -f CMakeFiles/stage_three_sandbox.dir/build.make CMakeFiles/stage_three_sandbox.dir/build
+.PHONY : stage_three_sandbox/fast
+
+#=============================================================================
+# Target rules for targets named stage_three_normal
+
+# Build rule for target.
+stage_three_normal: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_three_normal
+.PHONY : stage_three_normal
+
+# fast build rule for target.
+stage_three_normal/fast:
+	$(MAKE) -f CMakeFiles/stage_three_normal.dir/build.make CMakeFiles/stage_three_normal.dir/build
+.PHONY : stage_three_normal/fast
+
+#=============================================================================
+# Target rules for targets named stage_one_sandbox
+
+# Build rule for target.
+stage_one_sandbox: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_one_sandbox
+.PHONY : stage_one_sandbox
+
+# fast build rule for target.
+stage_one_sandbox/fast:
+	$(MAKE) -f CMakeFiles/stage_one_sandbox.dir/build.make CMakeFiles/stage_one_sandbox.dir/build
+.PHONY : stage_one_sandbox/fast
+
+#=============================================================================
+# Target rules for targets named stage_two
+
+# Build rule for target.
+stage_two: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage_two
+.PHONY : stage_two
+
+# fast build rule for target.
+stage_two/fast:
+	$(MAKE) -f CMakeFiles/stage_two.dir/build.make CMakeFiles/stage_two.dir/build
+.PHONY : stage_two/fast
 
 #=============================================================================
 # Target rules for targets named stage_one_normal
@@ -218,17 +218,17 @@ stage_one_normal/fast:
 .PHONY : stage_one_normal/fast
 
 #=============================================================================
-# Target rules for targets named generate
+# Target rules for targets named pre_generate
 
 # Build rule for target.
-generate: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 generate
-.PHONY : generate
+pre_generate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pre_generate
+.PHONY : pre_generate
 
 # fast build rule for target.
-generate/fast:
-	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/build
-.PHONY : generate/fast
+pre_generate/fast:
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/build
+.PHONY : pre_generate/fast
 
 src/arch/i386/loader.o: src/arch/i386/loader.s.o
 
@@ -273,10 +273,10 @@ src/build_tools/elf/elf_utils.o: src/build_tools/elf/elf_utils.c.o
 
 # target to build an object file
 src/build_tools/elf/elf_utils.c.o:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.o
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.o
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/elf/elf_utils.c.o
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.o
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.o
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.o
 .PHONY : src/build_tools/elf/elf_utils.c.o
 
 src/build_tools/elf/elf_utils.i: src/build_tools/elf/elf_utils.c.i
@@ -285,10 +285,10 @@ src/build_tools/elf/elf_utils.i: src/build_tools/elf/elf_utils.c.i
 
 # target to preprocess a source file
 src/build_tools/elf/elf_utils.c.i:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.i
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.i
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/elf/elf_utils.c.i
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.i
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.i
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.i
 .PHONY : src/build_tools/elf/elf_utils.c.i
 
 src/build_tools/elf/elf_utils.s: src/build_tools/elf/elf_utils.c.s
@@ -297,10 +297,10 @@ src/build_tools/elf/elf_utils.s: src/build_tools/elf/elf_utils.c.s
 
 # target to generate assembly for a file
 src/build_tools/elf/elf_utils.c.s:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.s
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.s
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/elf/elf_utils.c.s
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/elf/elf_utils.c.s
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/elf/elf_utils.c.s
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/elf/elf_utils.c.s
 .PHONY : src/build_tools/elf/elf_utils.c.s
 
 src/build_tools/file/file_utils.o: src/build_tools/file/file_utils.c.o
@@ -309,10 +309,10 @@ src/build_tools/file/file_utils.o: src/build_tools/file/file_utils.c.o
 
 # target to build an object file
 src/build_tools/file/file_utils.c.o:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.o
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.o
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file/file_utils.c.o
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.o
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.o
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.o
 .PHONY : src/build_tools/file/file_utils.c.o
 
 src/build_tools/file/file_utils.i: src/build_tools/file/file_utils.c.i
@@ -321,10 +321,10 @@ src/build_tools/file/file_utils.i: src/build_tools/file/file_utils.c.i
 
 # target to preprocess a source file
 src/build_tools/file/file_utils.c.i:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.i
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.i
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file/file_utils.c.i
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.i
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.i
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.i
 .PHONY : src/build_tools/file/file_utils.c.i
 
 src/build_tools/file/file_utils.s: src/build_tools/file/file_utils.c.s
@@ -333,10 +333,10 @@ src/build_tools/file/file_utils.s: src/build_tools/file/file_utils.c.s
 
 # target to generate assembly for a file
 src/build_tools/file/file_utils.c.s:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.s
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.s
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file/file_utils.c.s
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file/file_utils.c.s
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file/file_utils.c.s
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file/file_utils.c.s
 .PHONY : src/build_tools/file/file_utils.c.s
 
 src/build_tools/file_check/checker.o: src/build_tools/file_check/checker.c.o
@@ -345,10 +345,10 @@ src/build_tools/file_check/checker.o: src/build_tools/file_check/checker.c.o
 
 # target to build an object file
 src/build_tools/file_check/checker.c.o:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.o
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.o
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file_check/checker.c.o
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.o
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.o
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.o
 .PHONY : src/build_tools/file_check/checker.c.o
 
 src/build_tools/file_check/checker.i: src/build_tools/file_check/checker.c.i
@@ -357,10 +357,10 @@ src/build_tools/file_check/checker.i: src/build_tools/file_check/checker.c.i
 
 # target to preprocess a source file
 src/build_tools/file_check/checker.c.i:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.i
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.i
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file_check/checker.c.i
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.i
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.i
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.i
 .PHONY : src/build_tools/file_check/checker.c.i
 
 src/build_tools/file_check/checker.s: src/build_tools/file_check/checker.c.s
@@ -369,10 +369,10 @@ src/build_tools/file_check/checker.s: src/build_tools/file_check/checker.c.s
 
 # target to generate assembly for a file
 src/build_tools/file_check/checker.c.s:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.s
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.s
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/file_check/checker.c.s
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/file_check/checker.c.s
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/file_check/checker.c.s
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/file_check/checker.c.s
 .PHONY : src/build_tools/file_check/checker.c.s
 
 src/build_tools/generate.o: src/build_tools/generate.c.o
@@ -408,10 +408,10 @@ src/build_tools/json/cJSON.o: src/build_tools/json/cJSON.c.o
 
 # target to build an object file
 src/build_tools/json/cJSON.c.o:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.o
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.o
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/json/cJSON.c.o
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.o
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.o
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.o
 .PHONY : src/build_tools/json/cJSON.c.o
 
 src/build_tools/json/cJSON.i: src/build_tools/json/cJSON.c.i
@@ -420,10 +420,10 @@ src/build_tools/json/cJSON.i: src/build_tools/json/cJSON.c.i
 
 # target to preprocess a source file
 src/build_tools/json/cJSON.c.i:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.i
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.i
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/json/cJSON.c.i
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.i
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.i
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.i
 .PHONY : src/build_tools/json/cJSON.c.i
 
 src/build_tools/json/cJSON.s: src/build_tools/json/cJSON.c.s
@@ -432,10 +432,10 @@ src/build_tools/json/cJSON.s: src/build_tools/json/cJSON.c.s
 
 # target to generate assembly for a file
 src/build_tools/json/cJSON.c.s:
-	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.s
-	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.s
 	$(MAKE) -f CMakeFiles/stage_one_pre_generate.dir/build.make CMakeFiles/stage_one_pre_generate.dir/src/build_tools/json/cJSON.c.s
+	$(MAKE) -f CMakeFiles/datafile_generate.dir/build.make CMakeFiles/datafile_generate.dir/src/build_tools/json/cJSON.c.s
 	$(MAKE) -f CMakeFiles/generate.dir/build.make CMakeFiles/generate.dir/src/build_tools/json/cJSON.c.s
+	$(MAKE) -f CMakeFiles/pre_generate.dir/build.make CMakeFiles/pre_generate.dir/src/build_tools/json/cJSON.c.s
 .PHONY : src/build_tools/json/cJSON.c.s
 
 src/build_tools/pre_generate.o: src/build_tools/pre_generate.c.o
@@ -610,16 +610,16 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... stage_three_normal"
-	@echo "... pre_generate"
-	@echo "... stage_one_sandbox"
-	@echo "... stage_three_sandbox"
 	@echo "... edit_cache"
-	@echo "... stage_two"
-	@echo "... datafile_generate"
 	@echo "... stage_one_pre_generate"
-	@echo "... stage_one_normal"
+	@echo "... datafile_generate"
 	@echo "... generate"
+	@echo "... stage_three_sandbox"
+	@echo "... stage_three_normal"
+	@echo "... stage_one_sandbox"
+	@echo "... stage_two"
+	@echo "... stage_one_normal"
+	@echo "... pre_generate"
 	@echo "... src/arch/i386/loader.o"
 	@echo "... src/build_tools/datafile_generate.o"
 	@echo "... src/build_tools/datafile_generate.i"

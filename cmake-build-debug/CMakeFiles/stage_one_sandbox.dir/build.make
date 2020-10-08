@@ -37,19 +37,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/runshine/clion-2020.1.1/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /home/runshine/clion-2020.1.1/bin/cmake/linux/bin/cmake -E remove -f
+RM = /usr/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/runshine/HookUtilV3
+CMAKE_SOURCE_DIR = /root/CLionProjects/HookUtilV3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/runshine/HookUtilV3/cmake-build-debug
+CMAKE_BINARY_DIR = /root/CLionProjects/HookUtilV3/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/stage_one_sandbox.dir/depend.make
@@ -62,21 +62,21 @@ include CMakeFiles/stage_one_sandbox.dir/flags.make
 
 CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o: CMakeFiles/stage_one_sandbox.dir/flags.make
 CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o: ../src/arch/i386/loader.s
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building ASM object CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o"
-	/usr/bin/cc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o -c /home/runshine/HookUtilV3/src/arch/i386/loader.s
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building ASM object CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o"
+	/usr/bin/cc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o -c /root/CLionProjects/HookUtilV3/src/arch/i386/loader.s
 
 CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o: CMakeFiles/stage_one_sandbox.dir/flags.make
 CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o: ../src/stage_one/loader.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o   -c /home/runshine/HookUtilV3/src/stage_one/loader.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o   -c /root/CLionProjects/HookUtilV3/src/stage_one/loader.c
 
 CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/runshine/HookUtilV3/src/stage_one/loader.c > CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/CLionProjects/HookUtilV3/src/stage_one/loader.c > CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.i
 
 CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/runshine/HookUtilV3/src/stage_one/loader.c -o CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/CLionProjects/HookUtilV3/src/stage_one/loader.c -o CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.s
 
 # Object files for target stage_one_sandbox
 stage_one_sandbox_OBJECTS = \
@@ -90,9 +90,9 @@ stage_one_sandbox: CMakeFiles/stage_one_sandbox.dir/src/arch/i386/loader.s.o
 stage_one_sandbox: CMakeFiles/stage_one_sandbox.dir/src/stage_one/loader.c.o
 stage_one_sandbox: CMakeFiles/stage_one_sandbox.dir/build.make
 stage_one_sandbox: CMakeFiles/stage_one_sandbox.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable stage_one_sandbox"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable stage_one_sandbox"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/stage_one_sandbox.dir/link.txt --verbose=$(VERBOSE)
-	cp -f /home/runshine/HookUtilV3/cmake-build-debug/stage_one_sandbox /home/runshine/HookUtilV3/out/
+	cp -f /root/CLionProjects/HookUtilV3/cmake-build-debug/stage_one_sandbox /root/CLionProjects/HookUtilV3/out/
 
 # Rule to build all files generated by this target.
 CMakeFiles/stage_one_sandbox.dir/build: stage_one_sandbox
@@ -104,6 +104,6 @@ CMakeFiles/stage_one_sandbox.dir/clean:
 .PHONY : CMakeFiles/stage_one_sandbox.dir/clean
 
 CMakeFiles/stage_one_sandbox.dir/depend:
-	cd /home/runshine/HookUtilV3/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/runshine/HookUtilV3 /home/runshine/HookUtilV3 /home/runshine/HookUtilV3/cmake-build-debug /home/runshine/HookUtilV3/cmake-build-debug /home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/DependInfo.cmake --color=$(COLOR)
+	cd /root/CLionProjects/HookUtilV3/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/CLionProjects/HookUtilV3 /root/CLionProjects/HookUtilV3 /root/CLionProjects/HookUtilV3/cmake-build-debug /root/CLionProjects/HookUtilV3/cmake-build-debug /root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/stage_one_sandbox.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/stage_one_sandbox.dir/depend
 

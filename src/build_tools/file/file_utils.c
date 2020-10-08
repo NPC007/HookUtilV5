@@ -144,6 +144,15 @@ void close_and_munmap(char* file_name,int fd,char* base,long *size){
     munmap(base,*size);
     close(fd);
 }
+
+int check_file_exist(const char* file_name){
+    if(access(file_name,R_OK) == 0)
+        return 0;
+    else
+        return -1;
+}
+
+
 static int _logger_fd = -1;
 void init_logger(char* name,int re_create){
     if(re_create != 0)
@@ -168,3 +177,4 @@ void logger(const char* format,...){
     printf(((const char*)tmp_buf),NULL);
     va_end(list);
 }
+

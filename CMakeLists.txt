@@ -6,7 +6,7 @@ include_directories(./src/)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 #set(CMAKE_BUILD_TYPE Release)
-#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
 
 if (NOT DEFINED TARGET_ARCH)
 set(TARGET_ARCH X86)

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/runshine/HookUtilV3/src/stage_three/sandbox_loader.c" "/home/runshine/HookUtilV3/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o"
+  "/root/CLionProjects/HookUtilV3/src/stage_three/sandbox_loader.c" "/root/CLionProjects/HookUtilV3/cmake-build-debug/CMakeFiles/stage_three_sandbox.dir/src/stage_three/sandbox_loader.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
