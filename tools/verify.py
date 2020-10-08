@@ -1,120 +1,18 @@
 import os,re,sys
+import logging
 os.environ['PWNLIB_NOTERM']='1'
 from pwn import *
+import pwnlib
 import shutil
 import json
+from tracffic_process import tracffic_main_process
 context.terminal = ['tmux', 'splitw', '-h']
 
-ERROR_VALUE = 0x94ac411122323232332
-context(log_level='DEBUG')
-SLEEP_TIME = 0.1
-
-def get_data_value_by_type(value,value_type,length):
-    if value_type == 'DEC':
-        return str(value)
-    if value_type == 'HEX':
-        return hex(value)[2:]
-    if value_type == '0XHEX':
-        return hex(value)
-    if value_type == 'ORI':
-        return p64(value)[:length]
-
-def get_num_value_by_type(value,value_type,length):
-    if value_type == 'DEC':
-        return int(value)
-    if value_type == 'HEX':
-        return int(value,16)
-    if value_type == '0XHEX':
-        return int(value, 16)
-    if value_type == 'ORI':
-        if length == 4:
-            return u32(value)
-        if length == 6:
-            return u64(value+'\x00\x00')
-        if length == 8:
-            return u64(value)
-
-
-def record_to_value(buffer,libc_base,elf_base,heap_base,stack_base):
-    res = buffer.split(':')
-    record_type = res[0]
-    record_offset = int(res[1])
-    record_length = int(res[2])
-    record_value_type = res[3]
-    if record_type.find('LIBC_BASE') != -1:
-        if libc_base==0:
-            return ERROR_VALUE
-        value = libc_base + record_offset
-        buffer = buffer.replace(buffer,get_data_value_by_type(value,record_value_type,record_length) )
-
-    elif record_type.find('ELF_BASE') != -1:
-        if elf_base == 0:
-            return ERROR_VALUE
-        value = elf_base + record_offset
-        buffer = buffer.replace(buffer, get_data_value_by_type(value, record_value_type, record_length))
-
-    elif record_type.find('STACK_BASE') != -1:
-        if stack_base == 0:
-            return ERROR_VALUE
-        value = stack_base + record_offset
-        buffer = buffer.replace(buffer, get_data_value_by_type(value, record_value_type, record_length))
-
-    elif record_type.find('HEAP_BASE') != -1:
-        if heap_base == 0:
-            return ERROR_VALUE
-        value = heap_base + record_offset
-        buffer = buffer.replace(buffer, get_data_value_by_type(value, record_value_type, record_length))
-    return buffer
-
-
-def get_record_length(buffer):
-    res = buffer.split(':')
-    record_type = res[0]
-    record_offset = int(res[1])
-    record_length = int(res[2])
-    record_value_type = res[3]
-    return record_length
-
-
-def get_record_value_type(buffer):
-    res = buffer.split(':')
-    record_type = res[0]
-    record_offset = int(res[1])
-    record_length = int(res[2])
-    record_value_type = res[3]
-    return record_value_type
-
-
-def get_record_position(buffer):
-    res = buffer.split(':')
-    record_type = res[0]
-    record_offset = int(res[1])
-    record_length = int(res[2])
-    record_value_type = res[3]
-    record_position = int(res[4])
-    return record_position
-
-def get_record_type(buffer):
-    res = buffer.split(':')
-    record_type = res[0]
-    record_offset = int(res[1])
-    record_length = int(res[2])
-    record_value_type = res[3]
-    record_position = int(res[4])
-    return record_type
-
-
-def get_record_offset(buffer):
-    res = buffer.split(':')
-    record_type = res[0]
-    record_offset = int(res[1])
-    record_length = int(res[2])
-    record_value_type = res[3]
-    record_position = int(res[4])
-    return record_offset
+context(log_level='INFO')
+#context(log_level='DEBUG')
 
 def usage():
-    print sys.argv[0] +" WORKSPACE ELF_FILE LIBC_PATH"
+    logging.error("Usage: " + sys.argv[0] +" WORKSPACE ELF_FILE LIBC_PATH")
     exit(-1)
 
 
@@ -134,17 +32,17 @@ if __name__ == "__main__":
         if libc_file.find("/") == -1:
             libc_file = "./"+libc_file
     if os.path.isfile(elf_file) == False:
-        print "ELF FILE NOT EXIST: " + elf_file
+        logging.error(  "ELF FILE NOT EXIST: " + elf_file)
         usage()
     if libc_file != None:
         if os.path.isfile(libc_file) == False:
-            print "LIC FILE NOT EXIST" + libc_file
+            logging.error(  "LIC FILE NOT EXIST" + libc_file)
             usage()
     scan_dir = workspace + '/raw/'
     verify_success_dir = workspace + '/local_verify_success/'
     verify_failed_dir = workspace + '/local_verify_failed/'
     if not os.path.exists(scan_dir):
-        print "analysis server should start before"
+        logging.error(  "analysis server should start before")
         exit(-1)
     if not os.path.exists(verify_success_dir):
         logging.info('create scan dir: ' + verify_success_dir)
@@ -154,7 +52,7 @@ if __name__ == "__main__":
         os.mkdir(verify_failed_dir)
 
     while True:
-        logging.debug('scan dir......................')
+        logging.info('scan dir......................')
         for file_name in os.listdir(scan_dir):
             if file_name.find('.')!=-1:
                 continue
@@ -164,11 +62,13 @@ if __name__ == "__main__":
             elf_base = 0
             stack_base = 0
             if libc_file == None:
-                print "process: " + elf_file + " libc: None"
-                con = process(elf_file)
+                logging.debug(  "process: " + elf_file + " libc: None")
+                con = process(elf_file,level='ERROR')
             else:
-                print "process: " + elf_file + " libc: " + libc_file
-                con = process(elf_file,env={"LD_PRELOAD": libc_file})
+                logging.debug( "process: " + elf_file + " libc: " + libc_file)
+                con = process(elf_file,level='ERROR',env={"LD_PRELOAD": libc_file})
+            gdb.log.setLevel(logging.ERROR)
+            pwnlib.util.misc.log.setLevel(logging.ERROR)
             commands = ['break execve', 'commands 1','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
                         'break system','commands 2','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
                         'catch syscall execve','commands 3','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
@@ -181,77 +81,29 @@ if __name__ == "__main__":
                         'handle SIGHUP nostop',
                         'set disable-randomization on',
                         'continue']
+
             gdb_pid = gdb.attach(con,'\n'.join(commands))
             sleep(2)
             pfile = open(os.path.join(scan_dir,file_name),'r')
             json_datas = json.load(pfile)
             pfile.close()
-            logging.debug('process file: ' + file_name)
-            logging.debug('process pid : ' + str(con.pid))
+            logging.info('process file: ' + file_name)
             #logging.debug('gdb_pid: ' + str(gdb_pid) + '   -->  ' + os.path.join(scan_dir,file_name))
-            try:
-                for tracfic_info in json_datas:
-                    if not continue_process_flag:
-                        break
-                    type = int(tracfic_info[0])
-                    value = tracfic_info[1:].decode('string-escape')
-                    if type == 0:
-                        if value.find('{{{')== -1:
-                            con.write(value)
-                            continue
-                        else:
-                            results = re.findall('\{\{\{(.+?)\}\}\}', value)
-                            for result in results:
-                                result_value = record_to_value(result,libc_base,elf_base,heap_base,stack_base)
-                                if result_value == ERROR_VALUE:
-                                    logging.error('Error, unable to convert record to Value: ' + result)
-                                    continue_process_flag = False
-                                    break
-                                value = value.replace('{{{'+result+'}}}',result_value)
-                            con.write(value)
-
-
-                    elif type == 1 or type == 2:
-                        if value.find('{{{')== -1:
-                            sleep(SLEEP_TIME)
-                            con.recv(len(value),timeout=10)
-                            continue
-                        else:
-                            results = re.findall('\{\{\{(.+?)\}\}\}', value)
-                            value_copy = value
-                            for result in results:
-                                value_copy = value_copy.replace("{{{"+result+"}}}", 'A' * get_record_length(result))
-                            total_length = len(value_copy)
-                            sleep(SLEEP_TIME)
-                            data = con.recv(total_length,timeout=10)
-                            for result in results:
-                                process_data = data[get_record_position(result):get_record_position(result)+get_record_length(result)]
-                                record_type = get_record_type(result)
-                                if record_type == 'LIBC_BASE':
-                                    libc_base = get_num_value_by_type(process_data,get_record_value_type(result),get_record_length(result)) - get_record_offset(result)
-                                elif record_type == 'ELF_BASE':
-                                    elf_base = get_num_value_by_type(process_data, get_record_value_type(result),
-                                                                     get_record_length(result)) - get_record_offset(result)
-                                elif record_type == 'STACK_BASE':
-                                    stack_base = get_num_value_by_type(process_data, get_record_value_type(result),
-                                                                       get_record_length(result)) - get_record_offset(result)
-                                elif record_type == 'HEAP_BASE':
-                                    heap_base = get_num_value_by_type(process_data, get_record_value_type(result),
-                                                                      get_record_length(result)) - get_record_offset(result)
-                                else:
-                                    logging.error('ERROR! unknown record type')
-                    time.sleep(0.05)
-            except Exception as e:
-                print e.message
-                exit(-1)
+            tracffic_main_process(con,json_datas)
+            #con.interactive()
             sleep(2)
-            con.close()
+            try:
+                con.close()
+            except Exception as e:
+                logging.error("close connection failed, ignore: %s"%(str(e)))
             if os.path.exists(verify_success_dir+'/'+file_name+'.flag'):
-                logging.info('local verify success')
+                logging.info('local verify success#############################################################################################################################')
+                #exit(-1)
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_success_dir,file_name))
             else:
-                logging.info('local verify failed')
+                logging.info('local verify failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
                 os.system('killall gdb')
                 logging.debug('try to kill gdb : ' + 'kill -9 ' + str(gdb_pid))
+                exit(-1)
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
         sleep(10)

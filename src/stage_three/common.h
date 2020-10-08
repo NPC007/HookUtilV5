@@ -17,7 +17,7 @@
 #include "arch/common/syscall.h"
 #include "utils/common.h"
 
-#define SHELL_LOG(format,...) my_debug_0("[DEBUG]:"format"\n",##__VA_ARGS__)
+#define SHELL_LOG(format,...) shell_log("[DEBUG]:"format"\n",##__VA_ARGS__)
 #ifdef DEBUG_LOG
 #undef DEBUG_LOG
 #define DEBUG_LOG(format,...) my_debug_0("[DEBUG]:"format"\n",##__VA_ARGS__)
@@ -70,6 +70,17 @@ static LOADER_STAGE_THREE g_loader_param;
 static void my_debug_0(const char *format, ...){
     char buf[4096] = {0};
     if(g_loader_param.enable_debug) {
+        va_list args;       //定义一个va_list类型的变量，用来储存单个参数
+        va_start(args, format); //使args指向可变参数的第一个参数
+        vsnprintf_s(buf,sizeof(buf),sizeof(buf),format,args);
+        my_write_stdout(buf);
+        va_end(args);
+    }
+}
+
+static void shell_log(const char *format, ...){
+    char buf[4096] = {0};
+    if(1) {
         va_list args;       //定义一个va_list类型的变量，用来储存单个参数
         va_start(args, format); //使args指向可变参数的第一个参数
         vsnprintf_s(buf,sizeof(buf),sizeof(buf),format,args);
@@ -493,7 +504,7 @@ static int get_errno(){
     return UN_KNOWN_ERROR_CODE;
 }
 
-
+/*
 static void my_printf(const char *format, ...)
 {
     void(*vprintf_handler)(const char *,va_list) = lookup_symbols("vprintf");
@@ -506,7 +517,7 @@ static void my_printf(const char *format, ...)
     else{
         my_write_stdout(format);
     }
-}
+}*/
 
 
 static void my_debug(const char *format, ...)

