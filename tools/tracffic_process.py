@@ -160,6 +160,8 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
             if type == 1 or type == 2:
                 total_step = total_step + 1
         for tracfic_info in json_data:
+            if not continue_process_flag:
+                break
             if callback != None:
                 continue_process_flag = callback()
             if not continue_process_flag:
@@ -221,19 +223,39 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
                         if record_type == b'LIBC_BASE':
                             libc_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                               get_record_length(result)) - get_record_offset(result)
-                            logging.info("[STEP][%02d/%02d]:Get libc_base: %s"%(current_step,total_step,hex(libc_base)))
+                            if libc_base%0x1000 == 0:
+                                logging.info("[STEP][%02d/%02d]:Get libc_base success: %s"%(current_step,total_step,hex(libc_base)))
+                            else:
+                                logging.info("[STEP][%02d/%02d]:Get libc_base failed: %s"%(current_step,total_step,hex(libc_base)))
+                                continue_process_flag = False
+
                         elif record_type == b'ELF_BASE':
                             elf_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                              get_record_length(result)) - get_record_offset(result)
-                            logging.info("[STEP][%02d/%02d]:Get  elf_base: %s"%(current_step,total_step,hex(elf_base)))
+                            if elf_base%0x1000 == 0:
+                                logging.info("[STEP][%02d/%02d]:Get elf_base success: %s"%(current_step,total_step,hex(elf_base)))
+                            else:
+                                logging.info("[STEP][%02d/%02d]:Get elf_base failed: %s"%(current_step,total_step,hex(elf_base)))
+                                continue_process_flag = False
+
                         elif record_type == b'STACK_BASE':
                             stack_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                                get_record_length(result)) - get_record_offset(result)
-                            logging.info("[STEP][%02d/%02d]:Get stack_base: %s"%(current_step,total_step,hex(stack_base)))
+                            if stack_base%0x1000 == 0:
+                                logging.info("[STEP][%02d/%02d]:Get stack_base success: %s"%(current_step,total_step,hex(stack_base)))
+                            else:
+                                logging.info("[STEP][%02d/%02d]:Get stack_base failed: %s"%(current_step,total_step,hex(stack_base)))
+                                continue_process_flag = False
+
                         elif record_type == b'HEAP_BASE':
                             heap_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                               get_record_length(result)) - get_record_offset(result)
-                            logging.info("[STEP][%02d/%02d]:Get  heap_base: %s"%(current_step,total_step,hex(heap_base)))
+                            if heap_base%0x1000 == 0:
+                                logging.info("[STEP][%02d/%02d]:Get heap_base success: %s"%(current_step,total_step,hex(heap_base)))
+                            else:
+                                logging.info("[STEP][%02d/%02d]:Get heap_base failed: %s"%(current_step,total_step,hex(heap_base)))
+                                continue_process_flag = False
+
                         else:
                             logging.info("[STEP][%02d/%02d]:Unknown record type:  %s"%(current_step,total_step))
             sleep(SLEEP_TIME)
