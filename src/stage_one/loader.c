@@ -172,7 +172,7 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 #elif(IS_PIE == 1)
     char *g_elf_base = (char*)_start - FIRST_ENTRY_OFFSET;
 #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-    return *(unsigned long*)(g_elf_base + LIB_C_STAR T_MAIN_ADDR);
+    return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
 #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
     return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
 #endif
