@@ -12,7 +12,7 @@ input elf: input_elf
 #define SHELL_PASSWD "!Huawei12#$"
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
-#define USE_IO_INLINE_REDIRECT 0
+#define USE_IO_INLINE_REDIRECT 1
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST "127.0.0.1"
@@ -27,18 +27,18 @@ check /root/CLionProjects/HookUtilV3//out/stage_two start
 check /root/CLionProjects/HookUtilV3//out/stage_two end
 generate normal_data_file:/root/CLionProjects/HookUtilV3//out/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x233
+	length:                     0x23e
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x51fa
-	length:                           0x13ce8
+	entry_offset:                     0x5381
+	length:                           0x12d70
 	analysis_server_ip:               127.0.0.1
 	analysis_server_port:             10000
 	sandbox_server_ip:                127.0.0.1
 	sandbox_server_port:              10001
 generate sandbox_data_file:/root/CLionProjects/HookUtilV3//out/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x233
+	length:                     0x23e
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
 	entry_offset:                     0x2ccf
@@ -85,12 +85,14 @@ unable to find any space between pt_load segments, just padding and append to fi
 Add PHDR pt_load: vaddr:          602000	file_offset:          202000
 #define FIRST_ENTRY_OFFSET 0x203000
 #define FIRST_ENTRY_OFFSET 0x203000
-#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define PATCH_DATA_MMAP_FILE_SIZE 0x13fbb
-#define PATCH_DATA_MMAP_FILE_SIZE 0x6b83
-#define PATCH_DATA_MMAP_FILE_VADDR 0x604000
-#define PATCH_DATA_MMAP_FILE_VADDR 0x604000
+#define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
+#define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
+#define PATCH_DATA_SOCKET_SERVER_IP 16777343
+#define PATCH_DATA_SOCKET_SERVER_IP 16777343
+#define PATCH_DATA_SOCKET_SERVER_PORT 26411
+#define PATCH_DATA_SOCKET_SERVER_PORT 26411
+#define PATCH_DATA_MMAP_FILE_SIZE 0x1304e
+#define PATCH_DATA_MMAP_FILE_SIZE 0x6b8e
 ---------------------------------------------------------------------------------------------------------
 normal_data_file:/root/CLionProjects/HookUtilV3//out/normal.datafile
 sandbox_data_file:/root/CLionProjects/HookUtilV3//out/sandbox.datafile

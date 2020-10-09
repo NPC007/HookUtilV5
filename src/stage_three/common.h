@@ -18,10 +18,7 @@
 #include "utils/common.h"
 
 #define SHELL_LOG(format,...) shell_log("[DEBUG]:"format"\n",##__VA_ARGS__)
-#ifdef DEBUG_LOG
-#undef DEBUG_LOG
 #define DEBUG_LOG(format,...) my_debug_0("[DEBUG]:"format"\n",##__VA_ARGS__)
-#endif
 
 #if(PATCH_DEBUG == 1)
 #define IN_LINE static
@@ -65,7 +62,7 @@ static char* g_elf_base = 0;
 static char g_elf_path[512] ;
 static LOADER_STAGE_THREE g_loader_param;
 
-#include "snprintf_s.h"
+#include "utils/snprintf_s.h"
 
 static void my_debug_0(const char *format, ...){
     char buf[4096] = {0};
@@ -1007,7 +1004,7 @@ IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
     }
 }
 
-IN_LINE void common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
+IN_LINE int common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
     g_elf_base = three_base_tmp->elf_load_base;
     init_heap_base();
     my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
@@ -1019,12 +1016,13 @@ IN_LINE void common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp)
     DEBUG_LOG("patch_data_mmap_code_base: 0x%lx",three_base_tmp->patch_data_mmap_code_base);
     if(g_elf_base == NULL){
         DEBUG_LOG("g_elf_base is NULL, Failed\n");
-        return;
+        return -1;
     }
     if(check_elf_magic(g_elf_base)==-1){
         DEBUG_LOG("g_elf_base is wrong,not elf header");
-        my_exit(-1);
-        return;
+        //my_exit(-1);
+        return -1;
     }
     dump_program_info(LIBC_START_MAIN_ARG_VALUE);
+    return 0;
 }

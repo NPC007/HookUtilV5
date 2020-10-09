@@ -1,5 +1,6 @@
 import re
 from pwn import *
+from elftools.elf.elffile import ELFFile
 
 ERROR_VALUE = 0x94ac411122323232332
 
@@ -92,6 +93,27 @@ def get_num_value_by_type(value,value_type,length):
             return u64(value)
 
 
+class SegmentInfo(object):
+    """docstring for SegmentInfo"""
+
+    def __init__(self, segment):
+        self.start = segment.header['p_vaddr'] - segment.header['p_vaddr'] % 0x1000
+        self.end = (segment.header['p_vaddr'] + segment.header['p_memsz']) - (
+                segment.header['p_vaddr'] + segment.header['p_memsz']) % 0x1000 + 0x1000
+
+    def dump(self):
+        logging.debug(hex(self.start) + '-' * 20 + hex(self.end))
+
+
+def get_elf_base(elf_path):
+    segmentinfo = []
+    elf = ELFFile(open(elf_path, 'rb'))
+    for index in range(0, elf.num_segments()):
+        if elf.get_segment(index).header['p_type'] == 'PT_LOAD':
+            segmentinfo.append(SegmentInfo(elf.get_segment(index)))
+    elf_base_static = min([seg.start for seg in segmentinfo])
+    return elf_base_static
+
 
 def record_to_value(buffer,libc_base,elf_base,heap_base,stack_base):
     res = buffer.split(b':')
@@ -125,24 +147,24 @@ def record_to_value(buffer,libc_base,elf_base,heap_base,stack_base):
     return buffer
 
 
-def tracffic_main_process(con,json_data):
+def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=0, stack_base=0, heap_base=0):
     total_step = 1
     current_step = 0
+    rebuild_json = []
     try:
         SLEEP_TIME = 0.1
         RECEIVE_TIMEOUT = 5
         continue_process_flag = True
-        libc_base = 0
-        heap_base = 0
-        elf_base = 0
-        stack_base = 0
         for tracfic_info in json_data:
             type = int(tracfic_info[0])
             if type == 1 or type == 2:
                 total_step = total_step + 1
         for tracfic_info in json_data:
+            if callback != None:
+                continue_process_flag = callback()
             if not continue_process_flag:
                 break
+            rebuild_json.append(tracfic_info)
             type = int(tracfic_info[0])
             value = string_escape_encode(tracfic_info[1:])
             if type == 0:
@@ -154,7 +176,7 @@ def tracffic_main_process(con,json_data):
                     for result in results:
                         result_value = record_to_value(result, libc_base, elf_base, heap_base, stack_base)
                         if result_value == ERROR_VALUE:
-                            logging.error( 'Error, unable to convert record to Value: ' + result)
+                            logging.error( 'Error, unable to convert record to Value: ' + string_escape_decode(result))
                             continue_process_flag = False
                             break
                         value = value.replace(b'{{{' + result + b'}}}', result_value)
@@ -216,5 +238,9 @@ def tracffic_main_process(con,json_data):
                             logging.info("[STEP][%02d/%02d]:Unknown record type:  %s"%(current_step,total_step))
             sleep(SLEEP_TIME)
     except Exception as e:
-        logging.error("[STEP][%02d/%02d]: Error happen, we must give up this tracffic:  %s"%(current_step,total_step,str(e)))
+        if len(str(e)) == 0:
+            logging.error("[STEP][%02d/%02d]: Error happen, we must give up this tracffic:  %s"%(current_step,total_step,e.__class__.__name__))
+        else:
+            logging.error("[STEP][%02d/%02d]: Error happen, we must give up this tracffic:  %s"%(current_step,total_step,str(e)))
+    return rebuild_json
     #con.interactive()

@@ -1,11 +1,18 @@
 #include <stddef.h>
 #include "errno.h"
 #include <elf.h>
+#include <stdarg.h>
 #include "include/hook.h"
 
 #include "auto_generate/debug_config.h"
 #include "utils/common.h"
 
+
+#if PATCH_DEBUG
+#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
+#else
+#define DEBUG_LOG(format,...)
+#endif
 
 
 void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_TWO* two_base){
@@ -29,6 +36,16 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_TWO* two_base){
     three_base->patch_data_mmap_code_base = stage_three_load_base;
     three_base->elf_load_base = two_base->elf_load_base;
     three_base->patch_data_length = two_base->patch_data_length;
+
+    if( ((unsigned long)three_base->patch_data_mmap_code_base)%0x1000 != 0 ){
+        DEBUG_LOG("patch_data_mmap_code_base is not 4K algin");
+        return;
+    }
+    if( ((unsigned long)three_base->elf_load_base)%0x1000 != 0 ){
+        DEBUG_LOG("elf_load_base is not 4K algin");
+        return;
+    }
+
 #if PATCH_DEBUG== 1
     three_base->enable_debug = 1;
 #endif

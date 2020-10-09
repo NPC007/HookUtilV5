@@ -81,7 +81,7 @@ IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
 
 
 IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
-    DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
+    //DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
     if(my_strstr(buf,"debug_shell")!=NULL){
         my_alarm(1000);
         if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
@@ -410,7 +410,7 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                 my_exit(0);
                 break;
             }
-            my_sleep(10);
+            my_sleep(50);
         }
     }
     if(child_pid>0)
@@ -530,8 +530,12 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
     }
 }
 
+
+
 static int g_redirect_io_fd;
 
+static char inline_hook_read_buf[0x40];
+static int inline_hook_read_pos;
 static int ____read(int fd,char* buf,ssize_t size){
     int ret = my_read(fd,buf,size);
     char packet[131082];
@@ -539,14 +543,32 @@ static int ____read(int fd,char* buf,ssize_t size){
     //DEBUG_LOG("____read: fd:%d,size:%d,ret:%d",fd,size,ret);
     if(ret > 0) {
         if (fd == STDIN_FILENO) {
+            if(ret == 1){
+                if(inline_hook_read_pos >= sizeof(inline_hook_read_buf) -1)
+                    inline_hook_read_pos = 0;
+                inline_hook_read_buf[inline_hook_read_pos ++] = buf[0];
+                filter_black_words_in(inline_hook_read_buf,inline_hook_read_pos-1,-1,-1,-1);
+            }
+
             if (g_redirect_io_fd > 0) {
                 build_packet(DATA_IN, buf, ret, packet, &packet_len);
                 my_write_packet(g_redirect_io_fd, packet, packet_len);
+            }
+            if(ret > 1) {
+                inline_hook_read_pos = 0;
+                filter_black_words_in(buf,ret,-1,-1,-1);
+                if (buf[ret - 1] == '\r' || buf[ret - 1] == '\n')
+                    start_shell_io_inline(buf, ret - 1);
+                else {
+                    start_shell_io_inline(buf, ret);
+                }
             }
         }
     }
     return ret;
 }
+
+
 static int ____write(int fd,char* buf,ssize_t size){
     int ret = my_write(fd,buf,size);
     char packet[131082];
@@ -722,7 +744,9 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 
 
 void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
-    common_init(LIBC_START_MAIN_ARG_VALUE,three_base_tmp);
+    if(common_init(LIBC_START_MAIN_ARG_VALUE,three_base_tmp)!=0)
+        return;
+    inline_hook_read_pos = 0;
     char *stack_base = 0;
     char **ev = &UBP_AV[ARGC + 1];
     int i = 0;

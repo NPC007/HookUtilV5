@@ -3,7 +3,7 @@ os.environ['PWNLIB_NOTERM']='1'
 from pwn import *
 import shutil
 import json
-from tracffic_process import tracffic_main_process
+from tracffic_process import tracffic_main_process,get_elf_base
 
 context(log_level='DEBUG')
 
@@ -26,7 +26,7 @@ def usage():
 if __name__ == "__main__":
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=LOG_FORMAT)
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         usage()
     workspace =  sys.argv[2]
     scan_dir = workspace + '/local_verify_success/'
@@ -42,6 +42,19 @@ if __name__ == "__main__":
         logging.info( 'create remote verify failed dir: ' + scan_dir)
         os.mkdir(verify_failed_dir)
 
+    elf_file = sys.argv[3]
+    if elf_file.find("/") == -1:
+        elf_file = "./"+ elf_file
+    if len(sys.argv) == 3:
+        libc_file = None
+    else:
+        libc_file = sys.argv[3]
+        if libc_file.find("/") == -1:
+            libc_file = "./"+libc_file
+    if os.path.isfile(elf_file) == False:
+        logging.error(  "ELF FILE NOT EXIST: " + elf_file)
+        usage()
+    elf_base = get_elf_base(elf_file)
     while True:
         logging.debug( 'scan dir......................')
         for file_name in os.listdir(scan_dir):
@@ -51,15 +64,11 @@ if __name__ == "__main__":
             for ip in ip_list:
                 try:
                     continue_process_flag = True
-                    libc_base = 0
-                    heap_base = 0
-                    elf_base = 0
-                    stack_base = 0
                     con = remote(ip,port)
                     pfile = open(os.path.join(scan_dir,file_name),'r')
                     json_datas = json.load(pfile)
                     pfile.close()
-                    tracffic_main_process(con,json_datas)
+                    tracffic_main_process(con,json_datas, elf_base = elf_base)
                     con.sendline('id')
                     data = con.recv(timeout=2)
                     logging.debug(data)

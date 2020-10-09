@@ -5,7 +5,8 @@ from pwn import *
 import pwnlib
 import shutil
 import json
-from tracffic_process import tracffic_main_process
+
+from tracffic_process import tracffic_main_process,get_elf_base
 context.terminal = ['tmux', 'splitw', '-h']
 
 context(log_level='INFO')
@@ -14,6 +15,8 @@ context(log_level='INFO')
 def usage():
     logging.error("Usage: " + sys.argv[0] +" WORKSPACE ELF_FILE LIBC_PATH")
     exit(-1)
+
+
 
 
 if __name__ == "__main__":
@@ -51,16 +54,14 @@ if __name__ == "__main__":
         logging.info('create scan dir: ' + verify_failed_dir)
         os.mkdir(verify_failed_dir)
 
+    elf_base = get_elf_base(elf_file)
     while True:
         logging.info('scan dir......................')
         for file_name in os.listdir(scan_dir):
             if file_name.find('.')!=-1:
                 continue
             continue_process_flag = True
-            libc_base = 0
-            heap_base = 0
-            elf_base = 0
-            stack_base = 0
+
             if libc_file == None:
                 logging.debug(  "process: " + elf_file + " libc: None")
                 con = process(elf_file,level='ERROR')
@@ -81,17 +82,21 @@ if __name__ == "__main__":
                         'handle SIGHUP nostop',
                         'set disable-randomization on',
                         'continue']
-
+            sleep(1)
             gdb_pid = gdb.attach(con,'\n'.join(commands))
-            sleep(2)
+            sleep(1)
             pfile = open(os.path.join(scan_dir,file_name),'r')
             json_datas = json.load(pfile)
             pfile.close()
             logging.info('process file: ' + file_name)
             #logging.debug('gdb_pid: ' + str(gdb_pid) + '   -->  ' + os.path.join(scan_dir,file_name))
-            tracffic_main_process(con,json_datas)
+            def check_callback():
+                if os.path.exists(verify_success_dir+'/'+file_name+'.flag'):
+                    return False
+                return True
+            rebuild_json = tracffic_main_process(con,json_datas,callback= check_callback, elf_base = elf_base)
             #con.interactive()
-            sleep(2)
+            sleep(1)
             try:
                 con.close()
             except Exception as e:
@@ -100,10 +105,13 @@ if __name__ == "__main__":
                 logging.info('local verify success#############################################################################################################################')
                 #exit(-1)
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_success_dir,file_name))
+                pfile = open(os.path.join(verify_success_dir,file_name+'.rebuild'),'w')
+                json_datas = json.dump(rebuild_json,pfile)
+                pfile.close()
             else:
                 logging.info('local verify failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
                 os.system('killall gdb')
                 logging.debug('try to kill gdb : ' + 'kill -9 ' + str(gdb_pid))
-                exit(-1)
+                #exit(-1)
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
         sleep(10)

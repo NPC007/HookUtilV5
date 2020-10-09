@@ -1,5 +1,5 @@
 # coding:utf-8
-import SocketServer
+import socketserver
 import os,re,sys
 os.environ['PWNLIB_NOTERM']='1'
 from pwn import *
@@ -31,14 +31,14 @@ PT_LOAD
 
 
 # 8uuid 1type 4length
-class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 IN_DATA = 1
 OUT_DATA = 2
 ERR_DATA = 3
 
-class TCPHandler(SocketServer.BaseRequestHandler):
+class TCPHandler(socketserver.BaseRequestHandler):
     def read_all(self,file_name):
         with open(file_name,"rb") as f:
             buf = f.read(os.path.getsize(file_name))
@@ -50,11 +50,11 @@ class TCPHandler(SocketServer.BaseRequestHandler):
         logging.debug("Accept connection from : " + str(remote_addr) +":"+ str(port))
         data = self.read_all(patch_data)
         ret = self.request.send(data)
-        print "send size: " + str(ret) + " file_size:" + str(os.path.getsize(patch_data))
+        logging.info("send size: " + str(ret) + " file_size:" + str(os.path.getsize(patch_data)))
 
 
 def usage():
-    print "Usage " + sys.argv[0] + " IP PORT PATCH_DATA"
+    print ("Usage " + sys.argv[0] + " IP PORT PATCH_DATA")
     exit(-1)
 
 
@@ -65,11 +65,11 @@ if __name__ == "__main__":
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=LOG_FORMAT)
     HOST, PORT = sys.argv[1],int(sys.argv[2])
-    print "Listen   : " + HOST +":" + str(PORT)
+    logging.info ("Listen   : " + HOST +":" + str(PORT))
     patch_data = sys.argv[3]
-    print "Patch_file: " + patch_data
+    logging.info("Patch_file: " + patch_data)
     try:
-        SocketServer.TCPServer.allow_reuse_address = True
+        socketserver.TCPServer.allow_reuse_address = True
         server = ThreadedTCPServer((HOST, PORT), TCPHandler)
         server.serve_forever()
     except Exception as e:

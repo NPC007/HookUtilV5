@@ -13,7 +13,8 @@
 #include "arch/common/arch.h"
 
 
-#ifdef PATCH_DEBUG
+#if PATCH_DEBUG
+#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
 static int my_strlen(const char *src){
     int i = 0;
     while(src[i]!='\0')
@@ -24,6 +25,8 @@ static void my_write_stdout(const char* str){
     long res;
     asm_write(1,str,my_strlen(str),res);
 }
+#else
+#define DEBUG_LOG(STR)
 #endif
 
 extern void _start();
@@ -120,7 +123,7 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 #endif
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SOCKET)
-unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* _start){
+unsigned long  __loader_start(LIBC_START_MAIN_ARG){
     if(((long)_start / 0x1000) %10 ==0)
         goto failed_load_patch;
     long patch_fd = 0;
@@ -143,15 +146,18 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG,void* _start){
     if(status < 0 )
         goto failed_load_patch;
     int ret = 0;
-    asm_read(patch_fd,mmap_addr,PATCH_DATA_MMAP_FILE_SIZE,ret);
-    if (ret < 0)
-        goto failed_load_patch;
-
+    int need_count = PATCH_DATA_MMAP_FILE_SIZE;
+    while(need_count > 0){
+        asm_read(patch_fd,mmap_addr + (PATCH_DATA_MMAP_FILE_SIZE - need_count),need_count,ret);
+        if (ret < 0)
+            goto failed_load_patch;
+        else
+            need_count = need_count - ret;
+    }
     LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)mmap_addr;
     two_base ->patch_data_length = (int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000);
-#if(IS_PIE == 1)
     two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
-#endif
+
     void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)mmap_addr);
 
