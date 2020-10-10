@@ -82,9 +82,9 @@ if __name__ == "__main__":
                         'handle SIGHUP nostop',
                         'set disable-randomization on',
                         'continue']
-            sleep(1)
+            #sleep(1)
             gdb_pid = gdb.attach(con,'\n'.join(commands))
-            sleep(1)
+            #sleep(1)
             pfile = open(os.path.join(scan_dir,file_name),'r')
             json_datas = json.load(pfile)
             pfile.close()
@@ -96,7 +96,6 @@ if __name__ == "__main__":
                 return True
             rebuild_json = tracffic_main_process(con,json_datas,callback= check_callback, elf_base = elf_base)
             #con.interactive()
-            sleep(1)
             try:
                 con.close()
             except Exception as e:
@@ -106,7 +105,7 @@ if __name__ == "__main__":
                 #exit(-1)
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_success_dir,file_name))
                 pfile = open(os.path.join(verify_success_dir,file_name+'.rebuild'),'w')
-                json_datas = json.dump(rebuild_json,pfile)
+                json_datas = json.dump(rebuild_json,pfile,indent=4)
                 pfile.close()
             else:
                 logging.info('local verify failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
@@ -114,4 +113,5 @@ if __name__ == "__main__":
                 logging.debug('try to kill gdb : ' + 'kill -9 ' + str(gdb_pid))
                 #exit(-1)
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
+            sleep(1)
         sleep(10)

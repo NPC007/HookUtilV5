@@ -123,26 +123,38 @@ def record_to_value(buffer,libc_base,elf_base,heap_base,stack_base):
     record_value_type = res[3]
     if record_type.find(b'LIBC_BASE') != -1:
         if libc_base==0:
-            return ERROR_VALUE
-        value = libc_base + record_offset
+            #return ERROR_VALUE
+            value = int(res[5],16)
+            logging.warn('[LIBC_BASE]: faild to convert record to value, try to use ori value')
+        else:
+            value = libc_base + record_offset
         buffer = buffer.replace(buffer,get_data_value_by_type(value,record_value_type,record_length) )
 
     elif record_type.find(b'ELF_BASE') != -1:
         if elf_base == 0:
-            return ERROR_VALUE
-        value = elf_base + record_offset
+            #return ERROR_VALUE
+            value = int(res[5],16)
+            logging.warn('[ELF_BASE]: faild to convert record to value, try to use ori value')
+        else:
+            value = elf_base + record_offset
         buffer = buffer.replace(buffer, get_data_value_by_type(value, record_value_type, record_length))
 
     elif record_type.find(b'STACK_BASE') != -1:
         if stack_base == 0:
-            return ERROR_VALUE
-        value = stack_base + record_offset
+            #return ERROR_VALUE
+            value = int(res[5],16)
+            logging.warn('[STACK_BASE]: faild to convert record to value, try to use ori value')
+        else:
+            value = stack_base + record_offset
         buffer = buffer.replace(buffer, get_data_value_by_type(value, record_value_type, record_length))
 
     elif record_type.find(b'HEAP_BASE') != -1:
         if heap_base == 0:
-            return ERROR_VALUE
-        value = heap_base + record_offset
+            #return ERROR_VALUE
+            value = int(res[5],16)
+            logging.warn('[HEAP_BASE]: faild to convert record to value, try to use ori value')
+        else:
+            value = heap_base + record_offset
         buffer = buffer.replace(buffer, get_data_value_by_type(value, record_value_type, record_length))
     return buffer
 
