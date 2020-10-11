@@ -1,32 +1,32 @@
 FROM ubuntu:ctf_tools_1604
 
-COPY ctf/pwn.start.sh /home/ctf/pwn.start.sh
-COPY output_elf /home/ctf/pwn
+COPY resource/ctf/pwn.start.sh /home/ctf/pwn.start.sh
+COPY out/input_elf_normal /home/ctf/pwn
 RUN  chmod +x /home/ctf/pwn
-COPY ctf/ctf.xinetd /etc/xinetd.d/ctf
+COPY resource/ctf/ctf.xinetd /etc/xinetd.d/ctf
 
 RUN mkdir -p /home/ctf/flags/pwn/
-COPY ctf/flag /home/ctf/flag
+COPY resource/ctf/flag /home/ctf/flag
 RUN chmod 633 /home/ctf/flag
 
-COPY auto_tracficc_anslysis.py /root/
-COPY tracfic_verify.py /root/
-COPY tracfic_repeater.py /root/
-COPY input_elf /root/input_elf
-COPY libc.so /root/libc.so
-COPY libc.so /home/ctf/libc.so
-COPY io_decrypt_server.py /root/
+COPY resource/analysis_server.py /root/
+COPY resource/verify.py /root/
+COPY resource/repeater.py /root/
+COPY out/input_elf /root/input_elf
+COPY out/libc.so /root/libc.so
+COPY out/libc.so /home/ctf/libc.so
+COPY resource/io_decrypt_server.py /root/
 
-COPY sandbox_elf /root/sandbox_elf
-COPY sandbox.xinetd /etc/xinetd.d/sandbox
+COPY out/input_elf_sandbox /root/sandbox_elf
+COPY resource/sandbox/sandbox.xinetd /etc/xinetd.d/sandbox
 
-COPY ctf/pwn_test.start.sh /home/ctf/pwn_test.start.sh
-COPY input_elf /home/ctf/pwn_test
+COPY resource/ctf_test/pwn_test.start.sh /home/ctf/pwn_test.start.sh
+COPY out/input_elf /home/ctf/pwn_test
 RUN  chmod +x /home/ctf/pwn_test
-COPY ctf/ctf.xinetd.test /etc/xinetd.d/ctf_test
+COPY resource/ctf_test/ctf.xinetd.test /etc/xinetd.d/ctf_test
 
-COPY start_analysis.sh /root/start_analysis.sh
+COPY resource/docker_start.sh /root/docker_start.sh
 
-RUN  chmod 777 /root/start_analysis.sh
+RUN  chmod 777 /root/docker_start.sh
 
-CMD ["/root/start_analysis.sh"]
+CMD ["/root/docker_start.sh"]

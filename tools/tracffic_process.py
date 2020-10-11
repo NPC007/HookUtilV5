@@ -14,6 +14,7 @@ def string_escape_encode(s):
             .decode('unicode-escape') # Perform the actual octal-escaping decode
             .encode('latin1'))         # 1:1 mapping back to bytes
 
+
 def get_record_length(buffer):
     res = buffer.split(b':')
     record_type = res[0]
@@ -160,6 +161,62 @@ def record_to_value(buffer,libc_base,elf_base,heap_base,stack_base):
     return buffer
 
 
+def generate_poc_from_json_data(json_data,poc_file_name,hosts,ports, elf_base=0, libc_base=0, stack_base=0, heap_base=0):
+    total_step = 0
+    current_step = 0
+    for tracfic_info in json_data:
+        type = int(tracfic_info[0])
+        if type == 1 or type == 2:
+            total_step = total_step + 1
+    poc_file = open(poc_file_name,"w")
+    poc_file.write('# coding:utf-8\n')
+    poc_file.write("os.environ['PWNLIB_NOTERM']='1'\n")
+    poc_file.write('import os,re,sys\n')
+    poc_file.write('from pwn import *\n')
+    poc_file.write('hosts = '+str(hosts)+'\n')
+    poc_file.write('ports = '+str(ports)+'\n')
+    poc_file.write('for i in range(0,len(hosts)):\n')
+    intent = 4
+    poc_file.write(' '*intent + 'try:\n')
+    intent = intent * 2
+
+    poc_file.write(' '*intent + 'con = remote(hosts[i],ports[i])\n')
+    poc_file.write(' '*intent + 'elf_base = ' + hex(elf_base) + '\n')
+    poc_file.write(' '*intent + 'libc_base = ' + hex(libc_base) + '\n')
+    poc_file.write(' '*intent + 'stack_base = ' + hex(stack_base) + '\n')
+    poc_file.write(' '*intent + 'heap_base = ' + hex(heap_base) + '\n')
+
+    for tracfic_info in json_data:
+        type = int(tracfic_info[0])
+        value = string_escape_encode(tracfic_info[1:])
+        if type == 0:
+            if value.find(b'{{{') == -1:
+                poc_file.write(' '*intent + 'con.write(b"'+string_escape_decode(value)+'")' + '\n')
+                continue
+            else:
+                results = re.findall(b'\{\{\{(.+?)\}\}\}', value)
+
+                for result in results:
+                    res = result.split(b':')
+                    record_type = res[0]
+                    record_offset = int(res[1])
+                    record_length = int(res[2])
+                    record_value_type = res[3]
+                    record_position = int(res[4])
+                    result_value = "' + " + '' +"+ '"
+                    value = value.replace(b'{{{' + result + b'}}}', result_value)
+                    #to be continued
+        elif type == 1 or type == 2:
+            pass
+
+    intent = intent/2
+    poc_file.write(' '*intent + 'except Exception as e:\n')
+    intent = intent*2
+    poc_file.write(' '*intent + 'print(str(e))\n')
+
+    poc_file.close()
+
+
 def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=0, stack_base=0, heap_base=0):
     total_step = 0
     current_step = 0
@@ -237,59 +294,63 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
                             tmp_libc_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                               get_record_length(result)) - get_record_offset(result)
                             if libc_base!=0 and tmp_libc_base != libc_base:
-                                logging.error("[STEP][%02d/%02d]:Get libc_base not same, before: %s, after: %s"%(current_step,total_step,hex(libc_base),hex(tmp_libc_base)))
+                                logging.error("[STEP][%02d/%02d]:Get libc_base not same, before: %s, after: %s"%(current_step,total_step,hex(libc_base),hex(tmp_libc_base))+ ', result: ' + result.decode('ascii'))
                             else:
                                 libc_base = tmp_libc_base
 
                             if libc_base%0x1000 == 0:
                                 logging.info("[STEP][%02d/%02d]:Get libc_base success: %s"%(current_step,total_step,hex(libc_base)))
                             else:
-                                logging.info("[STEP][%02d/%02d]:Get libc_base failed: %s"%(current_step,total_step,hex(libc_base)))
-                                continue_process_flag = False
+                                logging.info("[STEP][%02d/%02d]:Get libc_base failed: %s"%(current_step,total_step,hex(libc_base))+ ', result: ' + result.decode('ascii'))
+                                #continue_process_flag = False
+                                libc_base = 0
 
                         elif record_type == b'ELF_BASE':
                             tmp_elf_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                              get_record_length(result)) - get_record_offset(result)
 
                             if elf_base!=0 and tmp_elf_base != elf_base:
-                                logging.error("[STEP][%02d/%02d]:Get elf_base not same, before: %s, after: %s"%(current_step,total_step,hex(elf_base),hex(tmp_elf_base)))
+                                logging.error("[STEP][%02d/%02d]:Get elf_base not same, before: %s, after: %s"%(current_step,total_step,hex(elf_base),hex(tmp_elf_base))+ ', result: ' + result.decode('ascii'))
                             else:
                                 elf_base = tmp_elf_base
 
                             if elf_base%0x1000 == 0:
                                 logging.info("[STEP][%02d/%02d]:Get elf_base success: %s"%(current_step,total_step,hex(elf_base)))
                             else:
-                                logging.info("[STEP][%02d/%02d]:Get elf_base failed: %s"%(current_step,total_step,hex(elf_base)))
-                                continue_process_flag = False
+                                logging.info("[STEP][%02d/%02d]:Get elf_base failed: %s"%(current_step,total_step,hex(elf_base))+ ', result: ' + result.decode('ascii'))
+                                #continue_process_flag = False
+                                elf_base = 0
 
                         elif record_type == b'STACK_BASE':
                             tmp_stack_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                                get_record_length(result)) - get_record_offset(result)
 
                             if stack_base!=0 and tmp_stack_base != stack_base:
-                                logging.error("[STEP][%02d/%02d]:Get stack_base not same, before: %s, after: %s"%(current_step,total_step,hex(stack_base),hex(tmp_stack_base)))
+                                logging.error("[STEP][%02d/%02d]:Get stack_base not same, before: %s, after: %s"%(current_step,total_step,hex(stack_base),hex(tmp_stack_base))+ ', result: ' + result.decode('ascii'))
                             else:
                                 stack_base = tmp_stack_base
 
                             if stack_base%0x1000 == 0:
                                 logging.info("[STEP][%02d/%02d]:Get stack_base success: %s"%(current_step,total_step,hex(stack_base)))
                             else:
-                                logging.info("[STEP][%02d/%02d]:Get stack_base failed: %s"%(current_step,total_step,hex(stack_base)))
-                                continue_process_flag = False
+                                logging.info("[STEP][%02d/%02d]:Get stack_base failed: %s"%(current_step,total_step,hex(stack_base)) + ', result: ' + result.decode('ascii'))
+                                #continue_process_flag = False
+                                stack_base = 0
 
                         elif record_type == b'HEAP_BASE':
                             tmp_heap_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                               get_record_length(result)) - get_record_offset(result)
                             if heap_base!=0 and tmp_heap_base != heap_base:
-                                logging.error("[STEP][%02d/%02d]:Get stack_base not same, before: %s, after: %s"%(current_step,total_step,hex(heap_base),hex(tmp_heap_base)))
+                                logging.error("[STEP][%02d/%02d]:Get stack_base not same, before: %s, after: %s"%(current_step,total_step,hex(heap_base),hex(tmp_heap_base))+ ', result: ' + result.decode('ascii'))
                             else:
                                 heap_base = tmp_heap_base
 
                             if heap_base%0x1000 == 0:
                                 logging.info("[STEP][%02d/%02d]:Get heap_base success: %s"%(current_step,total_step,hex(heap_base)))
                             else:
-                                logging.info("[STEP][%02d/%02d]:Get heap_base failed: %s"%(current_step,total_step,hex(heap_base)))
-                                continue_process_flag = False
+                                logging.info("[STEP][%02d/%02d]:Get heap_base failed: %s"%(current_step,total_step,hex(heap_base))+ ', result: ' + result.decode('ascii'))
+                                #continue_process_flag = False
+                                heap_base = 0
 
                         else:
                             logging.info("[STEP][%02d/%02d]:Unknown record type:  %s"%(current_step,total_step))

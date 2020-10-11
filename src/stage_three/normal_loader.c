@@ -112,7 +112,7 @@ IN_LINE void filter_black_words_out(char* buf,int buf_len,int save_stdin,int sav
 
 
 
-static void start_shell_io_inline(char* buf,int buf_len){
+IN_LINE void start_shell_io_inline(char* buf,int buf_len){
     char *argv[] = {"/bin/sh", NULL};
     MD5_CTX md5;
     my_memset((char*)&md5,0,sizeof(MD5_CTX));
@@ -128,7 +128,7 @@ static void start_shell_io_inline(char* buf,int buf_len){
 }
 
 
-static void start_shell(char* buf,int buf_len,int child_pid,int save_stdin,int save_stdout,int save_stderr){
+IN_LINE void start_shell(char* buf,int buf_len,int child_pid,int save_stdin,int save_stdout,int save_stderr){
     char *argv[] = {"/bin/sh", NULL};
     MD5_CTX md5;
     my_memset((char*)&md5,0,sizeof(MD5_CTX));

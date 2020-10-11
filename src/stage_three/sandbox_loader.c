@@ -11,7 +11,7 @@ IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
     unsigned int length = 0;
     int i = 0;
     unsigned int current_read_index = 0;
-    int current_write_index = 0;
+    unsigned int current_write_index = 0;
     int rc = 0;
     destory_patch_data();
     while (1) {

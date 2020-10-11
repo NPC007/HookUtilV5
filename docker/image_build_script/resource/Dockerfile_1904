@@ -1,4 +1,4 @@
-FROM ubuntu:ctf_tools_1804
+FROM ubuntu:ctf_tools_1904
 
 COPY resource/ctf/pwn.start.sh /home/ctf/pwn.start.sh
 COPY out/input_elf_normal /home/ctf/pwn

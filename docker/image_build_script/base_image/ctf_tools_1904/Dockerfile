@@ -2,7 +2,7 @@ FROM ubuntu:19.04
 
 RUN  sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump
 
 RUN useradd -m ctf
 

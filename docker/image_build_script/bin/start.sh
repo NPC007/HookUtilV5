@@ -1,9 +1,24 @@
 #!/bin/bash
 
-if [ $# != 3 ];then
-echo "usage: $0 WORKSPACE NAME BASE_PORT"
+if [ $# != 4 ];then
+echo "usage: $0 WORKSPACE IMAGE_VERSION NAME BASE_PORT"
+echo "IMAGE_VERSION:  1604, 1804, 1904, 2004"
 exit 255
 fi
+
+IMAGE_VERSION=${2}
+if [ ! "${IMAGE_VERSION}"x = "1604"x ];then
+  if [ ! "${IMAGE_VERSION}"x = "1804"x ];then
+    if [ ! "${IMAGE_VERSION}"x = "1904"x ];then
+      if [ ! "${IMAGE_VERSION}"x = "2004"x ];then
+        echo "Unknown IMAGE_VERSION, avaiable is: 1604, 1804, 1904, 2004"
+        exit 255
+      fi
+    fi
+  fi
+fi
+
+
 CURRENT_DIR=`cd $(dirname $0); pwd`
 WORKSPACE=`cd $1; pwd`
 cd ${CURRENT_DIR}
@@ -35,9 +50,9 @@ if [ ! -f ${REPEATER_FILE} ];then
 fi
 
 chmod +x ${ELF_FILE}
-image_name=$2
+image_name=$3
 container_name="${image_name}1"
-base_port=$3
+base_port=$4
 analysis_port=$base_port
 redirect_port=$base_port
 let redirect_port=redirect_port+1
@@ -215,12 +230,36 @@ fi
 
 cp -r ${WORKSPACE}/out ${BUILD_PROJECT}/
 
-
-
+cd ${BUILD_PROJECT}
 docker stop $container_name
 docker rm $container_name
 docker rmi $image_name
-exit 255
 
-docker build ./ -t $image_name
-docker run -d -p 0.0.0.0:$analysis_port:$analysis_port -p 0.0.0.0:$redirect_port:$redirect_port -p 0.0.0.0:$test_port:$test_port -p 0.0.0.0:$io_decrypt_port:$io_decrypt_port -p 0.0.0.0:$ssh_server_port:22 -p 0.0.0.0:$local_sandbox_port:$local_sandbox_port --name $container_name --privileged=true $image_name
+
+if [ "${IMAGE_VERSION}"x = "1604"x ];then
+  DOCKER_FILE=resource/Dockerfile_1604
+fi
+if [ "${IMAGE_VERSION}"x = "1804"x ];then
+  DOCKER_FILE=resource/Dockerfile_1804
+fi
+if [ "${IMAGE_VERSION}"x = "1904"x ];then
+  DOCKER_FILE=resource/Dockerfile_1904
+fi
+if [ "${IMAGE_VERSION}"x = "2004"x ];then
+  DOCKER_FILE=resource/Dockerfile_2004
+fi
+
+docker build ./ -f ${DOCKER_FILE} -t $image_name
+if [ $? -ne 0 ]; then
+  echo "Docker Image:$image_name Build failed, docker file: ${DOCKER_FILE} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  exit 255
+fi
+docker run -d -p 0.0.0.0:$analysis_port:$analysis_port           \
+              -p 0.0.0.0:$redirect_port:$redirect_port           \
+              -p 0.0.0.0:$test_port:$test_port                   \
+              -p 0.0.0.0:$io_decrypt_port:$io_decrypt_port       \
+              -p 0.0.0.0:$ssh_server_port:22                     \
+              -p 0.0.0.0:$local_sandbox_port:$local_sandbox_port \
+              --name $container_name                             \
+              --privileged=true                                  \
+              $image_name

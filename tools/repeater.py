@@ -59,7 +59,7 @@ if __name__ == "__main__":
         logging.debug( 'scan dir......................')
         for file_name in os.listdir(scan_dir):
             success_flag = False
-            if file_name.find('.')!=-1:
+            if file_name.find('.') != -1:
                 continue
             for ip in ip_list:
                 try:

@@ -100,7 +100,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
             self.data.append(tracffic_info)
             self.index += 1
             pattern = tracffic_info.generate()
-            self.json_data.append('0' + string_escape_decode(store_data))
+            self.json_data.append('0' + string_escape_decode(pattern))
             # self.data_file.write('\x00'+p32(len(pattern))+pattern)
             # self.data_file.flush()
         elif store_pkType == 2:  # strerr && stdout
@@ -109,7 +109,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
             self.data.append(tracffic_info)
             self.index += 1
             pattern = tracffic_info.generate()
-            self.json_data.append('1' + string_escape_decode(store_data))
+            self.json_data.append('1' + string_escape_decode(pattern))
             # self.data_file.write('\x01' + p32(len(pattern)) + pattern)
             # self.data_file.flush()
         elif store_pkType == 3:  # strerr && stdout
@@ -118,7 +118,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
             self.data.append(tracffic_info)
             self.index += 1
             pattern = tracffic_info.generate()
-            self.json_data.append('2' + string_escape_decode(store_data))
+            self.json_data.append('2' + string_escape_decode(pattern))
             # self.data_file.write('\x02' + p32(len(pattern)) + pattern)
             # self.data_file.flush()
         elif store_pkType == 4:
@@ -127,7 +127,10 @@ class TCPHandler(socketserver.BaseRequestHandler):
             else:
                 self.env_info.elf_info.elf_base_dynamic = u32(store_data)
             self.json_data.append('4' + 'elf : elf_base_dynamic: ' + hex(self.env_info.elf_info.elf_base_dynamic))
-            logging.debug('elf : elf_base_dynamic: ' + hex(self.env_info.elf_info.elf_base_dynamic))
+            if self.env_info.elf_info.elf_base_dynamic%0x1000 != 0:
+                logging.error('elf : elf_base_dynamic is wrong: ' + hex(self.env_info.elf_info.elf_base_dynamic))
+            else:
+                logging.debug('elf : elf_base_dynamic: ' + hex(self.env_info.elf_info.elf_base_dynamic))
         elif store_pkType == 5:
             if self.env_info.is_64:
                 if u64(store_data) == 0:
@@ -139,8 +142,12 @@ class TCPHandler(socketserver.BaseRequestHandler):
                     self.env_info.libc_info.elf_base_dynamic = 0
                 else:
                     self.env_info.libc_info.elf_base_dynamic = u32(store_data) - self.env_info.libc_info.libc_start_main
+
             self.json_data.append('5' + 'libc : elf_base_dynamic: ' + hex(self.env_info.libc_info.elf_base_dynamic))
-            logging.debug('libc : elf_base_dynamic: ' + hex(self.env_info.libc_info.elf_base_dynamic))
+            if self.env_info.libc_info.elf_base_dynamic %0x1000!=0:
+                logging.error('libc : elf_base_dynamic is wrong: ' + hex(self.env_info.libc_info.elf_base_dynamic))
+            else:
+                logging.debug('libc : elf_base_dynamic: ' + hex(self.env_info.libc_info.elf_base_dynamic))
         elif store_pkType == 6:
             if self.env_info.is_64:
                 self.env_info.stack_base = u64(store_data)
@@ -148,8 +155,11 @@ class TCPHandler(socketserver.BaseRequestHandler):
             else:
                 self.env_info.stack_base = u32(store_data)
                 self.env_info.stack_end = u32(store_data) - 2 * 1024 * 1024
-            self.json_data.append('6' + 'stack: ' + hex(self.env_info.stack_base) + " --> " + hex(self.env_info.stack_end))
-            logging.debug('stack: ' + hex(self.env_info.stack_base) + " --> " + hex(self.env_info.stack_end))
+            self.json_data.append('6' + '[stack]: start: ' + hex(self.env_info.stack_base) + " ,end: " + hex(self.env_info.stack_end))
+            if self.env_info.stack_end%0x1000!=0:
+                logging.error('stack addr is wrong: ' + hex(self.env_info.stack_base) + " --> " + hex(self.env_info.stack_end))
+            else:
+                logging.debug('stack: ' + hex(self.env_info.stack_base) + " --> " + hex(self.env_info.stack_end))
         elif store_pkType == 7:
             if self.env_info.is_64:
                 self.env_info.heap_base = u64(store_data)
@@ -157,8 +167,11 @@ class TCPHandler(socketserver.BaseRequestHandler):
             else:
                 self.env_info.heap_base = u32(store_data)
                 self.env_info.heap_end = u32(store_data) + 132 * 1024
-            self.json_data.append('7' + 'heap: ' + hex(self.env_info.heap_base) + " --> " + hex(self.env_info.heap_end))
-            logging.debug('heap: ' + hex(self.env_info.heap_base) + " --> " + hex(self.env_info.heap_end))
+            self.json_data.append('7' + '[heap]: start:' + hex(self.env_info.heap_base) + " ,end:  " + hex(self.env_info.heap_end))
+            if self.env_info.heap_base%0x1000!=0:
+                logging.error('heap is wrong: ' + hex(self.env_info.heap_base) + " --> " + hex(self.env_info.heap_end))
+            else:
+                logging.debug('heap: ' + hex(self.env_info.heap_base) + " --> " + hex(self.env_info.heap_end))
 
     def processRequest(self, store_buf, buffer, end=False):
         # logging.debug 'buffer : ' + buffer.encode('hex')
@@ -246,7 +259,12 @@ class ELFInfo(object):
         if addr < self.elf_base_dynamic:
             return False
         for seg in self.segmentinfo:
-            if seg.start + self.elf_base_dynamic <= addr <= seg.end + self.elf_base_dynamic:
+            start = seg.start - seg.start%0x1000 + self.elf_base_dynamic
+            if seg.end %0x1000 == 0:
+                end = seg.end + self.elf_base_dynamic
+            else:
+                end = seg.end + 0x1000 - seg.end%0x1000 + self.elf_base_dynamic
+            if start <= addr <= end:
                 return True
         return False
 
@@ -312,7 +330,7 @@ class Record(object):
 
     def dump(self):
         return 'Type: ' + hex(self.type) + ', position: ' + hex(self.position) + ', offset: ' + hex(
-            self.offset) + ', len:' + hex(self.length) + ', base:' + hex(self.base) + ', value_type: ' + self.value_type
+            self.offset) + ', len:' + hex(self.length) + ', base:' + hex(self.base) + ', value_type: ' + self.value_type + ', value: ' + hex(self.value)
 
 
 class TracfficInfo(object):
@@ -354,60 +372,63 @@ class TracfficInfo(object):
         self.find_all_addr()
 
     def find_all_addr(self):
-        buffer = self.oriData
-        real_position = 0
-        while True:
-            position, length, value = self.process_dec_addr(buffer)
-            if length == 0:
-                break
 
-            type, base, offset = self.env_info.is_valid(value)
-            if type != INVALID_ADDR:
-                record = Record(type, base, offset, real_position + position, length, value, 'DEC')
-                if not self.is_duplicate_record(record):
-                    logging.info('New_Record: ' + record.dump())
-                    self.addr_record.append(record)
-                real_position = real_position + position + length
-                buffer = buffer[position + length:]
-            else:
-                real_position = real_position + 1
-                buffer = buffer[1:]
+        for size in range(16,5,-1):
+            buffer = self.oriData
+            real_position = 0
+            while True:
+                position, length, value = self.process_dec_addr(buffer,size)
+                if length == 0:
+                    break
 
-        buffer = self.oriData
-        real_position = 0
-        while True:
-            position, length, value = self.process_hex_addr(buffer)
-            if length == 0:
-                break
-            type, base, offset = self.env_info.is_valid(value)
-            if type != INVALID_ADDR:
-                record = Record(type, base, offset, real_position + position, length, value, 'HEX')
-                if not self.is_duplicate_record(record):
-                    logging.info('New_Record: ' + record.dump())
-                    self.addr_record.append(record)
-                real_position = real_position + position + length
-                buffer = buffer[position + length:]
-            else:
-                real_position = real_position + 1
-                buffer = buffer[1:]
+                type, base, offset = self.env_info.is_valid(value)
+                if type != INVALID_ADDR:
+                    record = Record(type, base, offset, real_position + position, length, value, 'DEC')
+                    if not self.is_duplicate_record(record):
+                        logging.info('New_Record: ' + record.dump())
+                        self.addr_record.append(record)
+                    real_position = real_position + position + length
+                    buffer = buffer[position + length:]
+                else:
+                    real_position = real_position + 1
+                    buffer = buffer[1:]
 
-        buffer = self.oriData
-        real_position = 0
-        while True:
-            position, length, value = self.process_0x_hex_addr(buffer)
-            if length == 0:
-                break
-            type, base, offset = self.env_info.is_valid(value)
-            if type != INVALID_ADDR:
-                record = Record(type, base, offset, real_position + position, length, value, '0XHEX')
-                if not self.is_duplicate_record(record):
-                    logging.info('New_Record: ' + record.dump())
-                    self.addr_record.append(record)
-                real_position = real_position + position + length
-                buffer = buffer[position + length:]
-            else:
-                real_position = real_position + 1
-                buffer = buffer[1:]
+        for size in range(12,5,-1):
+            buffer = self.oriData
+            real_position = 0
+            while True:
+                position, length, value = self.process_hex_addr(buffer,size)
+                if length == 0:
+                    break
+                type, base, offset = self.env_info.is_valid(value)
+                if type != INVALID_ADDR:
+                    record = Record(type, base, offset, real_position + position, length, value, 'HEX')
+                    if not self.is_duplicate_record(record):
+                        logging.info('New_Record: ' + record.dump())
+                        self.addr_record.append(record)
+                    real_position = real_position + position + length
+                    buffer = buffer[position + length:]
+                else:
+                    real_position = real_position + 1
+                    buffer = buffer[1:]
+
+        #buffer = self.oriData
+        #real_position = 0
+        #while True:
+        #    position, length, value = self.process_0x_hex_addr(buffer)
+        #    if length == 0:
+        #        break
+        #    type, base, offset = self.env_info.is_valid(value)
+        #    if type != INVALID_ADDR:
+        #        record = Record(type, base, offset, real_position + position, length, value, '0XHEX')
+        #        if not self.is_duplicate_record(record):
+        #            logging.info('New_Record: ' + record.dump())
+        #            self.addr_record.append(record)
+        #        real_position = real_position + position + length
+        #        buffer = buffer[position + length:]
+        #    else:
+        #        real_position = real_position + 1
+        #        buffer = buffer[1:]
 
         if self.env_info.is_64:
             buffer = self.oriData
@@ -537,27 +558,27 @@ class TracfficInfo(object):
                     buffer = buffer[1:]
                     real_position = real_position + 1
 
-    def process_dec_addr(self, buffer):
-        res = re.findall(b'([\d]{6,})', buffer)
+    def process_dec_addr(self, buffer,size):
+        res = re.findall(b'([\d]{'+str(size).encode('ascii')+b'})', buffer)
         if len(res) == 0:
             return 0, 0, 0
         res = res[0]
         return buffer.find(res), len(res), int(res, 10)
 
     def process_0x_hex_addr(self, buffer):
-        res = re.findall(b'(0x[a-f0-9A-F]{5,})', buffer)
+        res = re.findall(b'(0x[a-f0-9A-F]{5,12})', buffer)
         if len(res) != 0:
             res = res[0]
             return buffer.find(res), len(res), int(res, 16)
         else:
-            res = re.findall(b'(0X[a-f0-9A-F]{5,})', buffer)
+            res = re.findall(b'(0X[a-f0-9A-F]{5,12})', buffer)
             if len(res) != 0:
                 res = res[0]
                 return buffer.find(res), len(res), int(res, 16)
         return 0, 0, 0
 
-    def process_hex_addr(self, buffer):
-        res = re.findall(b'([a-f0-9A-F]{5,})', buffer)
+    def process_hex_addr(self, buffer,size):
+        res = re.findall(b'([a-f0-9A-F]{'+str(size).encode('ascii')+b'})', buffer)
         if len(res) == 0:
             return 0, 0, 0
         res = res[0]
