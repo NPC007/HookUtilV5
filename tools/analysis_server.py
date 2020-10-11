@@ -239,7 +239,11 @@ class ELFInfo(object):
             if elf.get_segment(index).header['p_type'] == 'PT_LOAD':
                 self.segmentinfo.append(SegmentInfo(elf.get_segment(index)))
         self.elf_base_static = min([seg.start for seg in self.segmentinfo])
-        self.elf_base_dynamic = 0
+        #if elf.header
+        if self.elf_base_static != 0:
+            self.elf_base_dynamic = self.elf_base_static
+        else:
+            self.elf_base_dynamic = 0
         self.libc_start_main = ELF(path).sym.get('__libc_start_main', 0)
         self.is_64 = True if elf.header['e_machine'] == 'EM_X86_64' else False
 
