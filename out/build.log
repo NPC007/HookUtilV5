@@ -16,7 +16,7 @@ input elf: input_elf
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST "127.0.0.1"
-#define SANDBOX_PORT 10001
+#define SANDBOX_PORT 10003
 ---------------------------------------------------------------------------------------------------------
 stage_one: /root/CLionProjects/HookUtilV3//out/stage_one
 stage_two: /root/CLionProjects/HookUtilV3//out/stage_two
@@ -35,7 +35,7 @@ libloader_stage_three TLV structure values:
 	analysis_server_ip:               127.0.0.1
 	analysis_server_port:             10000
 	sandbox_server_ip:                127.0.0.1
-	sandbox_server_port:              10001
+	sandbox_server_port:              10003
 generate sandbox_data_file:/root/CLionProjects/HookUtilV3//out/sandbox.datafile
 libloader_stage_two TLV structure values:
 	length:                     0x23e
@@ -46,7 +46,7 @@ libloader_stage_three TLV structure values:
 	analysis_server_ip:               127.0.0.1
 	analysis_server_port:             10000
 	sandbox_server_ip:                127.0.0.1
-	sandbox_server_port:              10001
+	sandbox_server_port:              10003
 ---------------------------------------------------------------------------------------------------------
 stage_one_normal_config.h: /root/CLionProjects/HookUtilV3//src/auto_generate/stage_one_normal_config.h
 stage_one_sandbox_config_h: /root/CLionProjects/HookUtilV3//src/auto_generate/stage_one_sandbox_config.h
@@ -85,14 +85,12 @@ unable to find any space between pt_load segments, just padding and append to fi
 Add PHDR pt_load: vaddr:          602000	file_offset:          202000
 #define FIRST_ENTRY_OFFSET 0x203000
 #define FIRST_ENTRY_OFFSET 0x203000
-#define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
-#define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
-#define PATCH_DATA_SOCKET_SERVER_IP 16777343
-#define PATCH_DATA_SOCKET_SERVER_IP 16777343
-#define PATCH_DATA_SOCKET_SERVER_PORT 26411
-#define PATCH_DATA_SOCKET_SERVER_PORT 26411
+#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
+#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
 #define PATCH_DATA_MMAP_FILE_SIZE 0x1304e
 #define PATCH_DATA_MMAP_FILE_SIZE 0x6b8e
+#define PATCH_DATA_MMAP_FILE_VADDR 0x604000
+#define PATCH_DATA_MMAP_FILE_VADDR 0x604000
 ---------------------------------------------------------------------------------------------------------
 normal_data_file:/root/CLionProjects/HookUtilV3//out/normal.datafile
 sandbox_data_file:/root/CLionProjects/HookUtilV3//out/sandbox.datafile

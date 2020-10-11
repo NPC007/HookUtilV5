@@ -63,13 +63,14 @@ def get_record_offset(buffer):
 
 def get_data_value_by_type(value,value_type,length):
     if value_type == b'DEC':
-        return str(value)
+        return str(value).encode('ascii')
     if value_type == b'HEX':
-        return hex(value)[2:]
+        return hex(value)[2:].encode('ascii')
     if value_type == b'0XHEX':
-        return hex(value)
+        return hex(value).encode('ascii')
     if value_type == b'ORI':
         return p64(value)[:length]
+
 
 def get_num_value_by_type(value,value_type,length):
     if value_type == b'DEC':
@@ -160,7 +161,7 @@ def record_to_value(buffer,libc_base,elf_base,heap_base,stack_base):
 
 
 def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=0, stack_base=0, heap_base=0):
-    total_step = 1
+    total_step = 0
     current_step = 0
     rebuild_json = []
     try:
@@ -233,8 +234,13 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
                                        get_record_position(result):get_record_position(result) + get_record_length(result)]
                         record_type = get_record_type(result)
                         if record_type == b'LIBC_BASE':
-                            libc_base = get_num_value_by_type(process_data, get_record_value_type(result),
+                            tmp_libc_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                               get_record_length(result)) - get_record_offset(result)
+                            if libc_base!=0 and tmp_libc_base != libc_base:
+                                logging.error("[STEP][%02d/%02d]:Get libc_base not same, before: %s, after: %s"%(current_step,total_step,hex(libc_base),hex(tmp_libc_base)))
+                            else:
+                                libc_base = tmp_libc_base
+
                             if libc_base%0x1000 == 0:
                                 logging.info("[STEP][%02d/%02d]:Get libc_base success: %s"%(current_step,total_step,hex(libc_base)))
                             else:
@@ -242,8 +248,14 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
                                 continue_process_flag = False
 
                         elif record_type == b'ELF_BASE':
-                            elf_base = get_num_value_by_type(process_data, get_record_value_type(result),
+                            tmp_elf_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                              get_record_length(result)) - get_record_offset(result)
+
+                            if elf_base!=0 and tmp_elf_base != elf_base:
+                                logging.error("[STEP][%02d/%02d]:Get elf_base not same, before: %s, after: %s"%(current_step,total_step,hex(elf_base),hex(tmp_elf_base)))
+                            else:
+                                elf_base = tmp_elf_base
+
                             if elf_base%0x1000 == 0:
                                 logging.info("[STEP][%02d/%02d]:Get elf_base success: %s"%(current_step,total_step,hex(elf_base)))
                             else:
@@ -251,8 +263,14 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
                                 continue_process_flag = False
 
                         elif record_type == b'STACK_BASE':
-                            stack_base = get_num_value_by_type(process_data, get_record_value_type(result),
+                            tmp_stack_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                                get_record_length(result)) - get_record_offset(result)
+
+                            if stack_base!=0 and tmp_stack_base != stack_base:
+                                logging.error("[STEP][%02d/%02d]:Get stack_base not same, before: %s, after: %s"%(current_step,total_step,hex(stack_base),hex(tmp_stack_base)))
+                            else:
+                                stack_base = tmp_stack_base
+
                             if stack_base%0x1000 == 0:
                                 logging.info("[STEP][%02d/%02d]:Get stack_base success: %s"%(current_step,total_step,hex(stack_base)))
                             else:
@@ -260,8 +278,13 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
                                 continue_process_flag = False
 
                         elif record_type == b'HEAP_BASE':
-                            heap_base = get_num_value_by_type(process_data, get_record_value_type(result),
+                            tmp_heap_base = get_num_value_by_type(process_data, get_record_value_type(result),
                                                               get_record_length(result)) - get_record_offset(result)
+                            if heap_base!=0 and tmp_heap_base != heap_base:
+                                logging.error("[STEP][%02d/%02d]:Get stack_base not same, before: %s, after: %s"%(current_step,total_step,hex(heap_base),hex(tmp_heap_base)))
+                            else:
+                                heap_base = tmp_heap_base
+
                             if heap_base%0x1000 == 0:
                                 logging.info("[STEP][%02d/%02d]:Get heap_base success: %s"%(current_step,total_step,hex(heap_base)))
                             else:

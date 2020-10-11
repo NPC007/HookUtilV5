@@ -8,8 +8,8 @@ RUN useradd -m ctf
 
 WORKDIR /home/ctf
 
-RUN cp -Rf /lib* /home/ctf && \
-    cp -Rf /usr/lib* /home/ctf
+RUN cp -RfL /lib* /home/ctf && \
+    cp -RfL /usr/lib* /home/ctf
 
 RUN mkdir -p /home/ctf/usr/lib/
 RUN cp -R /usr/lib* /home/ctf/usr/
@@ -32,11 +32,11 @@ RUN  chmod 777 /home/ctf/tmp -R
 RUN chown -R root:ctf /home/ctf && \
     chmod -R 750 /home/ctf
 
-RUN apt-get install openssh-server git python gcc python-pip vim net-tools lsof gdb psmisc netcat -y
+RUN apt-get install openssh-server git python gcc python3-pip vim net-tools lsof gdb psmisc netcat -y
 
-RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
-RUN pip install pwntools requests
+RUN pip3 install pwntools requests
 
 RUN mkdir /var/run/sshd
 

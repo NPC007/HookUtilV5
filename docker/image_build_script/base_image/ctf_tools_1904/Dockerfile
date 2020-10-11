@@ -1,6 +1,6 @@
-FROM ubuntu:16.04
+FROM ubuntu:19.04
 
-RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list && \
+RUN  sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
     apt-get install -y lib32z1 xinetd
 

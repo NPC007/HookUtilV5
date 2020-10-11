@@ -45,7 +45,7 @@ if __name__ == "__main__":
     verify_success_dir = workspace + '/local_verify_success/'
     verify_failed_dir = workspace + '/local_verify_failed/'
     if not os.path.exists(scan_dir):
-        logging.error(  "analysis server should start before")
+        logging.error("analysis server should start before")
         exit(-1)
     if not os.path.exists(verify_success_dir):
         logging.info('create scan dir: ' + verify_success_dir)
@@ -73,7 +73,8 @@ if __name__ == "__main__":
             commands = ['break execve', 'commands 1','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
                         'break system','commands 2','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
                         'catch syscall execve','commands 3','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
-                        'hbreak execve', 'commands 4','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
+                        'catch syscall fork','commands 4','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
+                        #'hbreak execve', 'commands 4','!touch '+verify_success_dir+'/'+file_name+'.flag','quit','end',
                         'set follow-fork-mode child',
                         'handle SIGSEGV nostop',
                         'handle SIGFPE nostop',
@@ -81,14 +82,20 @@ if __name__ == "__main__":
                         'handle SIGALRM nostop ignore',
                         'handle SIGHUP nostop',
                         'set disable-randomization on',
+                        'info break',
+                        '!touch ' + workspace + '/.gdb_start',
                         'continue']
-            #sleep(1)
             gdb_pid = gdb.attach(con,'\n'.join(commands))
-            #sleep(1)
+            while True:
+                if os.path.exists(workspace + '/.gdb_start'):
+                    os.unlink(workspace + '/.gdb_start')
+                    break
+                else:
+                    sleep(0.1)
+            logging.info('process file: ' + file_name)
             pfile = open(os.path.join(scan_dir,file_name),'r')
             json_datas = json.load(pfile)
             pfile.close()
-            logging.info('process file: ' + file_name)
             #logging.debug('gdb_pid: ' + str(gdb_pid) + '   -->  ' + os.path.join(scan_dir,file_name))
             def check_callback():
                 if os.path.exists(verify_success_dir+'/'+file_name+'.flag'):
@@ -96,7 +103,12 @@ if __name__ == "__main__":
                 return True
             rebuild_json = tracffic_main_process(con,json_datas,callback= check_callback, elf_base = elf_base)
             #con.interactive()
+            sleep(1)
             try:
+                if len(rebuild_json)!=0:
+                    logging.info('[success]:closing connection...............................................')
+                else:
+                    logging.info('[failed]:closing connection................................................')
                 con.close()
             except Exception as e:
                 logging.error("close connection failed, ignore: %s"%(str(e)))
