@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------------------------------
-debug_config.h: /root/CLionProjects/HookUtilV3//src/auto_generate/debug_config.h
-normal_config.h: /root/CLionProjects/HookUtilV3//src/auto_generate/normal_config.h
-sandbox_config.h: /root/CLionProjects/HookUtilV3//src/auto_generate/sandbox_config.h
+debug_config.h: /home/runshine/HookUtilV3//src/auto_generate/debug_config.h
+normal_config.h: /home/runshine/HookUtilV3//src/auto_generate/normal_config.h
+sandbox_config.h: /home/runshine/HookUtilV3//src/auto_generate/sandbox_config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
@@ -18,41 +18,41 @@ input elf: input_elf
 #define SANDBOX_HOST "192.168.12.42"
 #define SANDBOX_PORT 10003
 ---------------------------------------------------------------------------------------------------------
-stage_one: /root/CLionProjects/HookUtilV3//out/stage_one
-stage_two: /root/CLionProjects/HookUtilV3//out/stage_two
-stage_three_normal: /root/CLionProjects/HookUtilV3//out/stage_three_normal
-stage_three_sandbox: /root/CLionProjects/HookUtilV3//out/stage_three_sandbox
+stage_one: /home/runshine/HookUtilV3//out/stage_one
+stage_two: /home/runshine/HookUtilV3//out/stage_two
+stage_three_normal: /home/runshine/HookUtilV3//out/stage_three_normal
+stage_three_sandbox: /home/runshine/HookUtilV3//out/stage_three_sandbox
 target_dir: out
-check /root/CLionProjects/HookUtilV3//out/stage_two start
-check /root/CLionProjects/HookUtilV3//out/stage_two end
-generate normal_data_file:/root/CLionProjects/HookUtilV3//out/normal.datafile
+check /home/runshine/HookUtilV3//out/stage_two start
+check /home/runshine/HookUtilV3//out/stage_two end
+generate normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
 libloader_stage_two TLV structure values:
 	length:                     0x23e
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x3cfc
-	length:                           0x17cc8
+	entry_offset:                     0x32e8
+	length:                           0x17c98
 	analysis_server_ip:               192.168.12.42
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.12.42
 	sandbox_server_port:              10003
-generate sandbox_data_file:/root/CLionProjects/HookUtilV3//out/sandbox.datafile
+generate sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
 libloader_stage_two TLV structure values:
 	length:                     0x23e
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x2ccf
-	length:                           0x68b0
+	entry_offset:                     0x22b3
+	length:                           0x6888
 	analysis_server_ip:               192.168.12.42
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.12.42
 	sandbox_server_port:              10003
 ---------------------------------------------------------------------------------------------------------
-stage_one_normal_config.h: /root/CLionProjects/HookUtilV3//src/auto_generate/stage_one_normal_config.h
-stage_one_sandbox_config_h: /root/CLionProjects/HookUtilV3//src/auto_generate/stage_one_sandbox_config.h
-normal_data_file:/root/CLionProjects/HookUtilV3//out/normal.datafile
-sandbox_data_file:/root/CLionProjects/HookUtilV3//out/sandbox.datafile
-input_elf: /root/CLionProjects/HookUtilV3//out/input_elf
+stage_one_normal_config.h: /home/runshine/HookUtilV3//src/auto_generate/stage_one_normal_config.h
+stage_one_sandbox_config_h: /home/runshine/HookUtilV3//src/auto_generate/stage_one_sandbox_config.h
+normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
+sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
+input_elf: /home/runshine/HookUtilV3//out/input_elf
 #define IS_PIE 0
 #define IS_PIE 0
 0x4006c0:	xor		ebp, ebp
@@ -87,20 +87,20 @@ Add PHDR pt_load: vaddr:          602000	file_offset:          202000
 #define FIRST_ENTRY_OFFSET 0x203000
 #define CONFIG_LOADER_TYPE LOAD_FROM_MEM
 #define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define PATCH_DATA_MMAP_FILE_SIZE 0x17fa6
-#define PATCH_DATA_MMAP_FILE_SIZE 0x6b8e
+#define PATCH_DATA_MMAP_FILE_SIZE 0x17f76
+#define PATCH_DATA_MMAP_FILE_SIZE 0x6b66
 #define PATCH_DATA_MMAP_FILE_VADDR 0x604000
 #define PATCH_DATA_MMAP_FILE_VADDR 0x604000
 ---------------------------------------------------------------------------------------------------------
-normal_data_file:/root/CLionProjects/HookUtilV3//out/normal.datafile
-sandbox_data_file:/root/CLionProjects/HookUtilV3//out/sandbox.datafile
-input_elf: /root/CLionProjects/HookUtilV3//out/input_elf
-stage_one_normal: /root/CLionProjects/HookUtilV3//out/stage_one_normal
-stage_one_sandbox: /root/CLionProjects/HookUtilV3//out/stage_one_sandbox
-check /root/CLionProjects/HookUtilV3//out/stage_one_normal start
-check /root/CLionProjects/HookUtilV3//out/stage_one_normal end
-check /root/CLionProjects/HookUtilV3//out/stage_one_sandbox start
-check /root/CLionProjects/HookUtilV3//out/stage_one_sandbox end
+normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
+sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
+input_elf: /home/runshine/HookUtilV3//out/input_elf
+stage_one_normal: /home/runshine/HookUtilV3//out/stage_one_normal
+stage_one_sandbox: /home/runshine/HookUtilV3//out/stage_one_sandbox
+check /home/runshine/HookUtilV3//out/stage_one_normal start
+check /home/runshine/HookUtilV3//out/stage_one_normal end
+check /home/runshine/HookUtilV3//out/stage_one_sandbox start
+check /home/runshine/HookUtilV3//out/stage_one_sandbox end
 0x4006c0:	xor		ebp, ebp
 0x4006c2:	mov		r9, rdx
 0x4006c5:	pop		rsi

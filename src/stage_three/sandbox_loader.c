@@ -3,7 +3,6 @@
 
 IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
     fd_set read_events;
-    fd_set err_events;
     struct timeval timeout;
     timeout.tv_sec = 1;
     timeout.tv_usec = 0;
@@ -19,12 +18,9 @@ IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
         FD_SET(STDIN_FILENO, &read_events);
         FD_SET(send_sockfd, &read_events);
 
-        FD_ZERO(&err_events);
-        FD_SET(STDIN_FILENO, &err_events);
-        FD_SET(send_sockfd, &err_events);
         timeout.tv_sec = 1;
         timeout.tv_usec = 0;
-        rc = my_select(send_sockfd + 1, &read_events, NULL, &err_events, &timeout);
+        rc = my_select(send_sockfd + 1, &read_events, NULL, NULL, &timeout);
         if (rc < 0) {
             break;
         } else if (rc == 0) {
@@ -41,10 +37,11 @@ IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
             }
             else if(length == -1){
                 int error_code = get_errno();
-                if(error_code != UN_KNOWN_ERROR_CODE )
-                    if(error_code != EAGAIN)
-                        break;
+                if(error_code != EAGAIN)
+                    break;
             }
+            else if(length == 0)
+                break;
         }
         if (FD_ISSET(send_sockfd, &read_events)) {
             length = my_read(send_sockfd, buf, sizeof(buf));
@@ -57,10 +54,11 @@ IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
             }
             else if(length == -1){
                 int error_code = get_errno();
-                if(error_code != UN_KNOWN_ERROR_CODE )
-                    if(error_code != EAGAIN)
-                        break;
+                if(error_code != EAGAIN)
+                    break;
             }
+            else if(length == 0)
+                break;
         }
 
     }

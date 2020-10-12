@@ -491,14 +491,9 @@ IN_LINE void my_sleep(int milli_second){
 }
 
 
-static int*(*g_errno_handler)() ;
+
 static int get_errno(){
-    if(g_errno_handler == NULL) {
-        g_errno_handler= lookup_symbols("__errno_location");
-        if (g_errno_handler != NULL)
-            return *(g_errno_handler());
-    }
-    return UN_KNOWN_ERROR_CODE;
+    return g_errno;
 }
 
 /*

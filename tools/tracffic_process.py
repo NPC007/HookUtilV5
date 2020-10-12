@@ -222,7 +222,7 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
     current_step = 0
     rebuild_json = []
     try:
-        SLEEP_TIME = 0.1
+        SLEEP_TIME = 0.2
         RECEIVE_TIMEOUT = 5
         continue_process_flag = True
         for tracfic_info in json_data:
@@ -230,6 +230,7 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
             if type == 1 or type == 2:
                 total_step = total_step + 1
         for tracfic_info in json_data:
+            sleep(SLEEP_TIME)
             if not continue_process_flag:
                 break
             if callback != None:
@@ -257,7 +258,6 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
             elif type == 1 or type == 2:
                 current_step = current_step + 1
                 if value.find(b'{{{') == -1:
-                    sleep(SLEEP_TIME)
                     data = con.recvn(len(value),timeout=RECEIVE_TIMEOUT)
                     if len(data) == 0:
                         data =  con.recv(len(value),timeout=RECEIVE_TIMEOUT)
@@ -272,7 +272,6 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
                     for result in results:
                         value_copy = value_copy.replace(b"{{{"+result+b"}}}", b'A' * get_record_length(result))
                     total_length = len(value_copy)
-                    sleep(SLEEP_TIME)
                     data = con.recvn(total_length,timeout=RECEIVE_TIMEOUT)
                     if len(data)!=total_length:
                         logging.error("[STEP][%02d/%02d][with_variable]:Failed, receive not same, we must give up"%(current_step,total_step))
@@ -354,7 +353,6 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
 
                         else:
                             logging.info("[STEP][%02d/%02d]:Unknown record type:  %s"%(current_step,total_step))
-            sleep(SLEEP_TIME)
     except Exception as e:
         if len(str(e)) == 0:
             logging.error("[STEP][%02d/%02d]: Error happen, we must give up this tracffic:  %s"%(current_step,total_step,e.__class__.__name__))

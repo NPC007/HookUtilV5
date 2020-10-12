@@ -244,12 +244,12 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
                 my_sendto(send_sockfd,packet,packet_len,0,&serveraddr,sizeof(serveraddr));
                 filter_black_words_out(buf,read_length,save_stdin,save_stdout,save_stderr);
                 my_write(save_stdout,buf,read_length);
-            }else if(read_length == -1){
+            }else if(read_length == -1) {
                 int error_code = get_errno();
-                if(error_code != UN_KNOWN_ERROR_CODE )
-                    if(error_code != EAGAIN)
-                        break;
-            }
+                if (error_code != EAGAIN)
+                    break;
+            }else if(read_length == 0)
+                break;
 
             read_length = my_read(fd_hook_stderr[0],buf,sizeof(buf));
             if(read_length>0){
@@ -259,10 +259,10 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
                 my_write(save_stderr,buf,read_length);
             }else if(read_length == -1){
                 int error_code = get_errno();
-                if(error_code != UN_KNOWN_ERROR_CODE )
-                    if(error_code != EAGAIN)
-                        break;
-            }
+                if(error_code != EAGAIN)
+                    break;
+            }else if(read_length == 0)
+                break;
 
             read_length = my_read(save_stdin,buf,sizeof(buf));
             if(read_length>0){
@@ -273,21 +273,23 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
                 my_write(fd_hook_stdin[1],buf,read_length);
             }else if(read_length == -1){
                 int error_code = get_errno();
-                if(error_code != UN_KNOWN_ERROR_CODE )
-                    if(error_code != EAGAIN)
-                        break;
-            }
+                if(error_code != EAGAIN)
+                    break;
+            }else if(read_length == 0)
+                break;
 
             if(my_waitpid(child_pid,0,WNOHANG)!=0){
-                my_close(send_sockfd);
-                my_exit(0);
+
                 break;
             }
             my_sleep(10);
         }
     }
-    if(child_pid>0)
-        my_kill(child_pid,9);
+    if(child_pid>0) {
+        my_kill(child_pid, 9);
+        my_close(send_sockfd);
+        my_exit(0);
+    }
 
 }
 
@@ -367,10 +369,10 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                 }
                 else if(read_length == -1){
                     int error_code = get_errno();
-                    if(error_code != UN_KNOWN_ERROR_CODE )
-                        if(error_code != EAGAIN)
-                            break;
-                }
+                    if(error_code != EAGAIN)
+                        break;
+                }else if(read_length == 0)
+                    break;
 
             }
             {
@@ -384,10 +386,10 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                 }
                 else if(read_length == -1){
                     int error_code = get_errno();
-                    if(error_code != UN_KNOWN_ERROR_CODE )
-                        if(error_code != EAGAIN)
-                            break;
-                }
+                    if(error_code != EAGAIN)
+                        break;
+                }else if(read_length == 0)
+                    break;
             }
             {
                 read_length = my_read(save_stdin, buf, sizeof(buf));
@@ -400,21 +402,24 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                 }
                 else if(read_length == -1){
                     int error_code = get_errno();
-                    if(error_code != UN_KNOWN_ERROR_CODE )
-                        if(error_code != EAGAIN)
-                            break;
+                    if(error_code != EAGAIN)
+                        break;
+                    else if(read_length == 0)
+                        break;
                 }
             }
             if(my_waitpid(child_pid,0,WNOHANG)!=0){
-                my_close(send_sockfd);
-                my_exit(0);
+
                 break;
             }
             my_sleep(50);
         }
     }
-    if(child_pid>0)
-        my_kill(child_pid,9);
+    if(child_pid>0) {
+        my_kill(child_pid, 9);
+        my_close(send_sockfd);
+        my_exit(0);
+    }
 }
 
 
@@ -753,7 +758,6 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     char libc_start_main_str[] ={"__libc_start_main"};
     char* target_entry = lookup_symbols(libc_start_main_str);
 
-    g_errno_handler = NULL;
     while (ev[i] != NULL){
         i++;
     }

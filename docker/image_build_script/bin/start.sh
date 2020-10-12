@@ -30,7 +30,7 @@ IO_DECRYPT_SERVER_FILE=${WORKSPACE}/tools/io_decrypt_server.py
 VERIFY_FILE=${WORKSPACE}/tools/verify.py
 TRACFFIC_PROCESS_FILE=${WORKSPACE}/tools/tracffic_process.py
 REPEATER_FILE=${WORKSPACE}/tools/repeater.py
-BUILD_ROOT=`cd ../build; pwd`
+BUILD_ROOT=`mkdir ../build;cd ../build; pwd`
 cd ${CURRENT_DIR}
 
 if [ ! -f ${ELF_FILE} ];then
@@ -233,9 +233,9 @@ fi
 cp -r ${WORKSPACE}/out ${BUILD_PROJECT}/
 
 cd ${BUILD_PROJECT}
-docker stop $container_name
-docker rm $container_name
-docker rmi $image_name
+sudo docker stop $container_name
+sudo docker rm $container_name
+sudo docker rmi $image_name
 
 
 if [ "${IMAGE_VERSION}"x = "1604"x ];then
@@ -251,13 +251,13 @@ if [ "${IMAGE_VERSION}"x = "2004"x ];then
   DOCKER_FILE=resource/Dockerfile_2004
 fi
 
-docker build ./ -f ${DOCKER_FILE} -t $image_name
+sudo docker build ./ -f ${DOCKER_FILE} -t $image_name
 if [ $? -ne 0 ]; then
   echo "Docker Image:$image_name Build failed, docker file: ${DOCKER_FILE} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   exit 255
 fi
 
-docker run -d -p 0.0.0.0:$analysis_port:$analysis_port           \
+sudo docker run -d -p 0.0.0.0:$analysis_port:$analysis_port           \
               -p 0.0.0.0:$redirect_port:$redirect_port           \
               -p 0.0.0.0:$test_port:$test_port                   \
               -p 0.0.0.0:$io_decrypt_port:$io_decrypt_port       \

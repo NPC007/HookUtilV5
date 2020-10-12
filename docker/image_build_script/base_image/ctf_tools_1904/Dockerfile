@@ -2,7 +2,7 @@ FROM ubuntu:19.04
 
 RUN  sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd tmux strace tcpdump
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev
 
 RUN useradd -m ctf
 
@@ -34,11 +34,11 @@ RUN chown -R root:ctf /home/ctf && \
 
 RUN apt-get install openssh-server git python gcc python3-pip vim net-tools lsof gdb psmisc netcat -y
 
-RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
-RUN pip3 install setuptools --upgrade
+RUN python3 -m pip install setuptools --upgrade
 
-RUN pip3 install pwntools requests  capstone keystone-engine unicorn keystone-engine ropper
+RUN python3 -m pip install pwntools requests  capstone keystone-engine unicorn keystone-engine ropper
 
 RUN mkdir /var/run/sshd
 

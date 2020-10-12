@@ -51,6 +51,8 @@ IN_DATA = 1
 OUT_DATA = 2
 ERR_DATA = 3
 
+ENABLE_TRAFFIC_AGRESS=False
+
 
 class TCPHandler(socketserver.BaseRequestHandler):
 
@@ -174,6 +176,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                 logging.debug('heap: ' + hex(self.env_info.heap_base) + " --> " + hex(self.env_info.heap_end))
 
     def processRequest(self, store_buf, buffer, end=False):
+        global ENABLE_TRAFFIC_AGRESS
         # logging.debug 'buffer : ' + buffer.encode('hex')
         if end == True:
             if len(buffer)!= 0:
@@ -204,12 +207,13 @@ class TCPHandler(socketserver.BaseRequestHandler):
             store_buf = buffer[:(13+current_pkLength)]
             return store_buf, buffer[(13 + current_pkLength):], 1
 
-        if store_pkType == current_pkType:
-            if current_pkType != 1 and current_pkType != 2 and current_pkType != 3:
-                logging.error("pkType aggress should only be 1 or 2 or 3,  current: " + hex(current_pkType))
-                exit(-1)
-            store_buf = store_uuid + p8(store_pkType) + p32(store_pkLength + current_pkLength) + store_data + current_data
-            return store_buf, buffer[13 + current_pkLength:], 1
+        if ENABLE_TRAFFIC_AGRESS == True:
+            if store_pkType == current_pkType:
+                if current_pkType != 1 and current_pkType != 2 and current_pkType != 3:
+                    logging.error("pkType aggress should only be 1 or 2 or 3,  current: " + hex(current_pkType))
+                    exit(-1)
+                store_buf = store_uuid + p8(store_pkType) + p32(store_pkLength + current_pkLength) + store_data + current_data
+                return store_buf, buffer[13 + current_pkLength:], 1
 
         self.processData(store_uuid, store_pkType, store_pkLength, store_data)
         store_buf = buffer[:(13+current_pkLength)]
@@ -636,19 +640,23 @@ class TracfficInfo(object):
 
 
 def usage():
-    logging.error(sys.argv[0] + " SERVER PORT WORKSPACE ELF_PATH LIB_PATH")
+    logging.error(sys.argv[0] + " SERVER PORT WORKSPACE ELF_PATH LIB_PATH ENABLE/DISABEL_TRACFFIC_AGRESS")
     exit(-1)
 
 
 if __name__ == "__main__":
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+    global ENABLE_TRAFFIC_AGRESS
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=LOG_FORMAT)
-    if len(sys.argv) != 6:
+    if len(sys.argv) != 7:
         usage()
     HOST, PORT = sys.argv[1], int(sys.argv[2])
     workspace = sys.argv[3]
     elf_path = sys.argv[4]
     libc_path = sys.argv[5]
+    ENABLE_TRAFFIC_AGRESS = sys.argv[6]
+
+
     if not os.path.exists(workspace + '/raw'):
         os.system("mkdir -p " + workspace + '/raw')
     logging.info('start auto_tracfic_analysis')
@@ -658,6 +666,11 @@ if __name__ == "__main__":
     logging.debug("Workspace: " + workspace)
     logging.debug("Elf_Path : " + elf_path)
     logging.debug("Libc_Path: " + libc_path)
+    if ENABLE_TRAFFIC_AGRESS == '1' or ENABLE_TRAFFIC_AGRESS == 'true':
+        ENABLE_TRAFFIC_AGRESS= True
+    else:
+        ENABLE_TRAFFIC_AGRESS = False
+    logging.debug("ENABLE_TRAFFIC_AGRESS: %s"%ENABLE_TRAFFIC_AGRESS)
     if os.path.isfile(elf_path) == False:
         logging.debug("ELF File Not Exist")
         exit(-1)
