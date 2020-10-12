@@ -103,12 +103,14 @@ if __name__ == "__main__":
                 return True
             rebuild_json = tracffic_main_process(con,json_datas,callback= check_callback, elf_base = elf_base)
             #con.interactive()
-            sleep(1)
+            sleep(2)
             try:
                 if len(rebuild_json)!=0:
                     logging.info('[success]:closing connection...............................................')
                 else:
                     logging.info('[failed]:closing connection................................................')
+                os.system('killall gdb')
+                logging.debug('try to kill gdb : ' + 'kill -9 ' + str(gdb_pid))
                 con.close()
             except Exception as e:
                 logging.error("close connection failed, ignore: %s"%(str(e)))
@@ -121,8 +123,7 @@ if __name__ == "__main__":
                 pfile.close()
             else:
                 logging.info('local verify failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                os.system('killall gdb')
-                logging.debug('try to kill gdb : ' + 'kill -9 ' + str(gdb_pid))
+
                 #exit(-1)
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
             sleep(1)
