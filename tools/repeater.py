@@ -13,7 +13,7 @@ context(log_level='INFO')
 
 
 ip_list = ['192.168.12.42']
-port = 10002
+port = 10005
 
 
 def usage():
@@ -53,6 +53,8 @@ if __name__ == "__main__":
         logging.error(  "ELF FILE NOT EXIST: " + elf_file)
         usage()
     elf_base = get_elf_base(elf_file)
+    total_verify_file_count = 0
+    success_verify_file_cout = 0
 
     while True:
         logging.debug( 'scan dir......................')
@@ -70,6 +72,7 @@ if __name__ == "__main__":
                     json_datas = json.load(pfile)
                     pfile.close()
                     tracffic_main_process(con,json_datas, elf_base = elf_base)
+                    con.recv(timeout=2)
                     con.sendline('id')
                     data = con.recv(timeout=2)
                     #logging.debug(data)
@@ -95,7 +98,7 @@ if __name__ == "__main__":
                 #logging.info('remote verify ' + ip + ' succeed: ' + file_name)
             else:
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
-                shutil.move(os.path.join(scan_dir,file_name.replace('.rebuild','.flag')),os.path.join(verify_success_dir,file_name).replace('.rebuild','.flag'))
-                shutil.move(os.path.join(scan_dir,file_name.replace('.rebuild','')),os.path.join(verify_success_dir,file_name.replace('.rebuild','')))
+                shutil.move(os.path.join(scan_dir,file_name.replace('.rebuild','.flag')),os.path.join(verify_failed_dir,file_name).replace('.rebuild','.flag'))
+                shutil.move(os.path.join(scan_dir,file_name.replace('.rebuild','')),os.path.join(verify_failed_dir,file_name.replace('.rebuild','')))
                 #logging.info( 'remote verify ' + ip + ' failed: ' + file_name)
         sleep(10)
