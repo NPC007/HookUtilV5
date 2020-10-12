@@ -28,6 +28,7 @@ LIBC_FILE=${WORKSPACE}/out/libc.so
 ANALYSIS_SERVER_FILE=${WORKSPACE}/tools/analysis_server.py
 IO_DECRYPT_SERVER_FILE=${WORKSPACE}/tools/io_decrypt_server.py
 VERIFY_FILE=${WORKSPACE}/tools/verify.py
+TRACFFIC_PROCESS_FILE=${WORKSPACE}/tools/tracffic_process.py
 REPEATER_FILE=${WORKSPACE}/tools/repeater.py
 BUILD_ROOT=`cd ../build; pwd`
 cd ${CURRENT_DIR}
@@ -93,6 +94,7 @@ cp ${ANALYSIS_SERVER_FILE} ${BUILD_PROJECT}/resource/
 cp ${IO_DECRYPT_SERVER_FILE} ${BUILD_PROJECT}/resource/
 cp ${VERIFY_FILE} ${BUILD_PROJECT}/resource/
 cp ${REPEATER_FILE} ${BUILD_PROJECT}/resource/
+cp ${TRACFFIC_PROCESS_FILE} ${BUILD_PROJECT}/resource/
 
 
 ELF_FILE=${BUILD_PROJECT}/resource/input_elf
@@ -169,17 +171,17 @@ fi
 
 sed -i "s/\"sandbox_server_port\":.*/\"sandbox_server_port\": \"${io_decrypt_port}\",/g" ${CONFIG_JSON}
 if [ ! -z "$(cat ${CONFIG_JSON}|grep ${io_decrypt_port})" ];then
-    echo "success set ${CONFIG_JSON} to listen:            ${io_decrypt_port}"
+    echo "success set ${CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
 else
-    echo "failed  set ${CONFIG_JSON} to listen:            ${io_decrypt_port}"
+    echo "failed  set ${CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
     exit 255
 fi
 
 sed -i "s/\"analysis_server_port\":.*/\"analysis_server_port\": \"${analysis_port}\",/g" ${CONFIG_JSON}
 if [ ! -z "$(cat ${CONFIG_JSON}|grep ${analysis_port})" ];then
-    echo "success set ${CONFIG_JSON} to listen:            ${analysis_port}"
+    echo "success set ${CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
 else
-    echo "failed  set ${CONFIG_JSON} to listen:            ${analysis_port}"
+    echo "failed  set ${CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
     exit 255
 fi
 
@@ -254,6 +256,7 @@ if [ $? -ne 0 ]; then
   echo "Docker Image:$image_name Build failed, docker file: ${DOCKER_FILE} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   exit 255
 fi
+
 docker run -d -p 0.0.0.0:$analysis_port:$analysis_port           \
               -p 0.0.0.0:$redirect_port:$redirect_port           \
               -p 0.0.0.0:$test_port:$test_port                   \

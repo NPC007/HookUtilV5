@@ -12,6 +12,7 @@ RUN chmod 633 /home/ctf/flag
 COPY resource/analysis_server.py /root/
 COPY resource/verify.py /root/
 COPY resource/repeater.py /root/
+COPY resource/tracffic_process.py /root/
 COPY out/input_elf /root/input_elf
 COPY out/libc.so /root/libc.so
 COPY out/libc.so /home/ctf/libc.so

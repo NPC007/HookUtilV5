@@ -14,14 +14,14 @@
 
   "tcp_time_out":"1",
   "io_inline_hook":"0",
-  "analysis_server_ip":"127.0.0.1",
+  "analysis_server_ip":"192.168.12.42",
   "analysis_server_port": "10000",
   "shell_password":"!Huawei12#$",
   "local_file_instead_of_udp":"1",
   "io_local_save_path":"/tmp/",
 
 
-  "sandbox_server_ip": "127.0.0.1",
+  "sandbox_server_ip": "192.168.12.42",
   "sandbox_server_port": "10003",
 
   "normal_data_file_path":"normal.datafile",

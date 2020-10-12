@@ -103,7 +103,7 @@ if __name__ == "__main__":
                 return True
             rebuild_json = tracffic_main_process(con,json_datas,callback= check_callback, elf_base = elf_base)
             #con.interactive()
-            sleep(2)
+            sleep(0.5)
             try:
                 if len(rebuild_json)!=0:
                     logging.info('[success]:closing connection...............................................')
@@ -126,5 +126,5 @@ if __name__ == "__main__":
 
                 #exit(-1)
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
-            sleep(1)
+            #sleep(1)
         sleep(10)
