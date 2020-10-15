@@ -404,9 +404,9 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                     int error_code = get_errno();
                     if(error_code != EAGAIN)
                         break;
-                    else if(read_length == 0)
-                        break;
                 }
+                else if(read_length == 0)
+                    break;
             }
             if(my_waitpid(child_pid,0,WNOHANG)!=0){
 
