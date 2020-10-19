@@ -1,1 +1,1 @@
-#define PATCH_DEBUG 0
+#define PATCH_DEBUG 1

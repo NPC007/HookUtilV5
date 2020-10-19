@@ -116,6 +116,8 @@ int main(int argc,char* argv[]){
 
         close(debug_config_file_fd);
     }
+
+
     //Process normal_config.h
     {
         logger("###########################################process normal_config.h######################################\n");
@@ -142,6 +144,19 @@ int main(int argc,char* argv[]){
         char* io_inline_hook = cJSON_GetObjectItem(config,"io_inline_hook")->valuestring;
         write_marco_define(normal_config_file_fd,"USE_IO_INLINE_REDIRECT",io_inline_hook);
 
+        if(cJSON_GetObjectItem(config,"shell_code_defense") == NULL){
+            logger("shell_code_defense is not set\n");
+            exit(-1);
+        }
+        char* shell_code_defense = cJSON_GetObjectItem(config,"shell_code_defense")->valuestring;
+        int shell_code_defense_value = atoi(shell_code_defense);
+        if (shell_code_defense_value > 0) {
+            write_marco_define(normal_config_file_fd, "SHELL_CODE_DEFENSE", "1");
+        }
+        else{
+            write_marco_define(normal_config_file_fd, "SHELL_CODE_DEFENSE", "0");
+        }
+
         close(normal_config_file_fd);
     }
     //Process sanbox_config.h
@@ -158,9 +173,23 @@ int main(int argc,char* argv[]){
         char* analysis_server_port = cJSON_GetObjectItem(config,"sandbox_server_port")->valuestring;
         write_marco_define(sandbox_config_file_fd,"SANDBOX_PORT",analysis_server_port);
 
+        if(cJSON_GetObjectItem(config,"shell_code_defense") == NULL){
+            logger("shell_code_defense is not set\n");
+            exit(-1);
+        }
+        char* shell_code_defense = cJSON_GetObjectItem(config,"shell_code_defense")->valuestring;
+        int shell_code_defense_value = atoi(shell_code_defense);
+        if (shell_code_defense_value > 0) {
+            write_marco_define(sandbox_config_file_fd, "SHELL_CODE_DEFENSE", "1");
+        }
+        else{
+            write_marco_define(sandbox_config_file_fd, "SHELL_CODE_DEFENSE", "0");
+        }
 
         close(sandbox_config_file_fd);
     }
+
+
 
     puts("pre generate done");
 

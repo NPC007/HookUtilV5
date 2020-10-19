@@ -14,6 +14,7 @@ COPY resource/verify.py /root/
 COPY resource/repeater.py /root/
 COPY resource/tracffic_process.py /root/
 COPY resource/local_log_process.py /root/
+COPY resource/translate_traccfic_to_poc.py /root/
 COPY out/input_elf /root/input_elf
 COPY out/libc.so /root/libc.so
 COPY out/libc.so /home/ctf/libc.so

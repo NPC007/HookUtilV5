@@ -25,6 +25,9 @@
   "loader_stage_other_socket_server_ip":"0.0.0.0",
   "loader_stage_other_socket_server_port":"80",
 
+//whether enable shell_code_defense, seccomp/arch_prctl
+  "shell_code_defense": "1",
+
 //normal_mode
   "tcp_time_out":"1",
   "analysis_server_ip":"127.0.0.1",

@@ -4,7 +4,7 @@ normal_config.h: /home/runshine/HookUtilV3//src/auto_generate/normal_config.h
 sandbox_config.h: /home/runshine/HookUtilV3//src/auto_generate/sandbox_config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 0
+#define PATCH_DEBUG 1
 ###########################################process normal_config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "192.168.64.130"
@@ -13,10 +13,12 @@ input elf: input_elf
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
 #define USE_IO_INLINE_REDIRECT 0
+#define SHELL_CODE_DEFENSE 1
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST "192.168.64.130"
 #define SANDBOX_PORT 10003
+#define SHELL_CODE_DEFENSE 1
 ---------------------------------------------------------------------------------------------------------
 stage_one: /home/runshine/HookUtilV3//out/stage_one
 stage_two: /home/runshine/HookUtilV3//out/stage_two
@@ -27,22 +29,22 @@ check /home/runshine/HookUtilV3//out/stage_two start
 check /home/runshine/HookUtilV3//out/stage_two end
 generate normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x23e
-	entry_offset:               0x0
+	length:                     0x320
+	entry_offset:               0x31
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x58d4
-	length:                           0x1ed70
+	entry_offset:                     0x551a
+	length:                           0x2f940
 	analysis_server_ip:               192.168.64.130
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.64.130
 	sandbox_server_port:              10003
 generate sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x23e
-	entry_offset:               0x0
+	length:                     0x320
+	entry_offset:               0x31
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x22eb
-	length:                           0xbc08
+	entry_offset:                     0x2d74
+	length:                           0x219c8
 	analysis_server_ip:               192.168.64.130
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.64.130
@@ -89,8 +91,8 @@ Add PHDR pt_load: vaddr:          203000	file_offset:          203000
 #define CONFIG_LOADER_TYPE LOAD_FROM_SHARE_MEM
 #define PATCH_DATA_SHARE_MEM_ID 123
 #define PATCH_DATA_SHARE_MEM_ID 124
-#define PATCH_DATA_MMAP_FILE_SIZE 0x1f04e
-#define PATCH_DATA_MMAP_FILE_SIZE 0xbee6
+#define PATCH_DATA_MMAP_FILE_SIZE 0x2fd00
+#define PATCH_DATA_MMAP_FILE_SIZE 0x21d88
 ---------------------------------------------------------------------------------------------------------
 normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
 sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile

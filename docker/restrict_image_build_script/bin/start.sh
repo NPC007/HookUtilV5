@@ -31,6 +31,7 @@ VERIFY_FILE=${WORKSPACE}/tools/verify.py
 TRACFFIC_PROCESS_FILE=${WORKSPACE}/tools/tracffic_process.py
 REPEATER_FILE=${WORKSPACE}/tools/repeater.py
 LOG_PROCESS_FILE=${WORKSPACE}/tools/local_log_process.py
+TRANSLATE_TRACFFIC_TO_POC_FILE=${WORKSPACE}/tools/translate_traccfic_to_poc.py
 BUILD_ROOT=`mkdir ../build;cd ../build; pwd`
 cd ${CURRENT_DIR}
 
@@ -97,6 +98,7 @@ cp ${VERIFY_FILE} ${BUILD_PROJECT}/resource/
 cp ${REPEATER_FILE} ${BUILD_PROJECT}/resource/
 cp ${TRACFFIC_PROCESS_FILE} ${BUILD_PROJECT}/resource/
 cp ${LOG_PROCESS_FILE} ${BUILD_PROJECT}/resource/
+cp ${TRANSLATE_TRACFFIC_TO_POC_FILE} ${BUILD_PROJECT}/resource/
 
 
 ELF_FILE=${BUILD_PROJECT}/resource/input_elf
