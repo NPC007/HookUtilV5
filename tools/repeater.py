@@ -55,7 +55,7 @@ if __name__ == "__main__":
     success_verify_file_cout = 0
 
     while True:
-        logging.debug( 'scan dir......................')
+        logging.debug('[repeater]:scan dir: %s......................'%scan_dir)
         for file_name in os.listdir(scan_dir):
             if not file_name.endswith(".rebuild"):
                 continue

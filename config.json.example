@@ -16,6 +16,7 @@
   "loader_stage_other_file_path":"/tmp/data_file_unchanged",
 
 //share_memory
+//this is base id: normal data will at id, sandbox data will at id + 1
   "loader_stage_other_position":"share_memory",
   "loader_stage_other_share_memory_id":"123",
 

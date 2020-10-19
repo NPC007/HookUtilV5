@@ -30,6 +30,7 @@ IO_DECRYPT_SERVER_FILE=${WORKSPACE}/tools/io_decrypt_server.py
 VERIFY_FILE=${WORKSPACE}/tools/verify.py
 TRACFFIC_PROCESS_FILE=${WORKSPACE}/tools/tracffic_process.py
 REPEATER_FILE=${WORKSPACE}/tools/repeater.py
+LOG_PROCESS_FILE=${WORKSPACE}/tools/local_log_process.py
 BUILD_ROOT=`mkdir ../build;cd ../build; pwd`
 cd ${CURRENT_DIR}
 
@@ -95,6 +96,7 @@ cp ${IO_DECRYPT_SERVER_FILE} ${BUILD_PROJECT}/resource/
 cp ${VERIFY_FILE} ${BUILD_PROJECT}/resource/
 cp ${REPEATER_FILE} ${BUILD_PROJECT}/resource/
 cp ${TRACFFIC_PROCESS_FILE} ${BUILD_PROJECT}/resource/
+cp ${LOG_PROCESS_FILE} ${BUILD_PROJECT}/resource/
 
 
 ELF_FILE=${BUILD_PROJECT}/resource/input_elf
@@ -193,6 +195,10 @@ mkdir ${BUILD_PROJECT}/cmake_build_release
 
 if [ ! -z "$(file ${ELF_FILE}|grep 80386)" ];then
     echo "target is i386"
+    if [ -z "$(file ${LIBC_FILE}|grep 80386)" ];then
+      echo "libc is not i386, not same"
+      exit 255
+    fi
     cd ${BUILD_PROJECT}/cmake_build_release
     cmake -D CMAKE_BUILD_TYPE=Release -D TARGET_ARCH=X86 ${WORKSPACE}
     if [ $? -ne 0 ]; then
@@ -209,6 +215,10 @@ if [ ! -z "$(file ${ELF_FILE}|grep 80386)" ];then
 
 elif [ ! -z "$(file ${ELF_FILE}|grep x86-64)" ];then
     echo "target is amd64"
+    if [ -z "$(file ${LIBC_FILE}|grep x86-64)" ];then
+      echo "libc is not amd64, not same"
+      exit 255
+    fi
     cd ${BUILD_PROJECT}/cmake_build_release
     cmake -D CMAKE_BUILD_TYPE=Release -D TARGET_ARCH=X86_64 ${WORKSPACE}
     if [ $? -ne 0 ]; then

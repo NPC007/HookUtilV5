@@ -86,7 +86,7 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 #error "Unknown IS_PIE"
 #endif
 
-     LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
+    LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
     two_base ->patch_data_length = (int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000);
 
     two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
@@ -114,12 +114,51 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 
 
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SHARE_MEM)
+#define IPC_CREAT        01000                /* Create key if key does not exist. */
+#define IPC_EXCL        02000                /* Fail if key exists.  */
+#define IPC_NOWAIT        04000                /* Return error on wait.  */
+#define SHM_R                0400        /* or S_IRUGO from <linux/stat.h> */
+#define SHM_W                0200        /* or S_IWUGO from <linux/stat.h> */
+#define        SHM_RDONLY        010000        /* read-only access */
+#define        SHM_RND                020000        /* round attach address to SHMLBA boundary */
+#define        SHM_REMAP        040000        /* take-over region on attach */
+#define        SHM_EXEC        0100000        /* execution access */
 unsigned long  __loader_start(LIBC_START_MAIN_ARG){
+    char *g_elf_base;
+    unsigned long res;
+    asm_shmget(PATCH_DATA_SHARE_MEM_ID,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),0777,res);
+    if((unsigned long)res>= ((unsigned long)-1) - 0x1000) {
+        goto failed_load_patch;
+    }
+    asm_shmat(res,0,SHM_EXEC|SHM_R|SHM_W, res);
+    if((unsigned long)res>= ((unsigned long)-1) - 0x1000) {
+        goto failed_load_patch;
+    }
+
+    void* base = (void*)res;
+    LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
+    two_base ->patch_data_length = (int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000);
+    two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
+    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(base + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
+    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)base);
+
+
     failed_load_patch:
-#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-    return *(long*)LIB_C_START_MAIN_ADDR;
+#if(IS_PIE == 0)
+    #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+    return *(unsigned long*)LIB_C_START_MAIN_ADDR;
 #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
     return LIB_C_START_MAIN_ADDR;
+#endif
+#elif(IS_PIE == 1)
+    g_elf_base = (char*)_start - FIRST_ENTRY_OFFSET;
+#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+    return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
+#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+    return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
+#endif
+#else
+#error "Unknown IS_PIE"
 #endif
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SOCKET)

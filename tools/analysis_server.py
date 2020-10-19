@@ -20,7 +20,7 @@ enum PACKET_TYPE{
     DATA_IN = 1,
     DATA_OUT,
     DATA_ERR,
-    BASE_ELF,
+    BASE_ELF,ENA
     BASE_LIBC,
     BASE_STACK,
     BASE_HEAP,
@@ -51,6 +51,7 @@ IN_DATA = 1
 OUT_DATA = 2
 ERR_DATA = 3
 
+global ENABLE_TRAFFIC_AGRESS
 ENABLE_TRAFFIC_AGRESS=False
 
 
@@ -65,12 +66,14 @@ class TCPHandler(socketserver.BaseRequestHandler):
             random.randint(0, 65535))[2:]
         self.data_file = open(workspace + '/raw/' + self.data_file_name + '.txt', 'w')
         logging.info('new connection: ' + workspace + '/raw/' + self.data_file_name + '.txt')
+        logging.info("ENABLE_TRAFFIC_AGRESS: %s"%str(ENABLE_TRAFFIC_AGRESS))
         self.json_data = []
         buffer = b""
         store_buf = b""
         avaiable = 0
         self.index = 0
         self.data = []
+        self.request_uuid = b''
         while 1:
             try:
                 if avaiable == 0:
@@ -96,8 +99,14 @@ class TCPHandler(socketserver.BaseRequestHandler):
             'rename : ' + workspace + '/raw/' + self.data_file_name + '.txt' + '  -->  ' + workspace + '/raw/' + self.data_file_name)
 
     def processData(self, store_uuid, store_pkType, store_pkLength, store_data):
+        if len(self.request_uuid) == 0:
+            self.request_uuid = store_uuid
+        else:
+            if self.request_uuid != store_uuid:
+                logging.warn("[UUID]request uuid not same, something wrong")
         if store_pkType == 1:  # stdin
-            sys.stdout.write(string_escape_decode(store_data))
+            #sys.stdout.write(string_escape_decode(store_data))
+            logging.debug("[stdin ]: recv %d bytes"%len(store_data))
             tracffic_info = TracfficInfo(IN_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1
@@ -106,7 +115,8 @@ class TCPHandler(socketserver.BaseRequestHandler):
             # self.data_file.write('\x00'+p32(len(pattern))+pattern)
             # self.data_file.flush()
         elif store_pkType == 2:  # strerr && stdout
-            sys.stdout.write(string_escape_decode(store_data))
+            #sys.stdout.write(string_escape_decode(store_data))
+            logging.debug("[stdout]: recv %d bytes"%len(store_data))
             tracffic_info = TracfficInfo(OUT_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1
@@ -115,7 +125,8 @@ class TCPHandler(socketserver.BaseRequestHandler):
             # self.data_file.write('\x01' + p32(len(pattern)) + pattern)
             # self.data_file.flush()
         elif store_pkType == 3:  # strerr && stdout
-            sys.stdout.write(string_escape_decode(store_data))
+            #sys.stdout.write(string_escape_decode(store_data))
+            logging.debug("[stderr]: recv %d bytes"%len(store_data))
             tracffic_info = TracfficInfo(ERR_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1
@@ -128,7 +139,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                 self.env_info.elf_info.elf_base_dynamic = u64(store_data)
             else:
                 self.env_info.elf_info.elf_base_dynamic = u32(store_data)
-            self.json_data.append('4' + 'elf : elf_base_dynamic: ' + hex(self.env_info.elf_info.elf_base_dynamic))
+            self.json_data.append('4' + '[elf] : elf_base_dynamic: ' + hex(self.env_info.elf_info.elf_base_dynamic))
             if self.env_info.elf_info.elf_base_dynamic%0x1000 != 0:
                 logging.error('elf : elf_base_dynamic is wrong: ' + hex(self.env_info.elf_info.elf_base_dynamic))
             else:
@@ -145,7 +156,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                 else:
                     self.env_info.libc_info.elf_base_dynamic = u32(store_data) - self.env_info.libc_info.libc_start_main
 
-            self.json_data.append('5' + 'libc : elf_base_dynamic: ' + hex(self.env_info.libc_info.elf_base_dynamic))
+            self.json_data.append('5' + '[libc] : elf_base_dynamic: ' + hex(self.env_info.libc_info.elf_base_dynamic))
             if self.env_info.libc_info.elf_base_dynamic %0x1000!=0:
                 logging.error('libc : elf_base_dynamic is wrong: ' + hex(self.env_info.libc_info.elf_base_dynamic))
             else:
@@ -267,13 +278,22 @@ class ELFInfo(object):
         if addr < self.elf_base_dynamic:
             return False
         for seg in self.segmentinfo:
-            start = seg.start - seg.start%0x1000 + self.elf_base_dynamic
-            if seg.end %0x1000 == 0:
-                end = seg.end + self.elf_base_dynamic
+            if self.elf_base_static == 0:
+                start = seg.start - seg.start%0x1000 + self.elf_base_dynamic
+                if seg.end %0x1000 == 0:
+                    end = seg.end + self.elf_base_dynamic
+                else:
+                    end = seg.end + 0x1000 - seg.end%0x1000 + self.elf_base_dynamic
+                if start <= addr <= end:
+                    return True
             else:
-                end = seg.end + 0x1000 - seg.end%0x1000 + self.elf_base_dynamic
-            if start <= addr <= end:
-                return True
+                start = seg.start - seg.start%0x1000
+                if seg.end %0x1000 == 0:
+                    end = seg.end
+                else:
+                    end = seg.end + 0x1000 - seg.end%0x1000
+                if start <= addr <= end:
+                    return True
         return False
 
 
@@ -337,7 +357,18 @@ class Record(object):
         self.value_type = value_type
 
     def dump(self):
-        return 'Type: ' + hex(self.type) + ', position: ' + hex(self.position) + ', offset: ' + hex(
+        if self.type == INVALID_ADDR:
+            type_str = "INVALID_ADDR"
+        elif self.type == ELF_ADDR:
+            type_str = "ELF_ADDR"
+        elif self.type == LIBC_ADDR:
+            type_str = "LIBC_ADDR"
+        elif self.type == HEAP_ADDR:
+            type_str = "HEAP_ADDR"
+        elif self.type == STACK_ADDR:
+            type_str = "STACK_ADDR"
+
+        return 'Type: ' + type_str + ', position: ' + hex(self.position) + ', offset: ' + hex(
             self.offset) + ', len:' + hex(self.length) + ', base:' + hex(self.base) + ', value_type: ' + self.value_type + ', value: ' + hex(self.value)
 
 
@@ -646,7 +677,7 @@ def usage():
 
 if __name__ == "__main__":
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-    global ENABLE_TRAFFIC_AGRESS
+
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=LOG_FORMAT)
     if len(sys.argv) != 7:
         usage()
@@ -695,6 +726,8 @@ def test_analysis_server(argv, time_out, callback):
     libc_path = argv[5]
     if not os.path.exists(workspace + '/raw'):
         os.mkdirs(workspace + '/raw')
+    if not os.path.exists(workspace + '/log_raw'):
+        os.mkdirs(workspace + '/log_raw')
     logging.info('start auto_tracfic_analysis')
     elf_info = ELFInfo(elf_path)
     libc_info = ELFInfo(libc_path)

@@ -65,8 +65,21 @@ IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
     my_exit(0);
 }
 
+IN_LINE int test_sanbox_need_syscall(){
+    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_select,__NR_nanosleep,__NR_dup2,__NR_getsockopt,__NR_pipe};
+    int ret = 0;
+    for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
+        ret = _test_syscall(need_check_syscall[i]);
+        if(ret != 0) {
+            g_loader_param.sandbox_server.sin_port = 0;
+            break;
+        }
+    }
+}
+
 
 IN_LINE int start_sandbox_io_redirect() {
+    test_sanbox_need_syscall();
     char* ip = (char*)&(g_loader_param.sandbox_server.sin_addr.s_addr);
     unsigned short port =  (( (g_loader_param.sandbox_server.sin_port & 0xFF00 ) >> 8) + ((g_loader_param.sandbox_server.sin_port &0x00FF) << 8) );
     if (g_loader_param.sandbox_server.sin_addr.s_addr == 0 || g_loader_param.sandbox_server.sin_port == 0) {
@@ -102,7 +115,7 @@ static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
     char black_bins[][20] = {"cat","sh","bash"};
     char* black_bin = NULL;
     DEBUG_LOG("__hook_dynamic_execve success");
-    for(int i=0;;i++) {
+    for(int i=0;i<sizeof(black_bins)/sizeof(black_bins[0]);i++) {
         black_bin = black_bins[i];
         if(black_bin == NULL)
             break;

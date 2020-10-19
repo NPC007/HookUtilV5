@@ -388,6 +388,12 @@ int main(int argc,char* argv[]){
                 exit(-1);
         }
     }
+    // process shell_code_defense
+    {
+        char* shell_code_defense = cJSON_GetObjectItem(config,"shell_code_defense")->valuestring;
+
+        int shell_code_defense_value = atoi(shell_code_defense);
+    }
     process_start_function(tmp_input_file,config);
     {
         char* libc_start_main_addr_type = cJSON_GetObjectItem(config,"libc_start_main_addr_type")->valuestring;
@@ -449,13 +455,22 @@ int main(int argc,char* argv[]){
         write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_VADDR", tmp_buf);
     }
     else if(strcmp("share_memory",loader_stage_other_position)==0){
-        logger("not implement,exit!!!");
-        exit(-1);
+        //logger("not implement,exit!!!");
+        //exit(-1);
         write_marco_define(stage_one_normal_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
         write_marco_define(stage_one_sandbox_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
-        char* loader_stage_other_share_memory_id = cJSON_GetObjectItem(config,"loader_stage_other_share_memory_id")->valuestring;
-        write_marco_define(stage_one_normal_config_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id);
-        write_marco_define(stage_one_sandbox_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
+        char* loader_stage_other_share_memory_id_normal = cJSON_GetObjectItem(config,"loader_stage_other_share_memory_id")->valuestring;
+        char* loader_stage_other_share_memory_id_sandbox[32] ;
+        snprintf(loader_stage_other_share_memory_id_sandbox,sizeof(loader_stage_other_share_memory_id_sandbox),"%d",atoi(loader_stage_other_share_memory_id_normal) + 1);
+
+        write_marco_define(stage_one_normal_config_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id_normal);
+        write_marco_define(stage_one_sandbox_config_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id_sandbox);
+
+        char tmp_buf[256];
+        snprintf(tmp_buf, 255, "0x%lx", get_file_size(normal_data_file_path));
+        write_marco_define(stage_one_normal_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
+        snprintf(tmp_buf, 255, "0x%lx", get_file_size(sandbox_data_file_path));
+        write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
     }
     else if(strcmp("socket",loader_stage_other_position)==0){
         write_marco_define(stage_one_normal_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SOCKET");

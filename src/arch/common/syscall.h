@@ -131,6 +131,13 @@ IN_LINE long my_exit(int code){
     return res;
 }
 
+IN_LINE long my_exit_group(int code){
+    long res = 0;
+    asm_exit_group(code,res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
+
 IN_LINE void my_alarm(int time){
     long res = 0;
     asm_alarm(time,res);
@@ -200,6 +207,13 @@ IN_LINE long my_brk(void* addr){
     return res;
 }
 
+
+IN_LINE long my_rt_sigaction(int sig,void* new_action,void* old_action){
+    long res = 0;
+    asm_rt_sigaction(sig,new_action,old_action,res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
 
 
 

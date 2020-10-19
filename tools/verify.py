@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     elf_base = get_elf_base(elf_file)
     while True:
-        logging.info('scan dir......................')
+        logging.info('[verify]:scan dir: %s......................'%scan_dir)
         for file_name in os.listdir(scan_dir):
             if file_name.find('.')!=-1:
                 continue

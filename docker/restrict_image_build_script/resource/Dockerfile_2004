@@ -1,0 +1,34 @@
+FROM ubuntu:ctf_tools_2004_restrict
+
+COPY resource/ctf/pwn.start.sh /home/ctf/pwn.start.sh
+COPY out/input_elf_normal /home/ctf/pwn
+RUN  chmod +x /home/ctf/pwn
+COPY resource/ctf/ctf.xinetd /etc/xinetd.d/ctf
+
+RUN mkdir -p /home/ctf/flags/pwn/
+COPY resource/ctf/flag /home/ctf/flag
+RUN chmod 633 /home/ctf/flag
+
+COPY resource/analysis_server.py /root/
+COPY resource/verify.py /root/
+COPY resource/repeater.py /root/
+COPY resource/tracffic_process.py /root/
+COPY resource/local_log_process.py /root/
+COPY out/input_elf /root/input_elf
+COPY out/libc.so /root/libc.so
+COPY out/libc.so /home/ctf/libc.so
+COPY resource/io_decrypt_server.py /root/
+
+COPY out/input_elf_sandbox /root/sandbox_elf
+COPY resource/sandbox/sandbox.xinetd /etc/xinetd.d/sandbox
+
+COPY resource/ctf_test/pwn_test.start.sh /home/ctf/pwn_test.start.sh
+COPY out/input_elf /home/ctf/pwn_test
+RUN  chmod +x /home/ctf/pwn_test
+COPY resource/ctf_test/ctf.xinetd.test /etc/xinetd.d/ctf_test
+
+COPY resource/docker_start.sh /root/docker_start.sh
+
+RUN  chmod 777 /root/docker_start.sh
+
+CMD ["/root/docker_start.sh"]

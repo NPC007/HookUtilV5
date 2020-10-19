@@ -568,11 +568,7 @@ int main(int argc,char* argv[]){
         add_file_content_to_elf_pt_load(output_sandbox_elf_path,sandbox_data_file_path);
     }
     else if(strcmp("share_memory",loader_stage_other_position)==0){
-        logger("not implement,exit!!!");
-        exit(-1);
-        //write_marco_define(config_file_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
-        //char* loader_stage_other_share_memory_id = cJSON_GetObjectItem(config,"loader_stage_other_share_memory_id")->valuestring;
-        //write_marco_define(config_file_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id);
+        //Nothing Need to do
     }
     else if(strcmp("socket",loader_stage_other_position)==0){
         //Nothing Need to do

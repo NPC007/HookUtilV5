@@ -16,8 +16,9 @@
 #include "utils/md5.h"
 #include "arch/common/syscall.h"
 #include "utils/common.h"
+#include "signal.h"
 
-#define SHELL_LOG(format,...) shell_log("[DEBUG]:"format"\n",##__VA_ARGS__)
+#define SHELL_LOG(format,...) my_debug_0("[DEBUG][SHELL]:"format"\n",##__VA_ARGS__)
 #define DEBUG_LOG(format,...) my_debug_0("[DEBUG]:"format"\n",##__VA_ARGS__)
 
 #if(PATCH_DEBUG == 1)
@@ -927,6 +928,54 @@ IN_LINE void destory_patch_data(){
     my_munmap((void*)g_loader_param.patch_data_mmap_file_base,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000));
 #endif
 }
+
+
+
+
+IN_LINE int _test_syscall(int syscall_id){
+#ifdef __x86_64__
+    int ignore_syscall_ids[] = {__NR_read,__NR_write,__NR_open,__NR_close,__NR_reboot,__NR_shutdown,__NR_rt_sigreturn,__NR_pause,__NR_syslog,__NR_vhangup,__NR_shmat};
+#elif __i386__
+    int ignore_syscall_ids[] = {__NR_read,__NR_write,__NR_open,__NR_close,__NR_reboot,__NR_shutdown,__NR_rt_sigreturn,__NR_pause,__NR_syslog,__NR_vhangup,__NR_shmat};
+#endif
+    int res = 0;
+    int stats = 0;
+    for(int i=0;i<sizeof(ignore_syscall_ids)/sizeof(int);i++){
+        if(ignore_syscall_ids[i] == syscall_id){
+            SHELL_LOG("test syscall: %3d -> %32s , ignore",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+            return -1;
+        }
+    }
+    int pid = my_fork();
+    if(pid == 0){
+        my_alarm(1);
+        //todo Fix this?
+        if(syscall_id == 30)*(int*)(0x6000) =1;
+        asm_syscall_test(syscall_id,res);
+        my_exit_group(0);
+    }else if(pid < 0){
+        SHELL_LOG("test syscall: %3d -> %32s , fork failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+        return -1;
+    }else{
+        //my_sleep(200);
+        if(my_waitpid(pid,(long)&stats,0)!=0){
+            if(WIFEXITED(stats)) {
+                SHELL_LOG("test syscall: %3d -> %32s , success,ret: %d", syscall_id, SYSCALL_ALL_STR[syscall_id],
+                          WEXITSTATUS(stats));
+                return 0;
+            }
+            else {
+                SHELL_LOG("test syscall: %3d -> %32s , failed", syscall_id, SYSCALL_ALL_STR[syscall_id]);
+                return -1;
+            }
+        }
+        else{
+            SHELL_LOG("test syscall: %3d -> %32s , wait failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
+            return -1;
+        }
+    }
+}
+
 
 IN_LINE int isconnected(int sockfd, fd_set *rd, fd_set *wr)
 {

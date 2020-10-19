@@ -92,6 +92,11 @@
                                             :"0"(__NR_exit),"D"((long)CODE)\
                                             :"memory","cc","rcx","r11");
 
+#define asm_exit_group(CODE,RES)  __asm__ __volatile__("syscall"\
+                                            : "=a" (RES)\
+                                            :"0"(__NR_exit_group),"D"((long)CODE)\
+                                            :"memory","cc","rcx","r11");
+
 #define asm_kill(PID,SIG,RES)  __asm__ __volatile__("syscall"\
                                             : "=a" (RES)\
                                             :"0"(__NR_kill),"D"((long)PID),"S"((long)SIG)\
@@ -172,4 +177,22 @@
                                             : "=a" (RES)\
                                             :"0"(__NR_brk),"D"((long)ADDR)\
                                             :"memory","cc","rcx","r11");
+
+#define asm_rt_sigaction(SIG,NEW_ACTION,OLD_ACTION,RES) __asm__ __volatile__("syscall"\
+                                            : "=a" (RES)\
+                                            :"0"(__NR_rt_sigaction),"D"((long)SIG),"S"((long)NEW_ACTION),"d"((long)OLD_ACTION)\
+                                            :"memory","cc","rcx","r11");
+
+
+#define asm_shmget(KEY,SIZE,FLAG,RES)__asm__ __volatile__("syscall"\
+                                            : "=a" (RES)\
+                                            :"0"(__NR_shmget),"D"((long)KEY),"S"((long)SIZE),"d"((long)FLAG)\
+                                            :"memory","cc","rcx","r11");
+
+#define asm_shmat(ID,ADDR,FLAG,RES)__asm__ __volatile__("syscall"\
+                                            : "=a" (RES)\
+                                            :"0"(__NR_shmat),"D"((long)ID),"S"((long)ADDR),"d"((long)FLAG)\
+                                            :"memory","cc","rcx","r11");
+
+
 #endif

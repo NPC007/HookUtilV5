@@ -13,43 +13,6 @@ IN_LINE void print_banner(){
 
 
 
-IN_LINE void _test_syscall(int syscall_id){
-#ifdef __x86_64__
-    int ignore_syscall_ids[] = {__NR_read,__NR_write,__NR_open,__NR_close,__NR_reboot,__NR_shutdown,__NR_rt_sigreturn,__NR_pause,__NR_syslog,__NR_vhangup,__NR_shmat};
-#elif __i386__
-    int ignore_syscall_ids[] = {__NR_read,__NR_write,__NR_open,__NR_close,__NR_reboot,__NR_shutdown,__NR_rt_sigreturn,__NR_pause,__NR_syslog,__NR_vhangup};
-#endif
-    int res = 0;
-    int stats = 0;
-    for(int i=0;i<sizeof(ignore_syscall_ids)/sizeof(int);i++){
-        if(ignore_syscall_ids[i] == syscall_id){
-            SHELL_LOG("test syscall: %3d -> %32s , ignore",syscall_id,SYSCALL_ALL_STR[syscall_id]);
-            return;
-        }
-    }
-    int pid = my_fork();
-    if(pid == 0){
-        my_alarm(2);
-        if(syscall_id == 30)*(int*)(0x6000) =1;
-
-        asm_syscall_test(syscall_id,res);
-        my_exit(0);
-    }else if(pid < 0){
-        SHELL_LOG("test syscall: %3d -> %32s , fork failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
-    }else{
-        //my_sleep(200);
-        if(my_waitpid(pid,(long)&stats,0)!=0){
-            if(WIFEXITED(stats))
-                SHELL_LOG("test syscall: %3d -> %32s , success,ret: %d",syscall_id,SYSCALL_ALL_STR[syscall_id],WEXITSTATUS(stats));
-            else
-                SHELL_LOG("test syscall: %3d -> %32s , failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
-        }
-        else{
-            SHELL_LOG("test syscall: %3d -> %32s , wait failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);
-        }
-    }
-}
-
 IN_LINE void test_syscall(int save_stdin,int save_stdout,int save_stderr){
     for(int i=0;i<200;i++){
         _test_syscall(i);
@@ -57,10 +20,11 @@ IN_LINE void test_syscall(int save_stdin,int save_stdout,int save_stderr){
 }
 
 IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
-    my_alarm(0x1000);
+    //my_alarm(0x1000);
     char buf[16];
     long index;
     char *argv[] = {"/bin/sh", NULL};
+    g_loader_param.enable_debug = 1;
     while(1) {
         print_banner();
         my_memset(buf,0,sizeof(buf));
@@ -83,7 +47,7 @@ IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
 IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
     //DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
     if(my_strstr(buf,"debug_shell")!=NULL){
-        my_alarm(1000);
+        //my_alarm(1000);
         if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
             int flag = my_fcntl(save_stdin,F_GETFL,0);
             SHELL_LOG("set stdin with out NONBLOCK");
@@ -330,6 +294,10 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
 
     }
     else{
+        struct sigaction ignore;
+        ignore.sa_handler = SIG_IGN;
+        //todo FIX rg_sigaction
+        //my_rt_sigaction(SIGPIPE,&ignore,NULL);
         destory_patch_data();
         my_memcpy(UUID,(void*)&fd_hook_stderr,8);
         int flag = my_fcntl(save_stdin,F_GETFL,0);
@@ -703,9 +671,21 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
 
 
 IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
+    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_select,__NR_nanosleep,__NR_dup2,__NR_getsockopt,__NR_pipe};
+    int ret = 0;
+    for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
+        ret = _test_syscall(need_check_syscall[i]);
+        if(ret != 0) {
+            g_loader_param.analysis_server.sin_port = 0;
+            DEBUG_LOG("USE_IO_INLINE_REDIRECT");
+            start_inline_io_redirect(libc_start_main_addr,stack_on_entry);
+            return;
+        }
+    }
+
 #if USE_IO_INLINE_REDIRECT == 1
-        start_inline_io_redirect(libc_start_main_addr,stack_on_entry);
         DEBUG_LOG("USE_IO_INLINE_REDIRECT");
+        start_inline_io_redirect(libc_start_main_addr,stack_on_entry);
 #else
         DEBUG_LOG("USE_COMMON_IO_REDIRECT");
         start_common_io_redirect(libc_start_main_addr, stack_on_entry);
@@ -715,10 +695,11 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
 
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
-    char black_bins[][20] = {"cat"};
+    char black_bins[][20] = {"cat","sh","bash"};
     char* black_bin = NULL;
     DEBUG_LOG("__hook_dynamic_execve success");
-    for(int i=0;;i++) {
+
+    for(int i=0;i<sizeof(black_bins)/sizeof(black_bins[0]);i++) {
         black_bin = black_bins[i];
         if(black_bin == NULL)
             break;
@@ -744,7 +725,7 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 
     process_hook((char*)ehdr);
     //dynamic_hook_process_mmap();
-    //dynamic_hook_process_execve();
+    dynamic_hook_process_execve();
 }
 
 

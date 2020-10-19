@@ -146,7 +146,12 @@ typedef struct SYS_SENDTO_STRUCT{
 
 #define asm_exit(CODE,RES)  __asm__ __volatile__("int $0x80"\
                                             : "=a" (RES)\
-                                            :"0"(__NR_exit),"b"((long)CODE)\
+                                            :"0"(__NR_exit_group),"b"((long)CODE)\
+                                            :"cc","memory");
+
+#define asm_exit_group(CODE,RES)  __asm__ __volatile__("int $0x80"\
+                                            : "=a" (RES)\
+                                            :"0"(__NR_exit_group),"b"((long)CODE)\
                                             :"cc","memory");
 
 #define asm_kill(PID,SIG,RES)  __asm__ __volatile__("int $0x80"\
@@ -242,5 +247,20 @@ typedef struct SYS_GETSOCKOPT_STRUCT{
                                     : "=a" (RES)\
                                     :"0"(__NR_brk),"b"((long)ADDR)\
                                     :"cc","memory");
+
+#define asm_rt_sigaction(SIG,NEW_ACTION,OLD_ACTION,RES) __asm__ __volatile__("int $0x80"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_rt_sigaction),"b"((long)SIG),"c"((long)NEW_ACTION),"d"((long)OLD_ACTION)\
+                                                :"cc","memory");
+
+#define asm_shmget(KEY,SIZE,FLAG,RES) __asm__ __volatile__("int $0x80"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_shmget),"b"((long)KEY),"c"((long)SIZE),"d"((long)FLAG)\
+                                                :"cc","memory");
+
+#define asm_shmat(ID,ADDR,FLAG,RES) __asm__ __volatile__("int $0x80"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_shmat),"b"((long)ID),"c"((long)ADDR),"d"((long)FLAG)\
+                                                :"cc","memory");
 
 #endif
