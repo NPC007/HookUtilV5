@@ -66,7 +66,8 @@ IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
 }
 
 IN_LINE int test_sanbox_need_syscall(){
-    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_select,__NR_nanosleep,__NR_dup2,__NR_getsockopt,__NR_pipe};
+    //__NR_select
+    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_nanosleep,__NR_dup2,__NR_getsockopt,__NR_pipe};
     int ret = 0;
     for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
         ret = _test_syscall(need_check_syscall[i]);
