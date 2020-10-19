@@ -4,7 +4,7 @@
   "input_elf":"input_elf",
 
   "loader_stage_one_position":"new_pt_load",
-  "loader_stage_other_position":"share_memory",
+  "loader_stage_other_position":"memory",
 
 
   "loader_stage_other_share_memory_id":"123",
