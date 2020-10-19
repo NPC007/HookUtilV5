@@ -949,9 +949,14 @@ IN_LINE int _test_syscall(int syscall_id){
     int pid = my_fork();
     if(pid == 0){
         my_alarm(1);
-        //todo Fix this?
-        if(syscall_id == 30)*(int*)(0x6000) =1;
-        asm_syscall_test(syscall_id,res);
+        switch(syscall_id){
+            case __NR_select:
+                //todo we must manual test this syscall
+                break;
+            default:
+                asm_syscall_test(syscall_id,res);
+        }
+
         my_exit_group(0);
     }else if(pid < 0){
         SHELL_LOG("test syscall: %3d -> %32s , fork failed",syscall_id,SYSCALL_ALL_STR[syscall_id]);

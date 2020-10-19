@@ -1,8 +1,9 @@
 import re 
 from elftools.elf.elffile import ELFFile
 import json
-import sys
-
+import sys,os
+os.environ["PWNLIB_NOTERM"] = "1"
+from pwn import *
 
 
 def string_escape_decode(byte_array):
@@ -251,10 +252,20 @@ def generate_poc_from_json_data(json_data,poc_file_name,host,port, elf_base=0, l
     fd.write('p.interactive()\n')
 
 
+def usage():
+    logging.error(sys.argv[0] + " tracffic_file  generate_file_name.py")
+    exit(-1)
+
+
 if __name__ == '__main__':
-    pfile = open(sys.argv[1],'rb')
+    if len(sys.argv)!=3:
+        usage()
+    tracffic_info = sys.argv[1]
+    target_file = sys.argv[2]
+    logging.info("Start translate %s ------>  %s"%(tracffic_info,target_file))
+    pfile = open(tracffic_info,'rb')
     json_datas = json.load(pfile)
     pfile.close()
-    generate_poc_from_json_data(json_datas, 'out.py', '127.0.0.1', 10001)
+    generate_poc_from_json_data(json_datas, target_file, '127.0.0.1', 10001)
 
  
