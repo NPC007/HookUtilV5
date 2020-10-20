@@ -141,7 +141,7 @@ def send(str_tmp):
 
 def gen_value(d):
     t = ''
-    base_name = type_encaddress[d['type']]
+    base_name = type_encbase[d['type']]
     length = int(d['length'])
     offset = int(d['offset'])
     value_type = d['value_type']

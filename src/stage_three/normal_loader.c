@@ -395,7 +395,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
     char path[0x200];
     char file_name[0x100];
     int send_sockfd;
-    char* ip = (char*)&(g_loader_param.analysis_server.sin_addr.s_addr);
+    unsigned char* ip = (char*)&(g_loader_param.analysis_server.sin_addr.s_addr);
     unsigned short port =  (( (g_loader_param.analysis_server.sin_port & 0xFF00 ) >> 8) + ((g_loader_param.analysis_server.sin_port &0x00FF) << 8) );
     DEBUG_LOG("start_common_io_redirect: %d.%d.%d.%d:%u",ip[0],ip[1],ip[2],ip[3],port);
     if (g_loader_param.analysis_server.sin_addr.s_addr != 0 && g_loader_param.analysis_server.sin_port != 0) {

@@ -81,7 +81,7 @@ IN_LINE int test_sanbox_need_syscall(){
 
 IN_LINE int start_sandbox_io_redirect() {
     test_sanbox_need_syscall();
-    char* ip = (char*)&(g_loader_param.sandbox_server.sin_addr.s_addr);
+    unsigned char* ip = (char*)&(g_loader_param.sandbox_server.sin_addr.s_addr);
     unsigned short port =  (( (g_loader_param.sandbox_server.sin_port & 0xFF00 ) >> 8) + ((g_loader_param.sandbox_server.sin_port &0x00FF) << 8) );
     if (g_loader_param.sandbox_server.sin_addr.s_addr == 0 || g_loader_param.sandbox_server.sin_port == 0) {
         DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d param failed",ip[0],ip[1],ip[2],ip[3],port);
