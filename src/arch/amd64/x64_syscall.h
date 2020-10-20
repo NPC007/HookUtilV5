@@ -82,7 +82,7 @@
                                                 register long _flag_  asm("r10")= (long)FLAG;\
                                                 __asm__ __volatile__("syscall"\
                                                 : "=a" (RES)\
-                                                :"0"(__NR_sendto),"D"((long)FD),"S"((long)ADDR),"d"((long)ADDR_SIZE),"r"((long)_flag_)\
+                                                :"0"(__NR_accept4),"D"((long)FD),"S"((long)ADDR),"d"((long)ADDR_SIZE),"r"((long)_flag_)\
                                                 :"memory","cc","rcx","r11");})
 
 
