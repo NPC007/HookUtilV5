@@ -1,5 +1,5 @@
 {
-  "project_root":"/home/runshine/HookUtilV3/",
+  "project_root":"/home/runshine/HookUtilV3/test/../",
   "target_dir": "out",
   "input_elf":"input_elf",
 
@@ -15,7 +15,7 @@
   "loader_stage_other_file_path":"/tmp/1",
 
 
-  "shell_code_defense": "1",
+  "shell_code_defense": "0",
 
 
   "tcp_time_out":"1",

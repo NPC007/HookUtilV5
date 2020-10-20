@@ -222,6 +222,32 @@ IN_LINE long my_prctl(unsigned long options,unsigned long arg2,unsigned long arg
     return res;
 }
 
+IN_LINE long my_unlink(void* file_name){
+    long res = 0;
+    asm_unlink(file_name,res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
 
+IN_LINE int my_accept(unsigned long sockfd, struct sockaddr *addr,socklen_t *addrlen, unsigned long flags){
+    long res = 0;
+    asm_accept(sockfd,addr,addrlen,flags,res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
+
+IN_LINE int my_listen(unsigned long sockfd, unsigned long backlog){
+    long res = 0;
+    asm_listen(sockfd,backlog,res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
+
+IN_LINE int my_bind(unsigned long sockfd, const struct sockaddr *addr,socklen_t addrlen){
+    long res = 0;
+    asm_bind(sockfd,addr,addrlen,res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
 
 #endif //HOOKUTILV3_SYSCALL_H

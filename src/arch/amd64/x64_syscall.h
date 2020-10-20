@@ -68,6 +68,24 @@
                                                 :"0"(__NR_connect),"D"((long)FD),"S"((long)ADDR),"d"((long)ADDR_SIZE)\
                                                 :"memory","cc","rcx","r11");
 
+#define asm_bind(FD,ADDR,ADDR_SIZE,RES) __asm__ __volatile__("syscall"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_bind),"D"((long)FD),"S"((long)ADDR),"d"((long)ADDR_SIZE)\
+                                                :"memory","cc","rcx","r11");
+
+#define asm_listen(FD,MAX_CLIENT,RES) __asm__ __volatile__("syscall"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_listen),"D"((long)FD),"S"((long)MAX_CLIENT)\
+                                                :"memory","cc","rcx","r11");
+
+#define asm_accept(FD,ADDR,ADDR_SIZE,FLAG,RES) ({\
+                                                register long _flag_  asm("r10")= (long)FLAG;\
+                                                __asm__ __volatile__("syscall"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_sendto),"D"((long)FD),"S"((long)ADDR),"d"((long)ADDR_SIZE),"r"((long)_flag_)\
+                                                :"memory","cc","rcx","r11");})
+
+
 #define asm_send(FD,BUF,LEN,FLAG,RES) ({\
                                                 register long _flag_  asm("r10")= (long)FLAG;\
                                                 register long _addr_  asm("r8")= (long)0;\
@@ -201,5 +219,20 @@
                                                 : "=a" (RES)\
                                                 :"0"(__NR_prctl),"D"((long)OPTIONS),"S"((long)ARG2),"d"((long)ARG3),"r"((long)_arg4_),"r"((long)_arg5_)\
                                                 :"memory","cc","rcx","r11");})
+
+#define asm_unlink(FILE,RES) __asm__ __volatile__("syscall"\
+                                            : "=a" (RES)\
+                                            :"0"(__NR_unlink),"D"((long)FILE)\
+                                            :"memory","cc","rcx","r11");
+
+#define asm_umask(MASK,RES) __asm__ __volatile__("syscall"\
+                                            : "=a" (RES)\
+                                            :"0"(__NR_umask),"D"((long)MASK)\
+                                            :"memory","cc","rcx","r11");
+
+#define asm_setsid(RES) __asm__ __volatile__("syscall"\
+                                            : "=a" (RES)\
+                                            :"0"(__NR_setsid)\
+                                            :"memory","cc","rcx","r11");
 
 #endif

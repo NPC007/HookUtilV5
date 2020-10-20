@@ -1,10 +1,10 @@
 ---------------------------------------------------------------------------------------------------------
-debug_config.h: /home/runshine/HookUtilV3//src/auto_generate/debug_config.h
-normal_config.h: /home/runshine/HookUtilV3//src/auto_generate/normal_config.h
-sandbox_config.h: /home/runshine/HookUtilV3//src/auto_generate/sandbox_config.h
+debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/debug_config.h
+normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal_config.h
+sandbox_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox_config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 1
+#define PATCH_DEBUG 0
 ###########################################process normal_config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "192.168.64.130"
@@ -13,127 +13,135 @@ input elf: input_elf
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
 #define USE_IO_INLINE_REDIRECT 0
-#define SHELL_CODE_DEFENSE 1
+#define SHELL_CODE_DEFENSE 0
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST "192.168.64.130"
 #define SANDBOX_PORT 10003
-#define SHELL_CODE_DEFENSE 1
+#define SHELL_CODE_DEFENSE 0
 ---------------------------------------------------------------------------------------------------------
-stage_one: /home/runshine/HookUtilV3//out/stage_one
-stage_two: /home/runshine/HookUtilV3//out/stage_two
-stage_three_normal: /home/runshine/HookUtilV3//out/stage_three_normal
-stage_three_sandbox: /home/runshine/HookUtilV3//out/stage_three_sandbox
+stage_one: /home/runshine/HookUtilV3/test/..//out/stage_one
+stage_two: /home/runshine/HookUtilV3/test/..//out/stage_two
+stage_three_normal: /home/runshine/HookUtilV3/test/..//out/stage_three_normal
+stage_three_sandbox: /home/runshine/HookUtilV3/test/..//out/stage_three_sandbox
 target_dir: out
-check /home/runshine/HookUtilV3//out/stage_two start
-check /home/runshine/HookUtilV3//out/stage_two end
-generate normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
+check /home/runshine/HookUtilV3/test/..//out/stage_two start
+check /home/runshine/HookUtilV3/test/..//out/stage_two end
+generate normal_data_file:/home/runshine/HookUtilV3/test/..//out/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x320
-	entry_offset:               0x31
+	length:                     0x23e
+	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x550d
-	length:                           0x2ffb0
+	entry_offset:                     0x58ba
+	length:                           0x1ed70
 	analysis_server_ip:               192.168.64.130
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.64.130
 	sandbox_server_port:              10003
-generate sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
+generate sandbox_data_file:/home/runshine/HookUtilV3/test/..//out/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x320
-	entry_offset:               0x31
+	length:                     0x23e
+	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x2f81
-	length:                           0x21ff8
+	entry_offset:                     0x22eb
+	length:                           0xbc08
 	analysis_server_ip:               192.168.64.130
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.64.130
 	sandbox_server_port:              10003
 ---------------------------------------------------------------------------------------------------------
-stage_one_normal_config.h: /home/runshine/HookUtilV3//src/auto_generate/stage_one_normal_config.h
-stage_one_sandbox_config_h: /home/runshine/HookUtilV3//src/auto_generate/stage_one_sandbox_config.h
-normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
-sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
-input_elf: /home/runshine/HookUtilV3//out/input_elf
+stage_one_normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/stage_one_normal_config.h
+stage_one_sandbox_config_h: /home/runshine/HookUtilV3/test/..//src/auto_generate/stage_one_sandbox_config.h
+normal_data_file:/home/runshine/HookUtilV3/test/..//out/normal.datafile
+sandbox_data_file:/home/runshine/HookUtilV3/test/..//out/sandbox.datafile
+input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
 #define IS_PIE 1
 #define IS_PIE 1
-0xa20:	xor		ebp, ebp
-0xa22:	mov		r9, rdx
-0xa25:	pop		rsi
-0xa26:	mov		rdx, rsp
-0xa29:	and		rsp, 0xfffffffffffffff0
-0xa2d:	push		rax
-0xa2e:	push		rsp
-0xa2f:	lea		r8, [rip + 0x74a]
-0xa36:	lea		rcx, [rip + 0x6d3]
-0xa3d:	lea		rdi, [rip + 0x604]
-0xa44:	call		0x980
+0x9d80:	endbr64		
+0x9d84:	xor		ebp, ebp
+0x9d86:	mov		r9, rdx
+0x9d89:	pop		rsi
+0x9d8a:	mov		rdx, rsp
+0x9d8d:	and		rsp, 0xfffffffffffffff0
+0x9d91:	push		rax
+0x9d92:	push		rsp
+0x9d93:	lea		r8, [rip + 0x1446]
+0x9d9a:	lea		rcx, [rip + 0x139f]
+0x9da1:	lea		rdi, [rip + 0x238]
+0x9da8:	call		0xa4e0
 find start call libc_start_main
 identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0x980
-identify libc_start_main_start_call_offset : 0xa44
-identify libc_start_main_start_call_vaddr  : 0xa44
+identify libc_start_main_addr              : 0xa4e0
+identify libc_start_main_start_call_offset : 0x9da8
+identify libc_start_main_start_call_vaddr  : 0x9da8
 #define LIBC_START_MAIN_ADDR_TYPE CODE
 #define LIBC_START_MAIN_ADDR_TYPE CODE
-#define LIB_C_START_MAIN_ADDR 0x980
-#define LIB_C_START_MAIN_ADDR 0x980
+#define LIB_C_START_MAIN_ADDR 0xa4e0
+#define LIB_C_START_MAIN_ADDR 0xa4e0
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            1684	mem_size:            1684
-vaddr:          201d38	file_offset:            1d38	file_size:             2d8	mem_size:             628
+vaddr:               0	file_offset:               0	file_size:            80c8	mem_size:            80c8
+vaddr:            9000	file_offset:            9000	file_size:           96431	mem_size:           96431
+vaddr:           a0000	file_offset:           a0000	file_size:           28c43	mem_size:           28c43
+vaddr:           c9de0	file_offset:           c8de0	file_size:            5350	mem_size:            6be0
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:          203000	file_offset:          203000
-#define FIRST_ENTRY_OFFSET 0x204000
-#define FIRST_ENTRY_OFFSET 0x204000
+Add PHDR pt_load: vaddr:           e3000	file_offset:           e3000
+#define FIRST_ENTRY_OFFSET 0xe4000
+#define FIRST_ENTRY_OFFSET 0xe4000
 #define CONFIG_LOADER_TYPE LOAD_FROM_MEM
 #define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define PATCH_DATA_MMAP_FILE_SIZE 0x30370
-#define PATCH_DATA_MMAP_FILE_SIZE 0x223b8
-#define PATCH_DATA_MMAP_FILE_VADDR 0x205000
-#define PATCH_DATA_MMAP_FILE_VADDR 0x205000
+#define PATCH_DATA_MMAP_FILE_SIZE 0x1f04e
+#define PATCH_DATA_MMAP_FILE_SIZE 0xbee6
+#define PATCH_DATA_MMAP_FILE_VADDR 0xe5000
+#define PATCH_DATA_MMAP_FILE_VADDR 0xe5000
 ---------------------------------------------------------------------------------------------------------
-normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
-sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
-input_elf: /home/runshine/HookUtilV3//out/input_elf
-stage_one_normal: /home/runshine/HookUtilV3//out/stage_one_normal
-stage_one_sandbox: /home/runshine/HookUtilV3//out/stage_one_sandbox
-check /home/runshine/HookUtilV3//out/stage_one_normal start
-check /home/runshine/HookUtilV3//out/stage_one_normal end
-check /home/runshine/HookUtilV3//out/stage_one_sandbox start
-check /home/runshine/HookUtilV3//out/stage_one_sandbox end
-0xa20:	xor		ebp, ebp
-0xa22:	mov		r9, rdx
-0xa25:	pop		rsi
-0xa26:	mov		rdx, rsp
-0xa29:	and		rsp, 0xfffffffffffffff0
-0xa2d:	push		rax
-0xa2e:	push		rsp
-0xa2f:	lea		r8, [rip + 0x74a]
-0xa36:	lea		rcx, [rip + 0x6d3]
-0xa3d:	lea		rdi, [rip + 0x604]
-0xa44:	call		0x980
+normal_data_file:/home/runshine/HookUtilV3/test/..//out/normal.datafile
+sandbox_data_file:/home/runshine/HookUtilV3/test/..//out/sandbox.datafile
+input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
+stage_one_normal: /home/runshine/HookUtilV3/test/..//out/stage_one_normal
+stage_one_sandbox: /home/runshine/HookUtilV3/test/..//out/stage_one_sandbox
+check /home/runshine/HookUtilV3/test/..//out/stage_one_normal start
+check /home/runshine/HookUtilV3/test/..//out/stage_one_normal end
+check /home/runshine/HookUtilV3/test/..//out/stage_one_sandbox start
+check /home/runshine/HookUtilV3/test/..//out/stage_one_sandbox end
+0x9d80:	endbr64		
+0x9d84:	xor		ebp, ebp
+0x9d86:	mov		r9, rdx
+0x9d89:	pop		rsi
+0x9d8a:	mov		rdx, rsp
+0x9d8d:	and		rsp, 0xfffffffffffffff0
+0x9d91:	push		rax
+0x9d92:	push		rsp
+0x9d93:	lea		r8, [rip + 0x1446]
+0x9d9a:	lea		rcx, [rip + 0x139f]
+0x9da1:	lea		rdi, [rip + 0x238]
+0x9da8:	call		0xa4e0
 find start call libc_start_main
 identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0x980
-identify libc_start_main_start_call_offset : 0xa44
-identify libc_start_main_start_call_vaddr  : 0xa44
+identify libc_start_main_addr              : 0xa4e0
+identify libc_start_main_start_call_offset : 0x9da8
+identify libc_start_main_start_call_vaddr  : 0x9da8
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            1684	mem_size:            1684
-vaddr:          201d38	file_offset:            1d38	file_size:             2d8	mem_size:             628
+vaddr:               0	file_offset:               0	file_size:            80c8	mem_size:            80c8
+vaddr:            9000	file_offset:            9000	file_size:           96431	mem_size:           96431
+vaddr:           a0000	file_offset:           a0000	file_size:           28c43	mem_size:           28c43
+vaddr:           c9de0	file_offset:           c8de0	file_size:            5350	mem_size:            6be0
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:          203000	file_offset:          203000
+Add PHDR pt_load: vaddr:           e3000	file_offset:           e3000
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            1684	mem_size:            1684
-vaddr:          201d38	file_offset:            1d38	file_size:             2d8	mem_size:             628
+vaddr:               0	file_offset:               0	file_size:            80c8	mem_size:            80c8
+vaddr:            9000	file_offset:            9000	file_size:           96431	mem_size:           96431
+vaddr:           a0000	file_offset:           a0000	file_size:           28c43	mem_size:           28c43
+vaddr:           c9de0	file_offset:           c8de0	file_size:            5350	mem_size:            6be0
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:          203000	file_offset:          203000
+Add PHDR pt_load: vaddr:           e3000	file_offset:           e3000
 generate done
 -------------------------------------------------------------------------------------------------------------

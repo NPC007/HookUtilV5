@@ -108,6 +108,33 @@ typedef struct SYS_CONNECT_STRUCT{
                                                 :"0"(__NR_socketcall),"b"((long)SYS_CONNECT),"c"((long)&arg_struct)\
                                                 :"cc","memory");}
 
+typedef struct SYS_BIND_STRUCT{
+    void* fd;
+    void* addr;
+    void* addr_size;
+}__attribute__((aligned (4))) SYS_BIND_STRUCT;
+#define asm_bind(FD,ADDR,ADDR_SIZE,RES){       SYS_BIND_STRUCT arg_struct; \
+                                               arg_struct.fd = (void*)FD;     \
+                                               arg_struct.addr = (void*)ADDR; \
+                                               arg_struct.addr_size = (void*)ADDR_SIZE;\
+                                                __asm__ __volatile__("int $0x80"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_socketcall),"b"((long)SYS_BIND),"c"((long)&arg_struct)\
+                                                :"cc","memory");}
+
+typedef struct SYS_LISTEN_STRUCT{
+    void* fd;
+    void* max_client;
+}__attribute__((aligned (4))) SYS_LISTEN_STRUCT;
+#define asm_listen(FD,MAX_CLIENT,RES){         SYS_LISTEN_STRUCT arg_struct; \
+                                               arg_struct.fd = (void*)FD;     \
+                                               arg_struct.max_client = (void*)MAX_CLIENT; \
+                                               __asm__ __volatile__("int $0x80"\
+                                               : "=a" (RES)\
+                                               :"0"(__NR_socketcall),"b"((long)SYS_LISTEN),"c"((long)&arg_struct)\
+                                               :"cc","memory");}
+
+
 typedef struct SYS_SEND_STRUCT{
     void* fd;
     void* buf;
@@ -123,6 +150,22 @@ typedef struct SYS_SEND_STRUCT{
                                                 : "=a" (RES)\
                                                 :"0"(__NR_socketcall),"b"((long)SYS_SEND),"c"((long)&arg_struct)\
                                                 :"cc","memory");}
+
+typedef struct SYS_ACCEPT_STRUCT{
+    void* fd;
+    void* addr;
+    void* addr_size;
+    void* flag;
+}__attribute__((aligned (4))) SYS_ACCEPT_STRUCT;
+#define asm_accept(FD,ADDR,ADDR_SIZE,FLAG,RES) {   SYS_ACCEPT_STRUCT arg_struct;\
+                                                   arg_struct.fd = (void*)FD; \
+                                                   arg_struct.addr = (void*)ADDR; \
+                                                   arg_struct.addr_size = (void*)ADDR_SIZE;\
+                                                   arg_struct.flag = (void*)FLAG;\
+                                                   __asm__ __volatile__("int $0x80"\
+                                                   : "=a" (RES)\
+                                                   :"0"(__NR_socketcall),"b"((long)SYS_ACCEPT4),"c"((long)&arg_struct)\
+                                                   :"cc","memory");}
 
 typedef struct SYS_SENDTO_STRUCT{
     void* fd;
@@ -267,5 +310,20 @@ typedef struct SYS_GETSOCKOPT_STRUCT{
                                                     : "=a" (RES)\
                                                     :"0"(__NR_prctl),"b"((long)OPTIONS),"c"((long)ARG2),"d"((long)ARG3),"S"((long)ARG4),"D"((long)ARG5)\
                                                     :"cc","memory");
+
+#define asm_unlink(FILE,RES) __asm__ __volatile__("int $0x80"\
+                                    : "=a" (RES)\
+                                    :"0"(__NR_unlink),"b"((long)FILE)\
+                                    :"cc","memory");
+
+#define asm_mask(MASK,RES) __asm__ __volatile__("int $0x80"\
+                                    : "=a" (RES)\
+                                    :"0"(__NR_umask),"b"((long)MASK)\
+                                    :"cc","memory");
+
+#define asm_setsid(RES) __asm__ __volatile__("int $0x80"\
+                                    : "=a" (RES)\
+                                    :"0"(__NR_setsid)\
+                                    :"cc","memory");
 
 #endif
