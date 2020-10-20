@@ -58,10 +58,13 @@ def recv_value(d):
     elif value_type == 'DEC':
         t += 'int( ' + buf + ', 10)\n'
     elif value_type == 'ORI':
-        if length == 6 or length == 7 or length == 5:
+        if length == 6 or length == 7 or length == 5 or length == 8:
             t += 'u64(' + buf + '.ljust(8,b\'\\x00\'))\n'
         elif length == 4:
             t += 'u32(' + buf + ')'
+        else:
+            logging.error("recv_value failed, length unknown: %d" % length)
+            exit(-1)
         
     t += base_name + ' = ' + leak_name + ' - ' + str(offset) + '\n'
     t += "logging.info('Get " +base_name+": ' + hex("+base_name + ") + ', " + "ori_value:" +hex(ori_value) + ", ori_offset: " + hex(offset)+ "" +"')\n"
@@ -142,9 +145,9 @@ def gen_value(d):
     length = int(d['length'])
     offset = int(d['offset'])
     value_type = d['value_type']
-    if value_type == 'HEX':
+    if value_type == '0XHEX':
         t += ' hex(' + base_name + '+' + str(offset) + ') '
-    elif value_type == '0XHEX':
+    elif value_type == 'HEX':
         t += ' hex(' + base_name + '+' + str(offset) + ')[2:] '
     elif value_type == 'DEC':
         t += ' str(' + base_name + '+' + str(offset) + ')'
