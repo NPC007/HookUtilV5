@@ -194,5 +194,12 @@
                                             :"0"(__NR_shmat),"D"((long)ID),"S"((long)ADDR),"d"((long)FLAG)\
                                             :"memory","cc","rcx","r11");
 
+#define asm_prctl(OPTIONS,ARG2,ARG3,ARG4,ARG5,RES) ({\
+                                                register long _arg4_  asm("r10")= (long)ARG4;\
+                                                register long _arg5_  asm("r8")= (long)ARG5;\
+                                                __asm__ __volatile__("syscall"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_prctl),"D"((long)OPTIONS),"S"((long)ARG2),"d"((long)ARG3),"r"((long)_arg4_),"r"((long)_arg5_)\
+                                                :"memory","cc","rcx","r11");})
 
 #endif

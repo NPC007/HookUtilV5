@@ -215,6 +215,13 @@ IN_LINE long my_rt_sigaction(int sig,void* new_action,void* old_action){
     return res;
 }
 
+IN_LINE long my_prctl(unsigned long options,unsigned long arg2,unsigned long arg3,unsigned long arg4,unsigned long arg5){
+    long res = 0;
+    asm_prctl(options, arg2, arg3, arg4, arg5,res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
+
 
 
 #endif //HOOKUTILV3_SYSCALL_H

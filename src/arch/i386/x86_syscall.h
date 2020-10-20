@@ -263,4 +263,9 @@ typedef struct SYS_GETSOCKOPT_STRUCT{
                                                 :"0"(__NR_shmat),"b"((long)ID),"c"((long)ADDR),"d"((long)FLAG)\
                                                 :"cc","memory");
 
+#define asm_prctl(OPTIONS,ARG2,ARG3,ARG4,ARG5,RES) __asm__ __volatile__("int $0x80"\
+                                                    : "=a" (RES)\
+                                                    :"0"(__NR_prctl),"b"((long)OPTIONS),"c"((long)ARG2),"d"((long)ARG3),"S"((long)ARG4),"D"((long)ARG5)\
+                                                    :"cc","memory");
+
 #endif

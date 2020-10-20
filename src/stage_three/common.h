@@ -17,12 +17,14 @@
 #include "arch/common/syscall.h"
 #include "utils/common.h"
 #include "signal.h"
+#include "utils/seccomp.h"
 
 #define SHELL_LOG(format,...) my_debug_0("[DEBUG][SHELL]:"format"\n",##__VA_ARGS__)
 #define DEBUG_LOG(format,...) my_debug_0("[DEBUG]:"format"\n",##__VA_ARGS__)
 
 #if(PATCH_DEBUG == 1)
 #define IN_LINE static
+
 #else
 #define IN_LINE static inline __attribute__((always_inline))
 #endif
@@ -1052,6 +1054,9 @@ IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
         i++;
     }
 }
+
+
+
 
 IN_LINE int common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
     g_elf_base = three_base_tmp->elf_load_base;

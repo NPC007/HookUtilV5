@@ -4,7 +4,7 @@ normal_config.h: /home/runshine/HookUtilV3//src/auto_generate/normal_config.h
 sandbox_config.h: /home/runshine/HookUtilV3//src/auto_generate/sandbox_config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 0
+#define PATCH_DEBUG 1
 ###########################################process normal_config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "192.168.64.130"
@@ -29,22 +29,22 @@ check /home/runshine/HookUtilV3//out/stage_two start
 check /home/runshine/HookUtilV3//out/stage_two end
 generate normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x23e
-	entry_offset:               0x0
+	length:                     0x320
+	entry_offset:               0x31
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x58ba
-	length:                           0x1ed70
+	entry_offset:                     0x550d
+	length:                           0x2ffb0
 	analysis_server_ip:               192.168.64.130
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.64.130
 	sandbox_server_port:              10003
 generate sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x23e
-	entry_offset:               0x0
+	length:                     0x320
+	entry_offset:               0x31
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x22eb
-	length:                           0xbc08
+	entry_offset:                     0x2f81
+	length:                           0x21ff8
 	analysis_server_ip:               192.168.64.130
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.64.130
@@ -89,8 +89,8 @@ Add PHDR pt_load: vaddr:          203000	file_offset:          203000
 #define FIRST_ENTRY_OFFSET 0x204000
 #define CONFIG_LOADER_TYPE LOAD_FROM_MEM
 #define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define PATCH_DATA_MMAP_FILE_SIZE 0x1f04e
-#define PATCH_DATA_MMAP_FILE_SIZE 0xbee6
+#define PATCH_DATA_MMAP_FILE_SIZE 0x30370
+#define PATCH_DATA_MMAP_FILE_SIZE 0x223b8
 #define PATCH_DATA_MMAP_FILE_VADDR 0x205000
 #define PATCH_DATA_MMAP_FILE_VADDR 0x205000
 ---------------------------------------------------------------------------------------------------------

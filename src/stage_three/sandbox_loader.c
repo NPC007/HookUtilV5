@@ -150,6 +150,10 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     init_hook_env();
     start_sandbox_io_redirect();
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
+#if SHELL_CODE_DEFENSE
+    if(_test_syscall(__NR_prctl) == 0)
+        init_seccomp_defense();
+#endif
 }
 
 
