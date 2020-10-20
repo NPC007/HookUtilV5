@@ -4,7 +4,7 @@ normal_config.h: /home/runshine/HookUtilV3//src/auto_generate/normal_config.h
 sandbox_config.h: /home/runshine/HookUtilV3//src/auto_generate/sandbox_config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 1
+#define PATCH_DEBUG 0
 ###########################################process normal_config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "192.168.64.130"
@@ -29,22 +29,22 @@ check /home/runshine/HookUtilV3//out/stage_two start
 check /home/runshine/HookUtilV3//out/stage_two end
 generate normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x320
-	entry_offset:               0x31
+	length:                     0x23e
+	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x551a
-	length:                           0x2f940
+	entry_offset:                     0x58ba
+	length:                           0x1ed70
 	analysis_server_ip:               192.168.64.130
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.64.130
 	sandbox_server_port:              10003
 generate sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x320
-	entry_offset:               0x31
+	length:                     0x23e
+	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x2d74
-	length:                           0x219c8
+	entry_offset:                     0x22eb
+	length:                           0xbc08
 	analysis_server_ip:               192.168.64.130
 	analysis_server_port:             10000
 	sandbox_server_ip:                192.168.64.130
@@ -57,42 +57,42 @@ sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
 input_elf: /home/runshine/HookUtilV3//out/input_elf
 #define IS_PIE 1
 #define IS_PIE 1
-0x950:	xor		ebp, ebp
-0x952:	mov		r9, rdx
-0x955:	pop		rsi
-0x956:	mov		rdx, rsp
-0x959:	and		rsp, 0xfffffffffffffff0
-0x95d:	push		rax
-0x95e:	push		rsp
-0x95f:	lea		r8, [rip + 0x60a]
-0x966:	lea		rcx, [rip + 0x593]
-0x96d:	lea		rdi, [rip + 0x562]
-0x974:	call		0x8f0
+0xa20:	xor		ebp, ebp
+0xa22:	mov		r9, rdx
+0xa25:	pop		rsi
+0xa26:	mov		rdx, rsp
+0xa29:	and		rsp, 0xfffffffffffffff0
+0xa2d:	push		rax
+0xa2e:	push		rsp
+0xa2f:	lea		r8, [rip + 0x74a]
+0xa36:	lea		rcx, [rip + 0x6d3]
+0xa3d:	lea		rdi, [rip + 0x604]
+0xa44:	call		0x980
 find start call libc_start_main
 identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0x8f0
-identify libc_start_main_start_call_offset : 0x974
-identify libc_start_main_start_call_vaddr  : 0x974
+identify libc_start_main_addr              : 0x980
+identify libc_start_main_start_call_offset : 0xa44
+identify libc_start_main_start_call_vaddr  : 0xa44
 #define LIBC_START_MAIN_ADDR_TYPE CODE
 #define LIBC_START_MAIN_ADDR_TYPE CODE
-#define LIB_C_START_MAIN_ADDR 0x8f0
-#define LIB_C_START_MAIN_ADDR 0x8f0
+#define LIB_C_START_MAIN_ADDR 0x980
+#define LIB_C_START_MAIN_ADDR 0x980
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            1454	mem_size:            1454
-vaddr:          201de0	file_offset:            1de0	file_size:             2a0	mem_size:             320
+vaddr:               0	file_offset:               0	file_size:            1684	mem_size:            1684
+vaddr:          201d38	file_offset:            1d38	file_size:             2d8	mem_size:             628
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
 Add PHDR pt_load: vaddr:          203000	file_offset:          203000
 #define FIRST_ENTRY_OFFSET 0x204000
 #define FIRST_ENTRY_OFFSET 0x204000
-#define CONFIG_LOADER_TYPE LOAD_FROM_SHARE_MEM
-#define CONFIG_LOADER_TYPE LOAD_FROM_SHARE_MEM
-#define PATCH_DATA_SHARE_MEM_ID 123
-#define PATCH_DATA_SHARE_MEM_ID 124
-#define PATCH_DATA_MMAP_FILE_SIZE 0x2fd00
-#define PATCH_DATA_MMAP_FILE_SIZE 0x21d88
+#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
+#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
+#define PATCH_DATA_MMAP_FILE_SIZE 0x1f04e
+#define PATCH_DATA_MMAP_FILE_SIZE 0xbee6
+#define PATCH_DATA_MMAP_FILE_VADDR 0x205000
+#define PATCH_DATA_MMAP_FILE_VADDR 0x205000
 ---------------------------------------------------------------------------------------------------------
 normal_data_file:/home/runshine/HookUtilV3//out/normal.datafile
 sandbox_data_file:/home/runshine/HookUtilV3//out/sandbox.datafile
@@ -103,35 +103,35 @@ check /home/runshine/HookUtilV3//out/stage_one_normal start
 check /home/runshine/HookUtilV3//out/stage_one_normal end
 check /home/runshine/HookUtilV3//out/stage_one_sandbox start
 check /home/runshine/HookUtilV3//out/stage_one_sandbox end
-0x950:	xor		ebp, ebp
-0x952:	mov		r9, rdx
-0x955:	pop		rsi
-0x956:	mov		rdx, rsp
-0x959:	and		rsp, 0xfffffffffffffff0
-0x95d:	push		rax
-0x95e:	push		rsp
-0x95f:	lea		r8, [rip + 0x60a]
-0x966:	lea		rcx, [rip + 0x593]
-0x96d:	lea		rdi, [rip + 0x562]
-0x974:	call		0x8f0
+0xa20:	xor		ebp, ebp
+0xa22:	mov		r9, rdx
+0xa25:	pop		rsi
+0xa26:	mov		rdx, rsp
+0xa29:	and		rsp, 0xfffffffffffffff0
+0xa2d:	push		rax
+0xa2e:	push		rsp
+0xa2f:	lea		r8, [rip + 0x74a]
+0xa36:	lea		rcx, [rip + 0x6d3]
+0xa3d:	lea		rdi, [rip + 0x604]
+0xa44:	call		0x980
 find start call libc_start_main
 identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0x8f0
-identify libc_start_main_start_call_offset : 0x974
-identify libc_start_main_start_call_vaddr  : 0x974
+identify libc_start_main_addr              : 0x980
+identify libc_start_main_start_call_offset : 0xa44
+identify libc_start_main_start_call_vaddr  : 0xa44
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            1454	mem_size:            1454
-vaddr:          201de0	file_offset:            1de0	file_size:             2a0	mem_size:             320
+vaddr:               0	file_offset:               0	file_size:            1684	mem_size:            1684
+vaddr:          201d38	file_offset:            1d38	file_size:             2d8	mem_size:             628
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
 Add PHDR pt_load: vaddr:          203000	file_offset:          203000
 Assuming SO Max Size: 0x1000000
 
 sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:            1454	mem_size:            1454
-vaddr:          201de0	file_offset:            1de0	file_size:             2a0	mem_size:             320
+vaddr:               0	file_offset:               0	file_size:            1684	mem_size:            1684
+vaddr:          201d38	file_offset:            1d38	file_size:             2d8	mem_size:             628
 sort  by vaddr end
 unable to find any space between pt_load segments, just padding and append to file end
 Add PHDR pt_load: vaddr:          203000	file_offset:          203000

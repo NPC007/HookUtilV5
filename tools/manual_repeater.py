@@ -11,7 +11,7 @@ context(log_level='INFO')
 #from flag_util import submit_flag
 
 ip_list = ['127.0.0.1']
-port = 13002
+port = 10002
 
 
 def usage():
@@ -53,6 +53,7 @@ if __name__ == "__main__":
                 pfile.close()
                 tracffic_main_process(con, json_datas, elf_base=elf_base)
                 con.recv(timeout=2)
+                con.interactive()
                 con.sendline('id')
                 data = con.recv(timeout=2)
                 # logging.debug(data)
