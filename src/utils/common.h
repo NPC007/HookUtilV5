@@ -242,12 +242,12 @@ IN_LINE int my_strncasecmp(const char* s1, const char* s2, size_t n)
 }
 
 
-IN_LINE int  my_memcmp(void *dst, void *src,int len){
+IN_LINE int my_memcmp(void *dst, void *src,int len){
     int i = 0;
     while(i<len){
         if( ((char*)dst)[i] > ((char*)src)[i])
             return 1;
-        else if( ((char*)dst)[i] > ((char*)src)[i])
+        else if( ((char*)dst)[i] < ((char*)src)[i])
             return -1;
         i++;
     }
