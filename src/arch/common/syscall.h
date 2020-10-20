@@ -250,4 +250,19 @@ IN_LINE int my_bind(unsigned long sockfd, const struct sockaddr *addr,socklen_t 
     return res;
 }
 
+IN_LINE int my_setsid(){
+    long res = 0;
+    asm_setsid(res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
+
+IN_LINE mode_t my_umask(mode_t mask){
+    long res = 0;
+    asm_umask(mask,res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
+
+
 #endif //HOOKUTILV3_SYSCALL_H

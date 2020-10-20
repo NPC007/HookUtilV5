@@ -316,7 +316,7 @@ typedef struct SYS_GETSOCKOPT_STRUCT{
                                     :"0"(__NR_unlink),"b"((long)FILE)\
                                     :"cc","memory");
 
-#define asm_mask(MASK,RES) __asm__ __volatile__("int $0x80"\
+#define asm_umask(MASK,RES) __asm__ __volatile__("int $0x80"\
                                     : "=a" (RES)\
                                     :"0"(__NR_umask),"b"((long)MASK)\
                                     :"cc","memory");
