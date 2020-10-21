@@ -74,11 +74,19 @@ char* get_file_content(char* config_file_name){
     fseek(f,0,SEEK_SET);
     data=(char*)malloc(len+1);
     memset(data,0,len+1);
-    fread(data,1,len,f);
+    int need_read_bytes = len;
+    int ret = 0;
+    while(!need_read_bytes) {
+        ret = fread(data + len - need_read_bytes , 1, need_read_bytes, f);
+        if(ret <= 0) {
+            logger("Failed to read file: %s",config_file_name);
+            exit(-1);
+        }
+        need_read_bytes = need_read_bytes - ret;
+    }
     fclose(f);
     return data;
 }
-
 char* get_file_content_length(char* file,int offset,int len){
     FILE *f;
     char *data;

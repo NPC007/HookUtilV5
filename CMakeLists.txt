@@ -123,7 +123,10 @@ add_custom_command(TARGET generate POST_BUILD
         )
 add_dependencies(generate stage_one_normal stage_one_sandbox)
 
-
+add_executable(share_memory_server tools/share_memory_server.c)
+add_custom_command(TARGET share_memory_server POST_BUILD
+        COMMAND cp -f  "${CMAKE_BINARY_DIR}/share_memory_server" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/"
+        )
 
 #add_library(tiny_loader_shell_i386 SHARED strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c)
 #set_target_properties(tiny_loader_shell_i386 PROPERTIES COMPILE_FLAGS "-m32 -O0 -fno-stack-protector" LINK_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -m32")
