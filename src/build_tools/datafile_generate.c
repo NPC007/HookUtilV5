@@ -38,7 +38,7 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
         exit(-1);
     }
     Elf_Shdr* libloader_stage_two_text_section = get_elf_section_by_name(".text",(Elf_Ehdr*)libloader_stage_two_base);
-    int target_fd = open(data_file_path,O_RDWR|O_TRUNC|O_CREAT);
+    int target_fd = open(data_file_path,O_RDWR|O_TRUNC|O_CREAT,0777);
     LOADER_STAGE_TWO two;
     memset(&two,0,sizeof(LOADER_STAGE_TWO));
     two.length = libloader_stage_two_len;
@@ -51,10 +51,12 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
 
     LOADER_STAGE_THREE three;
     memset(&three,0,sizeof(LOADER_STAGE_THREE));
-    MD5_CTX md5;
-    MD5Init(&md5);
-    MD5Update(&md5,shell_passwd,strlen(shell_passwd));
-    MD5Final(&md5,three.shell_password);
+    if(shell_passwd!=NULL) {
+        MD5_CTX md5;
+        MD5Init(&md5);
+        MD5Update(&md5, shell_passwd, strlen(shell_passwd));
+        MD5Final(&md5, three.shell_password);
+    }
 
     three.entry_offset = (int)((Elf_Ehdr*)(get_file_content_length(libloader_stage_three,0,sizeof(Elf_Ehdr))))->e_entry;
     three.length = get_file_size(libloader_stage_three);
@@ -97,15 +99,19 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
 
 void usage(char* local){
     logger("usage: %s config.json\n",local);
+    logger("     : mode is: normal, sandbox\n");
     exit(-1);
 }
 
 
 
 int main(int argc,char* argv[]){
-    if(argc!=2){
+    if(argc!=3){
         usage(argv[0]);
     }
+    char* mode = argv[2];
+    if(strcmp(mode,"normal")!= 0 && strcmp(mode,"sandbox")!=0)
+        usage(argv[0]);
     char* config_file_name = argv[1];
     logger("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
@@ -118,50 +124,51 @@ int main(int argc,char* argv[]){
     char logger_file[512] = {0};
     snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
     init_logger(logger_file,0);
+    logger("MODE : %s\n",mode);
     char libloader_stage_one[512] = {0};
-    snprintf(libloader_stage_one,512,"%s/out/stage_one",project_root);
+    snprintf(libloader_stage_one,512,"%s/out/%s/stage_one",project_root,mode);
     logger("stage_one: %s\n",libloader_stage_one);
     char libloader_stage_two[512] = {0};
-    snprintf(libloader_stage_two,512,"%s/out/stage_two",project_root);
+    snprintf(libloader_stage_two,512,"%s/out/%s/stage_two",project_root,mode);
     logger("stage_two: %s\n",libloader_stage_two);
-    char libloader_stage_three_normal[512] = {0};
-    snprintf(libloader_stage_three_normal,512,"%s/out/stage_three_normal",project_root);
-    logger("stage_three_normal: %s\n",libloader_stage_three_normal);
-    char libloader_stage_three_sandbox[512] = {0};
-    snprintf(libloader_stage_three_sandbox,512,"%s/out/stage_three_sandbox",project_root);
-    logger("stage_three_sandbox: %s\n",libloader_stage_three_sandbox);
+    char libloader_stage_three[512] = {0};
+    snprintf(libloader_stage_three,512,"%s/out/%s/stage_three",project_root,mode);
+    logger("stage_three: %s\n",libloader_stage_three);
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
     logger("target_dir: %s\n",target_dir);
 
     check_elf_arch(libloader_stage_two);
-    check_elf_arch(libloader_stage_three_normal);
-    check_elf_arch(libloader_stage_three_sandbox);
+    check_elf_arch(libloader_stage_three);
 
     check_libloader_stage_two(libloader_stage_two);
-    check_libloader_stage_three(libloader_stage_three_normal);
-    check_libloader_stage_three(libloader_stage_three_sandbox);
+    check_libloader_stage_three(libloader_stage_three);
 
-    char* normal_data_file = cJSON_GetObjectItem(config,"normal_data_file_path")->valuestring;
-    char normal_data_file_path[512] = {0};
-    snprintf(normal_data_file_path,sizeof(normal_data_file_path),"%s/%s/%s",project_root,target_dir,normal_data_file);
+    if(strcmp(mode,"normal") == 0){
+        char* normal_data_file = cJSON_GetObjectItem(config,"data_file_path")->valuestring;
+        char normal_data_file_path[512] = {0};
+        snprintf(normal_data_file_path,sizeof(normal_data_file_path),"%s/%s/%s/%s",project_root,target_dir,mode,normal_data_file);
 
-    char* sandbox_data_file = cJSON_GetObjectItem(config,"sandbox_data_file_path")->valuestring;
-    char sandbox_data_file_path[512] = {0};
-    snprintf(sandbox_data_file_path,sizeof(sandbox_data_file_path),"%s/%s/%s",project_root,target_dir,sandbox_data_file);
+        char* analysis_server_ip = cJSON_GetObjectItem(config,"analysis_server_ip")->valuestring;
 
-    char* analysis_server_ip = cJSON_GetObjectItem(config,"analysis_server_ip")->valuestring;
+        char* analysis_server_port = cJSON_GetObjectItem(config,"analysis_server_port")->valuestring;
 
-    char* analysis_server_port = cJSON_GetObjectItem(config,"analysis_server_port")->valuestring;
+        char* shell_password = cJSON_GetObjectItem(config,"shell_password")->valuestring;
 
-    char* shell_password = cJSON_GetObjectItem(config,"shell_password")->valuestring;
+        logger("generate normal_data_file:%s\n",normal_data_file_path);
+        generate_data_file(normal_data_file_path,libloader_stage_two,libloader_stage_three,shell_password,analysis_server_ip,analysis_server_port,NULL,NULL);
 
-    char* sandbox_server_ip = cJSON_GetObjectItem(config,"sandbox_server_ip")->valuestring;
+    }
+    else if(strcmp(mode,"sandbox") == 0){
+        char* sandbox_data_file = cJSON_GetObjectItem(config,"data_file_path")->valuestring;
+        char sandbox_data_file_path[512] = {0};
+        snprintf(sandbox_data_file_path,sizeof(sandbox_data_file_path),"%s/%s/%s/%s",project_root,target_dir,mode,sandbox_data_file);
+        char* sandbox_server_ip = cJSON_GetObjectItem(config,"sandbox_server_ip")->valuestring;
 
-    char* sandbox_server_port = cJSON_GetObjectItem(config,"sandbox_server_port")->valuestring;
+        char* sandbox_server_port = cJSON_GetObjectItem(config,"sandbox_server_port")->valuestring;
+        logger("generate sandbox_data_file:%s\n",sandbox_data_file_path);
+        generate_data_file(sandbox_data_file_path,libloader_stage_two,libloader_stage_three,NULL,NULL,NULL,sandbox_server_ip,sandbox_server_port);
+    }
 
-    logger("generate normal_data_file:%s\n",normal_data_file_path);
-    generate_data_file(normal_data_file_path,libloader_stage_two,libloader_stage_three_normal,shell_password,analysis_server_ip,analysis_server_port,sandbox_server_ip,sandbox_server_port);
-    logger("generate sandbox_data_file:%s\n",sandbox_data_file_path);
-    generate_data_file(sandbox_data_file_path,libloader_stage_two,libloader_stage_three_sandbox,shell_password,analysis_server_ip,analysis_server_port,sandbox_server_ip,sandbox_server_port);
+
 
 }

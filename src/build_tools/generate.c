@@ -305,6 +305,7 @@ int capstone_close(csh *handle){
 
 void usage(char* local){
     logger("usage: %s config.json\n",local);
+    logger("     : mode is: normal, sandbox\n");
     exit(-1);
 }
 
@@ -483,10 +484,13 @@ void process_start_function(char* output_elf,cJSON* config){
 
 
 int main(int argc,char* argv[]){
-    if(argc!=2){
+    if(argc!=3){
         usage(argv[0]);
     }
     int phdr_has_moved = 0;
+    char* mode = argv[2];
+    if(strcmp(mode,"normal")!= 0 && strcmp(mode,"sandbox")!=0)
+        usage(argv[0]);
     //chdir("/tmp");
     char* config_file_name = argv[1];
     logger("config file: %s\n",config_file_name);
@@ -499,17 +503,14 @@ int main(int argc,char* argv[]){
     char logger_file[512] = {0};
     snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
     init_logger(logger_file,0);
+    logger("MODE : %s\n",mode);
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
 
-    char* normal_data_file = cJSON_GetObjectItem(config,"normal_data_file_path")->valuestring;
-    char normal_data_file_path[512] = {0};
-    snprintf(normal_data_file_path,sizeof(normal_data_file_path),"%s/%s/%s",project_root,target_dir,normal_data_file);
+    char* data_file = cJSON_GetObjectItem(config,"data_file_path")->valuestring;
+    char data_file_path[512] = {0};
+    snprintf(data_file_path,sizeof(data_file_path),"%s/%s/%s/%s",project_root,target_dir,mode,data_file);
 
-    char* sandbox_data_file = cJSON_GetObjectItem(config,"sandbox_data_file_path")->valuestring;
-    char sandbox_data_file_path[512] = {0};
-    snprintf(sandbox_data_file_path,sizeof(sandbox_data_file_path),"%s/%s/%s",project_root,target_dir,sandbox_data_file);
-    logger("normal_data_file:%s\n",normal_data_file_path);
-    logger("sandbox_data_file:%s\n",sandbox_data_file_path);
+    logger("data_file:%s\n",data_file_path);
 
     char* input_elf = cJSON_GetObjectItem(config,"input_elf")->valuestring;
     char input_elf_path [512] = {0};
@@ -519,36 +520,27 @@ int main(int argc,char* argv[]){
         exit(-1);
     }
     logger("input_elf: %s\n",input_elf_path);
-    char output_sandbox_elf_path [512] = {0};
-    char output_normal_elf_path [512] = {0};
-    snprintf(output_sandbox_elf_path,sizeof(output_sandbox_elf_path),"%s/%s/%s_sandbox",project_root,target_dir,input_elf);
-    snprintf(output_normal_elf_path,sizeof(output_normal_elf_path),"%s/%s/%s_normal",project_root,target_dir,input_elf);
+    char output_elf_path [512] = {0};
+    snprintf(output_elf_path,sizeof(output_elf_path),"%s/%s/%s/%s_%s",project_root,target_dir,mode,input_elf,mode);
 
-    char stage_one_normal[512] = {0};
-    char stage_one_sandbox[512] = {0};
-    snprintf(stage_one_normal,512,"%s/out/stage_one_normal",project_root);
-    logger("stage_one_normal: %s\n",stage_one_normal);
-    snprintf(stage_one_sandbox,512,"%s/out/stage_one_sandbox",project_root);
-    logger("stage_one_sandbox: %s\n",stage_one_sandbox);
+    char stage_one[512] = {0};
 
-    check_libloader_stage_one(stage_one_normal);
-    check_libloader_stage_one(stage_one_sandbox);
-    copy_file(input_elf_path,output_normal_elf_path);
-    copy_file(input_elf_path,output_sandbox_elf_path);
+    snprintf(stage_one,512,"%s/out/%s/stage_one",project_root,mode);
+    logger("stage_one: %s\n",stage_one);
+
+    check_libloader_stage_one(stage_one);
+    copy_file(input_elf_path,output_elf_path);
     void* elf_load_base = NULL;
     int first_entry_offset = 0;
-    process_start_function(output_normal_elf_path,config);
+    process_start_function(output_elf_path,config);
     char* loader_stage_one_position = cJSON_GetObjectItem(config,"loader_stage_one_position")->valuestring;
     {
         if (strcmp("eh_frame", loader_stage_one_position) == 0) {
-            add_stage_one_code_to_eh_frame(stage_one_normal, output_normal_elf_path, &first_entry_offset,&elf_load_base,config);
-            add_stage_one_code_to_eh_frame(stage_one_sandbox, output_sandbox_elf_path, &first_entry_offset,&elf_load_base,config);
+            add_stage_one_code_to_eh_frame(stage_one, output_elf_path, &first_entry_offset,&elf_load_base,config);
         } else if (strcmp("new_pt_load", loader_stage_one_position) == 0) {
-            mov_phdr(output_normal_elf_path);
-            mov_phdr(output_sandbox_elf_path);
+            mov_phdr(output_elf_path);
             phdr_has_moved = 1;
-            add_stage_one_code_to_new_pt_load(stage_one_normal, output_normal_elf_path, &first_entry_offset,&elf_load_base,config);
-            add_stage_one_code_to_new_pt_load(stage_one_sandbox, output_sandbox_elf_path, &first_entry_offset,&elf_load_base,config);
+            add_stage_one_code_to_new_pt_load(stage_one, output_elf_path, &first_entry_offset,&elf_load_base,config);
         } else {
             logger("unsupport loader_stage_one_position: %s\n", loader_stage_one_position);
             exit(-1);
@@ -561,11 +553,9 @@ int main(int argc,char* argv[]){
     }
     else if(strcmp("memory",loader_stage_other_position)==0){
         if(!phdr_has_moved) {
-            mov_phdr(output_normal_elf_path);
-            mov_phdr(output_sandbox_elf_path);
+            mov_phdr(output_elf_path);
         }
-        add_file_content_to_elf_pt_load(output_normal_elf_path,normal_data_file_path);
-        add_file_content_to_elf_pt_load(output_sandbox_elf_path,sandbox_data_file_path);
+        add_file_content_to_elf_pt_load(output_elf_path,data_file_path);
     }
     else if(strcmp("share_memory",loader_stage_other_position)==0){
         //Nothing Need to do
@@ -578,9 +568,7 @@ int main(int argc,char* argv[]){
         exit(-1);
     }
     char tmp_buf[530];
-    snprintf(tmp_buf,sizeof(tmp_buf),"chmod +x %s",output_normal_elf_path);
-    system(tmp_buf);
-    snprintf(tmp_buf,sizeof(tmp_buf),"chmod +x %s",output_sandbox_elf_path);
+    snprintf(tmp_buf,sizeof(tmp_buf),"chmod +x %s",output_elf_path);
     system(tmp_buf);
     logger("generate done\n");
     logger("-------------------------------------------------------------------------------------------------------------\n");

@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include "include/hook.h"
 
-#include "auto_generate/debug_config.h"
+#include "debug_config.h"
 #include "utils/common.h"
 
 

@@ -269,7 +269,7 @@ void _padding_elf(char* elf_file_base,char *elf_file){
 void padding_elf(char *elf_file){
     int elf_file_fd;
     char* elf_file_base;
-    elf_file_fd = open(elf_file,O_RDONLY);
+    elf_file_fd = open(elf_file,O_RDONLY,0777);
     if(elf_file_fd < 0){
         logger("unable open file: %s, error:%s\n",elf_file,strerror(errno));
         exit(-1);

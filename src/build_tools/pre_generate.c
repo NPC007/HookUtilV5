@@ -59,19 +59,23 @@ void check_elf_file_and_config_compatible(char* elf_path,cJSON* config){
 
 
 void usage(char* local){
-    printf("usage: %s config.json\n",local);
+    printf("usage: %s config.json mode\n",local);
+    printf("     : mode is normal,sandbox\n");
     exit(-1);
 }
 
 int main(int argc,char* argv[]){
-    if(argc!=2){
+    if(argc!=3){
         usage(argv[0]);
     }
     char* config_file_name = argv[1];
+    char* mode = argv[2];
+    if(strcmp(mode,"normal")!= 0 && strcmp(mode,"sandbox")!=0)
+        usage(argv[0]);
     printf("config file: %s\n",config_file_name);
     cJSON* config = cJSON_Parse(get_file_content(config_file_name));
     if(config == NULL){
-        printf("%s parse failed\n",config_file_name);
+        printf("%s parse failed, Error: %s\n",config_file_name,cJSON_GetErrorPtr());
         exit(-1);
     }
     char* project_root = cJSON_GetObjectItem(config,"project_root")->valuestring;
@@ -82,16 +86,17 @@ int main(int argc,char* argv[]){
     }
     char logger_file[512] = {0};
     snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
-    init_logger(logger_file,1);
+    if(strcmp(mode,"normal") == 0)
+        init_logger(logger_file,1);
+    else
+        init_logger(logger_file,0);
+    logger("MODE : %s\n",mode);
     char debug_config_h[512] = {0};
-    char sandbox_config_h[512] = {0};
-    char normal_config_h[512] = {0};
-    snprintf(debug_config_h,512,"%s/src/auto_generate/debug_config.h",project_root);
+    char config_h[512] = {0};
+    snprintf(debug_config_h,512,"%s/src/auto_generate/%s/debug_config.h",project_root,mode);
     logger("debug_config.h: %s\n",debug_config_h);
-    snprintf(normal_config_h,512,"%s/src/auto_generate/normal_config.h",project_root);
-    logger("normal_config.h: %s\n",normal_config_h);
-    snprintf(sandbox_config_h,512,"%s/src/auto_generate/sandbox_config.h",project_root);
-    logger("sandbox_config.h: %s\n",sandbox_config_h);
+    snprintf(config_h,512,"%s/src/auto_generate/%s/config.h",project_root,mode);
+    logger("config.h: %s\n",config_h);
     char* input_elf = cJSON_GetObjectItem(config,"input_elf")->valuestring;
     logger("input elf: %s\n",input_elf);
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
@@ -105,7 +110,11 @@ int main(int argc,char* argv[]){
     check_elf_file_and_config_compatible(input_elf_path,config);
     {
         logger("###########################################process debug_config.h#######################################\n");
-        int debug_config_file_fd = open(debug_config_h,O_RDWR|O_TRUNC|O_CREAT);
+        int debug_config_file_fd = open(debug_config_h,O_RDWR|O_TRUNC|O_CREAT,0777);
+        if(debug_config_file_fd == -1){
+            logger("failed to open file: %s, errno: %s",debug_config_h,strerror(errno));
+            exit(-1);
+        }
 #if PATCH_DEBUG_CONFIG == 1
         write_marco_define(debug_config_file_fd, "PATCH_DEBUG", "1");
 #elif PATCH_DEBUG_CONFIG == 0
@@ -118,79 +127,72 @@ int main(int argc,char* argv[]){
     }
 
 
-    //Process normal_config.h
-    {
-        logger("###########################################process normal_config.h######################################\n");
-        int normal_config_file_fd = open(normal_config_h,O_RDWR|O_TRUNC|O_CREAT);
+    if(strcmp(mode,"normal") == 0) {
+        {
+            logger("###########################################process config.h######################################\n");
+            int config_file_fd = open(config_h, O_RDWR | O_TRUNC | O_CREAT, 0777);
 
-        char* tcp_time_out = cJSON_GetObjectItem(config,"tcp_time_out")->valuestring;
-        write_marco_define(normal_config_file_fd,"TCP_TIME_OUT",tcp_time_out);
+            char *tcp_time_out = cJSON_GetObjectItem(config, "tcp_time_out")->valuestring;
+            write_marco_define(config_file_fd, "TCP_TIME_OUT", tcp_time_out);
 
-        char* analysis_server_ip = cJSON_GetObjectItem(config,"analysis_server_ip")->valuestring;
-        write_marco_str_define(normal_config_file_fd,"REDIRECT_HOST",analysis_server_ip);
+            char *analysis_server_ip = cJSON_GetObjectItem(config, "analysis_server_ip")->valuestring;
+            write_marco_str_define(config_file_fd, "REDIRECT_HOST", analysis_server_ip);
 
-        char* analysis_server_port = cJSON_GetObjectItem(config,"analysis_server_port")->valuestring;
-        write_marco_define(normal_config_file_fd,"REDIRECT_PORT",analysis_server_port);
+            char *analysis_server_port = cJSON_GetObjectItem(config, "analysis_server_port")->valuestring;
+            write_marco_define(config_file_fd, "REDIRECT_PORT", analysis_server_port);
 
-        char* shell_password = cJSON_GetObjectItem(config,"shell_password")->valuestring;
-        write_marco_str_define(normal_config_file_fd,"SHELL_PASSWD",shell_password);
+            char *shell_password = cJSON_GetObjectItem(config, "shell_password")->valuestring;
+            write_marco_str_define(config_file_fd, "SHELL_PASSWD", shell_password);
 
-        char* local_file_instead_of_udp = cJSON_GetObjectItem(config,"local_file_instead_of_udp")->valuestring;
-        write_marco_define(normal_config_file_fd,"USE_LOCAL_FILE_INSTEAD_OF_UDP",local_file_instead_of_udp);
+            char *local_file_instead_of_udp = cJSON_GetObjectItem(config, "local_file_instead_of_udp")->valuestring;
+            write_marco_define(config_file_fd, "USE_LOCAL_FILE_INSTEAD_OF_UDP", local_file_instead_of_udp);
 
-        char* io_local_save_path = cJSON_GetObjectItem(config,"io_local_save_path")->valuestring;
-        write_marco_str_define(normal_config_file_fd,"IO_REDIRECT_PATH",io_local_save_path);
+            char *io_local_save_path = cJSON_GetObjectItem(config, "io_local_save_path")->valuestring;
+            write_marco_str_define(config_file_fd, "IO_REDIRECT_PATH", io_local_save_path);
 
-        char* io_inline_hook = cJSON_GetObjectItem(config,"io_inline_hook")->valuestring;
-        write_marco_define(normal_config_file_fd,"USE_IO_INLINE_REDIRECT",io_inline_hook);
+            char *io_inline_hook = cJSON_GetObjectItem(config, "io_inline_hook")->valuestring;
+            write_marco_define(config_file_fd, "USE_IO_INLINE_REDIRECT", io_inline_hook);
 
-        if(cJSON_GetObjectItem(config,"shell_code_defense") == NULL){
-            logger("shell_code_defense is not set\n");
-            exit(-1);
+            if (cJSON_GetObjectItem(config, "shell_code_defense") == NULL) {
+                logger("shell_code_defense is not set\n");
+                exit(-1);
+            }
+            char *shell_code_defense = cJSON_GetObjectItem(config, "shell_code_defense")->valuestring;
+            int shell_code_defense_value = atoi(shell_code_defense);
+            if (shell_code_defense_value > 0) {
+                write_marco_define(config_file_fd, "SHELL_CODE_DEFENSE", "1");
+            } else {
+                write_marco_define(config_file_fd, "SHELL_CODE_DEFENSE", "0");
+            }
+            close(config_file_fd);
         }
-        char* shell_code_defense = cJSON_GetObjectItem(config,"shell_code_defense")->valuestring;
-        int shell_code_defense_value = atoi(shell_code_defense);
-        if (shell_code_defense_value > 0) {
-            write_marco_define(normal_config_file_fd, "SHELL_CODE_DEFENSE", "1");
-        }
-        else{
-            write_marco_define(normal_config_file_fd, "SHELL_CODE_DEFENSE", "0");
-        }
+    } else if (strcmp(mode, "sandbox") == 0) {
+        {
+            logger("###########################################process sandbox_config.h######################################\n");
+            int config_file_fd = open(config_h, O_RDWR | O_TRUNC | O_CREAT,0777);
 
-        close(normal_config_file_fd);
+            char *tcp_time_out = cJSON_GetObjectItem(config, "tcp_time_out")->valuestring;
+            write_marco_define(config_file_fd, "TCP_TIME_OUT", tcp_time_out);
+
+            char *analysis_server_ip = cJSON_GetObjectItem(config, "sandbox_server_ip")->valuestring;
+            write_marco_str_define(config_file_fd, "SANDBOX_HOST", analysis_server_ip);
+
+            char *analysis_server_port = cJSON_GetObjectItem(config, "sandbox_server_port")->valuestring;
+            write_marco_define(config_file_fd, "SANDBOX_PORT", analysis_server_port);
+
+            if (cJSON_GetObjectItem(config, "shell_code_defense") == NULL) {
+                logger("shell_code_defense is not set\n");
+                exit(-1);
+            }
+            char *shell_code_defense = cJSON_GetObjectItem(config, "shell_code_defense")->valuestring;
+            int shell_code_defense_value = atoi(shell_code_defense);
+            if (shell_code_defense_value > 0) {
+                write_marco_define(config_file_fd, "SHELL_CODE_DEFENSE", "1");
+            } else {
+                write_marco_define(config_file_fd, "SHELL_CODE_DEFENSE", "0");
+            }
+            close(config_file_fd);
+        }
     }
-    //Process sanbox_config.h
-    {
-        logger("###########################################process sandbox_config.h######################################\n");
-        int sandbox_config_file_fd = open(sandbox_config_h,O_RDWR|O_TRUNC|O_CREAT);
-
-        char* tcp_time_out = cJSON_GetObjectItem(config,"tcp_time_out")->valuestring;
-        write_marco_define(sandbox_config_file_fd,"TCP_TIME_OUT",tcp_time_out);
-
-        char* analysis_server_ip = cJSON_GetObjectItem(config,"sandbox_server_ip")->valuestring;
-        write_marco_str_define(sandbox_config_file_fd,"SANDBOX_HOST",analysis_server_ip);
-
-        char* analysis_server_port = cJSON_GetObjectItem(config,"sandbox_server_port")->valuestring;
-        write_marco_define(sandbox_config_file_fd,"SANDBOX_PORT",analysis_server_port);
-
-        if(cJSON_GetObjectItem(config,"shell_code_defense") == NULL){
-            logger("shell_code_defense is not set\n");
-            exit(-1);
-        }
-        char* shell_code_defense = cJSON_GetObjectItem(config,"shell_code_defense")->valuestring;
-        int shell_code_defense_value = atoi(shell_code_defense);
-        if (shell_code_defense_value > 0) {
-            write_marco_define(sandbox_config_file_fd, "SHELL_CODE_DEFENSE", "1");
-        }
-        else{
-            write_marco_define(sandbox_config_file_fd, "SHELL_CODE_DEFENSE", "0");
-        }
-
-        close(sandbox_config_file_fd);
-    }
-
-
-
     puts("pre generate done");
-
 }

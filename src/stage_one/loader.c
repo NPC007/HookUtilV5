@@ -2,14 +2,8 @@
 #include <fcntl.h>
 #include <sys/syscall.h>
 #include "include/hook.h"
-#include "auto_generate/debug_config.h"
-#ifdef STAGE_ONE_NORMAL
-#include "auto_generate/stage_one_normal_config.h"
-#elif STAGE_ONE_SANDBOX
-#include "auto_generate/stage_one_sandbox_config.h"
-#else
-#error "Stage Config Undefined"
-#endif
+#include "debug_config.h"
+#include "stage_one_config.h"
 #include "arch/common/arch.h"
 
 

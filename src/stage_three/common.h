@@ -10,7 +10,7 @@
 #include <sys/select.h>
 #include <elf.h>
 
-#include "auto_generate/debug_config.h"
+#include "debug_config.h"
 
 #include "include/hook.h"
 #include "utils/md5.h"

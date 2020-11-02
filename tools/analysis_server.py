@@ -687,7 +687,6 @@ if __name__ == "__main__":
     libc_path = sys.argv[5]
     ENABLE_TRAFFIC_AGRESS = sys.argv[6]
 
-
     if not os.path.exists(workspace + '/raw'):
         os.system("mkdir -p " + workspace + '/raw')
     logging.info('start auto_tracfic_analysis')

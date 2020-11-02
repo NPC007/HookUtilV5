@@ -1,7 +1,7 @@
 FROM ubuntu:ctf_tools_2004
 
 COPY resource/ctf/pwn.start.sh /home/ctf/pwn.start.sh
-COPY out/input_elf_normal /home/ctf/pwn
+COPY out/normal/input_elf_normal /home/ctf/pwn
 RUN  chmod +x /home/ctf/pwn
 COPY resource/ctf/ctf.xinetd /etc/xinetd.d/ctf
 
@@ -20,7 +20,7 @@ COPY out/libc.so /root/libc.so
 COPY out/libc.so /home/ctf/libc.so
 COPY resource/io_decrypt_server.py /root/
 
-COPY out/input_elf_sandbox /root/sandbox_elf
+COPY out/sandbox/input_elf_sandbox /root/sandbox_elf
 COPY resource/sandbox/sandbox.xinetd /etc/xinetd.d/sandbox
 
 COPY resource/ctf_test/pwn_test.start.sh /home/ctf/pwn_test.start.sh

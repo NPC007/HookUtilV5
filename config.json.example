@@ -42,11 +42,6 @@
   "sandbox_server_port": "10001",
 
 
-
-// is enable debug mode
-  "debug":"1",
-
-
   "normal_data_file_path":"normal_data_file",
   "sandbox_data_file_path" : "sandbox_data_file"
 }

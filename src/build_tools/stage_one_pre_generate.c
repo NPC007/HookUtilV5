@@ -66,6 +66,7 @@ int capstone_close(csh *handle){
 
 void usage(char* local){
     logger("usage: %s config.json\n",local);
+    logger("     : mode is normal,sandbox\n");
     exit(-1);
 }
 typedef enum _RELRO_STATE{
@@ -268,7 +269,7 @@ void process_start_function(char* output_elf,cJSON* config){
 }
 
 
-void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_normal_config_fd,int stage_one_sandbox_config_fd,int *phdr_has_moved){
+void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_config_fd,int *phdr_has_moved){
     int input_elf_fd;
     char* input_elf_base;
     long input_elf_size;
@@ -300,17 +301,19 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_norm
     {
         char buf[256];
         snprintf(buf,255,"0x%x",first_entry_offset);
-        write_marco_define(stage_one_normal_config_fd, "FIRST_ENTRY_OFFSET", buf);
-        write_marco_define(stage_one_sandbox_config_fd, "FIRST_ENTRY_OFFSET", buf);
+        write_marco_define(stage_one_config_fd, "FIRST_ENTRY_OFFSET", buf);
     }
     close_and_munmap(input_elf,input_elf_fd,input_elf_base,&input_elf_size);
 }
 
 
 int main(int argc,char* argv[]){
-    if(argc!=2){
+    if(argc!=3){
         usage(argv[0]);
     }
+    char* mode = argv[2];
+    if(strcmp(mode,"normal")!= 0 && strcmp(mode,"sandbox")!=0)
+        usage(argv[0]);
     int phdr_has_moved = 0;
     char* config_file_name = argv[1];
     logger("config file: %s\n",config_file_name);
@@ -323,24 +326,17 @@ int main(int argc,char* argv[]){
     char logger_file[512] = {0};
     snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
     init_logger(logger_file,0);
+    logger("MODE : %s\n",mode);
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
-    char stage_one_normal_config_h[512] = {0};
-    snprintf(stage_one_normal_config_h,512,"%s/src/auto_generate/stage_one_normal_config.h",project_root);
-    logger("stage_one_normal_config.h: %s\n",stage_one_normal_config_h);
-    char stage_one_sandbox_config_h[512] = {0};
-    snprintf(stage_one_sandbox_config_h,512,"%s/src/auto_generate/stage_one_sandbox_config.h",project_root);
-    logger("stage_one_sandbox_config_h: %s\n",stage_one_sandbox_config_h);
+    char stage_one_config_h[512] = {0};
+    snprintf(stage_one_config_h,512,"%s/src/auto_generate/%s/stage_one_config.h",project_root,mode);
+    logger("stage_one_normal_config.h: %s\n",stage_one_config_h);
 
+    char* data_file = cJSON_GetObjectItem(config,"data_file_path")->valuestring;
+    char data_file_path[512] = {0};
+    snprintf(data_file_path,sizeof(data_file_path),"%s/%s/%s/%s",project_root,target_dir,mode,data_file);
 
-    char* normal_data_file = cJSON_GetObjectItem(config,"normal_data_file_path")->valuestring;
-    char normal_data_file_path[512] = {0};
-    snprintf(normal_data_file_path,sizeof(normal_data_file_path),"%s/%s/%s",project_root,target_dir,normal_data_file);
-
-    char* sandbox_data_file = cJSON_GetObjectItem(config,"sandbox_data_file_path")->valuestring;
-    char sandbox_data_file_path[512] = {0};
-    snprintf(sandbox_data_file_path,sizeof(sandbox_data_file_path),"%s/%s/%s",project_root,target_dir,sandbox_data_file);
-    logger("normal_data_file:%s\n",normal_data_file_path);
-    logger("sandbox_data_file:%s\n",sandbox_data_file_path);
+    logger("data_file:%s\n",data_file_path);
 
     char* input_elf = cJSON_GetObjectItem(config,"input_elf")->valuestring;
     char input_elf_path [512] = {0};
@@ -352,8 +348,7 @@ int main(int argc,char* argv[]){
     logger("input_elf: %s\n",input_elf_path);
     char* tmp_input_file = "/tmp/input_file_tmp";
     copy_file(input_elf_path,tmp_input_file);
-    int stage_one_normal_config_fd = open(stage_one_normal_config_h,O_RDWR|O_TRUNC|O_CREAT);
-    int stage_one_sandbox_config_fd = open(stage_one_sandbox_config_h,O_RDWR|O_TRUNC|O_CREAT);
+    int stage_one_config_fd = open(stage_one_config_h,O_RDWR|O_TRUNC|O_CREAT,0777);
     void* elf_load_base = NULL;
 
     // PIE macro
@@ -376,12 +371,10 @@ int main(int argc,char* argv[]){
         switch(ehdr->e_type){
             case ET_DYN:
             case ET_REL:
-                write_marco_define(stage_one_normal_config_fd,"IS_PIE","1");
-                write_marco_define(stage_one_sandbox_config_fd,"IS_PIE","1");
+                write_marco_define(stage_one_config_fd,"IS_PIE","1");
                 break;
             case ET_EXEC:
-                write_marco_define(stage_one_normal_config_fd,"IS_PIE","0");
-                write_marco_define(stage_one_sandbox_config_fd,"IS_PIE","0");
+                write_marco_define(stage_one_config_fd,"IS_PIE","0");
                 break;
             default:
                 logger("unknown object type: %d\n",ehdr->e_type);
@@ -394,50 +387,40 @@ int main(int argc,char* argv[]){
     {
         char* libc_start_main_addr_type = cJSON_GetObjectItem(config,"libc_start_main_addr_type")->valuestring;
         if(strcmp(libc_start_main_addr_type,"code")==0) {
-            write_marco_define(stage_one_normal_config_fd, "LIBC_START_MAIN_ADDR_TYPE", "CODE");
-            write_marco_define(stage_one_sandbox_config_fd, "LIBC_START_MAIN_ADDR_TYPE", "CODE");
+            write_marco_define(stage_one_config_fd, "LIBC_START_MAIN_ADDR_TYPE", "CODE");
         }
         else if(strcmp(libc_start_main_addr_type,"ptr")==0){
-            write_marco_define(stage_one_normal_config_fd,"LIBC_START_MAIN_ADDR_TYPE","PTR");
-            write_marco_define(stage_one_sandbox_config_fd,"LIBC_START_MAIN_ADDR_TYPE","PTR");
+            write_marco_define(stage_one_config_fd,"LIBC_START_MAIN_ADDR_TYPE","PTR");
         }
         else{
             logger("libc_start_main_addr_type has only two values, one is code, another is ptr\n");
             exit(-1);
         }
         char* libc_start_main_addr = cJSON_GetObjectItem(config,"libc_start_main_addr")->valuestring;
-        write_marco_define(stage_one_normal_config_fd,"LIB_C_START_MAIN_ADDR",libc_start_main_addr);
-        write_marco_define(stage_one_sandbox_config_fd,"LIB_C_START_MAIN_ADDR",libc_start_main_addr);
+        write_marco_define(stage_one_config_fd,"LIB_C_START_MAIN_ADDR",libc_start_main_addr);
     }
 
-    process_first_entry_offset(tmp_input_file,config,stage_one_normal_config_fd,stage_one_sandbox_config_fd,&phdr_has_moved);
+    process_first_entry_offset(tmp_input_file,config,stage_one_config_fd,&phdr_has_moved);
 
 
 
     char* loader_stage_other_position = cJSON_GetObjectItem(config,"loader_stage_other_position")->valuestring;
     if(strcmp("file",loader_stage_other_position)==0){
-        write_marco_define(stage_one_normal_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_FILE");
-        write_marco_define(stage_one_sandbox_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_FILE");
+        write_marco_define(stage_one_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_FILE");
         char* loader_stage_other_file_path = cJSON_GetObjectItem(config,"loader_stage_other_file_path")->valuestring;
-        write_marco_str_define(stage_one_normal_config_fd,"PATCH_DATA_PATH",loader_stage_other_file_path);
-        write_marco_str_define(stage_one_sandbox_config_fd,"PATCH_DATA_PATH",loader_stage_other_file_path);
+        write_marco_str_define(stage_one_config_fd,"PATCH_DATA_PATH",loader_stage_other_file_path);
         char tmp_buf[256];
-        snprintf(tmp_buf, 255, "0x%lx", get_file_size(normal_data_file_path));
-        write_marco_define(stage_one_normal_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
-        snprintf(tmp_buf, 255, "0x%lx", get_file_size(sandbox_data_file_path));
-        write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
+        snprintf(tmp_buf, 255, "0x%lx", get_file_size(data_file_path));
+        write_marco_define(stage_one_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
 
     }
     else if(strcmp("memory",loader_stage_other_position)==0){
         if(!phdr_has_moved)
             mov_phdr(tmp_input_file);
-        write_marco_define(stage_one_normal_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_MEM");
-        write_marco_define(stage_one_sandbox_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_MEM");
+        write_marco_define(stage_one_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_MEM");
         char tmp_buf[256];
-        snprintf(tmp_buf, 255, "0x%lx", get_file_size(normal_data_file_path));
-        write_marco_define(stage_one_normal_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
-        snprintf(tmp_buf, 255, "0x%lx", get_file_size(sandbox_data_file_path));
-        write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
+        snprintf(tmp_buf, 255, "0x%lx", get_file_size(data_file_path));
+        write_marco_define(stage_one_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
 
         int output_file_size = get_file_size(tmp_input_file);
         if(output_file_size%0x1000!=0){
@@ -447,30 +430,23 @@ int main(int argc,char* argv[]){
         unsigned long output_elf_load_base = get_elf_file_load_base(tmp_input_file);
         unsigned long loader_stage_other_vaddr = output_elf_load_base+output_file_size;
         snprintf(tmp_buf, 255, "0x%lx", loader_stage_other_vaddr);
-        write_marco_define(stage_one_normal_config_fd, "PATCH_DATA_MMAP_FILE_VADDR", tmp_buf);
-        write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_VADDR", tmp_buf);
+        write_marco_define(stage_one_config_fd, "PATCH_DATA_MMAP_FILE_VADDR", tmp_buf);
+
     }
     else if(strcmp("share_memory",loader_stage_other_position)==0){
         //logger("not implement,exit!!!");
         //exit(-1);
-        write_marco_define(stage_one_normal_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
-        write_marco_define(stage_one_sandbox_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
-        char* loader_stage_other_share_memory_id_normal = cJSON_GetObjectItem(config,"loader_stage_other_share_memory_id")->valuestring;
-        char loader_stage_other_share_memory_id_sandbox[32] ;
-        snprintf(loader_stage_other_share_memory_id_sandbox,sizeof(loader_stage_other_share_memory_id_sandbox),"%d",atoi(loader_stage_other_share_memory_id_normal) + 1);
-
-        write_marco_define(stage_one_normal_config_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id_normal);
-        write_marco_define(stage_one_sandbox_config_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id_sandbox);
+        write_marco_define(stage_one_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SHARE_MEM");
+        char* loader_stage_other_share_memory_id = cJSON_GetObjectItem(config,"loader_stage_other_share_memory_id")->valuestring;
+        write_marco_define(stage_one_config_fd,"PATCH_DATA_SHARE_MEM_ID",loader_stage_other_share_memory_id);
 
         char tmp_buf[256];
-        snprintf(tmp_buf, 255, "0x%lx", get_file_size(normal_data_file_path));
-        write_marco_define(stage_one_normal_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
-        snprintf(tmp_buf, 255, "0x%lx", get_file_size(sandbox_data_file_path));
-        write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
+        snprintf(tmp_buf, 255, "0x%lx", get_file_size(data_file_path));
+        write_marco_define(stage_one_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
+
     }
     else if(strcmp("socket",loader_stage_other_position)==0){
-        write_marco_define(stage_one_normal_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SOCKET");
-        write_marco_define(stage_one_sandbox_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SOCKET");
+        write_marco_define(stage_one_config_fd,"CONFIG_LOADER_TYPE","LOAD_FROM_SOCKET");
         char* loader_stage_other_socket_server_ip = cJSON_GetObjectItem(config,"loader_stage_other_socket_server_ip")->valuestring;
         char* loader_stage_other_socket_server_port = cJSON_GetObjectItem(config,"loader_stage_other_socket_server_port")->valuestring;
         char loader_stage_other_socket_server_ip_str[256];
@@ -480,20 +456,15 @@ int main(int argc,char* argv[]){
         int port = htons(atoi(loader_stage_other_socket_server_port));
         sprintf(loader_stage_other_socket_server_ip_str,"%u",addr.sin_addr.s_addr);
         sprintf(loader_stage_other_socket_server_port_str,"%u",port);
-        write_marco_define(stage_one_normal_config_fd,"PATCH_DATA_SOCKET_SERVER_IP",loader_stage_other_socket_server_ip_str);
-        write_marco_define(stage_one_sandbox_config_fd,"PATCH_DATA_SOCKET_SERVER_IP",loader_stage_other_socket_server_ip_str);
-        write_marco_define(stage_one_normal_config_fd,"PATCH_DATA_SOCKET_SERVER_PORT",loader_stage_other_socket_server_port_str);
-        write_marco_define(stage_one_sandbox_config_fd,"PATCH_DATA_SOCKET_SERVER_PORT",loader_stage_other_socket_server_port_str);
+        write_marco_define(stage_one_config_fd,"PATCH_DATA_SOCKET_SERVER_IP",loader_stage_other_socket_server_ip_str);
+        write_marco_define(stage_one_config_fd,"PATCH_DATA_SOCKET_SERVER_PORT",loader_stage_other_socket_server_port_str);
         char tmp_buf[256];
-        snprintf(tmp_buf, 255, "0x%lx", get_file_size(normal_data_file_path));
-        write_marco_define(stage_one_normal_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
-        snprintf(tmp_buf, 255, "0x%lx", get_file_size(sandbox_data_file_path));
-        write_marco_define(stage_one_sandbox_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
+        snprintf(tmp_buf, 255, "0x%lx", get_file_size(data_file_path));
+        write_marco_define(stage_one_config_fd, "PATCH_DATA_MMAP_FILE_SIZE", tmp_buf);
     }
     else{
         logger("unsupport loader_stage_other_position: %s\n",loader_stage_other_position);
         exit(-1);
     }
-    close(stage_one_normal_config_fd);
-    close(stage_one_sandbox_config_fd);
+    close(stage_one_config_fd);
 }

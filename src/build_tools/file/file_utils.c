@@ -76,7 +76,7 @@ char* get_file_content(char* config_file_name){
     memset(data,0,len+1);
     int need_read_bytes = len;
     int ret = 0;
-    while(!need_read_bytes) {
+    while(need_read_bytes) {
         ret = fread(data + len - need_read_bytes , 1, need_read_bytes, f);
         if(ret <= 0) {
             logger("Failed to read file: %s",config_file_name);
@@ -129,7 +129,7 @@ void copy_file(char* old_file,char* new_file){
 
 
 void open_mmap_check(char* file_name,int mode,int *fd,void** mmap_base,int prot,int flag,long* size){
-    *fd = open(file_name,mode);
+    *fd = open(file_name,mode,0777);
     if(*fd < 0){
         logger("unable open file: %s, error:%s\n",file_name,strerror(errno));
         exit(-1);
@@ -164,9 +164,9 @@ int check_file_exist(const char* file_name){
 static int _logger_fd = -1;
 void init_logger(char* name,int re_create){
     if(re_create != 0)
-        _logger_fd = open(name, O_RDWR | O_CREAT|O_TRUNC , 0);
+        _logger_fd = open(name, O_RDWR | O_CREAT|O_TRUNC , 0777);
     else
-        _logger_fd = open(name,O_RDWR|O_APPEND,0);
+        _logger_fd = open(name,O_RDWR|O_APPEND,0777);
     if(_logger_fd <= 0){
         logger("Unable to init logger: %s\n",name);
         exit(-1);

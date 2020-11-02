@@ -1,5 +1,5 @@
 #include "common.h"
-#include "auto_generate/normal_config.h"
+#include "config.h"
 
 
 
@@ -733,6 +733,7 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     if(common_init(LIBC_START_MAIN_ARG_VALUE,three_base_tmp)!=0)
         return;
+    DEBUG_LOG("Start Normal_loader --------------------------------------------------");
     inline_hook_read_pos = 0;
     char *stack_base = 0;
     char **ev = &UBP_AV[ARGC + 1];

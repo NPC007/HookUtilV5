@@ -1,5 +1,5 @@
 #include "common.h"
-#include "auto_generate/sandbox_config.h"
+#include "config.h"
 
 IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
     fd_set read_events;
@@ -147,6 +147,7 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     if(common_init(LIBC_START_MAIN_ARG_VALUE,three_base_tmp)!=0)
         return;
+    DEBUG_LOG("Start Sandbox_loader --------------------------------------------------");
     init_hook_env();
     start_sandbox_io_redirect();
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
