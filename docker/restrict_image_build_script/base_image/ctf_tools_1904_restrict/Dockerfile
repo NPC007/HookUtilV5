@@ -3,7 +3,7 @@ FROM ubuntu:19.04
 RUN  sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
     sed -i "s/# deb-src/ deb-src/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python-pip curl libgmp-dev libmpfr-dev libmpc-dev
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
@@ -46,6 +46,12 @@ RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U &&
 RUN python3 -m pip install setuptools --upgrade
 
 RUN python3 -m pip install pwntools requests  capstone keystone-engine unicorn keystone-engine ropper
+
+RUN python2 -m pip  install --upgrade pip
+
+RUN python2 -m pip  install setuptools --upgrade
+
+RUN python2 -m pip install pwntools requests capstone keystone-engine unicorn keystone-engine ropper
 
 RUN mkdir /var/run/sshd
 

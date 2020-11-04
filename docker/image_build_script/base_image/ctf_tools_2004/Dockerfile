@@ -5,7 +5,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales python2 curl libpython2-dev libgmp-dev libmpfr-dev libmpc-dev
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
@@ -48,6 +48,16 @@ RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U &&
 RUN python3 -m pip install setuptools --upgrade
 
 RUN python3 -m pip install pwntools requests capstone keystone-engine unicorn keystone-engine ropper
+
+RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
+
+RUN python2 get-pip.py
+
+RUN python2 -m pip  install --upgrade pip
+
+RUN python2 -m pip  install setuptools --upgrade
+
+RUN python2 -m pip install pwntools requests capstone keystone-engine unicorn keystone-engine ropper
 
 RUN mkdir /var/run/sshd
 

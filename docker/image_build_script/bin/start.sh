@@ -112,7 +112,8 @@ DOCKER_START_FILE=${BUILD_PROJECT}/resource/docker_start.sh
 CTF_XINEDT_CONF=${BUILD_PROJECT}/resource/ctf/ctf.xinetd
 CTF_XINEDT_TEST_CONF=${BUILD_PROJECT}/resource/ctf_test/ctf.xinetd.test
 CTF_XINEDT_TEST_SANDBOX_CONF=${BUILD_PROJECT}/resource/sandbox/sandbox.xinetd
-CONFIG_JSON=${WORKSPACE}/out/config.json
+SANDBOX_CONFIG_JSON=${WORKSPACE}/out/sandbox_config.json
+NORMAL_CONFIG_JSON=${WORKSPACE}/out/normal_config.json
 
 sed -i "s/IO_DECRYPT_LISTEN_HOST/0.0.0.0/g" ${DOCKER_START_FILE}
 sed -i "s/IO_DECRYPT_LISTEN_PORT/${io_decrypt_port}/g" ${DOCKER_START_FILE}
@@ -172,19 +173,19 @@ fi
 #echo "[ATTENTION]:You need manuls set config.json: sandbox_server_port  to --> ${io_decrypt_port}"
 #echo "[ATTENTION]:You need manuls set config.json: analysis_server_port to --> ${analysis_port}"
 
-sed -i "s/\"sandbox_server_port\":.*/\"sandbox_server_port\": \"${io_decrypt_port}\",/g" ${CONFIG_JSON}
-if [ ! -z "$(cat ${CONFIG_JSON}|grep ${io_decrypt_port})" ];then
-    echo "success set ${CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
+sed -i "s/\"sandbox_server_port\":.*/\"sandbox_server_port\": \"${io_decrypt_port}\",/g" ${SANDBOX_CONFIG_JSON}
+if [ ! -z "$(cat ${SANDBOX_CONFIG_JSON}|grep ${io_decrypt_port})" ];then
+    echo "success set ${SANDBOX_CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
 else
-    echo "failed  set ${CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
+    echo "failed  set ${SANDBOX_CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
     exit 255
 fi
 
-sed -i "s/\"analysis_server_port\":.*/\"analysis_server_port\": \"${analysis_port}\",/g" ${CONFIG_JSON}
-if [ ! -z "$(cat ${CONFIG_JSON}|grep ${analysis_port})" ];then
-    echo "success set ${CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
+sed -i "s/\"analysis_server_port\":.*/\"analysis_server_port\": \"${analysis_port}\",/g" ${NORMAL_CONFIG_JSON}
+if [ ! -z "$(cat ${NORMAL_CONFIG_JSON}|grep ${analysis_port})" ];then
+    echo "success set ${NORMAL_CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
 else
-    echo "failed  set ${CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
+    echo "failed  set ${NORMAL_CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
     exit 255
 fi
 

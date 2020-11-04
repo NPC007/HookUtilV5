@@ -1,6 +1,7 @@
 import re
 from pwn import *
 from elftools.elf.elffile import ELFFile
+import traceback
 
 ERROR_VALUE = 0x94ac411122323232332
 
@@ -356,7 +357,10 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
     except Exception as e:
         if len(str(e)) == 0:
             logging.error("[STEP][%02d/%02d]: Error happen, we must give up this tracffic:  %s"%(current_step,total_step,e.__class__.__name__))
+            traceback.print_exc()
         else:
             logging.error("[STEP][%02d/%02d]: Error happen, we must give up this tracffic:  %s"%(current_step,total_step,str(e)))
+            traceback.print_exc()
+
     return rebuild_json
     #con.interactive()

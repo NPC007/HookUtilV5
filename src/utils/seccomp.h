@@ -55,6 +55,7 @@ struct seccomp_data {
 IN_LINE int init_seccomp_defense(){
     //http://ptrace.fefe.de/seccompfail.c
     struct sock_filter filter[] = {
+            BPF_STMT(BPF_LD+BPF_W+BPF_ABS, offsetof(struct seccomp_data, nr)),
             DISALLOW_SYSCALL(execve),
             BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_ALLOW),
     };
