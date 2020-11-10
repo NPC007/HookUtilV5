@@ -61,7 +61,7 @@ for binary_dir in ${test_dir_files};do
   fi
   if [ ! -f "${init_script_file}" ];then
     echo "Dir ${test_sub_dir} not find init_env.sh file"
-    init_script_file=
+    init_script_file="_______UN_EXIST_FILE______"
   fi
 
   file=${binary_dir}
@@ -70,11 +70,11 @@ for binary_dir in ${test_dir_files};do
   cp -f ${test_file}  ${target_out_dir}/input_elf
   cp -f ${test_libc_file} ./test_out/${file}/
   cp -f ${test_libc_file}  ${target_out_dir}/libc.so
-  cp -f ${test_poc_file} /test_out/${file}/
+  cp -f ${test_poc_file} ./test_out/${file}/
 
   loader_stage_one_positions=(new_pt_load)
-  #ge_other_positions=(memory file share_memory socket)
-  loader_stage_other_positions=(memory)
+  loader_stage_other_positions=(memory file share_memory socket)
+  #loader_stage_other_positions=(socket)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
     for loader_stage_other_position in "${loader_stage_other_positions[@]}";do
       echo "begin test loader_stage_one_position:${loader_stage_one_position}, loader_stage_other_position: ${loader_stage_other_position} "
@@ -89,32 +89,55 @@ for binary_dir in ${test_dir_files};do
 
 
       if [ ${loader_stage_other_position} == 'file' ];then
-        loader_stage_other_file_path='/tmp/1'
-        echo 's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path}'",/g'
-        sed  's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path}'",/g' -i ../out/normal_config.json
-        sed  's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path}'",/g' -i ../out/sandbox_config.json
+        loader_stage_other_normal_file_path='/tmp/1'
+        loader_stage_other_sandbox_file_path='/tmp/2'
+        echo 's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_normal_file_path}'",/g'
+        sed  's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_normal_file_path//\//\\\/}'",/g' -i ../out/normal_config.json
+        sed  's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_sandbox_file_path//\//\\\/}'",/g' -i ../out/sandbox_config.json
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
-        loader_stage_other_share_memory_id='123'
-        echo 's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_share_memory_id}'",/g'
-        sed  's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_share_memory_id}'",/g' -i ../out/norml_config.json
-        sed  's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_share_memory_id}'",/g' -i ../out/sandbox_config.json
+        loader_stage_other_normal_share_memory_id='123'
+        loader_stage_other_sandbox_share_memory_id='124'
+        echo 's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_normal_share_memory_id}'",/g'
+        sed  's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_normal_share_memory_id}'",/g' -i ../out/norml_config.json
+        sed  's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_sandbox_share_memory_id}'",/g' -i ../out/sandbox_config.json
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         loader_stage_other_socket_server_ip='127.0.0.1'
-        loader_stage_other_socket_server_port='11111'
+        loader_stage_other_socket_normal_server_port='10006'
+        loader_stage_other_socket_sandbox_server_port='10007'
         echo 's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g'
         sed  's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g' -i ../out/normal_config.json
         sed  's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g' -i ../out/sandbox_config.json
-        echo 's/\s*"loader_stage_other_socket_server_port.*$/  "loader_stage_other_socket_server_port":"'${loader_stage_other_socket_server_port}'",/g'
-        sed  's/\s*"loader_stage_other_socket_server_port.*$/  "loader_stage_other_socket_server_port":"'${loader_stage_other_socket_server_port}'",/g' -i ../out/normal_config.json
-        sed  's/\s*"loader_stage_other_socket_server_port.*$/  "loader_stage_other_socket_server_port":"'${loader_stage_other_socket_server_port}'",/g' -i ../out/sandbox_config.json
+        echo 's/\s*"loader_stage_other_socket_server_port.*$/  "loader_stage_other_socket_server_port":"'${loader_stage_other_socket_normal_server_port}'",/g'
+        sed  's/\s*"loader_stage_other_socket_server_port.*$/  "loader_stage_other_socket_server_port":"'${loader_stage_other_socket_normal_server_port}'",/g' -i ../out/normal_config.json
+        sed  's/\s*"loader_stage_other_socket_server_port.*$/  "loader_stage_other_socket_server_port":"'${loader_stage_other_socket_sandbox_server_port}'",/g' -i ../out/sandbox_config.json
       fi
 
       cd ${current_dir}/../docker/image_build_script/bin/
       ./start.sh ${current_dir}/../ 1604 test 10000
 
       cd ${current_dir}/
+
+      if [ ${loader_stage_other_position} == 'file' ];then
+        loader_stage_other_normal_file_path='/tmp/1'
+        loader_stage_other_sandbox_file_path='/tmp/2'
+        sudo docker exec -it test1 bash -c "cp /root/normal.datafile /home/ctf/tmp/1;chmod 755 /home/ctf/tmp/1;"
+        sudo docker exec -it test1 bash -c "cp /root/sandbox.datafile /tmp/2;chmod 755 /tmp/2;"
+      fi
+      if [ ${loader_stage_other_position} == 'share_memory' ];then
+        loader_stage_other_normal_share_memory_id='123'
+        loader_stage_other_sandbox_share_memory_id='124'
+        sudo docker cp ../out/stage_server/stage_share_memory_server test1:/root/
+        sudo docker exec -d test1 bash -c "/root/stage_share_memory_server 123 /root/normal.datafile"
+        sudo docker exec -d test1 bash -c "/root/stage_share_memory_server 124 /root/sandbox.datafile"
+      fi
+      if [ ${loader_stage_other_position} == 'socket' ];then
+        loader_stage_other_socket_server_ip='127.0.0.1'
+        loader_stage_other_socket_normal_server_port='10006'
+        loader_stage_other_socket_sandbox_server_port='10007'
+      fi
+
       sudo docker cp ${test_poc_file} test1:/root/
       sudo docker cp ${current_dir}/resource/test_poc.sh test1:/root/
       if [ -f ${init_script_file} ];then
@@ -122,13 +145,47 @@ for binary_dir in ${test_dir_files};do
         sudo docker exec -it test1 bash -c "cd /root/;chmod +x ./init_env.sh;./init_env.sh"
       fi
       sudo docker exec -it test1 bash -c "cd /root/;chmod +x ./test_poc.sh;tmux new-session -s my_session './test_poc.sh' "
+      if [ ! -z "$(sudo docker exec -it test1 bash -c 'ls -ll /root/verify_success.flag 2>/dev/null')" ];then
+        touch ./test_out/${file}/${loader_stage_one_position}_${loader_stage_other_position}_success.flag
+        echo "${loader_stage_one_position}_${loader_stage_other_position}_success###############################################"
+      else
+        if [ ! -z "$(sudo docker exec -it test1 bash -c 'ls -ll /root/verify_faield.flag 2>/dev/null')" ];then
+          touch ./test_out/${file}/${loader_stage_one_position}_${loader_stage_other_position}_failed.flag
+          echo "${loader_stage_one_position}_${loader_stage_other_position}_failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        else
+          echo "something wrong, both file not exist"
+        fi
+      fi
       sudo docker stop test1
       sudo docker rm test1
-
-      exit 255
-
     done
   done
+  #exit 255
 done
 
 
+for binary_dir in ${test_dir_files};do
+  cd ${current_dir}
+  test_sub_dir=${test_dir}/${binary_dir}
+  echo "begin test ${test_sub_dir} ####################################################"
+
+  if [ -f ${test_sub_dir}/ignore ];then
+    continue
+  fi
+
+  get_test_file ${test_sub_dir}
+  if [ -z "${g_test_file}" ];then
+    continue
+  fi
+  test_file=${g_test_file}
+  test_libc_file=${test_sub_dir}/libc.so
+  test_poc_file=${test_sub_dir}/poc.py
+  init_script_file=${test_sub_dir}/init_env.sh
+  if [ ! -f "${test_libc_file}" ];then
+    continue
+  fi
+  if [ ! -f "${test_poc_file}" ];then
+    continue
+  fi
+  ls -ll ./test_out/${binary_dir}/*.flag
+done

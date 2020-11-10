@@ -108,10 +108,9 @@ def gen_in(str_tmp, fd, step,total_step):
     str_tmp = string_escape_encode(str_tmp).decode('latin1')
     rest_str = str_tmp
     is_var = False
-    
-    while match := re.search(re_str, rest_str):
+    match = re.search(re_str, rest_str)
+    while match:
         is_var = True
-        
         start = match.start()
         if start !=0:
             #t += recv_until(rest_str[:start])
@@ -121,6 +120,7 @@ def gen_in(str_tmp, fd, step,total_step):
         content = match.group('content')
         parse_d = parse_content(content)
         t += recv_value(parse_d)
+        match = re.search(re_str, rest_str)
         
     #t += recv_until(rest_str)
     t += recv_n(len(rest_str))
@@ -202,7 +202,8 @@ def send_offset(str_tmp):
     #print(rest_str)
     t = 'payload = '
     flag = True
-    while match:=re.search(re_str, rest_str):
+    match=re.search(re_str, rest_str)
+    while match:
         start = match.start()
         if start != 0:
             t += gen_const(rest_str[:start]) + '+'
@@ -215,6 +216,8 @@ def send_offset(str_tmp):
         else:
             parse_d = parse_content(content)
             t += gen_value(parse_d) + '+'
+        match=re.search(re_str, rest_str)
+
     t += gen_const(rest_str)
     t += '\n'
     t += "p.send(payload)\n"

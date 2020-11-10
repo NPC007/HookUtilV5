@@ -36,6 +36,12 @@ void check_eh_frame_section_executable(Elf_Ehdr* ehdr){
                     logger("check_eh_frame_section_executable success, ef_frame is executable\n");
                     return;
                 }
+            }else{
+                if(pt_load->p_vaddr <= eh_frame_shdr->sh_addr  && eh_frame_shdr->sh_addr <= pt_load->p_vaddr + pt_load->p_memsz){
+                    logger("check_eh_frame_section_executable failed, ef_frame is not executable, we can mark it executeable\n");
+                    pt_load->p_flags = pt_load->p_flags | PF_X;
+                    return;
+                }
             }
         }
     }
@@ -48,7 +54,7 @@ void check_elf_file_and_config_compatible(char* elf_path,cJSON* config){
     char* elf_base;
     int elf_file_fd;
     long elf_file_size;
-    open_mmap_check(elf_path,O_RDONLY,&elf_file_fd,(void**)&elf_base,PROT_READ,MAP_PRIVATE,&elf_file_size);
+    open_mmap_check(elf_path,O_RDWR,&elf_file_fd,(void**)&elf_base,PROT_READ|PROT_WRITE,MAP_SHARED,&elf_file_size);
     char* loader_stage_one_position = cJSON_GetObjectItem(config,"loader_stage_one_position")->valuestring;
     if (strcmp("eh_frame", loader_stage_one_position) == 0) {
         check_eh_frame_section_executable((Elf_Ehdr*)elf_base);

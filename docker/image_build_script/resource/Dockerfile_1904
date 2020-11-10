@@ -19,6 +19,9 @@ COPY out/input_elf /root/input_elf
 COPY out/libc.so /root/libc.so
 COPY out/libc.so /home/ctf/libc.so
 COPY resource/io_decrypt_server.py /root/
+COPY out/stage_server /root/
+COPY out/normal/normal.datafile /root/
+COPY out/sandbox/sandbox.datafile /root/
 
 COPY out/sandbox/input_elf_sandbox /root/sandbox_elf
 COPY resource/sandbox/sandbox.xinetd /etc/xinetd.d/sandbox
@@ -32,4 +35,5 @@ COPY resource/docker_start.sh /root/docker_start.sh
 
 RUN  chmod 777 /root/docker_start.sh
 
+WORKDIR /root/
 CMD ["/root/docker_start.sh"]

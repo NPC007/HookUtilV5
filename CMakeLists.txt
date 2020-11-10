@@ -148,9 +148,16 @@ add_dependencies(generate stage_one_normal stage_one_sandbox)
 
 add_executable(stage_share_memory_server tools/stage_share_memory_server.c)
 add_custom_command(TARGET stage_share_memory_server POST_BUILD
-        COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_share_memory_server" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/"
+        COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_share_memory_server" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/stage_server/"
         )
 add_dependencies(stage_share_memory_server generate)
+
+add_executable(stage_socket_server tools/stage_socket_server.c)
+add_custom_command(TARGET stage_socket_server POST_BUILD
+        COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_socket_server" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/stage_server/"
+        )
+target_link_libraries(stage_socket_server pthread)
+add_dependencies(stage_socket_server generate)
 
 #add_library(tiny_loader_shell_i386 SHARED strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c)
 #set_target_properties(tiny_loader_shell_i386 PROPERTIES COMPILE_FLAGS "-m32 -O0 -fno-stack-protector" LINK_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -m32")

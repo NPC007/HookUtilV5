@@ -58,23 +58,29 @@ container_name="${image_name}1"
 base_port=$4
 analysis_port=$base_port
 redirect_port=$base_port
-let redirect_port=redirect_port+1
+let redirect_port=$base_port+1
 test_port=$base_port
-let test_port=test_port+2
+let test_port=$base_port+2
 io_decrypt_port=$base_port
-let io_decrypt_port=io_decrypt_port+3
+let io_decrypt_port=$base_port+3
 ssh_server_port=$base_port
 let ssh_server_port=base_port+4
 local_sandbox_port=base_port
-let local_sandbox_port=local_sandbox_port+5
-echo "Docker Image Name:        $image_name"
-echo "Docker Container Name:    $container_name"
-echo "Record Analysis Port:     $analysis_port"
-echo "Sandbox Redirect Port:    $redirect_port"
-echo "Local Test Port:          $test_port"
-echo "IO Decrypt Port:          $io_decrypt_port"
-echo "SSH Server Port:          $ssh_server_port"
-echo "Local Sandbox Port:       $local_sandbox_port"
+let local_sandbox_port=base_port+5
+stage_normal_socket_server=base_port
+let stage_normal_socket_server=base_port+6
+stage_sandbox_socket_server=base_port
+let stage_sandbox_socket_server=base_port+7
+echo "Docker Image Name:              $image_name"
+echo "Docker Container Name:          $container_name"
+echo "Record Analysis Port:           $analysis_port"
+echo "Sandbox Redirect Port:          $redirect_port"
+echo "Local Test Port:                $test_port"
+echo "IO Decrypt Port:                $io_decrypt_port"
+echo "SSH Server Port:                $ssh_server_port"
+echo "Local Sandbox Port:             $local_sandbox_port"
+echo "Stage Normal Socket Server Port:        $stage_normal_socket_server"
+echo "Stage Sandbox Socket Server Port:       $stage_sandbox_socket_server"
 
 #test_port and local_sandbox_port is use for us only
 
@@ -119,6 +125,8 @@ sed -i "s/IO_DECRYPT_LISTEN_HOST/0.0.0.0/g" ${DOCKER_START_FILE}
 sed -i "s/IO_DECRYPT_LISTEN_PORT/${io_decrypt_port}/g" ${DOCKER_START_FILE}
 sed -i "s/IO_DECRYPT_UPSTREAM_HOST/127.0.0.1/g" ${DOCKER_START_FILE}
 sed -i "s/IO_DECRYPT_UPSTREAM_PORT/${redirect_port}/g" ${DOCKER_START_FILE}
+sed -i "s/STAGE_NORMAL_SOCKET_SERVER_PORT/${stage_normal_socket_server}/g" ${DOCKER_START_FILE}
+sed -i "s/STAGE_SANDBOX_SOCKET_SERVER_PORT/${stage_sandbox_socket_server}/g" ${DOCKER_START_FILE}
 
 if [ ! -z "$(cat ${DOCKER_START_FILE}|grep ${io_decrypt_port})" ];then
     echo "success set ${DOCKER_START_FILE} io_decrypt_listen port:      ${io_decrypt_port}"
@@ -269,12 +277,14 @@ if [ $? -ne 0 ]; then
   exit 255
 fi
 
-sudo docker run -d -p 0.0.0.0:$analysis_port:$analysis_port           \
-              -p 0.0.0.0:$redirect_port:$redirect_port           \
-              -p 0.0.0.0:$test_port:$test_port                   \
-              -p 0.0.0.0:$io_decrypt_port:$io_decrypt_port       \
-              -p 0.0.0.0:$ssh_server_port:22                     \
-              -p 0.0.0.0:$local_sandbox_port:$local_sandbox_port \
-              --name $container_name                             \
-              --privileged=true                                  \
+sudo docker run -d -p 0.0.0.0:$analysis_port:$analysis_port        \
+              -p 0.0.0.0:$redirect_port:$redirect_port             \
+              -p 0.0.0.0:$test_port:$test_port                     \
+              -p 0.0.0.0:$io_decrypt_port:$io_decrypt_port         \
+              -p 0.0.0.0:$ssh_server_port:22                       \
+              -p 0.0.0.0:$local_sandbox_port:$local_sandbox_port   \
+              -p 0.0.0.0:$stage_normal_socket_server:$stage_normal_socket_server   \
+              -p 0.0.0.0:$stage_sandbox_socket_server:$stage_sandbox_socket_server \
+              --name $container_name                               \
+              --privileged=true                                    \
               $image_name

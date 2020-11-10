@@ -71,7 +71,8 @@ for binary_dir in ${test_dir_files};do
     exit 255
   fi
 
-  loader_stage_one_positions=(new_pt_load)
+  #loader_stage_one_positions=(eh_frame)
+  loader_stage_one_positions=(new_pt_load eh_frame)
   loader_stage_other_positions=(memory file share_memory socket)
   #loader_stage_other_positions=(socket)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
@@ -129,12 +130,12 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         killall stage_share_memory_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_share_memory_server ../out/normal/normal.datafile 123 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_stage_share_memory_server.log &
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/normal/normal.datafile  2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_stage_share_memory_server.log &
         sleep 1
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
-        kill -9 `ps -ef|grep patch_socket_server.py | grep -v grep |awk -F ' ' '{print $2}' `
-        python3 ../tools/patch_socket_server.py 0.0.0.0 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
+        killall stage_socket_server
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
         sleep 2
       fi
       cat ${input_file} | ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_debug_${loader_stage_one_position}_${loader_stage_other_position}.log
@@ -148,12 +149,12 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         killall stage_share_memory_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_share_memory_server ../out/sandbox/sandbox.datafile 123 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_stage_share_memory_server.log &
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/sandbox/sandbox.datafile  2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_stage_share_memory_server.log &
         sleep 1
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
-        kill -9 `ps -ef|grep patch_socket_server.py | grep -v grep |awk -F ' ' '{print $2}' `
-        python3 ../tools/patch_socket_server.py 0.0.0.0 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
+        killall stage_socket_server
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
         sleep 2
       fi
       cat ${input_file} | ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_debug_${loader_stage_one_position}_${loader_stage_other_position}.log
@@ -175,12 +176,12 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         killall stage_share_memory_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_share_memory_server ../out/normal/normal.datafile 123 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_stage_share_memory_server.log &
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/normal/normal.datafile  2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_stage_share_memory_server.log &
         sleep 1
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
-        kill -9 `ps -ef|grep patch_socket_server.py | grep -v grep |awk -F ' ' '{print $2}' `
-        python3 ../tools/patch_socket_server.py 0.0.0.0 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
+        killall stage_socket_server
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
         sleep 2
       fi
       cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_release_${loader_stage_one_position}_${loader_stage_other_position}.log
@@ -191,21 +192,22 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         killall stage_share_memory_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_share_memory_server ../out/sandbox/sandbox.datafile 123 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_stage_share_memory_server.log &
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/sandbox/sandbox.datafile  2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_stage_share_memory_server.log &
         sleep 1
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
-        kill -9 `ps -ef|grep patch_socket_server.py | grep -v grep |awk -F ' ' '{print $2}' `
-        python3 ../tools/patch_socket_server.py 0.0.0.0 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
+        killall stage_socket_server
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
         sleep 2
       fi
       cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_release_${loader_stage_one_position}_${loader_stage_other_position}.log
 
       killall stage_share_memory_server
-      kill -9 `ps -ef|grep patch_socket_server.py | grep -v grep |awk -F ' ' '{print $2}' `
+      killall stage_share_memory_server
 
     done
   done
+  #exit 0
 done
 
 

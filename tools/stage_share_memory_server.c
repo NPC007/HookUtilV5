@@ -65,8 +65,8 @@ void sighandler(int sig){
 int main(int argc,char* argv[]){
     if(argc!=3)
         usage(argv[0]);
-    char* file_name = argv[1];
-    int id = atoi(argv[2]);
+    char* file_name = argv[2];
+    int id = atoi(argv[1]);
     if(id < 0){
         DEBUG_LOG("ID:%d is failed",id);
         exit(-1);
