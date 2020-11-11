@@ -29,14 +29,14 @@ do
     break
   fi
 done
-
+#bash
 killall python3
 killall python
 killall python2
 
 
 
-sleep 4
+sleep 2
 #bash
 
 

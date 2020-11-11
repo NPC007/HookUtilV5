@@ -31,6 +31,21 @@ get_test_file(){
 }
 
 
+wait_port(){
+  port=$1
+  echo "start wait port ${port}"
+  while [ "x" == "x" ]
+  do
+    sleep 0.1
+    if [ ! -z "$(netstat -ltnp 2>/dev/null |grep -v grep|grep ${port})" ];then
+      sleep 0.1
+      return
+    fi
+    #echo "netstat -ltnp 2>/dev/null |grep -v grep|grep ${port}"
+  done
+}
+
+
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
   test_sub_dir=${test_dir}/${binary_dir}
@@ -90,14 +105,14 @@ for binary_dir in ${test_dir_files};do
 
       if [ ${loader_stage_other_position} == 'file' ];then
         loader_stage_other_file_path='/tmp/1'
-        echo 's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path}'",/g'
-        sed  's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path}'",/g' -i ../out/normal_config.json
-        sed  's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path}'",/g' -i ../out/sandbox_config.json
+        echo 's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path//\//\\\/}'",/g'
+        sed  's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path//\//\\\/}'",/g' -i ../out/normal_config.json
+        sed  's/\s*"loader_stage_other_file_path.*$/  "loader_stage_other_file_path":"'${loader_stage_other_file_path//\//\\\/}'",/g' -i ../out/sandbox_config.json
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         loader_stage_other_share_memory_id='123'
         echo 's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_share_memory_id}'",/g'
-        sed  's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_share_memory_id}'",/g' -i ../out/norml_config.json
+        sed  's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_share_memory_id}'",/g' -i ../out/normal_config.json
         sed  's/\s*"loader_stage_other_share_memory_id.*$/  "loader_stage_other_share_memory_id":"'${loader_stage_other_share_memory_id}'",/g' -i ../out/sandbox_config.json
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
@@ -113,7 +128,7 @@ for binary_dir in ${test_dir_files};do
 
 
       cd ..
-      ./build_debug.sh
+      ./build_debug.sh slient
       if [ $? -ne 0 ]; then
         echo "build_debug.sh failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         echo ${test_file}
@@ -131,12 +146,13 @@ for binary_dir in ${test_dir_files};do
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         killall stage_share_memory_server
         ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/normal/normal.datafile  2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_stage_share_memory_server.log &
-        sleep 1
+        sleep 0.2
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         killall stage_socket_server
         ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
-        sleep 2
+        #echo "./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &"
+        wait_port 11111
       fi
       cat ${input_file} | ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_debug_${loader_stage_one_position}_${loader_stage_other_position}.log
 
@@ -150,19 +166,19 @@ for binary_dir in ${test_dir_files};do
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         killall stage_share_memory_server
         ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/sandbox/sandbox.datafile  2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_stage_share_memory_server.log &
-        sleep 1
+        sleep 0.2
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         killall stage_socket_server
         ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
-        sleep 2
+        wait_port 11111
       fi
       cat ${input_file} | ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_debug_${loader_stage_one_position}_${loader_stage_other_position}.log
 
 
 
       cd ..
-      ./build_release.sh
+      ./build_release.sh slient
       if [ $? -ne 0 ]; then
         echo "build_release.sh failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         echo ${test_file}
@@ -176,13 +192,13 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         killall stage_share_memory_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/normal/normal.datafile  2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_stage_share_memory_server.log &
-        sleep 1
+        ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/normal/normal.datafile  2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_stage_share_memory_server.log &
+        sleep 0.2
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         killall stage_socket_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
-        sleep 2
+        ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
+        wait_port 11111
       fi
       cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_release_${loader_stage_one_position}_${loader_stage_other_position}.log
 
@@ -192,18 +208,18 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         killall stage_share_memory_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/sandbox/sandbox.datafile  2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_stage_share_memory_server.log &
-        sleep 1
+        ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_share_memory_server 123 ../out/sandbox/sandbox.datafile  2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_stage_share_memory_server.log &
+        sleep 0.2
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         killall stage_socket_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
-        sleep 2
+        ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
+        wait_port 11111
       fi
       cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_release_${loader_stage_one_position}_${loader_stage_other_position}.log
 
       killall stage_share_memory_server
-      killall stage_share_memory_server
+      killall stage_socket_server
 
     done
   done
@@ -211,7 +227,7 @@ for binary_dir in ${test_dir_files};do
 done
 
 
-loader_stage_one_positions=(new_pt_load)
+loader_stage_one_positions=(new_pt_load eh_frame)
 loader_stage_other_positions=(memory file share_memory socket)
 
 

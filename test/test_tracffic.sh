@@ -149,7 +149,7 @@ for binary_dir in ${test_dir_files};do
         touch ./test_out/${file}/${loader_stage_one_position}_${loader_stage_other_position}_success.flag
         echo "${loader_stage_one_position}_${loader_stage_other_position}_success###############################################"
       else
-        if [ ! -z "$(sudo docker exec -it test1 bash -c 'ls -ll /root/verify_faield.flag 2>/dev/null')" ];then
+        if [ ! -z "$(sudo docker exec -it test1 bash -c 'ls -ll /root/verify_failed.flag 2>/dev/null')" ];then
           touch ./test_out/${file}/${loader_stage_one_position}_${loader_stage_other_position}_failed.flag
           echo "${loader_stage_one_position}_${loader_stage_other_position}_failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         else
