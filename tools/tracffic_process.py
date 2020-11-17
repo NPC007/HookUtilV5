@@ -223,7 +223,7 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
     current_step = 0
     rebuild_json = []
     try:
-        SLEEP_TIME = 0.2
+        SLEEP_TIME = 0.05
         RECEIVE_TIMEOUT = 5
         continue_process_flag = True
         for tracfic_info in json_data:
@@ -329,13 +329,12 @@ def tracffic_main_process(con,json_data, callback = None, elf_base=0, libc_base=
                                 logging.error("[STEP][%02d/%02d]:Get stack_base not same, before: %s, after: %s"%(current_step,total_step,hex(stack_base),hex(tmp_stack_base))+ ', result: ' + result.decode('ascii'))
                             else:
                                 stack_base = tmp_stack_base
-
-                            if stack_base%0x1000 == 0:
-                                logging.info("[STEP][%02d/%02d]:Get stack_base success: %s"%(current_step,total_step,hex(stack_base)))
-                            else:
-                                logging.info("[STEP][%02d/%02d]:Get stack_base failed: %s"%(current_step,total_step,hex(stack_base)) + ', result: ' + result.decode('ascii'))
-                                #continue_process_flag = False
-                                stack_base = 0
+                            logging.info("[STEP][%02d/%02d]:Get stack_base success: %s"%(current_step,total_step,hex(stack_base)))
+                            #if stack_base%0x1000 == 0:
+                            #    logging.info("[STEP][%02d/%02d]:Get stack_base success: %s"%(current_step,total_step,hex(stack_base)))
+                            #else:
+                            #    logging.info("[STEP][%02d/%02d]:Get stack_base failed: %s"%(current_step,total_step,hex(stack_base)) + ', result: ' + result.decode('ascii'))
+                            #    stack_base = 0
 
                         elif record_type == b'HEAP_BASE':
                             tmp_heap_base = get_num_value_by_type(process_data, get_record_value_type(result),

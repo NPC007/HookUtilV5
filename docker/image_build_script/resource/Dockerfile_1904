@@ -9,6 +9,7 @@ RUN mkdir -p /home/ctf/flags/pwn/
 COPY resource/ctf/flag /home/ctf/flag
 RUN chmod 633 /home/ctf/flag
 
+COPY resource/init/init.sh /root/
 COPY resource/analysis_server.py /root/
 COPY resource/verify.py /root/
 COPY resource/repeater.py /root/

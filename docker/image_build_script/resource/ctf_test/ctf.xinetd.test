@@ -18,4 +18,5 @@ service ctf_test
     rlimit_cpu	= 20 # the maximum number of CPU seconds that the service may use
     #rlimit_as  = 1024M # the Address Space resource limit for the service
     #access_times = 2:00-9:00 12:00-24:00
+    #flags = TCP_NODENY
 }

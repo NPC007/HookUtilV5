@@ -15,6 +15,9 @@ get_test_file(){
   g_test_file=
     files=$(ls ./${1}/)
     for file in ${files};do
+      if [[ ${file} == *libc* ]];then
+        continue
+      fi
       test_execute=$(file ${1}/${file} | grep 80386)
       if [ ! -z "${test_execute}" ];then
         g_test_file=${1}/${file}
@@ -28,9 +31,41 @@ get_test_file(){
     done
 }
 
+g_test_libc_file=
+get_test_libc_file(){
+  g_test_file=
+    files=$(ls ./${1}/)
+    for file in ${files};do
+      if [[ ${file} != *libc* ]];then
+        continue
+      fi
+      test_execute=$(file ${1}/${file} | grep 80386)
+      if [ ! -z "${test_execute}" ];then
+        g_test_libc_file=${1}/${file}
+        return 0
+      fi
+      test_execute=$(file ${1}/${file} | grep x86-64)
+      if [ ! -z "${test_execute}" ];then
+        g_test_libc_file=${1}/${file}
+        return 0
+      fi
+    done
+}
+
+g_libc_version=
+get_test_libc_version(){
+  g_libc_version=
+  libc_file=$1
+  echo "strings ${libc_file} 2>/dev/null|grep -v Fatal | grep 'glibc '|awk -F ' ' '{print $2}'"
+  g_libc_version=`strings ${libc_file} 2>/dev/null|grep -v Fatal | grep 'glibc '|awk -F ' ' '{print $2}'`
+  echo "detect glibc_version: $g_libc_version"
+}
 
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
+  if [ "${binary_dir}" != "PlainNote" ];then
+    continue
+  fi
   test_sub_dir=${test_dir}/${binary_dir}
   echo "begin test ${test_sub_dir} ####################################################"
 
@@ -45,7 +80,8 @@ for binary_dir in ${test_dir_files};do
     continue
   fi
   test_file=${g_test_file}
-  test_libc_file=${test_sub_dir}/libc.so
+  get_test_libc_file ${test_sub_dir}
+  test_libc_file=${g_test_libc_file}
   test_poc_file=${test_sub_dir}/poc.py
   init_script_file=${test_sub_dir}/init_env.sh
   echo "get test_file:      ${test_file}"
@@ -72,7 +108,7 @@ for binary_dir in ${test_dir_files};do
   cp -f ${test_libc_file}  ${target_out_dir}/libc.so
   cp -f ${test_poc_file} ./test_out/${file}/
 
-  loader_stage_one_positions=(new_pt_load)
+  loader_stage_one_positions=(new_pt_load eh_frame)
   loader_stage_other_positions=(memory file share_memory socket)
   #loader_stage_other_positions=(socket)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
@@ -114,8 +150,38 @@ for binary_dir in ${test_dir_files};do
         sed  's/\s*"loader_stage_other_socket_server_port.*$/  "loader_stage_other_socket_server_port":"'${loader_stage_other_socket_sandbox_server_port}'",/g' -i ../out/sandbox_config.json
       fi
 
+      docker_image_version=
+      get_test_libc_version ${target_out_dir}/libc.so
+      if [ "${g_libc_version}" == "2.23" ];then
+        docker_image_version="1604"
+      elif [ "${g_libc_version}" == "2.24" ];then
+        docker_image_version="1610"
+      elif [ "${g_libc_version}" == "2.26" ];then
+        docker_image_version="1710"
+      elif [ "${g_libc_version}" == "2.27" ];then
+        docker_image_version="1804"
+      elif [ "${g_libc_version}" == "2.28" ];then
+        docker_image_version="1810"
+      elif [ "${g_libc_version}" == "2.29" ];then
+        docker_image_version="1904"
+      elif [ "${g_libc_version}" == "2.30" ];then
+        docker_image_version="2010"
+      elif [ "${g_libc_version}" == "2.31" ];then
+        docker_image_version="2004"
+      elif [ "${g_libc_version}" == "2.32" ];then
+        docker_image_version="2010"
+      else
+        echo "unknown glibc verison: $g_libc_version"
+        exit 255
+      fi
+
       cd ${current_dir}/../docker/image_build_script/bin/
-      ./start.sh ${current_dir}/../ 1604 test 10000
+      ./start.sh ${current_dir}/../ ${docker_image_version} test 10000
+
+      if [ $? -ne 0 ]; then
+        echo "start.sh exec failed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        exit 255
+      fi
 
       cd ${current_dir}/
 
@@ -167,7 +233,7 @@ done
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
   test_sub_dir=${test_dir}/${binary_dir}
-  echo "begin test ${test_sub_dir} ####################################################"
+
 
   if [ -f ${test_sub_dir}/ignore ];then
     continue
@@ -178,14 +244,15 @@ for binary_dir in ${test_dir_files};do
     continue
   fi
   test_file=${g_test_file}
-  test_libc_file=${test_sub_dir}/libc.so
+  get_test_libc_file ${test_sub_dir}
+  test_libc_file=${g_test_libc_file}
   test_poc_file=${test_sub_dir}/poc.py
-  init_script_file=${test_sub_dir}/init_env.sh
   if [ ! -f "${test_libc_file}" ];then
     continue
   fi
   if [ ! -f "${test_poc_file}" ];then
     continue
   fi
+  echo "begin test ${test_sub_dir} ####################################################"
   ls -ll ./test_out/${binary_dir}/*.flag
 done

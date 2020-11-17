@@ -1,5 +1,9 @@
 #!/bin/bash
 
+/root/init.sh
+
+mkdir /home/ctf/proc && mount -t proc proc /home/ctf/proc
+
 mkdir /root/log
 /etc/init.d/xinetd restart
 /etc/init.d/ssh restart

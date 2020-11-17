@@ -120,7 +120,7 @@ if __name__ == "__main__":
                 pfile = open(os.path.join(verify_success_dir,file_name+'.rebuild'),'w')
                 json_datas = json.dump(rebuild_json,pfile,indent=4)
                 pfile.close()
-                translate_log = ''.join(os.popen("python2 ./translate_traccfic_to_poc.py "+os.path.join(verify_success_dir,file_name+'.rebuild')+" " + os.path.join(verify_success_dir,file_name+'.rebuild.py')).readlines())
+                translate_log = ''.join(os.popen("python2 ./translate_traccfic_to_poc.py " +elf_file+" "  +os.path.join(verify_success_dir,file_name+'.rebuild')+" " + os.path.join(verify_success_dir,file_name+'.rebuild.py')).readlines())
                 with open(os.path.join(verify_success_dir,file_name+'.rebuild.py.log'),"w") as f:
                     f.write(translate_log)
                 translate_log = ''.join(os.popen("python2 ./translate_traccfic_to_poc.py "+os.path.join(verify_success_dir,file_name+'')+" " + os.path.join(verify_success_dir,file_name+'.py')).readlines())
@@ -129,7 +129,7 @@ if __name__ == "__main__":
             else:
                 shutil.move(os.path.join(scan_dir,file_name),os.path.join(verify_failed_dir,file_name))
                 logging.info('local verify failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                translate_log = ''.join(os.popen("python2 ./translate_traccfic_to_poc.py "+os.path.join(verify_failed_dir,file_name+'')+" " + os.path.join(verify_failed_dir,file_name+'.py')).readlines())
+                translate_log = ''.join(os.popen("python2 ./translate_traccfic_to_poc.py "+elf_file+" "+os.path.join(verify_failed_dir,file_name+'')+" " + os.path.join(verify_failed_dir,file_name+'.py')).readlines())
                 with open(os.path.join(verify_failed_dir,file_name+'.py.log'),"w") as f:
                     f.write(translate_log)
             #sleep(1)

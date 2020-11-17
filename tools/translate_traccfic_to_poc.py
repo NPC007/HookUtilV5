@@ -267,7 +267,20 @@ def check_step(step, traffic):
     '''
     t+= '\n\n'
     fd.write(t)
-        
+
+
+def generate_default_base(fd,elf_base=0, libc_base=0, stack_base=0, heap_base=0):
+    t = ''
+    if elf_base!=0:
+        t += '\nelf_base=' + hex(elf_base) + '\n'
+    if libc_base!=0:
+        t += '\nlibc_base=' + hex(libc_base) + '\n'
+    if stack_base!=0:
+        t += '\nstack_base=' + hex(stack_base) + '\n'
+    if heap_base!=0:
+        t += '\nheap_base=' + hex(heap_base) + '\n'
+    fd.write(t)
+
 
 def generate_poc_from_json_data(tracffic_info,poc_file_name,host,port, elf_base=0, libc_base=0, stack_base=0, heap_base=0):
     logging.info("Start translate %s ------>  %s"%(tracffic_info,target_file))
@@ -285,6 +298,7 @@ def generate_poc_from_json_data(tracffic_info,poc_file_name,host,port, elf_base=
 
     step = 0
     gen_check_str(json_data, fd)
+    generate_default_base(fd,elf_base,libc_base,stack_base,heap_base)
     for each_str in json_data:
         t = each_str[0]
         if t == '1' or t == '2' or t == '0':
@@ -298,18 +312,41 @@ def generate_poc_from_json_data(tracffic_info,poc_file_name,host,port, elf_base=
 
 
 def usage():
-    logging.error(sys.argv[0] + " tracffic_file generate_file_name.py")
+    logging.error(sys.argv[0] + "elf_file_path tracffic_file generate_file_name.py")
     exit(-1)
+
+
+class SegmentInfo(object):
+    """docstring for SegmentInfo"""
+
+    def __init__(self, segment):
+        self.start = segment.header['p_vaddr'] - segment.header['p_vaddr'] % 0x1000
+        self.end = (segment.header['p_vaddr'] + segment.header['p_memsz']) - (
+                segment.header['p_vaddr'] + segment.header['p_memsz']) % 0x1000 + 0x1000
+
+    def dump(self):
+        logging.debug(hex(self.start) + '-' * 20 + hex(self.end))
+
+
+def get_elf_base(elf_path):
+    segmentinfo = []
+    elf = ELFFile(open(elf_path, 'rb'))
+    for index in range(0, elf.num_segments()):
+        if elf.get_segment(index).header['p_type'] == 'PT_LOAD':
+            segmentinfo.append(SegmentInfo(elf.get_segment(index)))
+    elf_base_static = min([seg.start for seg in segmentinfo])
+    return elf_base_static
 
 
 if __name__ == '__main__':
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=LOG_FORMAT)
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         usage()
-    tracffic_info = sys.argv[1]
-    target_file = sys.argv[2]
-
-    generate_poc_from_json_data(tracffic_info, target_file, '127.0.0.1', 10002)
+    elf_file = sys.argv[1]
+    tracffic_info = sys.argv[2]
+    target_file = sys.argv[3]
+    elf_base = get_elf_base(elf_file)
+    generate_poc_from_json_data(tracffic_info, target_file, '127.0.0.1', 10002,elf_base=elf_base)
 
 

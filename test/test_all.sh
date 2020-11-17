@@ -15,6 +15,9 @@ get_test_file(){
   g_test_file=
     files=$(ls ./${1}/)
     for file in ${files};do
+      if [[ ${file} == *libc* ]];then
+        continue
+      fi
       test_execute=$(file ${1}/${file} | grep 80386)
       if [ ! -z "${test_execute}" ];then
         g_test_file=${1}/${file}
@@ -46,8 +49,14 @@ wait_port(){
 }
 
 
+
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
+
+  #if [ "${binary_dir}" != "autotest_64_nopie_dynamic_full" ];then
+  #  continue
+  #fi
+
   test_sub_dir=${test_dir}/${binary_dir}
   echo "begin test ${test_sub_dir}"
 
@@ -89,7 +98,7 @@ for binary_dir in ${test_dir_files};do
   #loader_stage_one_positions=(eh_frame)
   loader_stage_one_positions=(new_pt_load eh_frame)
   loader_stage_other_positions=(memory file share_memory socket)
-  #loader_stage_other_positions=(socket)
+  #loader_stage_other_positions=(memory)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
     for loader_stage_other_position in "${loader_stage_other_positions[@]}";do
       echo "begin test loader_stage_one_position:${loader_stage_one_position}, loader_stage_other_position: ${loader_stage_other_position} "
@@ -156,6 +165,7 @@ for binary_dir in ${test_dir_files};do
       fi
       cat ${input_file} | ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_debug_${loader_stage_one_position}_${loader_stage_other_position}.log
 
+
       #if [ ${loader_stage_other_position} == 'socket' ];then
       #   exit 255
       #fi
@@ -200,6 +210,7 @@ for binary_dir in ${test_dir_files};do
         ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
         wait_port 11111
       fi
+      echo "cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_release_${loader_stage_one_position}_${loader_stage_other_position}.log"
       cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_release_${loader_stage_one_position}_${loader_stage_other_position}.log
 
 

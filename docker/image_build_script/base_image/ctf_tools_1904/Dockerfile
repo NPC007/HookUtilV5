@@ -2,7 +2,11 @@ FROM ubuntu:19.04
 
 RUN  sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python-pip curl libgmp-dev libmpfr-dev libmpc-dev
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python-pip curl libgmp-dev libmpfr-dev libmpc-dev binutils dpkg-dev build-essential
+
+COPY common/setup_libc_debug.sh /opt
+
+RUN chmod +x /opt/setup_libc_debug.sh && /opt/setup_libc_debug.sh
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen

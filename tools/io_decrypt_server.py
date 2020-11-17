@@ -1,6 +1,7 @@
 # coding:utf-8
 import socketserver,socket
 import re,sys,logging,os,time
+import select
 
 
 xor_key = b"\xf5\xe4\xd2\xc9\xb2\xa9\xd0\x9f\xa3\xf5\xd9"
@@ -8,6 +9,79 @@ xor_key = b"\xf5\xe4\xd2\xc9\xb2\xa9\xd0\x9f\xa3\xf5\xd9"
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
+
+
+class TCPHandlerSelect(socketserver.BaseRequestHandler):
+    def handle(self):
+        current_read_index = 0
+        current_write_index = 0
+        remote_addr,port = self.request.getpeername()
+        logging.debug("Accept connection from " + str(remote_addr) +":"+ str(port))
+        #self.request.setblocking(False)
+        self.request.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        try:
+            up_stream_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            up_stream_socket.connect((UPSTREAM_HOST,UPSTREAM_PORT))
+            #up_stream_socket.setblocking(False)
+            up_stream_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+            logging.debug("Connect to upstream server " + str(UPSTREAM_HOST) +":"+ str(UPSTREAM_PORT) + " success")
+        except Exception as e:
+            logging.error("Connect to upstream server " + str(UPSTREAM_HOST) +":"+ str(UPSTREAM_PORT) + " failed")
+            logging.error(e.message)
+            self.request.close()
+            return
+        continue_flag = True
+        while continue_flag:
+            inputs = [self.request,up_stream_socket]
+            outputs = []
+            try:
+                readable, writable, exceptional = select.select(inputs, outputs, inputs)
+                for s in readable:
+                    if s == self.request:
+                        try:
+                            recv_client_data = self.request.recv(4096)
+                            if len(recv_client_data) != 0:
+                                res = b''
+                                for i in range(0,len(recv_client_data)):
+                                    res += ((recv_client_data[i]) ^ (xor_key[current_read_index%len(xor_key)])).to_bytes(1,byteorder='little')
+                                    current_read_index += 1
+                                up_stream_socket.send(res)
+                                #logging.debug("write "+str(len(res))+" bytes to upstream server")
+                            else:
+                                continue_flag = False
+                                break
+                        except BlockingIOError as e:
+                            time.sleep(0.05)
+                    elif s == up_stream_socket:
+                        try:
+                            recv_server_data = up_stream_socket.recv(4096)
+                            if len(recv_server_data) != 0:
+                                res = b''
+                                for i in range(0,len(recv_server_data)):
+                                    res += ((recv_server_data[i])^(xor_key[current_write_index%len(xor_key)])).to_bytes(1,byteorder='little')
+                                    current_write_index += 1
+                                self.request.send(res)
+                                #logging.debug("write "+str(len(res))+" bytes to client")
+                            else:
+                                continue_flag = False
+                                break
+                        except BlockingIOError as e:
+                            time.sleep(0.05)
+                    else:
+                        logging.error("unknown socket: %s"%(str(s)))
+                        continue_flag = False
+            except Exception as e:
+                logging.error("error: " + str(e))
+                break
+        logging.debug("close socket from " + remote_addr +":" +str(port))
+        try:
+            up_stream_socket.close()
+        except Exception as e:
+           pass
+        try:
+            self.request.close()
+        except Exception as e:
+            pass
 
 
 class TCPHandler(socketserver.BaseRequestHandler):
@@ -38,7 +112,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                         res += ((recv_client_data[i]) ^ (xor_key[current_read_index%len(xor_key)])).to_bytes(1,byteorder='little')
                         current_read_index += 1
                     up_stream_socket.send(res)
-                    logging.debug("write "+str(len(res))+" bytes to upstream server")
+                    #logging.debug("write "+str(len(res))+" bytes to upstream server")
                 else:
                     break
             except BlockingIOError as e:
@@ -52,7 +126,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                         res += ((recv_server_data[i])^(xor_key[current_write_index%len(xor_key)])).to_bytes(1,byteorder='little')
                         current_write_index += 1
                     self.request.send(res)
-                    logging.debug("write "+str(len(res))+" bytes to client")
+                    #logging.debug("write "+str(len(res))+" bytes to client")
                 else:
                     break
             except BlockingIOError as e:
@@ -77,7 +151,7 @@ if __name__ == "__main__":
     UPSTREAM_HOST,UPSTREAM_PORT = sys.argv[3], int(sys.argv[4])
     try:
         socketserver.TCPServer.allow_reuse_address = True
-        server = ThreadedTCPServer((HOST, PORT), TCPHandler)
+        server = ThreadedTCPServer((HOST, PORT), TCPHandlerSelect)
         logging.debug("Start decrypt server :" +HOST + ":" + str(PORT) )
         logging.debug("Upstream      server :" +UPSTREAM_HOST + ":" + str(UPSTREAM_PORT) )
         server.serve_forever()

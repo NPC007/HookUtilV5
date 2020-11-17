@@ -3,6 +3,7 @@ MODE : normal
 debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/debug_config.h
 config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/config.h
 input elf: input_elf
+check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
 ###########################################process config.h######################################
@@ -19,6 +20,7 @@ MODE : sandbox
 debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/debug_config.h
 config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/config.h
 input elf: input_elf
+check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
 ###########################################process sandbox_config.h######################################
@@ -36,7 +38,7 @@ check /home/runshine/HookUtilV3/test/..//out/normal/stage_two start
 check /home/runshine/HookUtilV3/test/..//out/normal/stage_two end
 generate normal_data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x23e
+	length:                     0x224
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
 	entry_offset:                     0x58ba
@@ -55,7 +57,7 @@ check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two start
 check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two end
 generate sandbox_data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x23e
+	length:                     0x224
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
 	entry_offset:                     0x22eb
@@ -70,72 +72,60 @@ stage_one_normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/
 data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
 input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
 #define IS_PIE 0
-0x401930:	xor		ebp, ebp
-0x401932:	mov		r9, rdx
-0x401935:	pop		rsi
-0x401936:	mov		rdx, rsp
-0x401939:	and		rsp, 0xfffffffffffffff0
-0x40193d:	push		rax
-0x40193e:	push		rsp
-0x40193f:	mov		r8, 0x4037f0
-0x401946:	mov		rcx, 0x403780
-0x40194d:	mov		rdi, 0x40222b
-0x401954:	call		0x4018c0
+0x4010e0:	endbr64		
+0x4010e4:	xor		ebp, ebp
+0x4010e6:	mov		r9, rdx
+0x4010e9:	pop		rsi
+0x4010ea:	mov		rdx, rsp
+0x4010ed:	and		rsp, 0xfffffffffffffff0
+0x4010f1:	push		rax
+0x4010f2:	push		rsp
+0x4010f3:	mov		r8, 0x401530
+0x4010fa:	mov		rcx, 0x4014c0
+0x401101:	mov		rdi, 0x40133d
+0x401108:	call		qword ptr [rip + 0x2ee2]
 find start call libc_start_main
-identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0x4018c0
-identify libc_start_main_start_call_offset : 0x1954
-identify libc_start_main_start_call_vaddr  : 0x401954
-#define LIBC_START_MAIN_ADDR_TYPE CODE
-#define LIB_C_START_MAIN_ADDR 0x4018c0
-Assuming SO Max Size: 0x1000000
-
-sort  by vaddr
-vaddr:          400000	file_offset:               0	file_size:            4373	mem_size:            4373
-vaddr:          604dc8	file_offset:            4dc8	file_size:             469	mem_size:             720
-sort  by vaddr end
-unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:          606000	file_offset:          206000
-#define FIRST_ENTRY_OFFSET 0x207000
-#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define PATCH_DATA_MMAP_FILE_SIZE 0x1f04e
-#define PATCH_DATA_MMAP_FILE_VADDR 0x608000
+identify libc_start_main_addr_type : ptr
+identify libc_start_main_addr              : 0x403ff0
+identify libc_start_main_start_call_offset : 0x1108
+identify libc_start_main_start_call_vaddr  : 0x401108
+#define LIBC_START_MAIN_ADDR_TYPE PTR
+#define LIB_C_START_MAIN_ADDR 0x403ff0
+#define FIRST_ENTRY_OFFSET 0x2148
+#define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
+#define PATCH_DATA_SOCKET_SERVER_IP 16777343
+#define PATCH_DATA_SOCKET_SERVER_PORT 26411
+#define PATCH_DATA_MMAP_FILE_SIZE 0x1f034
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
 stage_one_normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/stage_one_config.h
 data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
 input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
 #define IS_PIE 0
-0x401930:	xor		ebp, ebp
-0x401932:	mov		r9, rdx
-0x401935:	pop		rsi
-0x401936:	mov		rdx, rsp
-0x401939:	and		rsp, 0xfffffffffffffff0
-0x40193d:	push		rax
-0x40193e:	push		rsp
-0x40193f:	mov		r8, 0x4037f0
-0x401946:	mov		rcx, 0x403780
-0x40194d:	mov		rdi, 0x40222b
-0x401954:	call		0x4018c0
+0x4010e0:	endbr64		
+0x4010e4:	xor		ebp, ebp
+0x4010e6:	mov		r9, rdx
+0x4010e9:	pop		rsi
+0x4010ea:	mov		rdx, rsp
+0x4010ed:	and		rsp, 0xfffffffffffffff0
+0x4010f1:	push		rax
+0x4010f2:	push		rsp
+0x4010f3:	mov		r8, 0x401530
+0x4010fa:	mov		rcx, 0x4014c0
+0x401101:	mov		rdi, 0x40133d
+0x401108:	call		qword ptr [rip + 0x2ee2]
 find start call libc_start_main
-identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0x4018c0
-identify libc_start_main_start_call_offset : 0x1954
-identify libc_start_main_start_call_vaddr  : 0x401954
-#define LIBC_START_MAIN_ADDR_TYPE CODE
-#define LIB_C_START_MAIN_ADDR 0x4018c0
-Assuming SO Max Size: 0x1000000
-
-sort  by vaddr
-vaddr:          400000	file_offset:               0	file_size:            4373	mem_size:            4373
-vaddr:          604dc8	file_offset:            4dc8	file_size:             469	mem_size:             720
-sort  by vaddr end
-unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:          606000	file_offset:          206000
-#define FIRST_ENTRY_OFFSET 0x207000
-#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define PATCH_DATA_MMAP_FILE_SIZE 0xbee6
-#define PATCH_DATA_MMAP_FILE_VADDR 0x608000
+identify libc_start_main_addr_type : ptr
+identify libc_start_main_addr              : 0x403ff0
+identify libc_start_main_start_call_offset : 0x1108
+identify libc_start_main_start_call_vaddr  : 0x401108
+#define LIBC_START_MAIN_ADDR_TYPE PTR
+#define LIB_C_START_MAIN_ADDR 0x403ff0
+#define FIRST_ENTRY_OFFSET 0x2148
+#define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
+#define PATCH_DATA_SOCKET_SERVER_IP 16777343
+#define PATCH_DATA_SOCKET_SERVER_PORT 26411
+#define PATCH_DATA_MMAP_FILE_SIZE 0xbecc
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
 data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
@@ -143,30 +133,23 @@ input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
 stage_one: /home/runshine/HookUtilV3/test/..//out/normal/stage_one
 check /home/runshine/HookUtilV3/test/..//out/normal/stage_one start
 check /home/runshine/HookUtilV3/test/..//out/normal/stage_one end
-0x401930:	xor		ebp, ebp
-0x401932:	mov		r9, rdx
-0x401935:	pop		rsi
-0x401936:	mov		rdx, rsp
-0x401939:	and		rsp, 0xfffffffffffffff0
-0x40193d:	push		rax
-0x40193e:	push		rsp
-0x40193f:	mov		r8, 0x4037f0
-0x401946:	mov		rcx, 0x403780
-0x40194d:	mov		rdi, 0x40222b
-0x401954:	call		0x4018c0
+0x4010e0:	endbr64		
+0x4010e4:	xor		ebp, ebp
+0x4010e6:	mov		r9, rdx
+0x4010e9:	pop		rsi
+0x4010ea:	mov		rdx, rsp
+0x4010ed:	and		rsp, 0xfffffffffffffff0
+0x4010f1:	push		rax
+0x4010f2:	push		rsp
+0x4010f3:	mov		r8, 0x401530
+0x4010fa:	mov		rcx, 0x4014c0
+0x401101:	mov		rdi, 0x40133d
+0x401108:	call		qword ptr [rip + 0x2ee2]
 find start call libc_start_main
-identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0x4018c0
-identify libc_start_main_start_call_offset : 0x1954
-identify libc_start_main_start_call_vaddr  : 0x401954
-Assuming SO Max Size: 0x1000000
-
-sort  by vaddr
-vaddr:          400000	file_offset:               0	file_size:            4373	mem_size:            4373
-vaddr:          604dc8	file_offset:            4dc8	file_size:             469	mem_size:             720
-sort  by vaddr end
-unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:          606000	file_offset:          206000
+identify libc_start_main_addr_type : ptr
+identify libc_start_main_addr              : 0x403ff0
+identify libc_start_main_start_call_offset : 0x1108
+identify libc_start_main_start_call_vaddr  : 0x401108
 generate done
 -------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------
@@ -176,29 +159,22 @@ input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
 stage_one: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one
 check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one start
 check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one end
-0x401930:	xor		ebp, ebp
-0x401932:	mov		r9, rdx
-0x401935:	pop		rsi
-0x401936:	mov		rdx, rsp
-0x401939:	and		rsp, 0xfffffffffffffff0
-0x40193d:	push		rax
-0x40193e:	push		rsp
-0x40193f:	mov		r8, 0x4037f0
-0x401946:	mov		rcx, 0x403780
-0x40194d:	mov		rdi, 0x40222b
-0x401954:	call		0x4018c0
+0x4010e0:	endbr64		
+0x4010e4:	xor		ebp, ebp
+0x4010e6:	mov		r9, rdx
+0x4010e9:	pop		rsi
+0x4010ea:	mov		rdx, rsp
+0x4010ed:	and		rsp, 0xfffffffffffffff0
+0x4010f1:	push		rax
+0x4010f2:	push		rsp
+0x4010f3:	mov		r8, 0x401530
+0x4010fa:	mov		rcx, 0x4014c0
+0x401101:	mov		rdi, 0x40133d
+0x401108:	call		qword ptr [rip + 0x2ee2]
 find start call libc_start_main
-identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0x4018c0
-identify libc_start_main_start_call_offset : 0x1954
-identify libc_start_main_start_call_vaddr  : 0x401954
-Assuming SO Max Size: 0x1000000
-
-sort  by vaddr
-vaddr:          400000	file_offset:               0	file_size:            4373	mem_size:            4373
-vaddr:          604dc8	file_offset:            4dc8	file_size:             469	mem_size:             720
-sort  by vaddr end
-unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:          606000	file_offset:          206000
+identify libc_start_main_addr_type : ptr
+identify libc_start_main_addr              : 0x403ff0
+identify libc_start_main_start_call_offset : 0x1108
+identify libc_start_main_start_call_vaddr  : 0x401108
 generate done
 -------------------------------------------------------------------------------------------------------------

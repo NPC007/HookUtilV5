@@ -23,7 +23,7 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_TWO* two_base){
     //todo elf_load_base should find an empty space, not just add 0x1000100
     char* stage_three_load_base = (char*)three_base->patch_data_mmap_file_base + 0x10001000 ;
     if(sizeof(void*)==8){
-        stage_three_load_base = (char*)0x5678ff0000;
+        stage_three_load_base = (char*)0x56780000;
     } else if(sizeof(void*)==4){
         stage_three_load_base = (char*)0x56780000;
     }

@@ -26,7 +26,11 @@ set(TARGET_DIR "out")
 
 
 set(STAGE_LINK_FLAG "-static-pie")
-set(STAGE_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(STAGE_ONE_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(STAGE_TWO_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(STAGE_THREE_NORMAL_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(STAGE_THREE_SANDBOX_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     set(PATCH_DEBUG "-DPATCH_DEBUG_CONFIG=1")
 elseif(${CMAKE_BUILD_TYPE} STREQUAL "Release")
@@ -63,7 +67,7 @@ add_custom_command(TARGET pre_generate POST_BUILD
         )
 
 add_executable(stage_two_normal ${STAGE_TWO})
-set_target_properties(stage_two_normal PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_COMPILE_FLAG}" LINK_FLAGS  "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+set_target_properties(stage_two_normal PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_TWO_COMPILE_FLAG}" LINK_FLAGS  "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_two_normal POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_two_normal" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal/stage_two"
         )
@@ -72,7 +76,7 @@ add_dependencies(stage_two_normal pre_generate)
 
 
 add_executable(stage_two_sandbox ${STAGE_TWO})
-set_target_properties(stage_two_sandbox PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_COMPILE_FLAG}" LINK_FLAGS  "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+set_target_properties(stage_two_sandbox PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_TWO_COMPILE_FLAG}" LINK_FLAGS  "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_two_sandbox POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_two_sandbox" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox/stage_two"
         )
@@ -81,7 +85,7 @@ add_dependencies(stage_two_sandbox pre_generate)
 
 
 add_executable(stage_three_normal ${STAGE_THREE_NORMAL})
-set_target_properties(stage_three_normal PROPERTIES COMPILE_FLAGS  "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_COMPILE_FLAG} " LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+set_target_properties(stage_three_normal PROPERTIES COMPILE_FLAGS  "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_THREE_NORMAL_COMPILE_FLAG} " LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_three_normal POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_three_normal" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal/stage_three"
         )
@@ -89,7 +93,7 @@ target_include_directories(stage_three_normal PRIVATE src/auto_generate/normal)
 add_dependencies(stage_three_normal pre_generate)
 
 add_executable(stage_three_sandbox  ${STAGE_THREE_SANDBOX})
-set_target_properties(stage_three_sandbox PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_COMPILE_FLAG}" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+set_target_properties(stage_three_sandbox PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_THREE_SANDBOX_COMPILE_FLAG}" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_three_sandbox POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_three_sandbox" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox/stage_three"
         )
@@ -121,7 +125,7 @@ add_custom_command(TARGET stage_one_pre_generate POST_BUILD
 add_dependencies(stage_one_pre_generate datafile_generate)
 
 add_executable(stage_one_normal ${STAGE_ONE})
-set_target_properties(stage_one_normal PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_COMPILE_FLAG}  -DSTAGE_ONE_NORMAL=1" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+set_target_properties(stage_one_normal PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_ONE_COMPILE_FLAG}  -DSTAGE_ONE_NORMAL=1" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_one_normal POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_one_normal" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal/stage_one"
         )
@@ -129,7 +133,7 @@ target_include_directories(stage_one_normal PRIVATE src/auto_generate/normal)
 add_dependencies(stage_one_normal stage_one_pre_generate)
 
 add_executable(stage_one_sandbox ${STAGE_ONE})
-set_target_properties(stage_one_sandbox PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_COMPILE_FLAG}  -DSTAGE_ONE_SANDBOX=1" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+set_target_properties(stage_one_sandbox PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_ONE_COMPILE_FLAG}  -DSTAGE_ONE_SANDBOX=1" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_one_sandbox POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_one_sandbox" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox/stage_one"
         )

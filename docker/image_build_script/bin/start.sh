@@ -8,11 +8,23 @@ fi
 
 IMAGE_VERSION=${2}
 if [ ! "${IMAGE_VERSION}"x = "1604"x ];then
-  if [ ! "${IMAGE_VERSION}"x = "1804"x ];then
-    if [ ! "${IMAGE_VERSION}"x = "1904"x ];then
-      if [ ! "${IMAGE_VERSION}"x = "2004"x ];then
-        echo "Unknown IMAGE_VERSION, avaiable is: 1604, 1804, 1904, 2004"
-        exit 255
+  if [ ! "${IMAGE_VERSION}"x = "1610"x ];then
+    if [ ! "${IMAGE_VERSION}"x = "1704"x ];then
+      if [ ! "${IMAGE_VERSION}"x = "1710"x ];then
+        if [ ! "${IMAGE_VERSION}"x = "1804"x ];then
+            if [ ! "${IMAGE_VERSION}"x = "1810"x ];then
+              if [ ! "${IMAGE_VERSION}"x = "1904"x ];then
+                 if [ ! "${IMAGE_VERSION}"x = "1910"x ];then
+                    if [ ! "${IMAGE_VERSION}"x = "2004"x ];then
+                      if [ ! "${IMAGE_VERSION}"x = "2010"x ];then
+                        echo "Unknown IMAGE_VERSION, avaiable is: 1604, 1610, 1704, 1710, 1804, 1810, 1904, 1910, 2004, 2010"
+                        exit 255
+                      fi
+                    fi
+                  fi
+              fi
+          fi
+        fi
       fi
     fi
   fi
@@ -22,6 +34,7 @@ fi
 CURRENT_DIR=`cd $(dirname $0); pwd`
 WORKSPACE=`cd $1; pwd`
 cd ${CURRENT_DIR}
+rm ../build -rf
 
 ELF_FILE=${WORKSPACE}/out/input_elf
 LIBC_FILE=${WORKSPACE}/out/libc.so
@@ -261,20 +274,40 @@ sudo docker rmi $image_name
 if [ "${IMAGE_VERSION}"x = "1604"x ];then
   DOCKER_FILE=resource/Dockerfile_1604
 fi
+if [ "${IMAGE_VERSION}"x = "1610"x ];then
+  DOCKER_FILE=resource/Dockerfile_1610
+fi
+if [ "${IMAGE_VERSION}"x = "1704"x ];then
+  DOCKER_FILE=resource/Dockerfile_1704
+fi
+if [ "${IMAGE_VERSION}"x = "1710"x ];then
+  DOCKER_FILE=resource/Dockerfile_1710
+fi
 if [ "${IMAGE_VERSION}"x = "1804"x ];then
   DOCKER_FILE=resource/Dockerfile_1804
+fi
+if [ "${IMAGE_VERSION}"x = "1810"x ];then
+  DOCKER_FILE=resource/Dockerfile_1810
 fi
 if [ "${IMAGE_VERSION}"x = "1904"x ];then
   DOCKER_FILE=resource/Dockerfile_1904
 fi
+if [ "${IMAGE_VERSION}"x = "1910"x ];then
+  DOCKER_FILE=resource/Dockerfile_1910
+fi
 if [ "${IMAGE_VERSION}"x = "2004"x ];then
   DOCKER_FILE=resource/Dockerfile_2004
+fi
+if [ "${IMAGE_VERSION}"x = "2010"x ];then
+  DOCKER_FILE=resource/Dockerfile_2010
 fi
 
 sudo docker build ./ -f ${DOCKER_FILE} -t $image_name
 if [ $? -ne 0 ]; then
   echo "Docker Image:$image_name Build failed, docker file: ${DOCKER_FILE} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   exit 255
+else
+  echo "Docker Image:$image_name Build success "
 fi
 
 sudo docker run -d -p 0.0.0.0:$analysis_port:$analysis_port        \

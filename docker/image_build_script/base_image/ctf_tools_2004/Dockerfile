@@ -5,7 +5,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales python2 curl libpython2-dev libgmp-dev libmpfr-dev libmpc-dev
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales python2 curl libpython2-dev libgmp-dev libmpfr-dev libmpc-dev binutils dpkg-dev build-essential
+
+COPY common/setup_libc_debug.sh /opt
+
+RUN chmod +x /opt/setup_libc_debug.sh && /opt/setup_libc_debug.sh
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen

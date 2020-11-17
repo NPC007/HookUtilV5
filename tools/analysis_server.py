@@ -106,7 +106,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                 logging.warn("[UUID]request uuid not same, something wrong")
         if store_pkType == 1:  # stdin
             #sys.stdout.write(string_escape_decode(store_data))
-            logging.debug("[stdin ]: recv %d bytes"%len(store_data))
+            #logging.debug("[stdin ]: recv %d bytes"%len(store_data))
             tracffic_info = TracfficInfo(IN_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1
@@ -116,7 +116,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
             # self.data_file.flush()
         elif store_pkType == 2:  # strerr && stdout
             #sys.stdout.write(string_escape_decode(store_data))
-            logging.debug("[stdout]: recv %d bytes"%len(store_data))
+            #logging.debug("[stdout]: recv %d bytes"%len(store_data))
             tracffic_info = TracfficInfo(OUT_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1
@@ -126,7 +126,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
             # self.data_file.flush()
         elif store_pkType == 3:  # strerr && stdout
             #sys.stdout.write(string_escape_decode(store_data))
-            logging.debug("[stderr]: recv %d bytes"%len(store_data))
+            #logging.debug("[stderr]: recv %d bytes"%len(store_data))
             tracffic_info = TracfficInfo(ERR_DATA, store_data, self.index, self.env_info)
             self.data.append(tracffic_info)
             self.index += 1

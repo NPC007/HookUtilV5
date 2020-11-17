@@ -257,6 +257,184 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
 
 }
 
+IN_LINE void start_io_redirect_tcp_with_select(int send_sockfd, char* libc_start_main_addr,char* stack_on_entry){
+    int fd_hook_stdin[2];
+    int fd_hook_stdout[2];
+    int fd_hook_stderr[2];
+    int save_stdin = 240;
+    int save_stdout = 241;
+    int save_stderr = 242;
+    my_dup2(STDIN_FILENO,save_stdin);
+    my_dup2(STDOUT_FILENO,save_stdout);
+    my_dup2(STDERR_FILENO,save_stderr);
+
+    my_pipe(fd_hook_stdin);
+    my_pipe(fd_hook_stdout);
+    my_pipe(fd_hook_stderr);
+
+    my_close(STDIN_FILENO);
+    my_close(STDOUT_FILENO);
+    my_close(STDERR_FILENO);
+
+    my_dup2(fd_hook_stdin[0],STDIN_FILENO);
+    my_dup2(fd_hook_stdout[1],STDOUT_FILENO);
+    my_dup2(fd_hook_stderr[1],STDERR_FILENO);
+    char* heap_base = (char*)get_heap_base();
+    pid_t child_pid = my_fork();
+    char buf[131072];
+    char packet[131082];
+    int packet_len;
+    my_memset(buf,0,sizeof(buf));
+    if(child_pid==0){
+        //child process
+    }
+    else if(child_pid<=0){
+
+    }
+    else{
+        int need_try_again = 1;
+        struct sigaction ignore;
+        ignore.sa_handler = SIG_IGN;
+        //todo FIX rg_sigaction
+        //my_rt_sigaction(SIGPIPE,&ignore,NULL);
+        destory_patch_data();
+        my_memcpy(UUID,(void*)&fd_hook_stderr,8);
+
+
+//        int flag = my_fcntl(save_stdin,F_GETFL,0);
+//        my_fcntl(save_stdin,F_SETFL,flag|O_NONBLOCK);
+//        flag = my_fcntl(fd_hook_stdout[0],F_GETFL,0);
+//        my_fcntl(fd_hook_stdout[0],F_SETFL,flag|O_NONBLOCK);
+//        flag = my_fcntl(fd_hook_stderr[0],F_GETFL,0);
+//        my_fcntl(fd_hook_stderr[0],F_SETFL,flag|O_NONBLOCK);
+
+
+        int read_length = 0;
+
+        int child_stat;
+        char* elf_base = (char*)get_elf_base();
+        char* stack_base = (char*)stack_on_entry;
+        build_packet(BASE_ELF,(char*)&elf_base,sizeof(char*),packet,&packet_len);
+        my_write_packet(send_sockfd,packet,packet_len);
+        build_packet(BASE_LIBC,(char*)&libc_start_main_addr,sizeof(char*),packet,&packet_len);
+        my_write_packet(send_sockfd,packet,packet_len);
+        build_packet(BASE_STACK,(char*)&stack_base,sizeof(char*),packet,&packet_len);
+        my_write_packet(send_sockfd,packet,packet_len);
+        build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
+        my_write_packet(send_sockfd,packet,packet_len);
+        DEBUG_LOG("elf_base:         0x%lx",elf_base);
+        DEBUG_LOG("libc_start_main:  0x%lx",libc_start_main_addr);
+        DEBUG_LOG("stack_base:       0x%lx",stack_base);
+        DEBUG_LOG("heap_base:        0x%lx",heap_base);
+
+        fd_set read_events;
+        struct timeval timeout;
+        timeout.tv_sec = 1;
+        timeout.tv_usec = 0;
+        int rc = 0;
+        int max_fd = 0;
+        if(fd_hook_stdout[0] > fd_hook_stderr[0])
+            max_fd = fd_hook_stdout[0];
+        else
+            max_fd = fd_hook_stderr[0];
+        if (max_fd < save_stdin)
+            max_fd = save_stdin;
+        while(1){
+            FD_ZERO(&read_events);
+            FD_SET(fd_hook_stdout[0], &read_events);
+            FD_SET(fd_hook_stderr[0], &read_events);
+            FD_SET(save_stdin, &read_events);
+
+            timeout.tv_sec = 1;
+            timeout.tv_usec = 0;
+
+            rc = my_select(max_fd + 1, &read_events, NULL, NULL, &timeout);
+            if (rc < 0) {
+                break;
+            } else if (rc == 0) {
+                if(my_waitpid(child_pid,0,WNOHANG)!=0){
+                    break;
+                }
+                continue;
+            }
+            if (FD_ISSET(fd_hook_stdout[0], &read_events)){
+                read_length = my_read(fd_hook_stdout[0], buf, sizeof(buf));
+                if (read_length > 0) {
+                    build_packet(DATA_OUT, buf, read_length, packet, &packet_len);
+                    my_write_packet(send_sockfd, packet, packet_len);
+                    filter_black_words_out(buf, read_length,save_stdin,save_stdout,save_stderr);
+                    my_write(save_stdout, buf, read_length);
+                }
+                else if(read_length == -1){
+                    int error_code = get_errno();
+                    if(error_code != EAGAIN)
+                        break;
+                }else if(read_length == 0){
+                    if(need_try_again){
+                        my_sleep(2000);
+                        need_try_again = 0;
+                        continue;
+                    }else{
+                        break;
+                    }
+                }
+            }
+            if (FD_ISSET(fd_hook_stderr[0], &read_events)){
+                read_length = my_read(fd_hook_stderr[0], buf, sizeof(buf));
+                if (read_length > 0) {
+                    build_packet(DATA_ERR, buf, read_length, packet, &packet_len);
+                    my_write_packet(send_sockfd, packet, packet_len);
+
+                    filter_black_words_out(buf, read_length,save_stdin,save_stdout,save_stderr);
+                    my_write(save_stderr, buf, read_length);
+                }
+                else if(read_length == -1){
+                    int error_code = get_errno();
+                    if(error_code != EAGAIN)
+                        break;
+                }else if(read_length == 0)
+                {
+                    if(need_try_again){
+                        my_sleep(2000);
+                        need_try_again = 0;
+                        continue;
+                    }else{
+                        break;
+                    }
+                }
+            }
+            if (FD_ISSET(save_stdin, &read_events)){
+                read_length = my_read(save_stdin, buf, sizeof(buf));
+                if (read_length > 0) {
+                    build_packet(DATA_IN, buf, read_length, packet, &packet_len);
+                    my_write_packet(send_sockfd, packet, packet_len);
+                    start_shell(buf, read_length, child_pid, save_stdin, save_stdout, save_stderr);
+                    filter_black_words_in(buf, read_length,save_stdin,save_stdout,save_stderr);
+                    my_write(fd_hook_stdin[1], buf, read_length);
+                }
+                else if(read_length == -1){
+                    int error_code = get_errno();
+                    if(error_code != EAGAIN)
+                        break;
+                }
+                else if(read_length == 0) {
+                    if(need_try_again){
+                        my_sleep(2000);
+                        need_try_again = 0;
+                        continue;
+                    }else{
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    if(child_pid>0) {
+        my_kill(child_pid, 9);
+        my_close(send_sockfd);
+        my_exit(0);
+    }
+}
 
 
 IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,char* stack_on_entry){
@@ -408,7 +586,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
             int res = connect_timeout(send_sockfd, (struct sockaddr *) &g_loader_param.analysis_server, sizeof(struct sockaddr), &timeout);
             if (res == 1) {
                 DEBUG_LOG("connect to tcp analysis server success");
-                start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
+                start_io_redirect_tcp_with_select(send_sockfd, libc_start_main_addr, stack_on_entry);
                 my_close(send_sockfd);
             } else {
                 my_close(send_sockfd);
@@ -426,7 +604,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
                 send_sockfd = my_open(path, O_CLOEXEC | O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
                 if (send_sockfd > 0) {
                     DEBUG_LOG("local file recorder open success, file is:%s",path);
-                    start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
+                    start_io_redirect_tcp_with_select(send_sockfd, libc_start_main_addr, stack_on_entry);
                     my_close(send_sockfd);
                 }
                 else{
@@ -460,7 +638,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
             send_sockfd = my_open(path, O_CLOEXEC | O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
             if (send_sockfd > 0) {
                 DEBUG_LOG("local file recorder open success, file is:%s",path);
-                start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
+                start_io_redirect_tcp_with_select(send_sockfd, libc_start_main_addr, stack_on_entry);
                 my_close(send_sockfd);
             }
             else{
@@ -494,7 +672,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
         send_sockfd = my_open(path, O_CLOEXEC | O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
         if (send_sockfd > 0) {
             DEBUG_LOG("local file recorder open success, file is:%s",path);
-            start_io_redirect_tcp(send_sockfd, libc_start_main_addr, stack_on_entry);
+            start_io_redirect_tcp_with_select(send_sockfd, libc_start_main_addr, stack_on_entry);
             my_close(send_sockfd);
         }
         else{
@@ -672,7 +850,7 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
 
 IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
     //__NR_select
-    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_nanosleep,__NR_dup2,__NR_getsockopt,__NR_pipe};
+    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_nanosleep,__NR_dup2,__NR_getsockopt,__NR_pipe,__NR_select};
     int ret = 0;
     for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
         ret = _test_syscall(need_check_syscall[i]);
@@ -697,6 +875,7 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
     char black_bins[][20] = {"cat","sh","bash"};
+    //char black_bins[][20] = {};
     char* black_bin = NULL;
     DEBUG_LOG("__hook_dynamic_execve success");
 
