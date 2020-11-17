@@ -4,7 +4,7 @@ local = 0
 if local:
 	p = process("./mno2")
 else:
-	p = remote("127.0.0.1",10005)
+	p = remote("127.0.0.1",60005)
 
 '''
 H:   dec    eax

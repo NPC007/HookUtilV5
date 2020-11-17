@@ -46,7 +46,7 @@ def modinv(a, m):
         return x % m
 
 #p = process("./task_MrP_Hnhwkzw")
-p = remote("127.0.0.1",10005)
+p = remote("127.0.0.1",60005)
 p.recvuntil("Proof your heart: ")
 md5 = p.recv(32)
 md5_xor = hex(int(md5,16) ^ 0x77777777777777777777777777777777)[2:]

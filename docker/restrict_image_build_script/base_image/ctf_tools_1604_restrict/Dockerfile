@@ -1,9 +1,14 @@
 FROM ubuntu:16.04
 
-RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list && \
+RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.ustc.edu.cn/g" /etc/apt/sources.list && \
+    sed -i "s/http:\/\/security.ubuntu.com/http:\/\/mirrors.ustc.edu.cn/g" /etc/apt/sources.list && \
     sed -i "s/# deb-src/ deb-src/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python-pip curl libgmp-dev libmpfr-dev libmpc-dev
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python-pip curl libgmp-dev libmpfr-dev libmpc-dev binutils dpkg-dev build-essential
+
+COPY common/setup_libc_debug.sh /opt
+
+RUN chmod +x /opt/setup_libc_debug.sh && /opt/setup_libc_debug.sh
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
@@ -41,7 +46,7 @@ RUN chown -R root:ctf /home/ctf && \
 
 RUN apt-get install openssh-server git python gcc python3-pip vim net-tools lsof gdb psmisc netcat -y
 
-RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN python3 -m pip install -i https://mirrors.aliyun.com/pypi/simple pip -U && python3 -m pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
 
 RUN python3 -m pip  install setuptools --upgrade
 

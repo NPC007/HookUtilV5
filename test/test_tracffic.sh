@@ -63,7 +63,7 @@ get_test_libc_version(){
 
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
-  if [ "${binary_dir}" != "PlainNote" ];then
+  if [ "${binary_dir}" != "secretgarden" ];then
     continue
   fi
   test_sub_dir=${test_dir}/${binary_dir}
@@ -140,8 +140,8 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         loader_stage_other_socket_server_ip='127.0.0.1'
-        loader_stage_other_socket_normal_server_port='10006'
-        loader_stage_other_socket_sandbox_server_port='10007'
+        loader_stage_other_socket_normal_server_port='60006'
+        loader_stage_other_socket_sandbox_server_port='60007'
         echo 's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g'
         sed  's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g' -i ../out/normal_config.json
         sed  's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g' -i ../out/sandbox_config.json
@@ -176,7 +176,7 @@ for binary_dir in ${test_dir_files};do
       fi
 
       cd ${current_dir}/../docker/image_build_script/bin/
-      ./start.sh ${current_dir}/../ ${docker_image_version} test 10000
+      ./start.sh ${current_dir}/../ ${docker_image_version} test 60000
 
       if [ $? -ne 0 ]; then
         echo "start.sh exec failed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -200,8 +200,8 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         loader_stage_other_socket_server_ip='127.0.0.1'
-        loader_stage_other_socket_normal_server_port='10006'
-        loader_stage_other_socket_sandbox_server_port='10007'
+        loader_stage_other_socket_normal_server_port='60006'
+        loader_stage_other_socket_sandbox_server_port='60007'
       fi
 
       sudo docker cp ${test_poc_file} test1:/root/

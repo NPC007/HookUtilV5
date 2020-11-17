@@ -90,7 +90,7 @@ local = 0
 if local:
 	p= process("./alive_note")
 else:
-	p = remote("127.0.0.1",10005)
+	p = remote("127.0.0.1",60005)
 
 add(-27, sc1)
 add(0,"A1Lin")

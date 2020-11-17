@@ -2,26 +2,40 @@
 
 if [ $# != 4 ];then
 echo "usage: $0 WORKSPACE RESTRICT_IMAGE_VERSION NAME BASE_PORT"
-echo "IMAGE_VERSION:  1604, 1804, 1904, 2004"
+echo "IMAGE_VERSION:  1604, 1610, 1704, 1710, 1804, 1810, 1904, 1910, 2004, 2010"
 exit 255
 fi
 
 IMAGE_VERSION=${2}
 if [ ! "${IMAGE_VERSION}"x = "1604"x ];then
-  if [ ! "${IMAGE_VERSION}"x = "1804"x ];then
-    if [ ! "${IMAGE_VERSION}"x = "1904"x ];then
-      if [ ! "${IMAGE_VERSION}"x = "2004"x ];then
-        echo "Unknown IMAGE_VERSION, avaiable is: 1604, 1804, 1904, 2004"
-        exit 255
+  if [ ! "${IMAGE_VERSION}"x = "1610"x ];then
+    if [ ! "${IMAGE_VERSION}"x = "1704"x ];then
+      if [ ! "${IMAGE_VERSION}"x = "1710"x ];then
+        if [ ! "${IMAGE_VERSION}"x = "1804"x ];then
+            if [ ! "${IMAGE_VERSION}"x = "1810"x ];then
+              if [ ! "${IMAGE_VERSION}"x = "1904"x ];then
+                 if [ ! "${IMAGE_VERSION}"x = "1910"x ];then
+                    if [ ! "${IMAGE_VERSION}"x = "2004"x ];then
+                      if [ ! "${IMAGE_VERSION}"x = "2010"x ];then
+                        echo "Unknown IMAGE_VERSION, avaiable is: 1604, 1610, 1704, 1710, 1804, 1810, 1904, 1910, 2004, 2010"
+                        exit 255
+                      fi
+                    fi
+                  fi
+              fi
+          fi
+        fi
       fi
     fi
   fi
 fi
 
 
+
 CURRENT_DIR=`cd $(dirname $0); pwd`
 WORKSPACE=`cd $1; pwd`
 cd ${CURRENT_DIR}
+rm ../build -rf
 
 ELF_FILE=${WORKSPACE}/out/input_elf
 LIBC_FILE=${WORKSPACE}/out/libc.so
@@ -67,6 +81,10 @@ ssh_server_port=$base_port
 let ssh_server_port=base_port+4
 local_sandbox_port=base_port
 let local_sandbox_port=local_sandbox_port+5
+stage_normal_socket_server=base_port
+let stage_normal_socket_server=base_port+6
+stage_sandbox_socket_server=base_port
+let stage_sandbox_socket_server=base_port+7
 echo "[restrict]:Docker Image Name:        $image_name"
 echo "[restrict]:Docker Container Name:    $container_name"
 echo "[restrict]:Record Analysis Port:     $analysis_port"
@@ -75,6 +93,8 @@ echo "[restrict]:Local Test Port:          $test_port"
 echo "[restrict]:IO Decrypt Port:          $io_decrypt_port"
 echo "[restrict]:SSH Server Port:          $ssh_server_port"
 echo "[restrict]:Local Sandbox Port:       $local_sandbox_port"
+echo "Stage Normal Socket Server Port:        $stage_normal_socket_server"
+echo "Stage Sandbox Socket Server Port:       $stage_sandbox_socket_server"
 
 #test_port and local_sandbox_port is use for us only
 
@@ -113,7 +133,8 @@ DOCKER_START_FILE=${BUILD_PROJECT}/resource/docker_start.sh
 CTF_XINEDT_CONF=${BUILD_PROJECT}/resource/ctf/ctf.xinetd
 CTF_XINEDT_TEST_CONF=${BUILD_PROJECT}/resource/ctf_test/ctf.xinetd.test
 CTF_XINEDT_TEST_SANDBOX_CONF=${BUILD_PROJECT}/resource/sandbox/sandbox.xinetd
-CONFIG_JSON=${WORKSPACE}/out/config.json
+SANDBOX_CONFIG_JSON=${WORKSPACE}/out/sandbox_config.json
+NORMAL_CONFIG_JSON=${WORKSPACE}/out/normal_config.json
 
 sed -i "s/IO_DECRYPT_LISTEN_HOST/0.0.0.0/g" ${DOCKER_START_FILE}
 sed -i "s/IO_DECRYPT_LISTEN_PORT/${io_decrypt_port}/g" ${DOCKER_START_FILE}
@@ -173,19 +194,19 @@ fi
 #echo "[ATTENTION]:You need manuls set config.json: sandbox_server_port  to --> ${io_decrypt_port}"
 #echo "[ATTENTION]:You need manuls set config.json: analysis_server_port to --> ${analysis_port}"
 
-sed -i "s/\"sandbox_server_port\":.*/\"sandbox_server_port\": \"${io_decrypt_port}\",/g" ${CONFIG_JSON}
-if [ ! -z "$(cat ${CONFIG_JSON}|grep ${io_decrypt_port})" ];then
-    echo "success set ${CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
+sed -i "s/\"sandbox_server_port\":.*/\"sandbox_server_port\": \"${io_decrypt_port}\",/g" ${SANDBOX_CONFIG_JSON}
+if [ ! -z "$(cat ${SANDBOX_CONFIG_JSON}|grep ${io_decrypt_port})" ];then
+    echo "success set ${SANDBOX_CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
 else
-    echo "failed  set ${CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
+    echo "failed  set ${SANDBOX_CONFIG_JSON} sandbox_server_port to:            ${io_decrypt_port}"
     exit 255
 fi
 
-sed -i "s/\"analysis_server_port\":.*/\"analysis_server_port\": \"${analysis_port}\",/g" ${CONFIG_JSON}
-if [ ! -z "$(cat ${CONFIG_JSON}|grep ${analysis_port})" ];then
-    echo "success set ${CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
+sed -i "s/\"analysis_server_port\":.*/\"analysis_server_port\": \"${analysis_port}\",/g" ${NORMAL_CONFIG_JSON}
+if [ ! -z "$(cat ${NORMAL_CONFIG_JSON}|grep ${analysis_port})" ];then
+    echo "success set ${NORMAL_CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
 else
-    echo "failed  set ${CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
+    echo "failed  set ${NORMAL_CONFIG_JSON} analysis_server_port to:            ${analysis_port}"
     exit 255
 fi
 
@@ -253,14 +274,32 @@ sudo docker rmi $image_name
 if [ "${IMAGE_VERSION}"x = "1604"x ];then
   DOCKER_FILE=resource/Dockerfile_1604
 fi
+if [ "${IMAGE_VERSION}"x = "1610"x ];then
+  DOCKER_FILE=resource/Dockerfile_1610
+fi
+if [ "${IMAGE_VERSION}"x = "1704"x ];then
+  DOCKER_FILE=resource/Dockerfile_1704
+fi
+if [ "${IMAGE_VERSION}"x = "1710"x ];then
+  DOCKER_FILE=resource/Dockerfile_1710
+fi
 if [ "${IMAGE_VERSION}"x = "1804"x ];then
   DOCKER_FILE=resource/Dockerfile_1804
+fi
+if [ "${IMAGE_VERSION}"x = "1810"x ];then
+  DOCKER_FILE=resource/Dockerfile_1810
 fi
 if [ "${IMAGE_VERSION}"x = "1904"x ];then
   DOCKER_FILE=resource/Dockerfile_1904
 fi
+if [ "${IMAGE_VERSION}"x = "1910"x ];then
+  DOCKER_FILE=resource/Dockerfile_1910
+fi
 if [ "${IMAGE_VERSION}"x = "2004"x ];then
   DOCKER_FILE=resource/Dockerfile_2004
+fi
+if [ "${IMAGE_VERSION}"x = "2010"x ];then
+  DOCKER_FILE=resource/Dockerfile_2010
 fi
 
 sudo docker build ./ -f ${DOCKER_FILE} -t $image_name

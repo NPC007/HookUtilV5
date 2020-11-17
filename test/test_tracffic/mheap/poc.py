@@ -17,7 +17,7 @@ context.arch = 'amd64'
 execve_file = '/root/input_elf'
 #sh = process(execve_file, env={'LD_PRELOAD': '/tmp/gdb_symbols{}.so'.replace('{}', salt)})
 # sh = process(execve_file)
-sh = remote('127.0.0.1', 10005)
+sh = remote('127.0.0.1', 60005)
 sh.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 elf = ELF(execve_file)
 libc = ELF('/root/libc.so')

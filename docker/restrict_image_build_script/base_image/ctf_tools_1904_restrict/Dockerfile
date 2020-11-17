@@ -1,9 +1,16 @@
 FROM ubuntu:19.04
 
-RUN  sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
     sed -i "s/# deb-src/ deb-src/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python-pip curl libgmp-dev libmpfr-dev libmpc-dev
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python2 curl libpython2-dev libgmp-dev libmpfr-dev libmpc-dev binutils dpkg-dev build-essential
+
+COPY common/setup_libc_debug.sh /opt
+
+RUN chmod +x /opt/setup_libc_debug.sh && /opt/setup_libc_debug.sh
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
@@ -41,11 +48,15 @@ RUN chown -R root:ctf /home/ctf && \
 
 RUN apt-get install openssh-server git python gcc python3-pip vim net-tools lsof gdb psmisc netcat -y
 
-RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN python3 -m pip install -i https://mirrors.aliyun.com/pypi/simple pip -U && python3 -m pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
 
 RUN python3 -m pip install setuptools --upgrade
 
-RUN python3 -m pip install pwntools requests  capstone keystone-engine unicorn keystone-engine ropper
+RUN python3 -m pip install pwntools requests capstone keystone-engine unicorn keystone-engine ropper
+
+RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
+
+RUN python2 get-pip.py
 
 RUN python2 -m pip  install --upgrade pip
 
@@ -64,6 +75,7 @@ RUN mkdir /root/local_verify_success
 RUN mkdir /root/local_verify_failed
 RUN mkdir /root/remote_verify_success
 RUN mkdir /root/remote_verify_failed
+
 
 
 WORKDIR /opt

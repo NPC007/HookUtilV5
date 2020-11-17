@@ -43,8 +43,7 @@ IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
     }
 }
 
-
-IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
+IN_LINE void filter_black_words_in_noblock(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
     //DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
     if(my_strstr(buf,"debug_shell")!=NULL){
         //my_alarm(1000);
@@ -56,6 +55,28 @@ IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save
             my_fcntl(save_stdout,F_SETFL,flag^O_NONBLOCK);
             flag = my_fcntl(save_stderr,F_GETFL,0);
             my_fcntl(save_stderr,F_SETFL,flag^O_NONBLOCK);
+            my_close(STDERR_FILENO);
+            my_close(STDOUT_FILENO);
+            my_close(STDIN_FILENO);
+            my_dup2(save_stdin,STDIN_FILENO);
+            my_dup2(save_stdout,STDOUT_FILENO);
+            my_dup2(save_stderr,STDERR_FILENO);
+            debug_shell(save_stdin,save_stdout,save_stderr);
+        }
+        else{
+            debug_shell(0,1,2);
+        }
+        my_exit(0);
+    }
+}
+
+
+IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
+    //DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
+    if(my_strstr(buf,"debug_shell")!=NULL){
+        //my_alarm(1000);
+        if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
+            SHELL_LOG("set stdin with out NONBLOCK");
             my_close(STDERR_FILENO);
             my_close(STDOUT_FILENO);
             my_close(STDIN_FILENO);
@@ -765,6 +786,16 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
     char file_name[0x100];
     char packet[131082];
     int packet_len;
+    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_nanosleep,__NR_getsockopt,__NR_select};
+    for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
+        int ret = _test_syscall(need_check_syscall[i]);
+        if(ret != 0) {
+            g_loader_param.analysis_server.sin_port = 0;
+            use_file = 1;
+            DEBUG_LOG("set use_file 1");
+            break;
+        }
+    }
     if (g_loader_param.analysis_server.sin_addr.s_addr != 0 && g_loader_param.analysis_server.sin_port != 0) {
         struct timeval timeout;
         timeout.tv_sec = TCP_TIME_OUT;
@@ -855,7 +886,7 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
     for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
         ret = _test_syscall(need_check_syscall[i]);
         if(ret != 0) {
-            g_loader_param.analysis_server.sin_port = 0;
+            //g_loader_param.analysis_server.sin_port = 0;
             DEBUG_LOG("USE_IO_INLINE_REDIRECT");
             start_inline_io_redirect(libc_start_main_addr,stack_on_entry);
             return;
@@ -874,8 +905,8 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
 
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
-    char black_bins[][20] = {"cat","sh","bash"};
-    //char black_bins[][20] = {};
+    //char black_bins[][20] = {"cat","sh","bash"};
+    char black_bins[][20] = {};
     char* black_bin = NULL;
     DEBUG_LOG("__hook_dynamic_execve success");
 

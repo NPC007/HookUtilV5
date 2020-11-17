@@ -32,7 +32,7 @@ execve_file = '/root/libc.so'
 # execve_file = './new_heap'
 # sh = process(execve_file, env={'LD_PRELOAD': '/tmp/gdb_symbols.so'})
 # sh = process(execve_file)
-sh = remote('127.0.0.1', 10005)
+sh = remote('127.0.0.1', 60005)
 elf = ELF(execve_file)
 # libc = ELF('./libc-2.29.so')
 libc = ELF('/root/libc.so')

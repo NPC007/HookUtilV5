@@ -44,7 +44,7 @@ RUN chown -R root:ctf /home/ctf && \
 
 RUN apt-get install openssh-server git python gcc python3-pip vim net-tools lsof gdb psmisc netcat -y
 
-RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U && python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN python3 -m pip install -i https://mirrors.aliyun.com/pypi/simple pip -U && python3 -m pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
 
 RUN python3 -m pip  install setuptools --upgrade
 

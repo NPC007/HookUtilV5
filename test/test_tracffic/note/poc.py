@@ -54,7 +54,7 @@ g_count_ofst = 0x000000000020209C
 g_array_ofst = 0x00000000002020A0
 
 #io = process('./task_note_service2_OG37AWm')
-io = remote("127.0.0.1", 10005)
+io = remote("127.0.0.1", 60005)
 elf = ELF('/root/input_elf')
 
 

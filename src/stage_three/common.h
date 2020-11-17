@@ -64,6 +64,8 @@ static int g_patch_code_index;
 static char* g_elf_base = 0;
 static char g_elf_path[512] ;
 static LOADER_STAGE_THREE g_loader_param;
+static int syscall_enable_table[0x100];
+
 
 #include "utils/snprintf_s.h"
 
@@ -1056,6 +1058,19 @@ IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
 }
 
 
+IN_LINE void init_syscall_enable_table(){
+    my_memset((void*)syscall_enable_table,0,sizeof(syscall_enable_table));
+    for(int i=0;i<sizeof(syscall_enable_table)/sizeof(syscall_enable_table[0]);i++){
+        int ret = _test_syscall(i);
+        if(ret == 0){
+            syscall_enable_table[i] = 1;
+        }
+        else{
+            syscall_enable_table[i] = 0;
+        }
+    }
+}
+
 
 
 IN_LINE int common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
@@ -1078,5 +1093,6 @@ IN_LINE int common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
         return -1;
     }
     dump_program_info(LIBC_START_MAIN_ARG_VALUE);
+    //init_syscall_enable_table();
     return 0;
 }

