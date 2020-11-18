@@ -43,10 +43,12 @@
                                     : "0" (__NR_fork)\
                                     :"memory","cc","rcx","r11");
 
-#define asm_waitpid(PID,STAT,ARG,RES)  __asm__ __volatile__("syscall"\
+#define asm_waitpid(PID,STAT,ARG,RES)  {    register long _rusage_  asm("r10")= (long)0;\
+                                            __asm__ __volatile__("syscall"\
                                                     : "=a" (RES)\
-                                                    :"0"(__NR_wait4),"D"((long)PID),"S"((long)STAT),"d"((long)ARG)\
-                                                    :"memory","cc","rcx","r11");
+                                                    :"0"(__NR_wait4),"D"((long)PID),"S"((long)STAT),"d"((long)ARG),"r"(_rusage_)\
+                                                    :"memory","cc","rcx","r11");\
+                                            }
 
 #define asm_fcntl(FD,CMD,ARG,RES) __asm__ __volatile__("syscall"\
                                                 : "=a" (RES)\

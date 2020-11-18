@@ -113,7 +113,7 @@ for binary_dir in ${test_dir_files};do
   #loader_stage_other_positions=(socket)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
     for loader_stage_other_position in "${loader_stage_other_positions[@]}";do
-      echo "begin test loader_stage_one_position:${loader_stage_one_position}, loader_stage_other_position: ${loader_stage_other_position} "
+      echo "begin test loader_stage_one_position:${loader_stage_one_position}, loader_stage_other_position: ${loader_stage_other_position} ,subdir: ${test_sub_dir}"
       cd ${current_dir}
 
       echo 's/\s*"loader_stage_one_position.*$/  "loader_stage_one_position":"'${loader_stage_one_position}'",/g'

@@ -8,9 +8,9 @@ service sandbox
     type        = UNLISTED
     port        = 30011
     bind        = 0.0.0.0
-    server      = /root/sandbox_elf
+    server      = /usr/sbin/chroot
     # replace helloworld to your program
-    #server_args =
+    server_args = --userspec=1000:1000 /home/ctf/ /bin/sh /sandbox.start.sh
     banner_fail = /etc/banner_fail
     # safety options
     passenv =

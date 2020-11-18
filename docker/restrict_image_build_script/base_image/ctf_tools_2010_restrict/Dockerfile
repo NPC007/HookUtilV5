@@ -7,7 +7,7 @@ RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.ustc.edu.cn/g" /etc/a
     sed -i "s/http:\/\/security.ubuntu.com/http:\/\/mirrors.ustc.edu.cn/g" /etc/apt/sources.list && \
     sed -i "s/# deb-src/ deb-src/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && apt-get update &&\
-    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python2 curl libpython2-dev libgmp-dev libmpfr-dev libmpc-dev binutils dpkg-dev build-essential
+    apt-get install -y lib32z1 xinetd tmux strace tcpdump libssl-dev locales  python2 curl libpython2-dev libgmp-dev libmpfr-dev libmpc-dev binutils dpkg-dev build-essential libtirpc-dev
 
 COPY common/setup_libc_debug.sh /opt
 

@@ -140,6 +140,8 @@ sed -i "s/IO_DECRYPT_LISTEN_HOST/0.0.0.0/g" ${DOCKER_START_FILE}
 sed -i "s/IO_DECRYPT_LISTEN_PORT/${io_decrypt_port}/g" ${DOCKER_START_FILE}
 sed -i "s/IO_DECRYPT_UPSTREAM_HOST/127.0.0.1/g" ${DOCKER_START_FILE}
 sed -i "s/IO_DECRYPT_UPSTREAM_PORT/${redirect_port}/g" ${DOCKER_START_FILE}
+sed -i "s/STAGE_NORMAL_SOCKET_SERVER_PORT/${stage_normal_socket_server}/g" ${DOCKER_START_FILE}
+sed -i "s/STAGE_SANDBOX_SOCKET_SERVER_PORT/${stage_sandbox_socket_server}/g" ${DOCKER_START_FILE}
 
 if [ ! -z "$(cat ${DOCKER_START_FILE}|grep ${io_decrypt_port})" ];then
     echo "success set ${DOCKER_START_FILE} io_decrypt_listen port:      ${io_decrypt_port}"
@@ -317,3 +319,5 @@ sudo docker run -d -p 0.0.0.0:$analysis_port:$analysis_port           \
               --name $container_name                             \
               --privileged=true                                  \
               $image_name
+sudo docker cp ${SANDBOX_CONFIG_JSON} $container_name:/opt/
+sudo docker cp ${NORMAL_CONFIG_JSON} $container_name:/opt/

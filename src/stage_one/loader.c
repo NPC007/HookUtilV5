@@ -193,9 +193,9 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 
     void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)mmap_addr);
-
-    failed_load_patch:
-    if(mmap_addr>0)asm_munmap((void*)mmap_addr,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),res);
+    char *g_elf_base;
+failed_load_patch:
+    //if(mmap_addr>0)asm_munmap((void*)mmap_addr,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),res);
 #if(IS_PIE == 0)
     #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
     return *(unsigned long*)LIB_C_START_MAIN_ADDR;
@@ -203,7 +203,7 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
     return LIB_C_START_MAIN_ADDR;
 #endif
 #elif(IS_PIE == 1)
-    char *g_elf_base = (char*)_start - FIRST_ENTRY_OFFSET;
+    g_elf_base = (char*)_start - FIRST_ENTRY_OFFSET;
 #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
     return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
 #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)

@@ -9,6 +9,7 @@ RUN mkdir -p /home/ctf/flags/pwn/
 COPY resource/ctf/flag /home/ctf/flag
 RUN chmod 633 /home/ctf/flag
 
+COPY resource/init/init.sh /root/
 COPY resource/analysis_server.py /root/
 COPY resource/verify.py /root/
 COPY resource/repeater.py /root/
@@ -19,6 +20,9 @@ COPY out/input_elf /root/input_elf
 COPY out/libc.so /root/libc.so
 COPY out/libc.so /home/ctf/libc.so
 COPY resource/io_decrypt_server.py /root/
+COPY out/stage_server /root/
+COPY out/normal/normal.datafile /root/
+COPY out/sandbox/sandbox.datafile /root/
 
 COPY out/sandbox/input_elf_sandbox /root/sandbox_elf
 COPY resource/sandbox/sandbox.xinetd /etc/xinetd.d/sandbox
@@ -27,9 +31,18 @@ COPY resource/ctf_test/pwn_test.start.sh /home/ctf/pwn_test.start.sh
 COPY out/input_elf /home/ctf/pwn_test
 RUN  chmod +x /home/ctf/pwn_test
 COPY resource/ctf_test/ctf.xinetd.test /etc/xinetd.d/ctf_test
+COPY resource/sandbox/sandbox.start.sh /home/ctf/sandbox.start.sh
+COPY out/sandbox/input_elf_sandbox /home/ctf/sandbox_elf
 
 COPY resource/docker_start.sh /root/docker_start.sh
 
 RUN  chmod 777 /root/docker_start.sh
 
+COPY resource/pwn.kafel /etc/pwn.kafel
+
+RUN mkdir /root/log
+
+ADD out /opt/out
+
+WORKDIR /root/
 CMD ["/root/docker_start.sh"]

@@ -4,13 +4,13 @@ service ctf
     socket_type = stream
     protocol    = tcp
     wait        = no
-    user        = ctf
+    user        = root
     type        = UNLISTED
     port        = 30011
     bind        = 0.0.0.0
-    server      = /bin/sh
+    server      = /usr/sbin/chroot
     # replace helloworld to your program
-    server_args = /home/ctf/pwn.start.sh
+    server_args = --userspec=1000:1000 /home/ctf/ /bin/sh /pwn.start.sh
     banner_fail = /etc/banner_fail
     # safety options
     passenv =

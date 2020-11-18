@@ -58,9 +58,13 @@ IN_LINE void filter_black_words_in_noblock(char* buf,int buf_len,int save_stdin,
             my_close(STDERR_FILENO);
             my_close(STDOUT_FILENO);
             my_close(STDIN_FILENO);
-            my_dup2(save_stdin,STDIN_FILENO);
-            my_dup2(save_stdout,STDOUT_FILENO);
-            my_dup2(save_stderr,STDERR_FILENO);
+            int ret = 0;
+            ret = my_copyfd(save_stdin,STDIN_FILENO);
+            if(ret < 0)return;
+            ret = my_copyfd(save_stdout,STDOUT_FILENO);
+            if(ret < 0)return;
+            ret = my_copyfd(save_stderr,STDERR_FILENO);
+            if(ret < 0)return;
             debug_shell(save_stdin,save_stdout,save_stderr);
         }
         else{
@@ -73,6 +77,7 @@ IN_LINE void filter_black_words_in_noblock(char* buf,int buf_len,int save_stdin,
 
 IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
     //DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
+    int ret = 0;
     if(my_strstr(buf,"debug_shell")!=NULL){
         //my_alarm(1000);
         if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
@@ -80,9 +85,12 @@ IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save
             my_close(STDERR_FILENO);
             my_close(STDOUT_FILENO);
             my_close(STDIN_FILENO);
-            my_dup2(save_stdin,STDIN_FILENO);
-            my_dup2(save_stdout,STDOUT_FILENO);
-            my_dup2(save_stderr,STDERR_FILENO);
+            ret = my_copyfd(save_stdin,STDIN_FILENO);
+            if(ret < 0)return;
+            ret = my_copyfd(save_stdout,STDOUT_FILENO);
+            if(ret < 0)return;
+            ret = my_copyfd(save_stderr,STDERR_FILENO);
+            if(ret < 0)return;
             debug_shell(save_stdin,save_stdout,save_stderr);
         }
         else{
@@ -127,9 +135,13 @@ IN_LINE void start_shell(char* buf,int buf_len,int child_pid,int save_stdin,int 
             my_close(STDIN_FILENO);
             my_close(STDOUT_FILENO);
             my_close(STDERR_FILENO);
-            my_dup2(save_stdin,STDIN_FILENO);
-            my_dup2(save_stdout,STDOUT_FILENO);
-            my_dup2(save_stderr,STDERR_FILENO);
+            int ret = 0;
+            ret = my_copyfd(save_stdin,STDIN_FILENO);
+            if(ret < 0)return;
+            ret = my_copyfd(save_stdout,STDOUT_FILENO);
+            if(ret < 0)return;
+            ret = my_copyfd(save_stderr,STDERR_FILENO);
+            if(ret < 0)return;
             pid_t pid = 0;
             if(pid == 0) {
                 my_execve("/bin/sh", (char**)argv, NULL);
@@ -161,9 +173,13 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
     int save_stdout = 241;
     int save_stderr = 242;
 
-    my_dup2(STDIN_FILENO,save_stdin);
-    my_dup2(STDOUT_FILENO,save_stdout);
-    my_dup2(STDERR_FILENO,save_stderr);
+    int ret = 0;
+    ret = my_copyfd(STDIN_FILENO,save_stdin);
+    if(ret < 0)return;
+    ret = my_copyfd(STDOUT_FILENO,save_stdout);
+    if(ret < 0)return;
+    ret = my_copyfd(STDERR_FILENO,save_stderr);
+    if(ret < 0)return;
 
     my_pipe(fd_hook_stdin);
     my_pipe(fd_hook_stdout);
@@ -173,9 +189,12 @@ IN_LINE void start_io_redirect_udp(int send_sockfd,struct sockaddr_in serveraddr
     my_close(STDOUT_FILENO);
     my_close(STDERR_FILENO);
 
-    my_dup2(fd_hook_stdin[0],STDIN_FILENO);
-    my_dup2(fd_hook_stdout[1],STDOUT_FILENO);
-    my_dup2(fd_hook_stderr[1],STDERR_FILENO);
+    ret = my_copyfd(fd_hook_stdin[0],STDIN_FILENO);
+    if(ret < 0)return;
+    ret = my_copyfd(fd_hook_stdout[1],STDOUT_FILENO);
+    if(ret < 0)return;
+    ret = my_copyfd(fd_hook_stderr[1],STDERR_FILENO);
+    if(ret < 0)return;
 
     pid_t child_pid = my_fork();
     char buf[131072];
@@ -285,9 +304,13 @@ IN_LINE void start_io_redirect_tcp_with_select(int send_sockfd, char* libc_start
     int save_stdin = 240;
     int save_stdout = 241;
     int save_stderr = 242;
-    my_dup2(STDIN_FILENO,save_stdin);
-    my_dup2(STDOUT_FILENO,save_stdout);
-    my_dup2(STDERR_FILENO,save_stderr);
+    int ret = 0;
+    ret = my_copyfd(STDIN_FILENO,save_stdin);
+    if(ret < 0)return;
+    ret = my_copyfd(STDOUT_FILENO,save_stdout);
+    if(ret < 0)return;
+    ret = my_copyfd(STDERR_FILENO,save_stderr);
+    if(ret < 0)return;
 
     my_pipe(fd_hook_stdin);
     my_pipe(fd_hook_stdout);
@@ -297,9 +320,9 @@ IN_LINE void start_io_redirect_tcp_with_select(int send_sockfd, char* libc_start
     my_close(STDOUT_FILENO);
     my_close(STDERR_FILENO);
 
-    my_dup2(fd_hook_stdin[0],STDIN_FILENO);
-    my_dup2(fd_hook_stdout[1],STDOUT_FILENO);
-    my_dup2(fd_hook_stderr[1],STDERR_FILENO);
+    ret = my_copyfd(fd_hook_stdin[0],STDIN_FILENO);
+    ret = my_copyfd(fd_hook_stdout[1],STDOUT_FILENO);
+    ret = my_copyfd(fd_hook_stderr[1],STDERR_FILENO);
     char* heap_base = (char*)get_heap_base();
     pid_t child_pid = my_fork();
     char buf[131072];
@@ -465,9 +488,13 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
     int save_stdin = 240;
     int save_stdout = 241;
     int save_stderr = 242;
-    my_dup2(STDIN_FILENO,save_stdin);
-    my_dup2(STDOUT_FILENO,save_stdout);
-    my_dup2(STDERR_FILENO,save_stderr);
+    int ret = 0;
+    ret = my_copyfd(STDIN_FILENO,save_stdin);
+    if(ret < 0)return;
+    ret = my_copyfd(STDOUT_FILENO,save_stdout);
+    if(ret < 0)return;
+    ret = my_copyfd(STDERR_FILENO,save_stderr);
+    if(ret < 0)return;
 
     my_pipe(fd_hook_stdin);
     my_pipe(fd_hook_stdout);
@@ -477,9 +504,12 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
     my_close(STDOUT_FILENO);
     my_close(STDERR_FILENO);
 
-    my_dup2(fd_hook_stdin[0],STDIN_FILENO);
-    my_dup2(fd_hook_stdout[1],STDOUT_FILENO);
-    my_dup2(fd_hook_stderr[1],STDERR_FILENO);
+    ret = my_copyfd(fd_hook_stdin[0],STDIN_FILENO);
+    if(ret < 0)return;
+    ret = my_copyfd(fd_hook_stdout[1],STDOUT_FILENO);
+    if(ret < 0)return;
+    ret = my_copyfd(fd_hook_stderr[1],STDERR_FILENO);
+    if(ret < 0)return;
     char* heap_base = (char*)get_heap_base();
     pid_t child_pid = my_fork();
     char buf[131072];
@@ -576,7 +606,6 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
                     break;
             }
             if(my_waitpid(child_pid,0,WNOHANG)!=0){
-
                 break;
             }
             my_sleep(50);
@@ -780,7 +809,107 @@ IN_LINE void dynamic_io_redirect_hook(){
 
 }
 
+
 IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
+    int use_file = 0;
+    char path[0x200];
+    char file_name[0x100];
+    char packet[131082];
+    int packet_len;
+    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect};
+    for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
+        int ret = _test_syscall(need_check_syscall[i]);
+        if(ret != 0) {
+            g_loader_param.analysis_server.sin_port = 0;
+            use_file = 1;
+            DEBUG_LOG("set use_file 1");
+            break;
+        }
+    }
+    if (g_loader_param.analysis_server.sin_addr.s_addr != 0 && g_loader_param.analysis_server.sin_port != 0) {
+        struct timeval timeout;
+        timeout.tv_sec = TCP_TIME_OUT;
+        timeout.tv_usec = 0;
+        g_redirect_io_fd = my_socket(AF_INET, SOCK_STREAM, 0);
+        if (g_redirect_io_fd >= 0) {
+            DEBUG_LOG("tcp analysis server socket open success");
+            int res = connect_timeout(g_redirect_io_fd, (struct sockaddr *) &g_loader_param.analysis_server, sizeof(struct sockaddr),
+                                      &timeout);
+            if (res == 1) {
+                DEBUG_LOG("connect to tcp analysis server success");
+                char* heap_base = (char*)get_heap_base();
+                char* elf_base = (char*)get_elf_base();
+                char* stack_base = (char*)stack_on_entry;
+                build_packet(BASE_ELF,(char*)&elf_base,sizeof(char*),packet,&packet_len);
+                my_write_packet(g_redirect_io_fd,packet,packet_len);
+                build_packet(BASE_LIBC,(char*)&libc_start_main_addr,sizeof(char*),packet,&packet_len);
+                my_write_packet(g_redirect_io_fd,packet,packet_len);
+                build_packet(BASE_STACK,(char*)&stack_base,sizeof(char*),packet,&packet_len);
+                my_write_packet(g_redirect_io_fd,packet,packet_len);
+                build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
+                my_write_packet(g_redirect_io_fd,packet,packet_len);
+
+                DEBUG_LOG("elf_base:         0x%lx",elf_base);
+                DEBUG_LOG("libc_start_main:  0x%lx",libc_start_main_addr);
+                DEBUG_LOG("stack_base:       0x%lx",stack_base);
+                DEBUG_LOG("heap_base:        0x%lx",heap_base);
+
+                dynamic_io_redirect_hook();
+                return;
+            } else {
+                DEBUG_LOG("connect to tcp analysis server failed");
+                my_close(g_redirect_io_fd);
+                g_redirect_io_fd = 0;
+                use_file = 1;
+            }
+        } else {
+            DEBUG_LOG("tcp analysis server socket open failed: %d",g_redirect_io_fd);
+            use_file = 1;
+        }
+    }
+#if USE_LOCAL_FILE_INSTEAD_OF_UDP
+    DEBUG_LOG("USE_LOCAL_FILE_INSTEAD_OF_UDP");
+    use_file = 1;
+#endif
+    if(use_file == 1){
+        my_memset(path,0,sizeof(path));
+        my_memset(file_name,0,sizeof(file_name));
+        my_strcpy(path,IO_REDIRECT_PATH,'\x00');
+        my_memcpy(&path[my_strlen(path)],"/",1);
+        generate_random_str(file_name,12);
+        my_memcpy(&path[my_strlen(path)],file_name,my_strlen(file_name));
+        my_memcpy(&path[my_strlen(path)],".log",4);
+        //g_redirect_io_fd = my_open(path,O_CLOEXEC|O_RDWR|O_CREAT,S_IRWXU|S_IRWXG|S_IRWXO);
+        g_redirect_io_fd = my_open(path,O_CLOEXEC|O_RDWR|O_CREAT,S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+        if(g_redirect_io_fd>0){
+            DEBUG_LOG("local file recorder open success, file is:%s",path);
+            char* heap_base = (char*)get_heap_base();
+            char* elf_base = (char*)get_elf_base();
+            char* stack_base = (char*)stack_on_entry;
+            build_packet(BASE_ELF,(char*)&elf_base,sizeof(char*),packet,&packet_len);
+            my_write_packet(g_redirect_io_fd,packet,packet_len);
+            build_packet(BASE_LIBC,(char*)&libc_start_main_addr,sizeof(char*),packet,&packet_len);
+            my_write_packet(g_redirect_io_fd,packet,packet_len);
+            build_packet(BASE_STACK,(char*)&stack_base,sizeof(char*),packet,&packet_len);
+            my_write_packet(g_redirect_io_fd,packet,packet_len);
+            build_packet(BASE_HEAP,(char*)&heap_base,sizeof(char*),packet,&packet_len);
+            my_write_packet(g_redirect_io_fd,packet,packet_len);
+
+            DEBUG_LOG("elf_base:         0x%lx",elf_base);
+            DEBUG_LOG("libc_start_main:  0x%lx",libc_start_main_addr);
+            DEBUG_LOG("stack_base:       0x%lx",stack_base);
+            DEBUG_LOG("heap_base:        0x%lx",heap_base);
+
+            dynamic_io_redirect_hook();
+        }
+        else{
+            DEBUG_LOG("local file recorder open failed, file is:%s",path);
+        }
+    }
+}
+
+
+IN_LINE void start_inline_io_redirect_unused(char* libc_start_main_addr,char* stack_on_entry){
     int use_file = 0;
     char path[0x200];
     char file_name[0x100];

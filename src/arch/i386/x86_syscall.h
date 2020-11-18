@@ -67,7 +67,7 @@
 
 #define asm_waitpid(PID,STAT,ARG,RES)  __asm__ __volatile__("int $0x80"\
                                                         : "=a" (RES)\
-                                                        :"0"(__NR_wait4),"b"((long)PID),"c"((long)STAT),"d"((long)ARG)\
+                                                        :"0"(__NR_wait4),"b"((long)PID),"c"((long)STAT),"d"((long)ARG),"S"((long)0)\
                                                         :"cc","memory");
 
 #define asm_fcntl(FD,CMD,ARG,RES) __asm__ __volatile__("int $0x80"\

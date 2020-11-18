@@ -63,7 +63,7 @@ get_test_libc_version(){
 
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
-  if [ "${binary_dir}" != "secretgarden" ];then
+  if [ "${binary_dir}" != "mulnote" ];then
     continue
   fi
   test_sub_dir=${test_dir}/${binary_dir}
@@ -108,12 +108,13 @@ for binary_dir in ${test_dir_files};do
   cp -f ${test_libc_file}  ${target_out_dir}/libc.so
   cp -f ${test_poc_file} ./test_out/${file}/
 
-  loader_stage_one_positions=(new_pt_load eh_frame)
-  loader_stage_other_positions=(memory file share_memory socket)
-  #loader_stage_other_positions=(socket)
+  loader_stage_one_positions=(eh_frame)
+  #loader_stage_one_positions=(new_pt_load eh_frame)
+  #loader_stage_other_positions=(memory file share_memory socket)
+  loader_stage_other_positions=(socket)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
     for loader_stage_other_position in "${loader_stage_other_positions[@]}";do
-      echo "begin test loader_stage_one_position:${loader_stage_one_position}, loader_stage_other_position: ${loader_stage_other_position} "
+      echo "begin test loader_stage_one_position:${loader_stage_one_position}, loader_stage_other_position: ${loader_stage_other_position} ,subdir: ${test_sub_dir}"
       cd ${current_dir}
 
       echo 's/\s*"loader_stage_one_position.*$/  "loader_stage_one_position":"'${loader_stage_one_position}'",/g'
@@ -205,7 +206,7 @@ for binary_dir in ${test_dir_files};do
       fi
 
       sudo docker cp ${test_poc_file} test1:/root/
-      sudo docker cp ${current_dir}/resource/test_poc.sh test1:/root/
+      sudo docker cp ${current_dir}/resource/test_poc_restrict.sh test1:/root/test_poc.sh
       if [ -f ${init_script_file} ];then
         sudo docker cp ${init_script_file} test1:/root/init_env.sh
         sudo docker exec -it test1 bash -c "cd /root/;chmod +x ./init_env.sh;./init_env.sh"

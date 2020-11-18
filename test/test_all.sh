@@ -126,7 +126,7 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         loader_stage_other_socket_server_ip='127.0.0.1'
-        loader_stage_other_socket_server_port='11111'
+        loader_stage_other_socket_server_port='61111'
         echo 's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g'
         sed  's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g' -i ../out/normal_config.json
         sed  's/\s*"loader_stage_other_socket_server_ip.*$/  "loader_stage_other_socket_server_ip":"'${loader_stage_other_socket_server_ip}'",/g' -i ../out/sandbox_config.json
@@ -159,9 +159,9 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         killall stage_socket_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
-        #echo "./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &"
-        wait_port 11111
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 61111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
+        #echo "./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 61111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &"
+        wait_port 61111
       fi
       cat ${input_file} | ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_debug_${loader_stage_one_position}_${loader_stage_other_position}.log
 
@@ -180,8 +180,8 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         killall stage_socket_server
-        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
-        wait_port 11111
+        ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 61111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
+        wait_port 61111
       fi
       cat ${input_file} | ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/sandbox/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_debug_${loader_stage_one_position}_${loader_stage_other_position}.log
 
@@ -207,8 +207,8 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         killall stage_socket_server
-        ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
-        wait_port 11111
+        ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 61111 ../out/normal/normal.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal_patch_socket_server.log &
+        wait_port 61111
       fi
       echo "cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_release_${loader_stage_one_position}_${loader_stage_other_position}.log"
       cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/normal/input_elf_normal    > ./test_out/${file}/input_elf_normal_release_${loader_stage_one_position}_${loader_stage_other_position}.log
@@ -224,8 +224,8 @@ for binary_dir in ${test_dir_files};do
       fi
       if [ ${loader_stage_other_position} == 'socket' ];then
         killall stage_socket_server
-        ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 11111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
-        wait_port 11111
+        ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/stage_server/stage_socket_server 61111 ../out/sandbox/sandbox.datafile 2>&1 >> ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox_patch_socket_server.log &
+        wait_port 61111
       fi
       cat ${input_file} | ./test_out/${file}/out_release_${loader_stage_one_position}_${loader_stage_other_position}/sandbox/input_elf_sandbox  > ./test_out/${file}/input_elf_sandbox_release_${loader_stage_one_position}_${loader_stage_other_position}.log
 

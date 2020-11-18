@@ -321,3 +321,5 @@ sudo docker run -d -p 0.0.0.0:$analysis_port:$analysis_port        \
               --name $container_name                               \
               --privileged=true                                    \
               $image_name
+sudo docker cp ${SANDBOX_CONFIG_JSON} $container_name:/opt/
+sudo docker cp ${NORMAL_CONFIG_JSON} $container_name:/opt/
