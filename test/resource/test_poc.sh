@@ -3,7 +3,7 @@
 cd /root/
 python3 /root/analysis_server.py  0.0.0.0 60000 /root/  /root/input_elf /root/libc.so 1  &
 tmux splitw -h -p 50 'python3 /root/verify.py  /root/ /root/input_elf /root/libc.so'
-sleep 5
+sleep 10
 tmux splitw -v -p 50 'python2 /root/poc.py'
 tmux selectp -t 0
 sleep 5

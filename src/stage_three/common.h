@@ -1213,5 +1213,7 @@ IN_LINE int common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
     }
     dump_program_info(LIBC_START_MAIN_ARG_VALUE);
     init_syscall_enable_table();
+    if(get_syscall_enable(__NR_alarm) == SYSCALL_ENABLE)
+        my_alarm(60);
     return 0;
 }

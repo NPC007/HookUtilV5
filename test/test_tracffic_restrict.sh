@@ -63,7 +63,7 @@ get_test_libc_version(){
 
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
-  if [ "${binary_dir}" != "mulnote" ];then
+  if [ "${binary_dir}" != "babyheap" ];then
     continue
   fi
   test_sub_dir=${test_dir}/${binary_dir}
@@ -108,8 +108,8 @@ for binary_dir in ${test_dir_files};do
   cp -f ${test_libc_file}  ${target_out_dir}/libc.so
   cp -f ${test_poc_file} ./test_out/${file}/
 
-  loader_stage_one_positions=(eh_frame)
-  #loader_stage_one_positions=(new_pt_load eh_frame)
+  #loader_stage_one_positions=(eh_frame)
+  loader_stage_one_positions=(new_pt_load eh_frame)
   #loader_stage_other_positions=(memory file share_memory socket)
   loader_stage_other_positions=(socket)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do

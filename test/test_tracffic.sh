@@ -63,7 +63,7 @@ get_test_libc_version(){
 
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
-  if [ "${binary_dir}" != "secretgarden" ];then
+  if [ "${binary_dir}" != "vip" ];then
     continue
   fi
   test_sub_dir=${test_dir}/${binary_dir}
