@@ -1034,8 +1034,8 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
 
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
-    //char black_bins[][20] = {"cat","sh","bash"};
-    char black_bins[][20] = {};
+    char black_bins[][20] = {"cat","sh","bash"};
+    //char black_bins[][20] = {};
     char* black_bin = NULL;
     DEBUG_LOG("__hook_dynamic_execve success");
 

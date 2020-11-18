@@ -1,13 +1,13 @@
 #include "common.h"
 #include "config.h"
 
-IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
+IN_LINE void start_sandbox_io_redirect_tcp_select(int send_sockfd) {
     fd_set read_events;
     struct timeval timeout;
     timeout.tv_sec = 1;
     timeout.tv_usec = 0;
     char buf[131072];
-    unsigned int length = 0;
+    int length = 0;
     int i = 0;
     unsigned int current_read_index = 0;
     unsigned int current_write_index = 0;
@@ -65,13 +65,70 @@ IN_LINE void start_sandbox_io_redirect_tcp(int send_sockfd) {
     my_exit(0);
 }
 
+
+IN_LINE void start_sandbox_io_redirect_tcp_non_block_io(int send_sockfd) {
+    char buf[131072];
+    int length = 0;
+    int i = 0;
+    unsigned int current_read_index = 0;
+    unsigned int current_write_index = 0;
+    int rc = 0;
+    destory_patch_data();
+
+    int flag = my_fcntl(STDIN_FILENO,F_GETFL,0);
+    my_fcntl(STDIN_FILENO,F_SETFL,flag|O_NONBLOCK);
+    flag = my_fcntl(send_sockfd,F_GETFL,0);
+    my_fcntl(send_sockfd,F_SETFL,flag|O_NONBLOCK);
+
+    while (1) {
+        {
+            length = my_read(STDIN_FILENO, buf, sizeof(buf));
+            if (length > 0) {
+                for(i=0;i<length;i++) {
+                    buf[i] = buf[i]^SANDBOX_XOR_KEY[current_read_index%my_strlen(SANDBOX_XOR_KEY)];
+                    current_read_index ++;
+                }
+                my_write(send_sockfd, buf, length);
+            }
+            else if(length == -1){
+                int error_code = get_errno();
+                if(error_code != EAGAIN)
+                    break;
+            }
+            else if(length == 0)
+                break;
+        }
+        {
+            length = my_read(send_sockfd, buf, sizeof(buf));
+            if (length > 0) {
+                for(i=0;i<length;i++) {
+                    buf[i] = buf[i] ^ SANDBOX_XOR_KEY[current_write_index % my_strlen(SANDBOX_XOR_KEY)];
+                    current_write_index++;
+                }
+                my_write(STDIN_FILENO, buf, length);
+            }
+            else if(length == -1){
+                int error_code = get_errno();
+                if(error_code != EAGAIN)
+                    break;
+            }
+            else if(length == 0)
+                break;
+        }
+        my_sleep(10);
+
+    }
+    my_exit(0);
+}
+
+
 IN_LINE int test_sanbox_need_syscall(){
     //__NR_select
-    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_nanosleep,__NR_dup2,__NR_getsockopt,__NR_pipe};
-    int ret = 0;
+    int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect};
+    enum SYSCALL_STATUS_ENUM enable;
     for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
-        ret = _test_syscall(need_check_syscall[i]);
-        if(ret != 0) {
+        enable = get_syscall_enable(need_check_syscall[i]);
+        if(enable == SYSCALL_DISABLE) {
             g_loader_param.sandbox_server.sin_port = 0;
             break;
         }
@@ -95,10 +152,13 @@ IN_LINE int start_sandbox_io_redirect() {
         int res = connect_timeout(send_sockfd, (struct sockaddr *) &g_loader_param.sandbox_server, sizeof(struct sockaddr), &timeout);
         if (res == 1) {
             DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d success",ip[0],ip[1],ip[2],ip[3],port);
-            start_sandbox_io_redirect_tcp(send_sockfd);
+            if(get_select_syscall_enable() == SYSCALL_ENABLE)
+                start_sandbox_io_redirect_tcp_select(send_sockfd);
+            else
+                start_sandbox_io_redirect_tcp_non_block_io(send_sockfd);
             my_close(send_sockfd);
             return 0;
-    }
+        }
         else {
             my_close(send_sockfd);
             DEBUG_LOG("start_sandbox_io_redirect: %d.%d.%d.%d:%d connect failed",ip[0],ip[1],ip[2],ip[3],port);

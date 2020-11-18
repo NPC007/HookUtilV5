@@ -20,7 +20,7 @@ get_test_file(){
       fi
       test_execute=$(file ${1}/${file} | grep 80386)
       if [ ! -z "${test_execute}" ];then
-        g_test_file=${1}/${file}
+        #g_test_file=${1}/${file}
         return 0
       fi
       test_execute=$(file ${1}/${file} | grep x86-64)

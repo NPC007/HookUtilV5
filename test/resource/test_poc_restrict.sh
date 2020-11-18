@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd /root/
-python3 /root/analysis_server.py  0.0.0.0 60000 /root/  /root/input_elf /root/libc.so 0  &
+python3 /root/analysis_server.py  0.0.0.0 60000 /root/  /root/input_elf /root/libc.so 1  &
 
 tmux splitw -h -p 50 '/usr/sbin/xinetd -dontfork -stayalive -inetd_compat -d'
 sleep 1

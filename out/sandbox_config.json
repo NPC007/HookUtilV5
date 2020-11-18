@@ -15,7 +15,7 @@
 
   "tcp_time_out":"1",
 
-  "sandbox_server_ip": "192.168.10.141",
+  "sandbox_server_ip": "192.168.12.141",
   "sandbox_server_port": "60003",
   "data_file_path" : "sandbox.datafile"
 

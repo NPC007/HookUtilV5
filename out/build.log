@@ -8,7 +8,7 @@ check_eh_frame_section_executable success, ef_frame is executable
 #define PATCH_DEBUG 0
 ###########################################process config.h######################################
 #define TCP_TIME_OUT 1
-#define REDIRECT_HOST "192.168.10.141"
+#define REDIRECT_HOST "192.168.12.141"
 #define REDIRECT_PORT 60000
 #define SHELL_PASSWD "!Huawei12#$"
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
@@ -25,7 +25,7 @@ check_eh_frame_section_executable success, ef_frame is executable
 #define PATCH_DEBUG 0
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
-#define SANDBOX_HOST "192.168.10.141"
+#define SANDBOX_HOST "192.168.12.141"
 #define SANDBOX_PORT 60003
 #define SHELL_CODE_DEFENSE 1
 ---------------------------------------------------------------------------------------------------------
@@ -41,9 +41,9 @@ libloader_stage_two TLV structure values:
 	length:                     0x224
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x57f8
-	length:                           0x19d98
-	analysis_server_ip:               192.168.10.141
+	entry_offset:                     0x5706
+	length:                           0x18d80
+	analysis_server_ip:               192.168.12.141
 	analysis_server_port:             60000
 	sandbox_server_ip:                0.0.0.0
 	sandbox_server_port:              0
@@ -61,10 +61,10 @@ libloader_stage_two TLV structure values:
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
 	entry_offset:                     0x22eb
-	length:                           0xbc38
+	length:                           0xcc38
 	analysis_server_ip:               0.0.0.0
 	analysis_server_port:             0
-	sandbox_server_ip:                192.168.10.141
+	sandbox_server_ip:                192.168.12.141
 	sandbox_server_port:              60003
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
@@ -94,7 +94,7 @@ identify libc_start_main_start_call_vaddr  : 0xa24
 #define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
 #define PATCH_DATA_SOCKET_SERVER_IP 16777343
 #define PATCH_DATA_SOCKET_SERVER_PORT 26346
-#define PATCH_DATA_MMAP_FILE_SIZE 0x1a05c
+#define PATCH_DATA_MMAP_FILE_SIZE 0x19044
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
 stage_one_normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/stage_one_config.h
@@ -123,7 +123,7 @@ identify libc_start_main_start_call_vaddr  : 0xa24
 #define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
 #define PATCH_DATA_SOCKET_SERVER_IP 16777343
 #define PATCH_DATA_SOCKET_SERVER_PORT 26602
-#define PATCH_DATA_MMAP_FILE_SIZE 0xbefc
+#define PATCH_DATA_MMAP_FILE_SIZE 0xcefc
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
 data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile

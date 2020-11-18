@@ -64,7 +64,13 @@ static int g_patch_code_index;
 static char* g_elf_base = 0;
 static char g_elf_path[512] ;
 static LOADER_STAGE_THREE g_loader_param;
-static int syscall_enable_table[0x100];
+
+enum SYSCALL_STATUS_ENUM{
+    SYSCALL_NOT_INIT,
+    SYSCALL_ENABLE,
+    SYSCALL_DISABLE
+};
+static enum SYSCALL_STATUS_ENUM __syscall_enable_table[0x200];
 
 
 #include "utils/snprintf_s.h"
@@ -90,6 +96,11 @@ static void shell_log(const char *format, ...){
         va_end(args);
     }
 }
+
+
+
+
+
 
 
 IN_LINE char* get_elf_base(){
@@ -484,24 +495,7 @@ IN_LINE void* hook_address_helper(void* addr){
 }
 
 
-static int __UNUSED_COUT;
-IN_LINE void my_sleep(int milli_second){
-    struct timespec slptm;
-    int tmp = 0;
-    int res = 0;
-    slptm.tv_sec = milli_second >> 10;
-    tmp = milli_second % 1000;
-    slptm.tv_nsec = tmp * 1000000;
-    if(syscall_enable_table[__NR_nanosleep]) {
-        asm_nanosleep((void *) &slptm, 0, res);
-    }
-    else{
-        for(int i=0;i<1000000*milli_second;i++)
-            res = res + 1;
-    }
-    tmp =res + 1;
-    __UNUSED_COUT = tmp;
-}
+
 
 
 
@@ -1007,12 +1001,67 @@ IN_LINE int _test_syscall(int syscall_id){
     }
 }
 
+
+IN_LINE void init_syscall_enable_table(){
+    my_memset((void*)__syscall_enable_table,-1,sizeof(__syscall_enable_table));
+    for(int i=0;i<sizeof(__syscall_enable_table)/sizeof(__syscall_enable_table[0]);i++)
+        __syscall_enable_table[i] = SYSCALL_NOT_INIT;
+}
+
+IN_LINE enum SYSCALL_STATUS_ENUM get_syscall_enable(int syscall_id){
+    if(syscall_id >= sizeof(__syscall_enable_table)/sizeof(__syscall_enable_table[0])){
+        DEBUG_LOG("Syscall ID is error: %d",syscall_id);
+        return 0;
+    }
+    if(__syscall_enable_table[syscall_id] == SYSCALL_NOT_INIT){
+        int ret = _test_syscall(syscall_id);
+        if(ret == 0)
+            __syscall_enable_table[syscall_id] = SYSCALL_ENABLE;
+        else
+            __syscall_enable_table[syscall_id] = SYSCALL_DISABLE;
+    }
+    return __syscall_enable_table[syscall_id];
+}
+
+IN_LINE enum SYSCALL_STATUS_ENUM get_select_syscall_enable(){
+#ifdef __i386__
+    int select_syscall = __NR__newselect;
+#elif __x86_64__
+    int select_syscall =__NR_select;
+#else
+#error Unsupport arch
+#endif
+    return get_syscall_enable(select_syscall);
+}
+
+static long __UNUSED_COUT;
+IN_LINE void my_sleep(long milli_second){
+    struct timespec slptm;
+    long tmp = 0;
+    long res = 0;
+    slptm.tv_sec = milli_second >> 10;
+    tmp = milli_second % 1000;
+    slptm.tv_nsec = tmp * 1000000;
+    if(get_syscall_enable(__NR_nanosleep)==SYSCALL_ENABLE) {
+        asm_nanosleep((void *) &slptm, 0, res);
+    }
+    else{
+        if(__UNUSED_COUT != 0)
+            __UNUSED_COUT = 0;
+        for(volatile long i=0;i<300000*milli_second;i++)
+            res = res + 1;
+    }
+    tmp =res + 1;
+    __UNUSED_COUT = tmp;
+}
+
+
 IN_LINE int my_copyfd(int old_fd,int new_fd){
-    if(syscall_enable_table[__NR_dup2])
+    if(get_syscall_enable(__NR_dup2)==SYSCALL_ENABLE)
         return my_dup2(old_fd,new_fd);
     int tmp_fd[1024];
     int count = 0;
-    if(syscall_enable_table[__NR_fcntl]) {
+    if(get_syscall_enable(__NR_fcntl)==SYSCALL_ENABLE) {
         my_close(new_fd);
         int dup_fd = my_fcntl(old_fd, F_DUPFD, 0);
         while(dup_fd < new_fd && dup_fd >= 0){
@@ -1071,47 +1120,15 @@ IN_LINE int connect_timeout(int sockfd, const struct sockaddr *addr,
         }
         return 1;
     }
-
-#ifdef __i386__
-    if(syscall_enable_table[__NR__newselect]) {
-        if(syscall_enable_table[__NR_socketcall])
-#elif __x86_64__
-    if(syscall_enable_table[__NR_select]) {
-        if(syscall_enable_table[__NR_getsockopt])
-#else
-        if(1==0){
-#endif
-        {
-            fd_set read_events;
-            fd_set write_events;
-            FD_ZERO(&read_events);
-            FD_SET(sockfd, &read_events);
-            write_events = read_events;
-            int rc = my_select(sockfd + 1, &read_events, &write_events, NULL, timeout);
-            if (rc < 0) {
-                return -1;
-            } else if (rc == 0) {
-                return 0;
-            }
-            if (!isconnected(sockfd, &read_events, &write_events)) {
-                return -1;
-            }
-            if (my_fcntl(sockfd, F_SETFL, flags) < 0) {
-                return -1;
-            }
-            return 1;
+    my_sleep(timeout->tv_sec * 1000);
+    status = my_connect(sockfd, (void*)addr, addrlen);
+    if (status == 0) {
+        if (my_fcntl(sockfd, F_SETFL, flags) <  0) {
+            return -1;
         }
+        return 1;
     }
-    //we should not use any select and getsockopt
-    {
-        my_sleep(1000);
-        char buf;
-        my_read(sockfd,&buf,0);
-        int err = get_errno();
-        if(err != 0 )
-            return 1;
-        return 0;
-    }
+    return 0;
 }
 
 // Return 1 on success, 0 on timeout and -1 on failed
@@ -1172,24 +1189,6 @@ IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
     }
 }
 
-
-IN_LINE void init_syscall_enable_table(){
-    my_memset((void*)syscall_enable_table,0,sizeof(syscall_enable_table));
-#ifdef __i386__
-    int need_test_syscalls[] = {__NR_nanosleep,__NR_socket,__NR_connect,__NR__newselect,__NR_dup2,__NR_fcntl,__NR_socketcall,__NR_getsockopt};
-#elif __x86_64__
-    int need_test_syscalls[] = {__NR_nanosleep,__NR_socket,__NR_connect,__NR_select,__NR_dup2,__NR_fcntl,__NR_getsockopt};
-#endif
-    for(int i=0;i<sizeof(need_test_syscalls)/sizeof(need_test_syscalls[0]);i++){
-        int ret = _test_syscall(need_test_syscalls[i]);
-        if(ret == 0){
-            syscall_enable_table[need_test_syscalls[i]] = 1;
-        }
-        else{
-            syscall_enable_table[need_test_syscalls[i]] = 0;
-        }
-    }
-}
 
 
 
