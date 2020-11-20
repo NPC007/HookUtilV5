@@ -4,7 +4,7 @@ debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/debu
 config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 0
+#define PATCH_DEBUG 1
 ###########################################process config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "127.0.0.1"
@@ -13,19 +13,19 @@ input elf: input_elf
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
 #define USE_IO_INLINE_REDIRECT 1
-#define SHELL_CODE_DEFENSE 0
+#define SHELL_CODE_DEFENSE 1
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
 debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/debug_config.h
 config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 0
+#define PATCH_DEBUG 1
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST "127.0.0.1"
 #define SANDBOX_PORT 60003
-#define SHELL_CODE_DEFENSE 0
+#define SHELL_CODE_DEFENSE 1
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
 stage_one: /home/runshine/HookUtilV3/test/..//out/normal/stage_one
@@ -36,11 +36,11 @@ check /home/runshine/HookUtilV3/test/..//out/normal/stage_two start
 check /home/runshine/HookUtilV3/test/..//out/normal/stage_two end
 generate normal_data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x224
-	entry_offset:               0x0
+	length:                     0x306
+	entry_offset:               0x31
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x5706
-	length:                           0x18d80
+	entry_offset:                     0x46c6
+	length:                           0x28e48
 	analysis_server_ip:               127.0.0.1
 	analysis_server_port:             60000
 	sandbox_server_ip:                0.0.0.0
@@ -55,158 +55,12 @@ check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two start
 check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two end
 generate sandbox_data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x224
-	entry_offset:               0x0
+	length:                     0x306
+	entry_offset:               0x31
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x22eb
-	length:                           0xcc38
+	entry_offset:                     0x316e
+	length:                           0x23948
 	analysis_server_ip:               0.0.0.0
 	analysis_server_port:             0
 	sandbox_server_ip:                127.0.0.1
 	sandbox_server_port:              60003
----------------------------------------------------------------------------------------------------------
-MODE : normal
-stage_one_normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/stage_one_config.h
-data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
-input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
-#define IS_PIE 1
-0x1140:	xor		ebp, ebp
-0x1142:	mov		r9, rdx
-0x1145:	pop		rsi
-0x1146:	mov		rdx, rsp
-0x1149:	and		rsp, 0xfffffffffffffff0
-0x114d:	push		rax
-0x114e:	push		rsp
-0x114f:	lea		r8, [rip + 0xa2a]
-0x1156:	lea		rcx, [rip + 0x9c3]
-0x115d:	lea		rdi, [rip + 0x6f5]
-0x1164:	call		qword ptr [rip + 0x2e76]
-find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x3fe0
-identify libc_start_main_start_call_offset : 0x1164
-identify libc_start_main_start_call_vaddr  : 0x1164
-#define LIBC_START_MAIN_ADDR_TYPE PTR
-#define LIB_C_START_MAIN_ADDR 0x3fe0
-Assuming SO Max Size: 0x1000000
-
-sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:             950	mem_size:             950
-vaddr:            1000	file_offset:            1000	file_size:             b8d	mem_size:             b8d
-vaddr:            2000	file_offset:            2000	file_size:             4d0	mem_size:             4d0
-vaddr:            3d40	file_offset:            2d40	file_size:             2d0	mem_size:             2f0
-sort  by vaddr end
-unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:            5000	file_offset:            5000
-#define FIRST_ENTRY_OFFSET 0x6000
-#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define PATCH_DATA_MMAP_FILE_SIZE 0x19044
-#define PATCH_DATA_MMAP_FILE_VADDR 0x7000
----------------------------------------------------------------------------------------------------------
-MODE : sandbox
-stage_one_normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/stage_one_config.h
-data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
-input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
-#define IS_PIE 1
-0x1140:	xor		ebp, ebp
-0x1142:	mov		r9, rdx
-0x1145:	pop		rsi
-0x1146:	mov		rdx, rsp
-0x1149:	and		rsp, 0xfffffffffffffff0
-0x114d:	push		rax
-0x114e:	push		rsp
-0x114f:	lea		r8, [rip + 0xa2a]
-0x1156:	lea		rcx, [rip + 0x9c3]
-0x115d:	lea		rdi, [rip + 0x6f5]
-0x1164:	call		qword ptr [rip + 0x2e76]
-find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x3fe0
-identify libc_start_main_start_call_offset : 0x1164
-identify libc_start_main_start_call_vaddr  : 0x1164
-#define LIBC_START_MAIN_ADDR_TYPE PTR
-#define LIB_C_START_MAIN_ADDR 0x3fe0
-Assuming SO Max Size: 0x1000000
-
-sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:             950	mem_size:             950
-vaddr:            1000	file_offset:            1000	file_size:             b8d	mem_size:             b8d
-vaddr:            2000	file_offset:            2000	file_size:             4d0	mem_size:             4d0
-vaddr:            3d40	file_offset:            2d40	file_size:             2d0	mem_size:             2f0
-sort  by vaddr end
-unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:            5000	file_offset:            5000
-#define FIRST_ENTRY_OFFSET 0x6000
-#define CONFIG_LOADER_TYPE LOAD_FROM_MEM
-#define PATCH_DATA_MMAP_FILE_SIZE 0xcefc
-#define PATCH_DATA_MMAP_FILE_VADDR 0x7000
----------------------------------------------------------------------------------------------------------
-MODE : normal
-data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
-input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
-stage_one: /home/runshine/HookUtilV3/test/..//out/normal/stage_one
-check /home/runshine/HookUtilV3/test/..//out/normal/stage_one start
-check /home/runshine/HookUtilV3/test/..//out/normal/stage_one end
-0x1140:	xor		ebp, ebp
-0x1142:	mov		r9, rdx
-0x1145:	pop		rsi
-0x1146:	mov		rdx, rsp
-0x1149:	and		rsp, 0xfffffffffffffff0
-0x114d:	push		rax
-0x114e:	push		rsp
-0x114f:	lea		r8, [rip + 0xa2a]
-0x1156:	lea		rcx, [rip + 0x9c3]
-0x115d:	lea		rdi, [rip + 0x6f5]
-0x1164:	call		qword ptr [rip + 0x2e76]
-find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x3fe0
-identify libc_start_main_start_call_offset : 0x1164
-identify libc_start_main_start_call_vaddr  : 0x1164
-Assuming SO Max Size: 0x1000000
-
-sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:             950	mem_size:             950
-vaddr:            1000	file_offset:            1000	file_size:             b8d	mem_size:             b8d
-vaddr:            2000	file_offset:            2000	file_size:             4d0	mem_size:             4d0
-vaddr:            3d40	file_offset:            2d40	file_size:             2d0	mem_size:             2f0
-sort  by vaddr end
-unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:            5000	file_offset:            5000
-generate done
--------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------
-MODE : sandbox
-data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
-input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
-stage_one: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one
-check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one start
-check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one end
-0x1140:	xor		ebp, ebp
-0x1142:	mov		r9, rdx
-0x1145:	pop		rsi
-0x1146:	mov		rdx, rsp
-0x1149:	and		rsp, 0xfffffffffffffff0
-0x114d:	push		rax
-0x114e:	push		rsp
-0x114f:	lea		r8, [rip + 0xa2a]
-0x1156:	lea		rcx, [rip + 0x9c3]
-0x115d:	lea		rdi, [rip + 0x6f5]
-0x1164:	call		qword ptr [rip + 0x2e76]
-find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x3fe0
-identify libc_start_main_start_call_offset : 0x1164
-identify libc_start_main_start_call_vaddr  : 0x1164
-Assuming SO Max Size: 0x1000000
-
-sort  by vaddr
-vaddr:               0	file_offset:               0	file_size:             950	mem_size:             950
-vaddr:            1000	file_offset:            1000	file_size:             b8d	mem_size:             b8d
-vaddr:            2000	file_offset:            2000	file_size:             4d0	mem_size:             4d0
-vaddr:            3d40	file_offset:            2d40	file_size:             2d0	mem_size:             2f0
-sort  by vaddr end
-unable to find any space between pt_load segments, just padding and append to file end
-Add PHDR pt_load: vaddr:            5000	file_offset:            5000
-generate done
--------------------------------------------------------------------------------------------------------------

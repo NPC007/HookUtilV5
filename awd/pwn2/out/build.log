@@ -7,8 +7,8 @@ input elf: input_elf
 #define PATCH_DEBUG 0
 ###########################################process config.h######################################
 #define TCP_TIME_OUT 1
-#define REDIRECT_HOST "192.168.10.141"
-#define REDIRECT_PORT 20000
+#define REDIRECT_HOST "127.0.0.1"
+#define REDIRECT_PORT 30310
 #define SHELL_PASSWD "!Huawei12#$"
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
@@ -23,8 +23,8 @@ input elf: input_elf
 #define PATCH_DEBUG 0
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
-#define SANDBOX_HOST "192.168.10.141"
-#define SANDBOX_PORT 20003
+#define SANDBOX_HOST "127.0.0.1"
+#define SANDBOX_PORT 30313
 #define SHELL_CODE_DEFENSE 1
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
@@ -39,10 +39,10 @@ libloader_stage_two TLV structure values:
 	length:                     0x224
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x5836
+	entry_offset:                     0x5706
 	length:                           0x18d80
-	analysis_server_ip:               192.168.10.141
-	analysis_server_port:             20000
+	analysis_server_ip:               127.0.0.1
+	analysis_server_port:             30310
 	sandbox_server_ip:                0.0.0.0
 	sandbox_server_port:              0
 ---------------------------------------------------------------------------------------------------------
@@ -62,8 +62,8 @@ libloader_stage_three TLV structure values:
 	length:                           0xcc38
 	analysis_server_ip:               0.0.0.0
 	analysis_server_port:             0
-	sandbox_server_ip:                192.168.10.141
-	sandbox_server_port:              20003
+	sandbox_server_ip:                127.0.0.1
+	sandbox_server_port:              30313
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
 stage_one_normal_config.h: /home/runshine/HookUtilV3/awd/..//src/auto_generate/normal/stage_one_config.h
@@ -98,8 +98,8 @@ unable to find any space between pt_load segments, just padding and append to fi
 Add PHDR pt_load: vaddr:          203000	file_offset:          203000
 #define FIRST_ENTRY_OFFSET 0x204000
 #define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
-#define PATCH_DATA_SOCKET_SERVER_IP 2366286016
-#define PATCH_DATA_SOCKET_SERVER_PORT 9806
+#define PATCH_DATA_SOCKET_SERVER_IP 16777343
+#define PATCH_DATA_SOCKET_SERVER_PORT 27766
 #define PATCH_DATA_MMAP_FILE_SIZE 0x19044
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
@@ -135,8 +135,8 @@ unable to find any space between pt_load segments, just padding and append to fi
 Add PHDR pt_load: vaddr:          203000	file_offset:          203000
 #define FIRST_ENTRY_OFFSET 0x204000
 #define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
-#define PATCH_DATA_SOCKET_SERVER_IP 2366286016
-#define PATCH_DATA_SOCKET_SERVER_PORT 10062
+#define PATCH_DATA_SOCKET_SERVER_IP 16777343
+#define PATCH_DATA_SOCKET_SERVER_PORT 28022
 #define PATCH_DATA_MMAP_FILE_SIZE 0xcefc
 ---------------------------------------------------------------------------------------------------------
 MODE : normal

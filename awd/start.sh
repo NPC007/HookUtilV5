@@ -269,7 +269,7 @@ fi
 cp -r ${current_dir}/../out ${challenge_dir}/out
 
 
-
+sudo docker cp ${current_dir}/resource/flag ${name}1:/flag
 
 if [ "$#" == "3" ];then
   sudo docker cp ${current_dir}/resource/start_awd.sh ${name}1:/root/start_awd.sh
@@ -277,16 +277,11 @@ if [ "$#" == "3" ];then
   sudo docker exec -it ${name}1 bash -c "cd /root/;chmod +x ./start_awd.sh;tmux new-session -s my_session '/root/start_awd.sh' "
 fi
 if [ "$#" == "5" ];then
-  sudo docker cp ${current_dir}/../resource/frp/frp_0.34.2_linux_amd64/frp_0.34.2_linux_amd64/frpc test1:/root/
-  sudo docker cp ${current_dir}/../out/frp_config/frpc.ini test1:/root/
+  sudo docker cp ${current_dir}/../resource/frp/frp_0.34.2_linux_amd64/frp_0.34.2_linux_amd64/frpc ${name}1:/root/
+  sudo docker cp ${current_dir}/../out/frp_config/frpc.ini ${name}1:/root/
   sudo docker cp ${current_dir}/resource/start_awd_frp.sh ${name}1:/root/start_awd_frp.sh
   sudo docker exec -it ${name}1 bash -c "sed -i \"s/__BASE_PORT__/${base_port}/g\" /root/start_awd_frp.sh "
   sudo docker exec -it ${name}1 bash -c "cd /root/;chmod +x ./start_awd_frp.sh;tmux new-session -s my_session '/root/start_awd_frp.sh' "
-
-
-
-
-
 
 fi
 

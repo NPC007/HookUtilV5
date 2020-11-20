@@ -27,6 +27,7 @@
 
 #else
 #define IN_LINE static inline __attribute__((always_inline))
+//#define IN_LINE static
 #endif
 
 
@@ -902,9 +903,9 @@ static char UUID[0x08];
 
 IN_LINE void build_packet(char type,char* buf,int buf_len,char* packet,int* packet_len){
     my_memcpy(packet,UUID,sizeof(UUID));
-    my_memcpy(packet+ sizeof(UUID),&type,1);
-    my_memcpy(packet+sizeof(UUID)+1,(char*)&buf_len,4);
-    my_memcpy(packet+sizeof(UUID)+1+4,buf,buf_len);
+    my_memcpy(packet+ sizeof(UUID),(const char*)&type,1);
+    my_memcpy((char*)(packet+sizeof(UUID)+1),(const char*)&buf_len,4);
+    my_memcpy((char*)(packet+sizeof(UUID)+1+4),(const char*)buf,buf_len);
     *packet_len = sizeof(UUID)+1+4 + buf_len;
 }
 

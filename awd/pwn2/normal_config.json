@@ -7,16 +7,16 @@
   "loader_stage_other_position":"socket",
 
   "loader_stage_other_share_memory_id":"123",
-  "loader_stage_other_socket_server_ip":"192.168.10.141",
-  "loader_stage_other_socket_server_port": "20006",
+  "loader_stage_other_socket_server_ip":"127.0.0.1",
+  "loader_stage_other_socket_server_port": "30316",
   "loader_stage_other_file_path":"/tmp/1",
 
   "shell_code_defense": "1",
 
   "tcp_time_out":"1",
   "io_inline_hook":"1",
-  "analysis_server_ip":"192.168.10.141",
-  "analysis_server_port": "20000",
+  "analysis_server_ip":"127.0.0.1",
+  "analysis_server_port": "30310",
   "shell_password":"!Huawei12#$",
   "local_file_instead_of_udp":"1",
   "io_local_save_path":"/tmp/",

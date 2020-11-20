@@ -33,7 +33,8 @@ sed -i "s/60002/${test_port}/g" /root/translate_traccfic_to_poc.py
 python3 /root/analysis_server.py  0.0.0.0 ${analysis_port} /root/  /root/input_elf /root/libc.so 1  &
 tmux splitw -h -p 50 'python3 /root/verify.py  /root/ /root/input_elf /root/libc.so'
 tmux selectp -t 0
-tmux splitw -v -p 50 '/root/frpc -c /root/frpc.ini'
+chmod +x /root/frpc
+tmux splitw -v -p 50 'while [ "x" == "x" ];do /root/frpc -c /root/frpc.ini;sleep 2;done'
 tmux selectp -t 2
 tmux splitw -v -p 50 'bash'
 sleep 10

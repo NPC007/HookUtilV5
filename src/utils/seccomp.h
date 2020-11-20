@@ -48,7 +48,7 @@ struct seccomp_data {
 
 #define DISALLOW_SYSCALL(name) \
 	BPF_JUMP(BPF_JMP+BPF_JEQ+BPF_K, __NR_##name, 0, 1), \
-	BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_KILL)
+	BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_ERRNO)
 
 
 

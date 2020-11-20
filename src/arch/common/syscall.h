@@ -48,6 +48,8 @@ IN_LINE long my_read(int fd,const char* buf,long length){
     long res = 0;
     asm_read(fd,buf,length,res);
     g_errno = (unsigned int) -res;
+    if(res<0)
+        return -1;
     return res;
 }
 
@@ -55,6 +57,8 @@ IN_LINE long my_write(int fd,const char* buf,long length){
     long res = 0;
     asm_write(fd,buf,length,res);
     g_errno = (unsigned int) -res;
+    if(res<0)
+        return -1;
     return res;
 }
 

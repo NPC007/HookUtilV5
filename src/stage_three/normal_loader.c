@@ -45,7 +45,7 @@ IN_LINE void debug_shell(int save_stdin,int save_stdout,int save_stderr){
 
 IN_LINE void filter_black_words_in_noblock(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
     //DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
-    if(my_strstr(buf,"debug_shell")!=NULL){
+    if(my_strstr(buf,"__debug_shell__")!=NULL){
         //my_alarm(1000);
         if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
             int flag = my_fcntl(save_stdin,F_GETFL,0);
@@ -78,7 +78,7 @@ IN_LINE void filter_black_words_in_noblock(char* buf,int buf_len,int save_stdin,
 IN_LINE void filter_black_words_in(char* buf,int buf_len,int save_stdin,int save_stdout,int save_stderr){
     //DEBUG_LOG("call filter_black_words_in: %s, len: %d",buf,buf_len);
     int ret = 0;
-    if(my_strstr(buf,"debug_shell")!=NULL){
+    if(my_strstr(buf,"__debug_shell__")!=NULL){
         //my_alarm(1000);
         if(save_stdin!=-1 && save_stdout!= -1 && save_stderr!=-1){
             SHELL_LOG("set stdin with out NONBLOCK");
@@ -1034,8 +1034,8 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
 
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
-    //char black_bins[][20] = {"cat","sh","bash"};
-    char black_bins[][20] = {};
+    char black_bins[][20] = {"cat","sh","bash"};
+    //char black_bins[][20] = {};
     char* black_bin = NULL;
     DEBUG_LOG("__hook_dynamic_execve success");
 

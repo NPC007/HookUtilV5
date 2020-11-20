@@ -441,8 +441,8 @@ IN_LINE int SecDecodeTypeC(SecFormatAttr *attr, unsigned int cValue, SecFormatBu
         char *floatBuf = NULL;
 #endif
         SecFormatBuf formatBuf;
-        static const char *itoaUpperDigits = "0123456789ABCDEFX";
-        static const char *itoaLowerDigits = "0123456789abcdefx";
+        const char *itoaUpperDigits = "0123456789ABCDEFX";
+        const char *itoaLowerDigits = "0123456789abcdefx";
         const char *digits = itoaUpperDigits;
         unsigned int radix = SECUREC_RADIX_DECIMAL;
         int charsOut;               /* characters written */

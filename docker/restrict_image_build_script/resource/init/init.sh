@@ -52,4 +52,7 @@ system_glibc_build_id=${glibc_build_id}
 test_glibc_build_id=$(readelf -n /root/libc.so | grep -i "Build ID:" | awk -F':' '{print $2}' 2>/dev/null | awk '{gsub(/^\s+|\s+$/, "");print}' 2>/dev/null | awk '$1=$1' 2>/dev/null)
 if [ "${system_glibc_build_id}" == "${test_glibc_build_id}" ];then
   cp ${glibc_debug_symbols_file} /usr/lib/debug/libc.so
+  cp ${glibc_debug_symbols_file} /libc.so
+else
+  cp /root/libc.so /
 fi
