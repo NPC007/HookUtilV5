@@ -1,11 +1,11 @@
 #!/bin/bash
 
 usage(){
-  echo "Usage: $0 GAMEBOX_IP LOCAL_BASE_PORT REMOTE_BAS_PORT OUT_DIR"
+  echo "Usage: $0 GAMEBOX_IP LOCAL_BASE_PORT REMOTE_BAS_PORT OUT_DIR NAME"
   exit 255
 }
 
-if [ "$#" != 4 ];then
+if [ "$#" != 5 ];then
   usage
 fi
 
@@ -13,6 +13,7 @@ gamebox_ip=$1
 local_base_port=$2
 remote_base_port=$3
 out_dir=$4
+frp_name=$5
 
 local_analysis_port=local_base_port
 let local_analysis_port=local_base_port+0
@@ -97,14 +98,14 @@ generate_client_config(){
   echo " " >> "${out_dir}/frp_config/frpc.ini"
 
 
-  echo "[analysis]" >> "${out_dir}/frp_config/frpc.ini"
+  echo "[${frp_name}_analysis]" >> "${out_dir}/frp_config/frpc.ini"
   echo "type = tcp" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_ip = 127.0.0.1" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_port = ${local_analysis_port}" >> "${out_dir}/frp_config/frpc.ini"
   echo "remote_port = ${remote_analysis_port}" >> "${out_dir}/frp_config/frpc.ini"
   echo " " >> "${out_dir}/frp_config/frpc.ini"
 
-  echo "[redirect]" >> "${out_dir}/frp_config/frpc.ini"
+  echo "[${frp_name}_redirect]" >> "${out_dir}/frp_config/frpc.ini"
   echo "type = tcp" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_ip = 127.0.0.1" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_port = ${local_redirect_port}" >> "${out_dir}/frp_config/frpc.ini"
@@ -112,7 +113,7 @@ generate_client_config(){
   echo " " >> "${out_dir}/frp_config/frpc.ini"
 
 
-  #echo "[test]" >> "${out_dir}/frp_config/frpc.ini"
+  #echo "[${frp_name}_test]" >> "${out_dir}/frp_config/frpc.ini"
   #echo "type = tcp" >> "${out_dir}/frp_config/frpc.ini"
   #echo "local_ip = 127.0.0.1" >> "${out_dir}/frp_config/frpc.ini"
   #echo "local_port = ${local_test_port}" >> "${out_dir}/frp_config/frpc.ini"
@@ -120,7 +121,7 @@ generate_client_config(){
   #echo " " >> "${out_dir}/frp_config/frpc.ini"
 
 
-  echo "[io_decrypt]" >> "${out_dir}/frp_config/frpc.ini"
+  echo "[${frp_name}_io_decrypt]" >> "${out_dir}/frp_config/frpc.ini"
   echo "type = tcp" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_ip = 127.0.0.1" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_port = ${local_io_decrypt_port}" >> "${out_dir}/frp_config/frpc.ini"
@@ -128,7 +129,7 @@ generate_client_config(){
   echo " " >> "${out_dir}/frp_config/frpc.ini"
 
 
-  echo "[local]" >> "${out_dir}/frp_config/frpc.ini"
+  echo "[${frp_name}_local]" >> "${out_dir}/frp_config/frpc.ini"
   echo "type = tcp" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_ip = 127.0.0.1" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_port = ${local_local_sandbox_port}" >> "${out_dir}/frp_config/frpc.ini"
@@ -136,7 +137,7 @@ generate_client_config(){
   echo " " >> "${out_dir}/frp_config/frpc.ini"
 
 
-  echo "[stage_normal]" >> "${out_dir}/frp_config/frpc.ini"
+  echo "[${frp_name}_stage_normal]" >> "${out_dir}/frp_config/frpc.ini"
   echo "type = tcp" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_ip = 127.0.0.1" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_port = ${local_stage_normal_socket_server}" >> "${out_dir}/frp_config/frpc.ini"
@@ -144,7 +145,7 @@ generate_client_config(){
   echo " " >> "${out_dir}/frp_config/frpc.ini"
 
 
-  echo "[stage_sandbox]" >> "${out_dir}/frp_config/frpc.ini"
+  echo "[${frp_name}_stage_sandbox]" >> "${out_dir}/frp_config/frpc.ini"
   echo "type = tcp" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_ip = 127.0.0.1" >> "${out_dir}/frp_config/frpc.ini"
   echo "local_port = ${local_stage_sandbox_socket_server}" >> "${out_dir}/frp_config/frpc.ini"

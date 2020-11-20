@@ -24,7 +24,7 @@ if [ "$#" == "3" ];then
 fi
 if [ "$#" == "5" ];then
   echo "Frp Mode, start Generate FRP Config"
-  ${current_dir}/../tools/frp_config_generator.sh $5 $base_port $base_port ${current_dir}/../out
+  ${current_dir}/../tools/frp_config_generator.sh $5 $base_port $base_port ${current_dir}/../out $name
   if [ $? != 0 ];then
     echo "frp generate failed"
     exit 255
