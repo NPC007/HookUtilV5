@@ -48,6 +48,8 @@ unsigned long __loader_start(LIBC_START_MAIN_ARG){
 
     void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)mmap_addr);
+
+
     failed_load_patch:
     //if(mmap_addr>0)asm_munmap((void*)mmap_addr,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),res);
 #if(IS_PIE == 0)
@@ -193,6 +195,9 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 
     void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
     stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)mmap_addr);
+
+
+
     char *g_elf_base;
 failed_load_patch:
     //if(mmap_addr>0)asm_munmap((void*)mmap_addr,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),res);

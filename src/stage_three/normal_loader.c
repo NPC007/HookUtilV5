@@ -1098,6 +1098,7 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
         init_seccomp_defense();
     }
 #endif
+    //my_memset((void*)((unsigned long)&stack_base - 0x10000),0,sizeof(0x10000-0x10));
 }
 
 /*total four type hook support
