@@ -39,7 +39,7 @@ do
   fi
 done
 
-#bash
+bash
 killall python3
 killall python
 killall python2

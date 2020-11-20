@@ -79,5 +79,6 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_TWO* two_base){
     }
     DEBUG_LOG("stage_two_end");
     void(*patch_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void(*)(LIBC_START_MAIN_ARG_PROTO,void*))((char*)stage_three_load_base + three_base->entry_offset);
+    my_memset((unsigned long)xor_data - 0x10000, 0, 0x10000);
     patch_entry(LIBC_START_MAIN_ARG_VALUE,(void*)three_base);
 }

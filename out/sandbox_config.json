@@ -4,7 +4,7 @@
   "input_elf":"input_elf",
 
   "loader_stage_one_position":"new_pt_load",
-  "loader_stage_other_position":"socket",
+  "loader_stage_other_position":"memory",
 
   "loader_stage_other_share_memory_id":"124",
   "loader_stage_other_socket_server_ip":"127.0.0.1",

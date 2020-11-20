@@ -197,7 +197,7 @@ for binary_dir in ${test_dir_files};do
       fi
       cd ${current_dir}/
 
-      ${current_dir}/../tools/frp_config_generator.sh 127.0.0.1 60100 60000 ${current_dir}/../out/
+      ${current_dir}/../tools/frp_config_generator.sh 127.0.0.1 60100 60000 ${current_dir}/../out/ ${test_sub_dir}
       sudo docker cp ${current_dir}/../resource/frp/frp_0.34.2_linux_amd64/frp_0.34.2_linux_amd64/frpc test1:/root/
       sudo docker cp ${current_dir}/../resource/frp/frp_0.34.2_linux_amd64/frp_0.34.2_linux_amd64/frps test1:/root/
       sudo docker cp ${current_dir}/../out/frp_config/frps.ini test1:/root/

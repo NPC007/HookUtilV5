@@ -123,7 +123,7 @@ if __name__ == "__main__":
                 translate_log = ''.join(os.popen("python2 ./translate_traccfic_to_poc.py " +elf_file+" "  +os.path.join(verify_success_dir,file_name+'.rebuild')+" " + os.path.join(verify_success_dir,file_name+'.rebuild.py')).readlines())
                 with open(os.path.join(verify_success_dir,file_name+'.rebuild.py.log'),"w") as f:
                     f.write(translate_log)
-                translate_log = ''.join(os.popen("python2 ./translate_traccfic_to_poc.py "+os.path.join(verify_success_dir,file_name+'')+" " + os.path.join(verify_success_dir,file_name+'.py')).readlines())
+                translate_log = ''.join(os.popen("python2 ./translate_traccfic_to_poc.py "+elf_file + " " + os.path.join(verify_success_dir,file_name+'')+" " + os.path.join(verify_success_dir,file_name+'.py')).readlines())
                 with open(os.path.join(verify_success_dir,file_name+'.py.log'),"w") as f:
                     f.write(translate_log)
             else:
