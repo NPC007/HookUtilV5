@@ -818,8 +818,8 @@ IN_LINE void start_inline_io_redirect(char* libc_start_main_addr,char* stack_on_
     int packet_len;
     int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect};
     for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
-        int ret = _test_syscall(need_check_syscall[i]);
-        if(ret != 0) {
+        enum SYSCALL_STATUS_ENUM ret = get_syscall_enable(need_check_syscall[i]);
+        if(ret != SYSCALL_ENABLE) {
             g_loader_param.analysis_server.sin_port = 0;
             use_file = 1;
             DEBUG_LOG("set use_file 1");
@@ -917,8 +917,8 @@ IN_LINE void start_inline_io_redirect_unused(char* libc_start_main_addr,char* st
     int packet_len;
     int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_nanosleep,__NR_getsockopt,__NR_select};
     for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
-        int ret = _test_syscall(need_check_syscall[i]);
-        if(ret != 0) {
+        enum SYSCALL_STATUS_ENUM ret = get_syscall_enable(need_check_syscall[i]);
+        if(ret != SYSCALL_ENABLE) {
             g_loader_param.analysis_server.sin_port = 0;
             use_file = 1;
             DEBUG_LOG("set use_file 1");
@@ -1013,8 +1013,8 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
     int need_check_syscall[] = {__NR_socket,__NR_fcntl,__NR_connect,__NR_nanosleep,__NR_dup2,__NR_getsockopt,__NR_pipe,__NR_select};
     int ret = 0;
     for(int i =0;i<sizeof(need_check_syscall)/sizeof(int);i++) {
-        ret = _test_syscall(need_check_syscall[i]);
-        if(ret != 0) {
+        enum SYSCALL_STATUS_ENUM ret = get_syscall_enable(need_check_syscall[i]);
+        if(ret != SYSCALL_ENABLE) {
             //g_loader_param.analysis_server.sin_port = 0;
             DEBUG_LOG("USE_IO_INLINE_REDIRECT");
             start_inline_io_redirect(libc_start_main_addr,stack_on_entry);
@@ -1034,8 +1034,8 @@ IN_LINE void start_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
 
 
 static int __hook_dynamic_execve(char *path, char *argv[], char *envp[]){
-    char black_bins[][20] = {"cat","sh","bash"};
-    //char black_bins[][20] = {};
+    //char black_bins[][20] = {"cat","sh","bash"};
+    char black_bins[][20] = {};
     char* black_bin = NULL;
     DEBUG_LOG("__hook_dynamic_execve success");
 
@@ -1093,7 +1093,7 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     start_io_redirect(target_entry,stack_base);
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
 #if SHELL_CODE_DEFENSE
-    if(_test_syscall(__NR_prctl) == 0) {
+    if(get_syscall_enable(__NR_prctl) == SYSCALL_ENABLE) {
         DEBUG_LOG("begin seccomp defense");
         init_seccomp_defense();
     }

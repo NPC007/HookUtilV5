@@ -8,6 +8,10 @@ POLICY pwn {
         rt_sigprocmask, getrlimit, statfs, getdents, getdents64,
         chdir, set_tid_address, set_robust_list, alarm,
 
-        newlstat,socket,connect,lseek,chroot,setgroups,setgid,setuid,prlimit64
+        exit,
+
+        newlstat,socket,connect,lseek,chroot,setgroups,setgid,setuid,prlimit64,
+
+        prctl
     }
 } USE pwn DEFAULT KILL

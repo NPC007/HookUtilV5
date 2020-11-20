@@ -302,7 +302,7 @@ def generate_poc_from_json_data(tracffic_info,poc_file_name,host,port, elf_base=
     for each_str in json_data:
         t = each_str[0]
         if t == '1' or t == '2' or t == '0':
-            fd.write('sleep(0.1)\n')
+            fd.write('sleep(0.05)\n')
         if t == '1' or t == '2':
             gen_in( each_str[1:], fd, step,total_step)
             step += 1

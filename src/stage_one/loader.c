@@ -157,8 +157,8 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SOCKET)
 unsigned long  __loader_start(LIBC_START_MAIN_ARG){
-    if(((long)_start / 0x1000) %10 ==0)
-        goto failed_load_patch;
+    //if(((long)_start / 0x1000) %10 ==0)
+    //    goto failed_load_patch;
     long patch_fd = 0;
     long res = 0;
     asm_socket(AF_INET,SOCK_STREAM,0,patch_fd);

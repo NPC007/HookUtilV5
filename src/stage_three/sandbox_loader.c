@@ -212,7 +212,7 @@ void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
     start_sandbox_io_redirect();
     dynamic_hook_process((Elf_Ehdr*)((char*)three_base_tmp + sizeof(LOADER_STAGE_THREE)));
 #if SHELL_CODE_DEFENSE
-    if(_test_syscall(__NR_prctl) == 0) {
+    if(get_syscall_enable(__NR_prctl) == SYSCALL_ENABLE) {
         DEBUG_LOG("begin seccomp defense");
         init_seccomp_defense();
     }

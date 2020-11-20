@@ -63,7 +63,7 @@ get_test_libc_version(){
 
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
-  if [ "${binary_dir}" != "babyheap" ];then
+  if [ "${binary_dir}" != "secretgarden" ];then
     continue
   fi
   test_sub_dir=${test_dir}/${binary_dir}
@@ -83,16 +83,24 @@ for binary_dir in ${test_dir_files};do
   get_test_libc_file ${test_sub_dir}
   test_libc_file=${g_test_libc_file}
   test_poc_file=${test_sub_dir}/poc.py
+  test_poc_start_file=${test_sub_dir}/poc.sh
   init_script_file=${test_sub_dir}/init_env.sh
+
   echo "get test_file:      ${test_file}"
   echo "get test_libc_file: ${test_libc_file}"
   echo "get test_poc_file:  ${test_poc_file}"
+  echo "get test_poc_start_file: ${test_poc_start_file}"
+
   if [ ! -f "${test_libc_file}" ];then
     echo "Dir ${test_sub_dir} not find libc file,ignore"
     continue
   fi
   if [ ! -f "${test_poc_file}" ];then
     echo "Dir ${test_sub_dir} not find poc.py file,ignore"
+    continue
+  fi
+  if [ ! -f "${test_poc_start_file}" ];then
+    echo "Dir ${test_sub_dir} not find poc.sh file,ignore"
     continue
   fi
   if [ ! -f "${init_script_file}" ];then
@@ -107,11 +115,16 @@ for binary_dir in ${test_dir_files};do
   cp -f ${test_libc_file} ./test_out/${file}/
   cp -f ${test_libc_file}  ${target_out_dir}/libc.so
   cp -f ${test_poc_file} ./test_out/${file}/
+  cp -f ${test_poc_start_file} ./test_out/${file}/
+
+  echo 's/\s*"analysis_server_ip.*$/  "analysis_server_ip":"127.0.0.1",/g'
+  sed  's/\s*"analysis_server_ip.*$/  "analysis_server_ip":"127.0.0.1",/g' -i ../out/normal_config.json
+  sed  's/\s*"sandbox_server_ip.*$/  "sandbox_server_ip":"127.0.0.1",/g' -i ../out/sandbox_config.json
 
   #loader_stage_one_positions=(eh_frame)
   loader_stage_one_positions=(new_pt_load eh_frame)
   #loader_stage_other_positions=(memory file share_memory socket)
-  loader_stage_other_positions=(socket)
+  loader_stage_other_positions=(memory file socket)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
     for loader_stage_other_position in "${loader_stage_other_positions[@]}";do
       echo "begin test loader_stage_one_position:${loader_stage_one_position}, loader_stage_other_position: ${loader_stage_other_position} ,subdir: ${test_sub_dir}"
@@ -190,7 +203,7 @@ for binary_dir in ${test_dir_files};do
         loader_stage_other_normal_file_path='/tmp/1'
         loader_stage_other_sandbox_file_path='/tmp/2'
         sudo docker exec -it test1 bash -c "cp /root/normal.datafile /home/ctf/tmp/1;chmod 755 /home/ctf/tmp/1;"
-        sudo docker exec -it test1 bash -c "cp /root/sandbox.datafile /tmp/2;chmod 755 /tmp/2;"
+        sudo docker exec -it test1 bash -c "cp /root/sandbox.datafile /home/ctf/tmp/2;chmod 755 /home/ctf/tmp/2;"
       fi
       if [ ${loader_stage_other_position} == 'share_memory' ];then
         loader_stage_other_normal_share_memory_id='123'
@@ -206,6 +219,7 @@ for binary_dir in ${test_dir_files};do
       fi
 
       sudo docker cp ${test_poc_file} test1:/root/
+      sudo docker cp ${test_poc_start_file} test1:/root/
       sudo docker cp ${current_dir}/resource/test_poc_restrict.sh test1:/root/test_poc.sh
       if [ -f ${init_script_file} ];then
         sudo docker cp ${init_script_file} test1:/root/init_env.sh

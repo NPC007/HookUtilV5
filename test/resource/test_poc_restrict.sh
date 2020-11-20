@@ -8,11 +8,19 @@ sleep 1
 tmux splitw -v -p 50 'python3 /root/verify.py  /root/ /root/input_elf /root/libc.so'
 sleep 10
 tmux selectp -t 0
-tmux splitw -v -p 50 'python2 /root/poc.py'
+chmod +x /root/poc.sh
+tmux splitw -v -p 50 '/root/poc.sh'
 sleep 5
 
 while [ "x" == "x" ];
 do
+
+  if [ -z "$(ls /root/ori_verify_success 2>/dev/null)" ];then
+    sleep 1
+    echo "wait ori poc success............"
+    continue
+  fi
+
   if [ -z "$(ls /root/local_verify_failed)" ];then
     if [ -z "$(ls /root/local_verify_success)" ];then
       sleep 1

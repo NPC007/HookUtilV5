@@ -211,6 +211,25 @@ else
 fi
 
 
+sed -i "s/\"loader_stage_other_socket_server_port\":.*/\"loader_stage_other_socket_server_port\": \"${stage_sandbox_socket_server}\",/g" ${SANDBOX_CONFIG_JSON}
+if [ ! -z "$(cat ${SANDBOX_CONFIG_JSON}|grep ${stage_sandbox_socket_server})" ];then
+    echo "success set ${SANDBOX_CONFIG_JSON} loader_stage_other_socket_server_port to:            ${stage_sandbox_socket_server}"
+else
+    echo "failed  set ${SANDBOX_CONFIG_JSON} loader_stage_other_socket_server_port to:            ${stage_sandbox_socket_server}"
+    exit 255
+fi
+
+
+
+sed -i "s/\"loader_stage_other_socket_server_port\":.*/\"loader_stage_other_socket_server_port\": \"$stage_normal_socket_server\",/g" ${NORMAL_CONFIG_JSON}
+if [ ! -z "$(cat ${NORMAL_CONFIG_JSON}|grep ${stage_normal_socket_server})" ];then
+    echo "success set ${NORMAL_CONFIG_JSON} loader_stage_other_socket_server_port to:            ${stage_normal_socket_server}"
+else
+    echo "failed  set ${NORMAL_CONFIG_JSON} loader_stage_other_socket_server_port to:            ${stage_normal_socket_server}"
+    exit 255
+fi
+
+
 
 
 mkdir ${BUILD_PROJECT}/cmake_build_release

@@ -1039,7 +1039,7 @@ IN_LINE void my_sleep(long milli_second){
     struct timespec slptm;
     long tmp = 0;
     long res = 0;
-    slptm.tv_sec = milli_second >> 10;
+    slptm.tv_sec = milli_second / 1000;
     tmp = milli_second % 1000;
     slptm.tv_nsec = tmp * 1000000;
     if(get_syscall_enable(__NR_nanosleep)==SYSCALL_ENABLE) {
