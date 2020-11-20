@@ -4,7 +4,7 @@ debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/debu
 config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 1
+#define PATCH_DEBUG 0
 ###########################################process config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "127.0.0.1"
@@ -20,47 +20,9 @@ debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/deb
 config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/config.h
 input elf: input_elf
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 1
+#define PATCH_DEBUG 0
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST "127.0.0.1"
 #define SANDBOX_PORT 60003
 #define SHELL_CODE_DEFENSE 1
----------------------------------------------------------------------------------------------------------
-MODE : normal
-stage_one: /home/runshine/HookUtilV3/test/..//out/normal/stage_one
-stage_two: /home/runshine/HookUtilV3/test/..//out/normal/stage_two
-stage_three: /home/runshine/HookUtilV3/test/..//out/normal/stage_three
-target_dir: out
-check /home/runshine/HookUtilV3/test/..//out/normal/stage_two start
-check /home/runshine/HookUtilV3/test/..//out/normal/stage_two end
-generate normal_data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
-libloader_stage_two TLV structure values:
-	length:                     0x306
-	entry_offset:               0x31
-libloader_stage_three TLV structure values:
-	entry_offset:                     0x46c6
-	length:                           0x28e48
-	analysis_server_ip:               127.0.0.1
-	analysis_server_port:             60000
-	sandbox_server_ip:                0.0.0.0
-	sandbox_server_port:              0
----------------------------------------------------------------------------------------------------------
-MODE : sandbox
-stage_one: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one
-stage_two: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two
-stage_three: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_three
-target_dir: out
-check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two start
-check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two end
-generate sandbox_data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
-libloader_stage_two TLV structure values:
-	length:                     0x306
-	entry_offset:               0x31
-libloader_stage_three TLV structure values:
-	entry_offset:                     0x316e
-	length:                           0x23948
-	analysis_server_ip:               0.0.0.0
-	analysis_server_port:             0
-	sandbox_server_ip:                127.0.0.1
-	sandbox_server_port:              60003
