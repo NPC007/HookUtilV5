@@ -7,16 +7,16 @@
   "loader_stage_other_position":"socket",
 
   "loader_stage_other_share_memory_id":"124",
-  "loader_stage_other_socket_server_ip":"127.0.0.1",
-  "loader_stage_other_socket_server_port": "30017",
+  "loader_stage_other_socket_server_ip":"10.10.5.111",
+  "loader_stage_other_socket_server_port": "10007",
   "loader_stage_other_file_path":"/tmp/2",
 
   "shell_code_defense": "1",
 
   "tcp_time_out":"1",
 
-  "sandbox_server_ip":"127.0.0.1",
-  "sandbox_server_port": "30013",
+  "sandbox_server_ip":"10.10.5.111",
+  "sandbox_server_port": "10003",
   "data_file_path" : "sandbox.datafile"
 
 }

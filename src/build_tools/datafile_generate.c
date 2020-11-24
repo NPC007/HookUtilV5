@@ -18,6 +18,17 @@
 
 
 
+void generate_stage_two_parameter(char* elf_path,char* data_file_path){
+    int data_file_fd;
+    char* data_file_fd_base;
+    long data_file_size;
+    open_mmap_check(data_file_path,O_RDWR,&data_file_fd,(void**)&data_file_fd_base,PROT_READ|PROT_WRITE,MAP_SHARED,&data_file_size);
+    LOADER_STAGE_TWO* two = (LOADER_STAGE_TWO*)data_file_fd_base;
+    two->patch_data_length =  data_file_size;
+    two->elf_load_base = (void*)get_elf_file_load_base(elf_path);
+    close_and_munmap(data_file_path,data_file_fd,data_file_fd_base,&data_file_size);
+}
+
 
 
 void generate_data_file(char* data_file_path,char* libloader_stage_two,char* libloader_stage_three,char* shell_passwd,char* analysis_server_ip,char* analysis_server_port,char* sandbox_server_ip,char* sandbox_server_port){
@@ -43,6 +54,10 @@ void generate_data_file(char* data_file_path,char* libloader_stage_two,char* lib
     memset(&two,0,sizeof(LOADER_STAGE_TWO));
     two.length = libloader_stage_two_len;
     two.entry_offset = ((Elf_Ehdr*)libloader_stage_two_base)->e_entry - libloader_stage_two_text_section->sh_addr;
+    if(two.entry_offset!=0){
+        logger("stage two elf error: _start not in first text bytesm we need it to be first bytes to decrease stage_one bytes\n");
+        exit(255);
+    }
     write(target_fd,&two,sizeof(LOADER_STAGE_TWO));
     write(target_fd,libloader_stage_two_buf,libloader_stage_two_len);
     logger("libloader_stage_two TLV structure values:\n");
@@ -134,8 +149,18 @@ int main(int argc,char* argv[]){
     char libloader_stage_three[512] = {0};
     snprintf(libloader_stage_three,512,"%s/out/%s/stage_three",project_root,mode);
     logger("stage_three: %s\n",libloader_stage_three);
+    char* input_elf = cJSON_GetObjectItem(config,"input_elf")->valuestring;
+    logger("input elf: %s\n",input_elf);
+
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
     logger("target_dir: %s\n",target_dir);
+
+    char input_elf_path [512] = {0};
+    snprintf(input_elf_path,sizeof(input_elf_path),"%s/%s/%s",project_root,target_dir,input_elf);
+    if(access(input_elf_path,R_OK)!= 0 ){
+        logger("Input ELF not exist : %s\n",input_elf_path);
+        exit(-1);
+    }
 
     check_elf_arch(libloader_stage_two);
     check_elf_arch(libloader_stage_three);
@@ -156,7 +181,7 @@ int main(int argc,char* argv[]){
 
         logger("generate normal_data_file:%s\n",normal_data_file_path);
         generate_data_file(normal_data_file_path,libloader_stage_two,libloader_stage_three,shell_password,analysis_server_ip,analysis_server_port,NULL,NULL);
-
+        generate_stage_two_parameter(input_elf_path,normal_data_file_path);
     }
     else if(strcmp(mode,"sandbox") == 0){
         char* sandbox_data_file = cJSON_GetObjectItem(config,"data_file_path")->valuestring;
@@ -167,6 +192,7 @@ int main(int argc,char* argv[]){
         char* sandbox_server_port = cJSON_GetObjectItem(config,"sandbox_server_port")->valuestring;
         logger("generate sandbox_data_file:%s\n",sandbox_data_file_path);
         generate_data_file(sandbox_data_file_path,libloader_stage_two,libloader_stage_three,NULL,NULL,NULL,sandbox_server_ip,sandbox_server_port);
+        generate_stage_two_parameter(input_elf_path,sandbox_data_file_path);
     }
 
 

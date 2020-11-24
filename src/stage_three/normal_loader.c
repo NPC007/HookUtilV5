@@ -1069,8 +1069,8 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 }
 
 
-void _start(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
-    if(common_init(LIBC_START_MAIN_ARG_VALUE,three_base_tmp)!=0)
+void _start(STAGE_THREE_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
+    if(common_init(STAGE_THREE_MAIN_ARG_VALUE,three_base_tmp)!=0)
         return;
     DEBUG_LOG("Start Normal_loader --------------------------------------------------");
     inline_hook_read_pos = 0;

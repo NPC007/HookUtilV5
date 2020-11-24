@@ -9,7 +9,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 #set(CMAKE_BUILD_TYPE Debug)
 
 if (NOT DEFINED TARGET_ARCH)
-set(TARGET_ARCH X86)
+set(TARGET_ARCH X86_64)
 endif()
 
 MESSAGE("TARGET_ARCH IS: ${TARGET_ARCH}")
@@ -17,6 +17,8 @@ MESSAGE("TARGET_ARCH IS: ${TARGET_ARCH}")
 FILE(GLOB STAGE_TWO src/stage_two/*.c)
 FILE(GLOB STAGE_THREE_NORMAL src/stage_three/normal_loader.c)
 FILE(GLOB STAGE_THREE_SANDBOX src/stage_three/sandbox_loader.c)
+
+FILE(GLOB TEST_SYSCALL tools/syscall_test.c)
 
 FILE(GLOB GENERATE_BUILD_TOOLS src/build_tools/generate.c src/build_tools/elf/*.c src/build_tools/file/*.c src/build_tools/file_check/*.c src/build_tools/json/*.c)
 FILE(GLOB PRE_GENERATE_TOOLS src/build_tools/pre_generate.c src/build_tools/elf/*.c src/build_tools/file/*.c src/build_tools/file_check/*.c src/build_tools/json/*.c)
@@ -26,10 +28,11 @@ set(TARGET_DIR "out")
 
 
 set(STAGE_LINK_FLAG "-static-pie")
-set(STAGE_ONE_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
-set(STAGE_TWO_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(STAGE_ONE_COMPILE_FLAG "-fno-stack-protector -Os -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(STAGE_TWO_COMPILE_FLAG "-fno-stack-protector -O0 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
 set(STAGE_THREE_NORMAL_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
 set(STAGE_THREE_SANDBOX_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(TEST_SYSCALL_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
 
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     set(PATCH_DEBUG "-DPATCH_DEBUG_CONFIG=1")
@@ -46,7 +49,7 @@ if(${TARGET_ARCH} STREQUAL "X86")
 elseif(${TARGET_ARCH} STREQUAL "X86_64")
     set(TARGET_ARCH_COMPILE_FLAG "-m64 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 ")
     set(TARGET_ARCH_LINKER_FLAG  "-m64 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 ")
-    FILE(GLOB STAGE_ONE src/stage_one/*.c src/arch/amd64/loader_clearstack.s)
+    FILE(GLOB STAGE_ONE src/stage_one/*.c src/arch/amd64/loader.s)
 else()
     message( SEND_ERROR "TARGET_ARCH Failed" )
 endif()
@@ -162,6 +165,14 @@ add_custom_command(TARGET stage_socket_server POST_BUILD
         )
 target_link_libraries(stage_socket_server pthread)
 add_dependencies(stage_socket_server generate)
+
+add_executable(test_syscall ${TEST_SYSCALL})
+target_include_directories(test_syscall PRIVATE src/auto_generate/normal)
+set_target_properties(test_syscall PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TEST_SYSCALL_COMPILE_FLAG}" LINK_FLAGS  "${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+add_dependencies(test_syscall generate)
+add_custom_command(TARGET test_syscall POST_BUILD
+        COMMAND cp -f  "${CMAKE_BINARY_DIR}/test_syscall" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/"
+        )
 
 #add_library(tiny_loader_shell_i386 SHARED strict_mode/tiny_loader/arch/i386/tiny_loader_shell.c)
 #set_target_properties(tiny_loader_shell_i386 PROPERTIES COMPILE_FLAGS "-m32 -O0 -fno-stack-protector" LINK_FLAGS "-nostartfiles -nodefaultlibs -nostdlib -m32")

@@ -1173,8 +1173,7 @@ IN_LINE int connect_timeout_unused(int sockfd, const struct sockaddr *addr,
     return 1;
 }
 
-IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
-    DEBUG_LOG("MAIN at: %p",MAIN);
+IN_LINE void dump_program_info(STAGE_THREE_MAIN_ARG){
     DEBUG_LOG("ARGC   : %d",ARGC);
     DEBUG_LOG("UBP_AV : %p",UBP_AV);
     char **ev = &UBP_AV[ARGC + 1];
@@ -1193,7 +1192,7 @@ IN_LINE void dump_program_info(LIBC_START_MAIN_ARG){
 
 
 
-IN_LINE int common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
+IN_LINE int common_init(STAGE_THREE_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
     g_elf_base = three_base_tmp->elf_load_base;
     init_heap_base();
     my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
@@ -1212,7 +1211,7 @@ IN_LINE int common_init(LIBC_START_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
         //my_exit(-1);
         return -1;
     }
-    dump_program_info(LIBC_START_MAIN_ARG_VALUE);
+    dump_program_info(STAGE_THREE_MAIN_ARG_VALUE);
     init_syscall_enable_table();
     if(get_syscall_enable(__NR_alarm) == SYSCALL_ENABLE)
         my_alarm(60);

@@ -53,9 +53,9 @@ wait_port(){
 for binary_dir in ${test_dir_files};do
   cd ${current_dir}
 
-  #if [ "${binary_dir}" != "autotest_64_nopie_dynamic_full" ];then
-  #  continue
-  #fi
+  if [ "${binary_dir}" != "autotest_64_nopie_dynamic_half" ];then
+    continue
+  fi
 
   test_sub_dir=${test_dir}/${binary_dir}
   echo "begin test ${test_sub_dir}"
@@ -95,10 +95,10 @@ for binary_dir in ${test_dir_files};do
     exit 255
   fi
 
-  #loader_stage_one_positions=(eh_frame)
-  loader_stage_one_positions=(new_pt_load eh_frame)
-  loader_stage_other_positions=(memory file share_memory socket)
-  #loader_stage_other_positions=(memory)
+  loader_stage_one_positions=(eh_frame)
+  #loader_stage_one_positions=(new_pt_load eh_frame)
+  #loader_stage_other_positions=(memory file share_memory socket)
+  loader_stage_other_positions=(share_memory)
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
     for loader_stage_other_position in "${loader_stage_other_positions[@]}";do
       echo "begin test loader_stage_one_position:${loader_stage_one_position}, loader_stage_other_position: ${loader_stage_other_position} "
@@ -238,9 +238,11 @@ for binary_dir in ${test_dir_files};do
 done
 
 
-loader_stage_one_positions=(new_pt_load eh_frame)
-loader_stage_other_positions=(memory file share_memory socket)
+#loader_stage_one_positions=(new_pt_load eh_frame)
+#loader_stage_other_positions=(memory file share_memory socket)
 
+loader_stage_one_positions=(eh_frame)
+loader_stage_other_positions=(share_memory)
 
 for file in ${test_dir_files};do
   test_file=${test_dir}/${file}

@@ -268,8 +268,18 @@ void process_start_function(char* output_elf,cJSON* config){
     close_and_munmap(output_elf,output_elf_fd,output_elf_base,&output_elf_size);
 }
 
+void generate_stage_two_parameter(char* elf_path,char* data_file_path,unsigned long first_entry_offset){
+    int data_file_fd;
+    char* data_file_fd_base;
+    long data_file_size;
+    open_mmap_check(data_file_path,O_RDWR,&data_file_fd,(void**)&data_file_fd_base,PROT_READ|PROT_WRITE,MAP_SHARED,&data_file_size);
+    LOADER_STAGE_TWO* two = (LOADER_STAGE_TWO*)data_file_fd_base;
+    two->elf_load_base = (void*)first_entry_offset;
+    close_and_munmap(data_file_path,data_file_fd,data_file_fd_base,&data_file_size);
+}
 
-void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_config_fd,int *phdr_has_moved){
+
+void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_config_fd,int *phdr_has_moved,char* mode){
     int input_elf_fd;
     char* input_elf_base;
     long input_elf_size;
@@ -302,6 +312,15 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_conf
         char buf[256];
         snprintf(buf,255,"0x%x",first_entry_offset);
         write_marco_define(stage_one_config_fd, "FIRST_ENTRY_OFFSET", buf);
+
+        char* normal_data_file = cJSON_GetObjectItem(config,"data_file_path")->valuestring;
+        char normal_data_file_path[512] = {0};
+        char* project_root = cJSON_GetObjectItem(config,"project_root")->valuestring;
+        char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
+        snprintf(normal_data_file_path,sizeof(normal_data_file_path),"%s/%s/%s/%s",project_root,target_dir,mode,normal_data_file);
+        generate_stage_two_parameter(input_elf,normal_data_file_path,first_entry_offset);
+
+
     }
     close_and_munmap(input_elf,input_elf_fd,input_elf_base,&input_elf_size);
 }
@@ -400,7 +419,7 @@ int main(int argc,char* argv[]){
         write_marco_define(stage_one_config_fd,"LIB_C_START_MAIN_ADDR",libc_start_main_addr);
     }
 
-    process_first_entry_offset(tmp_input_file,config,stage_one_config_fd,&phdr_has_moved);
+    process_first_entry_offset(tmp_input_file,config,stage_one_config_fd,&phdr_has_moved,mode);
 
 
 

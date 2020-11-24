@@ -8,7 +8,7 @@
 
 
 #if PATCH_DEBUG
-#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
+/*#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
 static int my_strlen(const char *src){
     int i = 0;
     while(src[i]!='\0')
@@ -18,15 +18,21 @@ static int my_strlen(const char *src){
 static void my_write_stdout(const char* str){
     long res;
     asm_write(1,str,my_strlen(str),res);
-}
+}*/
+#define DEBUG_LOG(STR)
 #else
 #define DEBUG_LOG(STR)
 #endif
 
 extern void _start();
 
+
+
 #if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
-unsigned long __loader_start(LIBC_START_MAIN_ARG){
+
+//inliribute__((always_inline))
+
+unsigned long __loader_start(STAGE_ONE_MAIN_ARG){
     char patch_data[] = {PATCH_DATA_PATH};
     long patch_fd = 0;
     long res = 0;
@@ -37,17 +43,24 @@ unsigned long __loader_start(LIBC_START_MAIN_ARG){
         goto failed_load_patch;
     char* mmap_addr = NULL;
     asm_mmap(0,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0,mmap_addr);
-    if((unsigned long)mmap_addr>= ((unsigned long)-1) - 0x1000) {
-        //asm_close(patch_fd,res);
-        goto failed_load_patch;
-    }
-    LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)mmap_addr;
-    two_base ->patch_data_length = (int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000);
+    //if((unsigned long)mmap_addr>= ((unsigned long)-1) - 0x1000) {
+    //    //asm_close(patch_fd,res);
+    //    goto failed_load_patch;
+    //}
 
-    two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
 
-    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
-    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)mmap_addr);
+#if(IS_PIE == 0)
+#elif(IS_PIE == 1)
+    //LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)mmap_addr;
+    //two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
+    //two_base ->elf_load_base = FIRST_ENTRY_OFFSET;
+#else
+    #error "Unknown IS_PIE"
+#endif
+
+    //void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
+    void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
+    stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
 
 
     failed_load_patch:
@@ -72,7 +85,10 @@ unsigned long __loader_start(LIBC_START_MAIN_ARG){
 
 
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_MEM)
-unsigned long  __loader_start(LIBC_START_MAIN_ARG){
+
+//inline __attribute__((always_inline))
+
+unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
     DEBUG_LOG("__loader_start from memory");
 #if(IS_PIE == 0)
     void* base = (void*)PATCH_DATA_MMAP_FILE_VADDR;
@@ -82,13 +98,20 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 #error "Unknown IS_PIE"
 #endif
 
-    LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
-    two_base ->patch_data_length = (int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000);
 
-    two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
 
-    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(base + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
-    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)base);
+#if(IS_PIE == 0)
+#elif(IS_PIE == 1)
+    //LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
+    //two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
+    //two_base ->elf_load_base = FIRST_ENTRY_OFFSET;
+#else
+    #error "Unknown IS_PIE"
+#endif
+
+    //void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
+    void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + sizeof(LOADER_STAGE_TWO));
+    stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
 
 #if(IS_PIE == 0)
     #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
@@ -119,46 +142,70 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
 #define        SHM_RND                020000        /* round attach address to SHMLBA boundary */
 #define        SHM_REMAP        040000        /* take-over region on attach */
 #define        SHM_EXEC        0100000        /* execution access */
-unsigned long  __loader_start(LIBC_START_MAIN_ARG){
-    char *g_elf_base;
-    unsigned long res;
+
+//inline __attribute__((always_inline))
+
+unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
+    register char *g_elf_base;
+    register long res;
     asm_shmget(PATCH_DATA_SHARE_MEM_ID,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),0777,res);
     if((unsigned long)res>= ((unsigned long)-1) - 0x1000) {
-        goto failed_load_patch;
+        if (res < 0) {
+            goto failed_load_patch;
+        }
     }
     asm_shmat(res,0,SHM_EXEC|SHM_R|SHM_W, res);
+#ifdef __i386__
     if((unsigned long)res>= ((unsigned long)-1) - 0x1000) {
         goto failed_load_patch;
     }
+#elif __x86_64__
+   /* if(res < 0) {
+        goto failed_load_patch;
+    }*/
+#else
+#error unsupport other arch
+#endif
 
-    void* base = (void*)res;
-    LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
-    two_base ->patch_data_length = (int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000);
-    two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
-    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(base + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
-    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)base);
+    register void* base = (void*)res;
 
+#if(IS_PIE == 0)
+#elif(IS_PIE == 1)
+    //LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
+    //two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
+    //two_base ->elf_load_base = FIRST_ENTRY_OFFSET;
+#else
+    #error "Unknown IS_PIE"
+#endif
+
+    //void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
+    void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + sizeof(LOADER_STAGE_TWO));
+    stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
 
     failed_load_patch:
 #if(IS_PIE == 0)
     #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
     return *(unsigned long*)LIB_C_START_MAIN_ADDR;
-#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
-    return LIB_C_START_MAIN_ADDR;
-#endif
+    #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+        return LIB_C_START_MAIN_ADDR;
+    #endif
+
 #elif(IS_PIE == 1)
     g_elf_base = (char*)_start - FIRST_ENTRY_OFFSET;
-#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-    return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
-#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
-    return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
-#endif
+    #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+        return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
+    #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+        return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
+    #endif
 #else
 #error "Unknown IS_PIE"
 #endif
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SOCKET)
-unsigned long  __loader_start(LIBC_START_MAIN_ARG){
+
+//inline __attribute__((always_inline))
+
+unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
     //if(((long)_start / 0x1000) %10 ==0)
     //    goto failed_load_patch;
     long patch_fd = 0;
@@ -189,12 +236,21 @@ unsigned long  __loader_start(LIBC_START_MAIN_ARG){
         else
             need_count = need_count - ret;
     }
-    LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)mmap_addr;
-    two_base ->patch_data_length = (int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000);
-    two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
 
-    void (*stage_two_entry)(LIBC_START_MAIN_ARG_PROTO,void*) = (void (*)(LIBC_START_MAIN_ARG_PROTO,void*))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
-    stage_two_entry(LIBC_START_MAIN_ARG_VALUE,(void*)mmap_addr);
+
+#if(IS_PIE == 0)
+#elif(IS_PIE == 1)
+    //LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)mmap_addr;
+    //two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
+    //two_base ->elf_load_base = FIRST_ENTRY_OFFSET;
+#else
+    #error "Unknown IS_PIE"
+#endif
+
+
+    //void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
+    void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
+    stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
 
 
 
@@ -219,4 +275,3 @@ failed_load_patch:
 #endif
 }
 #endif
-
