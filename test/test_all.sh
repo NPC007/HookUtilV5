@@ -258,12 +258,29 @@ for file in ${test_dir_files};do
 done
 
 
+display_text_size(){
+  elf_file=$1
+
+
+      test_execute=$(file $elf_file | grep 80386)
+      if [ ! -z "${test_execute}" ];then
+
+      fi
+      test_execute=$(file$elf_file | grep x86-64)
+      if [ ! -z "${test_execute}" ];then
+        size=$(readelf -S $elf_file  | grep -C 1 .text | grep AX | awk -F' ' '{print $1}')
+      fi
+
+  echo "$elf_file:  .text size: $size"
+}
+
 for file in ${test_dir_files};do
   test_file=${test_dir}/${file}
   for loader_stage_one_position in "${loader_stage_one_positions[@]}";do
     for loader_stage_other_position in "${loader_stage_other_positions[@]}";do
-      ls -ll ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal/stage_one
+      #ls -ll ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal/stage_one
       #echo ' '
+      display_text_size ./test_out/${file}/out_debug_${loader_stage_one_position}_${loader_stage_other_position}/normal/stage_one
     done
   done
 done
