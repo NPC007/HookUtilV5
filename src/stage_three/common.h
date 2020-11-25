@@ -1190,6 +1190,17 @@ IN_LINE void dump_program_info(STAGE_THREE_MAIN_ARG){
 }
 
 
+IN_LINE void dump_stage_three_parameter(LOADER_STAGE_THREE* three_base_tmp){
+    DEBUG_LOG("Stage_three Length:                    0x%lx",three_base_tmp->length);
+    DEBUG_LOG("Stage_three entry_offset:              0x%lx",three_base_tmp->entry_offset);
+    DEBUG_LOG("Stage_three elf_load_base:             0x%lx",three_base_tmp->elf_load_base);
+    DEBUG_LOG("Stage_three patch_data_mmap_code_base: 0x%lx",three_base_tmp->patch_data_mmap_code_base);
+    DEBUG_LOG("Stage_three patch_data_mmap_file_base: 0x%lx",three_base_tmp->patch_data_mmap_file_base);
+    DEBUG_LOG("Stage_three patch_data_length:         0x%lx",three_base_tmp->patch_data_length);
+    DEBUG_LOG("Stage_three enable_debug:              0x%lx",three_base_tmp->enable_debug);
+
+}
+
 
 
 IN_LINE int common_init(STAGE_THREE_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp){
@@ -1197,6 +1208,7 @@ IN_LINE int common_init(STAGE_THREE_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp)
     init_heap_base();
     my_memcpy((char*)&g_loader_param,(const char*)three_base_tmp,sizeof(LOADER_STAGE_THREE));
     my_strcpy(g_elf_path,((char**)(&UBP_AV[0])) [0] ,0);
+    dump_stage_three_parameter(three_base_tmp);
     DEBUG_LOG("stage_three_start");
     DEBUG_LOG("Version: %s %s",__DATE__,__TIME__);
     DEBUG_LOG("g_elf_base: 0x%lx",g_elf_base );

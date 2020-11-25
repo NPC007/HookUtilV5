@@ -113,7 +113,7 @@ void check_libloader_stage_two(char* libloader_stage_two){
     //check_so_file_no_dynsym_section  ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_rodata_section  ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_data_section    ((Elf_Ehdr*)libloader_stage_two_base);
-    check_so_file_no_got_section     ((Elf_Ehdr*)libloader_stage_two_base);
+    //check_so_file_no_got_section     ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_gotplt_section  ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_plt_section     ((Elf_Ehdr*)libloader_stage_two_base);
     check_so_file_no_bss_section     ((Elf_Ehdr*)libloader_stage_two_base);

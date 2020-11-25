@@ -28,8 +28,8 @@ set(TARGET_DIR "out")
 
 
 set(STAGE_LINK_FLAG "-static-pie")
-set(STAGE_ONE_COMPILE_FLAG "-fno-stack-protector -Os -fPIE -fcf-protection=none -fno-tree-scev-cprop")
-set(STAGE_TWO_COMPILE_FLAG "-fno-stack-protector -O0 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(STAGE_ONE_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
+set(STAGE_TWO_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
 set(STAGE_THREE_NORMAL_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
 set(STAGE_THREE_SANDBOX_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
 set(TEST_SYSCALL_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")

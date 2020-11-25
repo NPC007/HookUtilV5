@@ -1,11 +1,12 @@
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
-debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/debug_config.h
-config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/config.h
+debug_config.h: /home/runshine/code/HookUtilV3/test/..//src/auto_generate/normal/debug_config.h
+config.h: /home/runshine/code/HookUtilV3/test/..//src/auto_generate/normal/config.h
 input elf: input_elf
 check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
+#define IS_PIE 1
 ###########################################process config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "127.0.0.1"
@@ -17,12 +18,13 @@ check_eh_frame_section_executable success, ef_frame is executable
 #define SHELL_CODE_DEFENSE 1
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
-debug_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/debug_config.h
-config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/config.h
+debug_config.h: /home/runshine/code/HookUtilV3/test/..//src/auto_generate/sandbox/debug_config.h
+config.h: /home/runshine/code/HookUtilV3/test/..//src/auto_generate/sandbox/config.h
 input elf: input_elf
 check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
+#define IS_PIE 1
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST "127.0.0.1"
@@ -30,16 +32,16 @@ check_eh_frame_section_executable success, ef_frame is executable
 #define SHELL_CODE_DEFENSE 1
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
-stage_one: /home/runshine/HookUtilV3/test/..//out/normal/stage_one
-stage_two: /home/runshine/HookUtilV3/test/..//out/normal/stage_two
-stage_three: /home/runshine/HookUtilV3/test/..//out/normal/stage_three
+stage_one: /home/runshine/code/HookUtilV3/test/..//out/normal/stage_one
+stage_two: /home/runshine/code/HookUtilV3/test/..//out/normal/stage_two
+stage_three: /home/runshine/code/HookUtilV3/test/..//out/normal/stage_three
 input elf: input_elf
 target_dir: out
-check /home/runshine/HookUtilV3/test/..//out/normal/stage_two start
-check /home/runshine/HookUtilV3/test/..//out/normal/stage_two end
-generate normal_data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
+check /home/runshine/code/HookUtilV3/test/..//out/normal/stage_two start
+check /home/runshine/code/HookUtilV3/test/..//out/normal/stage_two end
+generate normal_data_file:/home/runshine/code/HookUtilV3/test/..//out/normal/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x3e9
+	length:                     0x21d
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
 	entry_offset:                     0x5843
@@ -48,133 +50,137 @@ libloader_stage_three TLV structure values:
 	analysis_server_port:             60000
 	sandbox_server_ip:                0.0.0.0
 	sandbox_server_port:              0
+set stage_two: patch_data_length: 1a000
+set stage_two: elf_load_base: 0
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
-stage_one: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one
-stage_two: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two
-stage_three: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_three
+stage_one: /home/runshine/code/HookUtilV3/test/..//out/sandbox/stage_one
+stage_two: /home/runshine/code/HookUtilV3/test/..//out/sandbox/stage_two
+stage_three: /home/runshine/code/HookUtilV3/test/..//out/sandbox/stage_three
 input elf: input_elf
 target_dir: out
-check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two start
-check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_two end
-generate sandbox_data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
+check /home/runshine/code/HookUtilV3/test/..//out/sandbox/stage_two start
+check /home/runshine/code/HookUtilV3/test/..//out/sandbox/stage_two end
+generate sandbox_data_file:/home/runshine/code/HookUtilV3/test/..//out/sandbox/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x3e9
+	length:                     0x21d
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
 	entry_offset:                     0x22eb
-	length:                           0xcc38
+	length:                           0xdc38
 	analysis_server_ip:               0.0.0.0
 	analysis_server_port:             0
 	sandbox_server_ip:                127.0.0.1
 	sandbox_server_port:              60003
+set stage_two: patch_data_length: e000
+set stage_two: elf_load_base: 0
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
-stage_one_normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/normal/stage_one_config.h
-data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
-input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
-#define IS_PIE 0
-0x4010e0:	endbr64		
-0x4010e4:	xor		ebp, ebp
-0x4010e6:	mov		r9, rdx
-0x4010e9:	pop		rsi
-0x4010ea:	mov		rdx, rsp
-0x4010ed:	and		rsp, 0xfffffffffffffff0
-0x4010f1:	push		rax
-0x4010f2:	push		rsp
-0x4010f3:	mov		r8, 0x401530
-0x4010fa:	mov		rcx, 0x4014c0
-0x401101:	mov		rdi, 0x40133d
-0x401108:	call		qword ptr [rip + 0x2ee2]
+stage_one_normal_config.h: /home/runshine/code/HookUtilV3/test/..//src/auto_generate/normal/stage_one_config.h
+data_file:/home/runshine/code/HookUtilV3/test/..//out/normal/normal.datafile
+input_elf: /home/runshine/code/HookUtilV3/test/..//out/input_elf
+0x9d80:	endbr64		
+0x9d84:	xor		ebp, ebp
+0x9d86:	mov		r9, rdx
+0x9d89:	pop		rsi
+0x9d8a:	mov		rdx, rsp
+0x9d8d:	and		rsp, 0xfffffffffffffff0
+0x9d91:	push		rax
+0x9d92:	push		rsp
+0x9d93:	lea		r8, [rip + 0x1446]
+0x9d9a:	lea		rcx, [rip + 0x139f]
+0x9da1:	lea		rdi, [rip + 0x238]
+0x9da8:	call		0xa4e0
 find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x403ff0
-identify libc_start_main_start_call_offset : 0x1108
-identify libc_start_main_start_call_vaddr  : 0x401108
-#define LIBC_START_MAIN_ADDR_TYPE PTR
-#define LIB_C_START_MAIN_ADDR 0x403ff0
-#define FIRST_ENTRY_OFFSET 0x2148
-#define CONFIG_LOADER_TYPE LOAD_FROM_SHARE_MEM
-#define PATCH_DATA_SHARE_MEM_ID 123
-#define PATCH_DATA_MMAP_FILE_SIZE 0x19209
+identify libc_start_main_addr_type : code
+identify libc_start_main_addr              : 0xa4e0
+identify libc_start_main_start_call_offset : 0x9da8
+identify libc_start_main_start_call_vaddr  : 0x9da8
+#define LIBC_START_MAIN_ADDR_TYPE CODE
+#define LIB_C_START_MAIN_ADDR 0xa4e0
+#define FIRST_ENTRY_OFFSET 0xbe010
+#define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
+#define PATCH_DATA_SOCKET_SERVER_IP 16777343
+#define PATCH_DATA_SOCKET_SERVER_PORT 47086
+#define PATCH_DATA_MMAP_FILE_SIZE 0x1903d
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
-stage_one_normal_config.h: /home/runshine/HookUtilV3/test/..//src/auto_generate/sandbox/stage_one_config.h
-data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
-input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
-#define IS_PIE 0
-0x4010e0:	endbr64		
-0x4010e4:	xor		ebp, ebp
-0x4010e6:	mov		r9, rdx
-0x4010e9:	pop		rsi
-0x4010ea:	mov		rdx, rsp
-0x4010ed:	and		rsp, 0xfffffffffffffff0
-0x4010f1:	push		rax
-0x4010f2:	push		rsp
-0x4010f3:	mov		r8, 0x401530
-0x4010fa:	mov		rcx, 0x4014c0
-0x401101:	mov		rdi, 0x40133d
-0x401108:	call		qword ptr [rip + 0x2ee2]
+stage_one_normal_config.h: /home/runshine/code/HookUtilV3/test/..//src/auto_generate/sandbox/stage_one_config.h
+data_file:/home/runshine/code/HookUtilV3/test/..//out/sandbox/sandbox.datafile
+input_elf: /home/runshine/code/HookUtilV3/test/..//out/input_elf
+0x9d80:	endbr64		
+0x9d84:	xor		ebp, ebp
+0x9d86:	mov		r9, rdx
+0x9d89:	pop		rsi
+0x9d8a:	mov		rdx, rsp
+0x9d8d:	and		rsp, 0xfffffffffffffff0
+0x9d91:	push		rax
+0x9d92:	push		rsp
+0x9d93:	lea		r8, [rip + 0x1446]
+0x9d9a:	lea		rcx, [rip + 0x139f]
+0x9da1:	lea		rdi, [rip + 0x238]
+0x9da8:	call		0xa4e0
 find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x403ff0
-identify libc_start_main_start_call_offset : 0x1108
-identify libc_start_main_start_call_vaddr  : 0x401108
-#define LIBC_START_MAIN_ADDR_TYPE PTR
-#define LIB_C_START_MAIN_ADDR 0x403ff0
-#define FIRST_ENTRY_OFFSET 0x2148
-#define CONFIG_LOADER_TYPE LOAD_FROM_SHARE_MEM
-#define PATCH_DATA_SHARE_MEM_ID 123
-#define PATCH_DATA_MMAP_FILE_SIZE 0xd0c1
+identify libc_start_main_addr_type : code
+identify libc_start_main_addr              : 0xa4e0
+identify libc_start_main_start_call_offset : 0x9da8
+identify libc_start_main_start_call_vaddr  : 0x9da8
+#define LIBC_START_MAIN_ADDR_TYPE CODE
+#define LIB_C_START_MAIN_ADDR 0xa4e0
+#define FIRST_ENTRY_OFFSET 0xbe010
+#define CONFIG_LOADER_TYPE LOAD_FROM_SOCKET
+#define PATCH_DATA_SOCKET_SERVER_IP 16777343
+#define PATCH_DATA_SOCKET_SERVER_PORT 47086
+#define PATCH_DATA_MMAP_FILE_SIZE 0xdef5
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
-data_file:/home/runshine/HookUtilV3/test/..//out/normal/normal.datafile
-input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
-stage_one: /home/runshine/HookUtilV3/test/..//out/normal/stage_one
-check /home/runshine/HookUtilV3/test/..//out/normal/stage_one start
-check /home/runshine/HookUtilV3/test/..//out/normal/stage_one end
-0x4010e0:	endbr64		
-0x4010e4:	xor		ebp, ebp
-0x4010e6:	mov		r9, rdx
-0x4010e9:	pop		rsi
-0x4010ea:	mov		rdx, rsp
-0x4010ed:	and		rsp, 0xfffffffffffffff0
-0x4010f1:	push		rax
-0x4010f2:	push		rsp
-0x4010f3:	mov		r8, 0x401530
-0x4010fa:	mov		rcx, 0x4014c0
-0x401101:	mov		rdi, 0x40133d
-0x401108:	call		qword ptr [rip + 0x2ee2]
+data_file:/home/runshine/code/HookUtilV3/test/..//out/normal/normal.datafile
+input_elf: /home/runshine/code/HookUtilV3/test/..//out/input_elf
+stage_one: /home/runshine/code/HookUtilV3/test/..//out/normal/stage_one
+check /home/runshine/code/HookUtilV3/test/..//out/normal/stage_one start
+check /home/runshine/code/HookUtilV3/test/..//out/normal/stage_one end
+0x9d80:	endbr64		
+0x9d84:	xor		ebp, ebp
+0x9d86:	mov		r9, rdx
+0x9d89:	pop		rsi
+0x9d8a:	mov		rdx, rsp
+0x9d8d:	and		rsp, 0xfffffffffffffff0
+0x9d91:	push		rax
+0x9d92:	push		rsp
+0x9d93:	lea		r8, [rip + 0x1446]
+0x9d9a:	lea		rcx, [rip + 0x139f]
+0x9da1:	lea		rdi, [rip + 0x238]
+0x9da8:	call		0xa4e0
 find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x403ff0
-identify libc_start_main_start_call_offset : 0x1108
-identify libc_start_main_start_call_vaddr  : 0x401108
+identify libc_start_main_addr_type : code
+identify libc_start_main_addr              : 0xa4e0
+identify libc_start_main_start_call_offset : 0x9da8
+identify libc_start_main_start_call_vaddr  : 0x9da8
 generate done
 -------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
-data_file:/home/runshine/HookUtilV3/test/..//out/sandbox/sandbox.datafile
-input_elf: /home/runshine/HookUtilV3/test/..//out/input_elf
-stage_one: /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one
-check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one start
-check /home/runshine/HookUtilV3/test/..//out/sandbox/stage_one end
-0x4010e0:	endbr64		
-0x4010e4:	xor		ebp, ebp
-0x4010e6:	mov		r9, rdx
-0x4010e9:	pop		rsi
-0x4010ea:	mov		rdx, rsp
-0x4010ed:	and		rsp, 0xfffffffffffffff0
-0x4010f1:	push		rax
-0x4010f2:	push		rsp
-0x4010f3:	mov		r8, 0x401530
-0x4010fa:	mov		rcx, 0x4014c0
-0x401101:	mov		rdi, 0x40133d
-0x401108:	call		qword ptr [rip + 0x2ee2]
+data_file:/home/runshine/code/HookUtilV3/test/..//out/sandbox/sandbox.datafile
+input_elf: /home/runshine/code/HookUtilV3/test/..//out/input_elf
+stage_one: /home/runshine/code/HookUtilV3/test/..//out/sandbox/stage_one
+check /home/runshine/code/HookUtilV3/test/..//out/sandbox/stage_one start
+check /home/runshine/code/HookUtilV3/test/..//out/sandbox/stage_one end
+0x9d80:	endbr64		
+0x9d84:	xor		ebp, ebp
+0x9d86:	mov		r9, rdx
+0x9d89:	pop		rsi
+0x9d8a:	mov		rdx, rsp
+0x9d8d:	and		rsp, 0xfffffffffffffff0
+0x9d91:	push		rax
+0x9d92:	push		rsp
+0x9d93:	lea		r8, [rip + 0x1446]
+0x9d9a:	lea		rcx, [rip + 0x139f]
+0x9da1:	lea		rdi, [rip + 0x238]
+0x9da8:	call		0xa4e0
 find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x403ff0
-identify libc_start_main_start_call_offset : 0x1108
-identify libc_start_main_start_call_vaddr  : 0x401108
+identify libc_start_main_addr_type : code
+identify libc_start_main_addr              : 0xa4e0
+identify libc_start_main_start_call_offset : 0x9da8
+identify libc_start_main_start_call_vaddr  : 0x9da8
 generate done
 -------------------------------------------------------------------------------------------------------------

@@ -318,7 +318,9 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_conf
         char* project_root = cJSON_GetObjectItem(config,"project_root")->valuestring;
         char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
         snprintf(normal_data_file_path,sizeof(normal_data_file_path),"%s/%s/%s/%s",project_root,target_dir,mode,normal_data_file);
-        generate_stage_two_parameter(input_elf,normal_data_file_path,first_entry_offset);
+        //only PIE need to rewrite ELF_Load_base
+        if(((Elf_Ehdr*)input_elf_base)->e_type ==  ET_DYN || ((Elf_Ehdr*)input_elf_base)->e_type ==ET_REL)
+            generate_stage_two_parameter(input_elf,normal_data_file_path,first_entry_offset);
 
 
     }
@@ -370,36 +372,8 @@ int main(int argc,char* argv[]){
     int stage_one_config_fd = open(stage_one_config_h,O_RDWR|O_TRUNC|O_CREAT,0777);
     void* elf_load_base = NULL;
 
-    // PIE macro
-    {
-        Elf_Ehdr* ehdr = (Elf_Ehdr*)get_file_content_length(input_elf_path,0,sizeof(Elf_Ehdr));
-
-#ifdef __x86_64__
-        if(ehdr->e_machine != EM_X86_64){
-            logger("Arch not same, something wrong\n");
-            exit(-1);
-        }
-#elif __i386__
-        if(ehdr->e_machine != EM_386){
-            logger("Arch not same, something wrong\n");
-            exit(-1);
-        }
-#endif
 
 
-        switch(ehdr->e_type){
-            case ET_DYN:
-            case ET_REL:
-                write_marco_define(stage_one_config_fd,"IS_PIE","1");
-                break;
-            case ET_EXEC:
-                write_marco_define(stage_one_config_fd,"IS_PIE","0");
-                break;
-            default:
-                logger("unknown object type: %d\n",ehdr->e_type);
-                exit(-1);
-        }
-    }
     // process shell_code_defense
 
     process_start_function(tmp_input_file,config);

@@ -25,7 +25,9 @@ void generate_stage_two_parameter(char* elf_path,char* data_file_path){
     open_mmap_check(data_file_path,O_RDWR,&data_file_fd,(void**)&data_file_fd_base,PROT_READ|PROT_WRITE,MAP_SHARED,&data_file_size);
     LOADER_STAGE_TWO* two = (LOADER_STAGE_TWO*)data_file_fd_base;
     two->patch_data_length =  data_file_size;
+    logger("set stage_two: patch_data_length: %lx\n",two->patch_data_length);
     two->elf_load_base = (void*)get_elf_file_load_base(elf_path);
+    logger("set stage_two: elf_load_base: %lx\n",two->elf_load_base);
     close_and_munmap(data_file_path,data_file_fd,data_file_fd_base,&data_file_size);
 }
 

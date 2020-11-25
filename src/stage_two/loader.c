@@ -6,12 +6,12 @@
 
 #include "debug_config.h"
 #include "arch/common/arch.h"
-#include "stage_one_config.h"
 
 
 
 #if PATCH_DEBUG
 //#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
+//void my_write_stdout(const char* str);
 #define DEBUG_LOG(format,...)
 #else
 #define DEBUG_LOG(format,...)
@@ -36,6 +36,8 @@ void _start(STAGE_TWO_MAIN_ARG){
     }
 
 #if(IS_PIE == 0)
+
+
 #elif(IS_PIE == 1)
     unsigned long tmp_addr = (unsigned long)__builtin_return_address(0);
     two_base ->elf_load_base = (void*)DOWN_PADDING((tmp_addr - (unsigned long)(two_base ->elf_load_base)),0x1000);
@@ -102,3 +104,19 @@ void _start(STAGE_TWO_MAIN_ARG){
         ARGC ++;
     patch_entry(STAGE_THREE_MAIN_ARG_VALUE,(void*)three_base);
 }
+
+#if PATCH_DEBUG
+/*int my_strlen(const char *src){
+    int i = 0;
+    while(src[i]!='\0')
+        i++;
+    return i;
+}
+void my_write_stdout(const char* str){
+    long res;
+    asm_write(1,str,my_strlen(str),res);
+}*/
+#else
+
+
+#endif

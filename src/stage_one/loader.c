@@ -8,7 +8,7 @@
 
 
 #if PATCH_DEBUG
-/*#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
+#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
 static int my_strlen(const char *src){
     int i = 0;
     while(src[i]!='\0')
@@ -18,8 +18,7 @@ static int my_strlen(const char *src){
 static void my_write_stdout(const char* str){
     long res;
     asm_write(1,str,my_strlen(str),res);
-}*/
-#define DEBUG_LOG(STR)
+}
 #else
 #define DEBUG_LOG(STR)
 #endif
@@ -30,7 +29,6 @@ extern void _start();
 
 #if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
 
-//inliribute__((always_inline))
 
 unsigned long __loader_start(STAGE_ONE_MAIN_ARG){
     char patch_data[] = {PATCH_DATA_PATH};
@@ -86,7 +84,6 @@ unsigned long __loader_start(STAGE_ONE_MAIN_ARG){
 
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_MEM)
 
-//inline __attribute__((always_inline))
 
 unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
     DEBUG_LOG("__loader_start from memory");
@@ -109,7 +106,6 @@ unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
     #error "Unknown IS_PIE"
 #endif
 
-    //void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
     void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + sizeof(LOADER_STAGE_TWO));
     stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
 
@@ -143,7 +139,6 @@ unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
 #define        SHM_REMAP        040000        /* take-over region on attach */
 #define        SHM_EXEC        0100000        /* execution access */
 
-//inline __attribute__((always_inline))
 
 unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
     register char *g_elf_base;
@@ -203,7 +198,6 @@ unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SOCKET)
 
-//inline __attribute__((always_inline))
 
 unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
     //if(((long)_start / 0x1000) %10 ==0)

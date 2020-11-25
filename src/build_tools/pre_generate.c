@@ -129,8 +129,41 @@ int main(int argc,char* argv[]){
 #error("PATCH_DEBUG Not Defined")
 #endif
 
+
+        // PIE macro
+        Elf_Ehdr* ehdr = (Elf_Ehdr*)get_file_content_length(input_elf_path,0,sizeof(Elf_Ehdr));
+
+#ifdef __x86_64__
+        if(ehdr->e_machine != EM_X86_64){
+            logger("Arch not same, something wrong\n");
+            exit(-1);
+        }
+#elif __i386__
+        if(ehdr->e_machine != EM_386){
+            logger("Arch not same, something wrong\n");
+            exit(-1);
+        }
+#endif
+
+
+        switch(ehdr->e_type){
+            case ET_DYN:
+            case ET_REL:
+                write_marco_define(debug_config_file_fd,"IS_PIE","1");
+                break;
+            case ET_EXEC:
+                write_marco_define(debug_config_file_fd,"IS_PIE","0");
+                break;
+            default:
+                logger("unknown object type: %d\n",ehdr->e_type);
+                exit(-1);
+        }
+
+
         close(debug_config_file_fd);
     }
+
+
 
 
     if(strcmp(mode,"normal") == 0) {
