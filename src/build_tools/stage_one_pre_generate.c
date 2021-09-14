@@ -391,6 +391,11 @@ int main(int argc,char* argv[]){
         }
         char* libc_start_main_addr = cJSON_GetObjectItem(config,"libc_start_main_addr")->valuestring;
         write_marco_define(stage_one_config_fd,"LIB_C_START_MAIN_ADDR",libc_start_main_addr);
+
+        int is_v5 = cJSON_GetObjectItem(config, "v5");
+        if(is_v5){
+            write_marco_define(stage_one_config_fd, "USE_V5", "");
+        }
     }
 
     process_first_entry_offset(tmp_input_file,config,stage_one_config_fd,&phdr_has_moved,mode);

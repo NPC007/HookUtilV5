@@ -28,57 +28,20 @@ extern void _start();
 
 
 #if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
+__attribute__((section(".text"))) char patch_data[] = {PATCH_DATA_PATH};
 
 
 unsigned long __loader_start(STAGE_ONE_MAIN_ARG){
-    char patch_data[] = {PATCH_DATA_PATH};
     long patch_fd = 0;
     long res = 0;
     char *g_elf_base;
     DEBUG_LOG("__loader_start from file");
     asm_open(patch_data,O_RDONLY,0,patch_fd);
-    if(patch_fd < 0)
-        goto failed_load_patch;
+
     char* mmap_addr = NULL;
     asm_mmap(0,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0,mmap_addr);
-    //if((unsigned long)mmap_addr>= ((unsigned long)-1) - 0x1000) {
-    //    //asm_close(patch_fd,res);
-    //    goto failed_load_patch;
-    //}
-
-
-#if(IS_PIE == 0)
-#elif(IS_PIE == 1)
-    //LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)mmap_addr;
-    //two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
-    //two_base ->elf_load_base = FIRST_ENTRY_OFFSET;
-#else
-    #error "Unknown IS_PIE"
-#endif
-
-    //void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
     void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
     stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
-
-
-    failed_load_patch:
-    //if(mmap_addr>0)asm_munmap((void*)mmap_addr,UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),res);
-#if(IS_PIE == 0)
-#if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-    return *(unsigned long*)LIB_C_START_MAIN_ADDR;
-#elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
-    return LIB_C_START_MAIN_ADDR;
-#endif
-#elif(IS_PIE == 1)
-    g_elf_base = (char*)_start - FIRST_ENTRY_OFFSET;
-    #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-        return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
-    #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
-        return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
-    #endif
-#else
-#error "Unknown IS_PIE"
-#endif
 }
 
 

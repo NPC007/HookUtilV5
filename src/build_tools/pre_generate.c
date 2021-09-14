@@ -192,6 +192,11 @@ int main(int argc,char* argv[]){
             char *io_inline_hook = cJSON_GetObjectItem(config, "io_inline_hook")->valuestring;
             write_marco_define(config_file_fd, "USE_IO_INLINE_REDIRECT", io_inline_hook);
 
+            int is_v5 = cJSON_GetObjectItem(config, "v5");
+            if(is_v5){
+                write_marco_define(config_file_fd, "USE_V5", "");
+            }
+
             if (cJSON_GetObjectItem(config, "shell_code_defense") == NULL) {
                 logger("shell_code_defense is not set\n");
                 exit(-1);
