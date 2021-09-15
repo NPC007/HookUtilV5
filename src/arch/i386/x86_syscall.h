@@ -31,6 +31,11 @@
                                                         :"0"(__NR_open),"b"((long)FILE),"c"((long)FLAG),"d"((long)MODE)\
                                                         :"cc","memory");
 
+#define asm_open_one(FILE,FLAG,MODE,RES) __asm__ __volatile__ ("int $0x80"\
+                                                        :"=a" (RES)\
+                                                        :"0"(__NR_open),"b"((long)FILE),"c"((long)FLAG),"d"((long)MODE)\
+                                                        :"cc","memory");
+
 #define asm_close(FD,RES) __asm__ __volatile__ ("int $0x80"\
                                             :"=a" (RES)\
                                             :"0"(__NR_close),"b"((long)FD));
@@ -274,6 +279,12 @@ typedef struct SYS_GETSOCKOPT_STRUCT{
                                                 :"0"(__NR_mmap2),"b"((long)ADDR),"c"((long)LENGTH),"d"((long)PROT),"S"((long)FLAGS),"D"((long)FD)\
                                                 :"cc","memory");})
 
+
+#define asm_mmap_one(ADDR,LENGTH,PROT,FLAGS,FD,OFFSET,RES) ({\
+                                                __asm__ __volatile__("pushl %%ebp;xor %%ebp,%%ebp;int $0x80;popl %%ebp"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_mmap2),"b"((long)ADDR),"c"((long)LENGTH),"d"((long)PROT),"S"((long)FLAGS),"D"((long)FD)\
+                                                :"cc","memory");})
 
 #define asm_munmap(ADDR,LENGTH,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
