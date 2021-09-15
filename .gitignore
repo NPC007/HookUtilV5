@@ -5,3 +5,5 @@
 /docker/image_build_script/build/
 /docker/restrict_image_build_script/build/
 /build/
+/out/normal/
+/out/sandbo/

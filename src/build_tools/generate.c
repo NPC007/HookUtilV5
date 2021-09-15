@@ -181,7 +181,7 @@ void add_stage_one_code_to_eh_frame(char* libloader_stage_one,char* output_elf,i
     cJSON *tmp = cJSON_GetObjectItem(config, "libc_start_main_addr_type");
     if(tmp) logger("%s\n",tmp->valuestring);
 
-    logger("%s\n",cJSON_GetObjectItem(config, "scu_init_mov_vaddr")->valuestring);
+    //logger("%s\n",cJSON_GetObjectItem(config, "scu_init_mov_vaddr")->valuestring);
     if(cJSON_GetObjectItem(config, "libc_start_main_addr_type")){
         modify_call_libc_start_main(output_elf_base,(long) ((char*)*elf_load_base+ *first_entry_offset ),config);
     }else if(cJSON_GetObjectItem(config, "scu_init_mov_vaddr")){

@@ -5,5 +5,4 @@
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
 #define USE_IO_INLINE_REDIRECT 1
-#define USE_V5 
 #define SHELL_CODE_DEFENSE 1
