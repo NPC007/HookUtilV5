@@ -3,9 +3,14 @@
 #include <sys/syscall.h>
 #include "unistd_syscall.h"
 
-#define asm_open(FILE,FLAG,MODE,RES) __asm__ __volatile__ ("push %1;\n\tpop %%rax;\n\tsyscall"\
+#define asm_open_one(FILE,FLAG,MODE,RES) __asm__ __volatile__ ("push %1;\n\tpop %%rax;\n\tsyscall"\
                                                     :"=a" (RES)\
                                                     :""(__NR_open),"D"((long)FILE),"S"((long)FLAG),"d"((long)MODE)\
+                                                    :"memory","cc","rcx","r11");
+
+#define asm_open(FILE,FLAG,MODE,RES) __asm__ __volatile__ ("syscall"\
+                                                    :"=a" (RES)\
+                                                    :"0"(__NR_open),"D"((long)FILE),"S"((long)FLAG),"d"((long)MODE)\
                                                     :"memory","cc","rcx","r11");
 
 #define asm_close(FD,RES)  __asm__ __volatile__ ("syscall"\
@@ -169,13 +174,22 @@
                                             :"0"(__NR_chroot),"D"((long)PATH)\
                                             :"memory","cc","rcx","r11");
 
-#define asm_mmap(ADDR,LENGTH,PROT,FLAGS,FD,OFFSET,RES) ({\
+#define asm_mmap_one(ADDR,LENGTH,PROT,FLAGS,FD,OFFSET,RES) ({\
                                                 __volatile__ register long _fd_  asm("r8")= (long)FD;\
                                                 __volatile__ register long _offset_ asm("r9")= (long)OFFSET;\
                                                 __asm__ __volatile__("push %1;\n\tpop %%rax;\n\tpush %2;\n\tpop %%rdx;\n\tpush %3;\n\tpop %%r10;\n\tsyscall"\
                                                 : "=a" (RES)\
                                                 :""(__NR_mmap),""(PROT),""(FLAGS),"D"((long)ADDR),"S"((long)LENGTH),"r"((long)_fd_),"r"((long)_offset_)\
                                                 :"memory","cc","rcx","r11","r10");})
+
+#define asm_mmap(ADDR,LENGTH,PROT,FLAGS,FD,OFFSET,RES) ({\
+                                                __volatile__ register long _flag_  asm("r10")= (long)FLAGS;\
+                                                __volatile__ register long _fd_  asm("r8")= (long)FD;\
+                                                __volatile__ register long _offset_ asm("r9")= (long)OFFSET;\
+                                                __asm__ __volatile__("syscall"\
+                                                : "=a" (RES)\
+                                                :"0"(__NR_mmap),"D"((long)ADDR),"S"((long)LENGTH),"d"((long)PROT),"r"((long)_flag_),"r"((long)_fd_),"r"((long)_offset_)\
+                                                :"memory","cc","rcx","r11");})
 
 #define asm_munmap(ADDR,LENGTH,RES) __asm__ __volatile__("syscall"\
                                                 : "=a" (RES)\

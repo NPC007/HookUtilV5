@@ -1,22 +1,23 @@
 {
-  "project_root":"/home/runshine/code/HookUtilV3/test/../",
+  "v5":"adf",
+  "project_root":"/home/lometsj/HookUtilV5/awd/../",
   "target_dir": "out",
   "input_elf":"input_elf",
 
   "loader_stage_one_position":"eh_frame",
-  "loader_stage_other_position":"socket",
+  "loader_stage_other_position":"file",
 
-  "loader_stage_other_share_memory_id":"123",
-  "loader_stage_other_socket_server_ip":"127.0.0.1",
-  "loader_stage_other_socket_server_port":"61111",
-  "loader_stage_other_file_path":"/tmp/1",
+  "loader_stage_other_share_memory_id":"124",
+  "loader_stage_other_socket_server_ip":"",
+  "loader_stage_other_socket_server_port": "1241",
+  "loader_stage_other_file_path":"/tmp/2",
 
   "shell_code_defense": "1",
 
   "tcp_time_out":"1",
 
-  "sandbox_server_ip":"127.0.0.1",
-  "sandbox_server_port": "60003",
+  "sandbox_server_ip":"",
+  "sandbox_server_port": "1237",
   "data_file_path" : "sandbox.datafile"
 
 }

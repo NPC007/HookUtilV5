@@ -53,7 +53,7 @@ RUN python3 -m pip install setuptools --upgrade
 
 RUN python3 -m pip install pwntools requests capstone keystone-engine unicorn keystone-engine ropper
 
-RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
+RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 
 RUN python2 get-pip.py
 

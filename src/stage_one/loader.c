@@ -36,10 +36,10 @@ unsigned long __loader_start(STAGE_ONE_MAIN_ARG){
     long res = 0;
     char *g_elf_base;
     DEBUG_LOG("__loader_start from file");
-    asm_open(patch_data,O_RDONLY,0,patch_fd);
+    asm_open_one(patch_data,O_RDONLY,0,patch_fd);
 
     char* mmap_addr = NULL;
-    asm_mmap(0,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0,mmap_addr);
+    asm_mmap_one(0,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0,mmap_addr);
     void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
     stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
 }
