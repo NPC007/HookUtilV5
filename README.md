@@ -1,3 +1,11 @@
+# v5
+开启v5：
+- 在CMkaeList.txt 中`set(IS_V5 true)`
+- 在config.json 中添加key为`v5`的键值对（值无所谓）
+
+
+
+
 # -HookUtilV3  
  HookUtilV3
 
