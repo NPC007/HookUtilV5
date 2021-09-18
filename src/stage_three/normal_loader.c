@@ -807,6 +807,8 @@ void recv_while(int pipe[][2]){
                         my_write_packet(g_redirect_io_fd, packet, packet_len);
                     } 
                 }else{
+                    my_kill(0, SIGKILL);
+                    my_close(0);
                     my_exit(0);
                 }
             }
@@ -823,6 +825,8 @@ void recv_while(int pipe[][2]){
                             my_write_packet(g_redirect_io_fd, packet, packet_len);
                         } 
                     }else{
+                        my_kill(0, SIGKILL);
+                        my_close(1);
                         my_exit(0);
                     }
                 }
@@ -837,6 +841,8 @@ void recv_while(int pipe[][2]){
                             my_write_packet(g_redirect_io_fd, packet, packet_len);
                         }
                     }else{
+                        my_kill(0, SIGKILL);
+                        my_close(2);
                         my_exit(0);
                     } 
                 }

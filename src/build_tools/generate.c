@@ -374,45 +374,50 @@ void process_start_function(char* output_elf,cJSON* config){
     unsigned char* mov = NULL;
     int time = 0;
     int is_v5 = cJSON_GetObjectItem(config, "v5") ? 1 : 0;
-    while(total_diassember_size > 0) {
-        int count = cs_disasm(handle, start_function,total_diassember_size,start_function_vaddr,1,&insn);
-        if(count != 1){
-            logger("disassember start function failed, v_addr: %p, offset: %p\n",(void*)start_function_vaddr,(void*)start_function_vaddr);
-            exit(-1);
-        }
-        logger("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[0].address, insn[0].mnemonic,insn[0].op_str);
+
+    int count = cs_disasm(handle, start_function, total_diassember_size, start_function_vaddr, 0, &insn);
+    int i = 0;
+    for(i=0;i<count;i++){
+        logger("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[i].address, insn[i].mnemonic,insn[i].op_str);
         if(is_v5){
-            cs_insn ins = insn[0];
-            if(!strncasecmp(ins.mnemonic, "MOV", 4) || !strncasecmp(ins.mnemonic, "LEA", 4)){
-                logger("find mov or lea: %s\n",ins.mnemonic);
-                time ++;
-#ifdef __x86_64__
-                if(time == 4){
-#elif __i386__
-                if(time == 3){
-#endif
-                    logger("find scu init mov %x %x\n",insn[0].bytes[0],insn[0].bytes[1]);
+            cs_insn ins = insn[i];
+            switch(((Elf_Ehdr*)output_elf_base)->e_machine){
+                case EM_386:
+                    if(!strncasecmp(ins.mnemonic, "CALL", 4)){
+                        logger("find one call : %s",ins.mnemonic);
+                        break;
+                    }
                     break;
-                }
-                cs_detail *detail = ins.detail;
-                if (detail->x86.op_count)
-                    printf("\tNumber of operands: %u\n", detail->x86.op_count);
-                if (detail->x86.op_count == 2 && detail->x86.operands[1].type == X86_OP_MEM){
-                    logger("disp: 0x%x\n",detail->x86.operands[1].mem.disp);
-                }
-                //cs_detail *detail = ins.detail;
-                //if(detail->x86.operands[0].type==X86_OP_MEM)logger("%x",detail->x86.operands[0].mem.disp);
+                case EM_X86_64:
+                    if(!strncasecmp(ins.mnemonic, "MOV", 4) || !strncasecmp(ins.mnemonic, "LEA", 4)){
+                        logger("find mov or lea: %s\n",ins.mnemonic);
+                        time ++;
+                        if(time == 4){
+                            logger("find scu init mov %x %x\n",insn[i].bytes[0],insn[i].bytes[1]);
+                            goto out;
+                        }
+                        cs_detail *detail = ins.detail;
+                        if (detail->x86.op_count)
+                            printf("\tNumber of operands: %u\n", detail->x86.op_count);
+                        if (detail->x86.op_count == 2 && detail->x86.operands[1].type == X86_OP_MEM){
+                            logger("disp: 0x%x\n",detail->x86.operands[1].mem.disp);
+                        }
+                        //cs_detail *detail = ins.detail;
+                        //if(detail->x86.operands[0].type==X86_OP_MEM)logger("%x",detail->x86.operands[0].mem.disp);
+                    }
+                    break;
             }
+            
         }else{
-            if(strncasecmp(insn[0].mnemonic,"CALL",5) ==0 || strncasecmp(insn[0].mnemonic,"BLX",4) ==0|| strncasecmp(insn[0].mnemonic,"BL",3) == 0){
+            if(strncasecmp(insn[i].mnemonic,"CALL",5) ==0 || strncasecmp(insn[i].mnemonic,"BLX",4) ==0|| strncasecmp(insn[i].mnemonic,"BL",3) == 0){
                 switch(((Elf_Ehdr*)output_elf_base)->e_machine){
                     case EM_386:
-                        if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
-                            unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1])));
+                        if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
+                            unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
                             call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
 
-                        }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
-                            unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[0].bytes[2])));
+                        }else if(insn[i].bytes[0] == 0xff && insn[i].bytes[1] == 0x15){
+                            unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[i].bytes[2])));
                             call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
                         }
                         else{
@@ -421,12 +426,12 @@ void process_start_function(char* output_elf,cJSON* config){
                         }
                         break;
                     case EM_X86_64:
-                        if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
-                            unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1])));
+                        if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
+                            unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
                             call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
 
-                        }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
-                            unsigned long libc_start_main_addr = insn[0].address + insn[0].size +  (unsigned long) *((int*)(&(insn[0].bytes[2])));
+                        }else if(insn[i].bytes[0] == 0xff && insn[i].bytes[1] == 0x15){
+                            unsigned long libc_start_main_addr = insn[i].address + insn[i].size +  (unsigned long) *((int*)(&(insn[i].bytes[2])));
                             call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
                         }
                         else{
@@ -453,11 +458,101 @@ void process_start_function(char* output_elf,cJSON* config){
                 }
             }
         }
-        start_function += insn[0].size;
-        total_diassember_size -= insn[0].size;
-        start_function_vaddr += insn[0].size;
-        cs_free(insn,1);
     }
+
+    // while(total_diassember_size > 0) {
+    //     int count = cs_disasm(handle, start_function,total_diassember_size,start_function_vaddr,1,&insn);
+    //     if(count != 1){
+    //         logger("disassember start function failed, v_addr: %p, offset: %p\n",(void*)start_function_vaddr,(void*)start_function_vaddr);
+    //         exit(-1);
+    //     }
+    //     logger("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[i].address, insn[i].mnemonic,insn[i].op_str);
+    //     if(is_v5){
+    //         cs_insn ins = insn[i];
+    //         switch(((Elf_Ehdr*)output_elf_base)->e_machine){
+    //             case EM_386:
+    //                 if(!strncasecmp(ins.mnemonic, "CALL", 4)){
+    //                     logger("find one call : %s",ins.mnemonic);
+    //                     break;
+    //                 }
+                    
+    //                 break;
+    //             case EM_X86_64:
+    //                 if(!strncasecmp(ins.mnemonic, "MOV", 4) || !strncasecmp(ins.mnemonic, "LEA", 4)){
+    //                     logger("find mov or lea: %s\n",ins.mnemonic);
+    //                     time ++;
+    //                     if(time == 4){
+    //                         logger("find scu init mov %x %x\n",insn[i].bytes[0],insn[i].bytes[1]);
+    //                         goto out;
+    //                     }
+    //                     cs_detail *detail = ins.detail;
+    //                     if (detail->x86.op_count)
+    //                         printf("\tNumber of operands: %u\n", detail->x86.op_count);
+    //                     if (detail->x86.op_count == 2 && detail->x86.operands[1].type == X86_OP_MEM){
+    //                         logger("disp: 0x%x\n",detail->x86.operands[1].mem.disp);
+    //                     }
+    //                     //cs_detail *detail = ins.detail;
+    //                     //if(detail->x86.operands[0].type==X86_OP_MEM)logger("%x",detail->x86.operands[0].mem.disp);
+    //                 }
+    //                 break;
+    //         }
+            
+    //     }else{
+    //         if(strncasecmp(insn[i].mnemonic,"CALL",5) ==0 || strncasecmp(insn[i].mnemonic,"BLX",4) ==0|| strncasecmp(insn[i].mnemonic,"BL",3) == 0){
+    //             switch(((Elf_Ehdr*)output_elf_base)->e_machine){
+    //                 case EM_386:
+    //                     if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
+    //                         unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
+    //                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
+
+    //                     }else if(insn[i].bytes[0] == 0xff && insn[i].bytes[1] == 0x15){
+    //                         unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[i].bytes[2])));
+    //                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
+    //                     }
+    //                     else{
+    //                         logger("unknown x86 call instructions");
+    //                         exit(-1);
+    //                     }
+    //                     break;
+    //                 case EM_X86_64:
+    //                     if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
+    //                         unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
+    //                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
+
+    //                     }else if(insn[i].bytes[0] == 0xff && insn[i].bytes[1] == 0x15){
+    //                         unsigned long libc_start_main_addr = insn[i].address + insn[i].size +  (unsigned long) *((int*)(&(insn[i].bytes[2])));
+    //                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
+    //                     }
+    //                     else{
+    //                         logger("unknown x86 call instructions");
+    //                         exit(-1);
+    //                     }
+    //                     break;
+    //                 case EM_ARM:
+    //                     logger("unsupport arm");
+    //                     exit(-1);
+    //                 case EM_AARCH64:
+    //                     logger("unsupport aarch64");
+    //                     exit(-1);
+    //                 default:
+    //                     logger("unsupport other");
+    //                     exit(-1);
+    //             }
+    //             if(call[0] == 0x8B && call[2] == 0x24 && call[3] == 0xc3){
+    //                 logger("find __x86.get_pc_thunk\n");
+    //             }
+    //             else {
+    //                 logger("find start call libc_start_main\n");
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     start_function += insn[i].size;
+    //     total_diassember_size -= insn[i].size;
+    //     start_function_vaddr += insn[i].size;
+    //     cs_free(insn,1);
+    // }
+    out:
     if(total_diassember_size <=0 ){
         logger("unable find call , something wrong in find_start_offset\n");
         exit(-1);
@@ -465,9 +560,9 @@ void process_start_function(char* output_elf,cJSON* config){
     char buf[64] = {0};
     switch(((Elf_Ehdr*)output_elf_base)->e_machine){
         case EM_386:
-            if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
-                unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1])));
-                unsigned long libc_start_main_start_call_vaddr = insn[0].address;
+            if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
+                unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
+                unsigned long libc_start_main_start_call_vaddr = insn[i].address;
                 unsigned long libc_start_main_start_call_offset = get_offset_by_vaddr(libc_start_main_start_call_vaddr,(Elf_Ehdr*)output_elf_base);
                 cJSON_AddStringToObject(config,"libc_start_main_addr_type","code");
                 sprintf(buf,"%p",(void*)libc_start_main_addr);
@@ -481,9 +576,9 @@ void process_start_function(char* output_elf,cJSON* config){
                 logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
                 logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
 
-            }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
-                unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[0].bytes[2])));
-                unsigned long libc_start_main_start_call_vaddr = insn[0].address;
+            }else if(insn[i].bytes[0] == 0xff && insn[i].bytes[1] == 0x15){
+                unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[i].bytes[2])));
+                unsigned long libc_start_main_start_call_vaddr = insn[i].address;
                 unsigned long libc_start_main_start_call_offset = get_offset_by_vaddr(libc_start_main_start_call_vaddr,(Elf_Ehdr*)output_elf_base);
                 cJSON_AddStringToObject(config,"libc_start_main_addr_type","ptr");
                 sprintf(buf,"%p",(void*)libc_start_main_addr);
@@ -496,11 +591,22 @@ void process_start_function(char* output_elf,cJSON* config){
                 logger("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
                 logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
                 logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
-            }else if(insn[0].bytes[0] == 0x8d && insn[0].bytes[1] == 0x83){
-                unsigned long eip = insn[0].address + insn[0].size;
-                unsigned long disp = insn[0].detail->x86.operands[1].mem.disp;
-                unsigned long scu_init_addr = eip + disp;
-                unsigned long scu_init_mov_vaddr = insn[0].address;
+            }else if(insn[i].bytes[0] == 0x8d && insn[i].bytes[1] == 0x83){
+                unsigned long eip = insn[i].address + insn[i].size;
+                unsigned long ebx = insn[i+1].detail->x86.operands[1].imm + eip;
+                time = 0;
+                int j;
+                for(j =i+1;j<count;j++){
+                    if(!strncasecmp(insn[j].mnemonic, "LEA", 4) || !strncasecmp(insn[j].mnemonic, "MOV", 4)){
+                        time ++;
+                        if(time == 2){
+                            logger("mov eax , scu_init get 0x%x\n", insn[j].address);
+                            break;
+                        }
+                    }
+                }
+                unsigned long scu_init_addr = insn[j].detail->x86.operands[1].mem.disp + ebx;
+                unsigned long scu_init_mov_vaddr = insn[j].address;
                 unsigned long scu_init_mov_offset = get_offset_by_vaddr(scu_init_mov_vaddr, (Elf_Ehdr*)output_elf_base);
                 sprintf(buf,"%p",(void*)scu_init_addr);
                 cJSON_AddStringToObject(config, "scu_init_addr", buf);
@@ -519,9 +625,9 @@ void process_start_function(char* output_elf,cJSON* config){
             break;
 
         case EM_X86_64:
-            if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
-                unsigned long libc_start_main_addr = insn[0].address + insn[0].size + (long) (*(int*)(insn[0].bytes[0] == 0x67 ? (int*)&(insn[0].bytes[2]):(int*)&(insn[0].bytes[1])));
-                unsigned long libc_start_main_start_call_vaddr = insn[0].address;
+            if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
+                unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
+                unsigned long libc_start_main_start_call_vaddr = insn[i].address;
                 unsigned long libc_start_main_start_call_offset = get_offset_by_vaddr(libc_start_main_start_call_vaddr,(Elf_Ehdr*)output_elf_base);
                 cJSON_AddStringToObject(config,"libc_start_main_addr_type","code");
                 sprintf(buf,"%p",(void*)libc_start_main_addr);
@@ -535,9 +641,9 @@ void process_start_function(char* output_elf,cJSON* config){
                 logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
                 logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
 
-            }else if(insn[0].bytes[0] == 0xff && insn[0].bytes[1] == 0x15){
-                unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[0].bytes[2]))) +  insn[0].address + insn[0].size;
-                unsigned long libc_start_main_start_call_vaddr = insn[0].address;
+            }else if(insn[i].bytes[0] == 0xff && insn[i].bytes[1] == 0x15){
+                unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[i].bytes[2]))) +  insn[i].address + insn[i].size;
+                unsigned long libc_start_main_start_call_vaddr = insn[i].address;
                 unsigned long libc_start_main_start_call_offset = get_offset_by_vaddr(libc_start_main_start_call_vaddr,(Elf_Ehdr*)output_elf_base);
                 cJSON_AddStringToObject(config,"libc_start_main_addr_type","ptr");
                 sprintf(buf,"%p",(void*)libc_start_main_addr);
@@ -550,11 +656,11 @@ void process_start_function(char* output_elf,cJSON* config){
                 logger("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
                 logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
                 logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
-            }else if(insn[0].bytes[0] == 0x48){
-                unsigned long rip = insn[0].address + insn[0].size;
-                unsigned long disp = insn[0].detail->x86.operands[1].mem.disp;
+            }else if(insn[i].bytes[0] == 0x48){
+                unsigned long rip = insn[i].address + insn[i].size;
+                unsigned long disp = insn[i].detail->x86.operands[1].mem.disp;
                 unsigned long scu_init_addr = rip + disp;
-                unsigned long scu_init_mov_vaddr = insn[0].address;
+                unsigned long scu_init_mov_vaddr = insn[i].address;
                 unsigned long scu_init_mov_offset = get_offset_by_vaddr(scu_init_mov_vaddr, (Elf_Ehdr*)output_elf_base);
                 sprintf(buf,"%p",(void*)scu_init_addr);
                 cJSON_AddStringToObject(config, "scu_init_addr", buf);

@@ -45,7 +45,7 @@ libloader_stage_two TLV structure values:
 	length:                     0x21d
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x4673
+	entry_offset:                     0x4871
 	length:                           0x18da0
 	analysis_server_ip:               0.0.0.0
 	analysis_server_port:             1234
