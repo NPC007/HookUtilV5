@@ -1990,6 +1990,22 @@ static int ____write(int fd,char* buf,ssize_t size){
     return ret;
 }
 
+void recv_while(){
+    char buf[131082];
+    size_t len = 0;
+    int packet_len;
+    char packet[131082];
+    if(len = read(0, buf, 131082)){
+        write(1, buf, len);
+        if(g_redirect_io_fd > 0){
+            
+            build_packet(DATA_OUT, buf, -1, packet, &packet_len);
+            my_write_packet(g_redirect_io_fd, packet, packet_len);
+            asdfas
+        }
+    }
+}
+
 
 IN_LINE void dynamic_io_redirect_hook(){
     {
@@ -2005,6 +2021,22 @@ IN_LINE void dynamic_io_redirect_hook(){
         char* write_handler = lookup_symbols(write_str);
         if(write_handler!=NULL)
             dynamic_hook_function(write_handler,hook_write_handler);
+    }
+    {
+        int pipe_stdout[2];
+        my_pipe(pipe_stdout);
+        if(fork() == 0){
+            close(0);
+            my_dup2(pipe_stdout[0], 0);
+            close(pipe_stdout[1]);
+            recv_while();
+
+        }else{
+            close(1);
+            my_dup2(pipe_stdout[1], 1);
+            close(pipe_stdout[0]);
+        }
+        
     }
 
 }

@@ -22,6 +22,12 @@ IN_LINE long my_close(long fd){
     return res;
 }
 
+// IN_LINE long my_thread_create(void (*)(void)){
+//     long res = 0;
+//     asm_clone(flags, child_stack, ptid, ctid, tls, res);
+//     g_errno = (unsigned int) -res;
+// }
+
 IN_LINE long my_mprotect(void *start, long len, long prot){
     long res = 0;
     asm_mprotect((long)start,(long)len,(long)prot,res);

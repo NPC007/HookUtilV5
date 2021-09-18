@@ -15,6 +15,7 @@ check_eh_frame_section_executable success, ef_frame is executable
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
 #define USE_IO_INLINE_REDIRECT 1
+#define USE_V5 
 #define SHELL_CODE_DEFENSE 1
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
@@ -44,13 +45,13 @@ libloader_stage_two TLV structure values:
 	length:                     0x21d
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x4515
-	length:                           0x17d80
+	entry_offset:                     0x4673
+	length:                           0x18da0
 	analysis_server_ip:               0.0.0.0
 	analysis_server_port:             1234
 	sandbox_server_ip:                0.0.0.0
 	sandbox_server_port:              0
-set stage_two: patch_data_length: 19000
+set stage_two: patch_data_length: 1a000
 set stage_two: elf_load_base: 0
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
@@ -97,10 +98,11 @@ identify libc_start_main_start_call_offset : 0x8c4
 identify libc_start_main_start_call_vaddr  : 0x8c4
 #define LIBC_START_MAIN_ADDR_TYPE PTR
 #define LIB_C_START_MAIN_ADDR 0x201fe0
+#define USE_V5 
 #define FIRST_ENTRY_OFFSET 0xc70
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
 #define PATCH_DATA_PATH "/tmp/1"
-#define PATCH_DATA_MMAP_FILE_SIZE 0x1803d
+#define PATCH_DATA_MMAP_FILE_SIZE 0x1905d
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
 stage_one_normal_config.h: /home/lometsj/HookUtilV5/awd/..//src/auto_generate/sandbox/stage_one_config.h
@@ -138,23 +140,27 @@ check /home/lometsj/HookUtilV5/awd/..//out/normal/stage_one start
 check /home/lometsj/HookUtilV5/awd/..//out/normal/stage_one end
 0x8a0:	xor		ebp, ebp
 0x8a2:	mov		r9, rdx
+find mov or lea: mov
 0x8a5:	pop		rsi
 0x8a6:	mov		rdx, rsp
+find mov or lea: mov
 0x8a9:	and		rsp, 0xfffffffffffffff0
 0x8ad:	push		rax
 0x8ae:	push		rsp
 0x8af:	lea		r8, [rip + 0x31a]
+find mov or lea: lea
+disp: 0x31a
 0x8b6:	lea		rcx, [rip + 0x2a3]
-0x8bd:	lea		rdi, [rip + 0xe6]
-0x8c4:	call		qword ptr [rip + 0x201716]
-find start call libc_start_main
-identify libc_start_main_addr_type : ptr
-identify libc_start_main_addr              : 0x201fe0
-identify libc_start_main_start_call_offset : 0x8c4
-identify libc_start_main_start_call_vaddr  : 0x8c4
+find mov or lea: lea
+find scu init mov 48 8d
+identify scu_init_addr:       0xb60
+identify scu_init_mov_vaddr:  0x8b6
+identify scu_init_mov_offset: 0x8b6
 copy end
-ptr
-modify_call_libc_start_main
+enter modify scu
+enter into x64 case mov[0]=48
+modify x64 mov
+modify mov scu init end
 mod end
 generate done
 -------------------------------------------------------------------------------------------------------------
@@ -184,6 +190,10 @@ identify scu_init_addr:       0xb60
 identify scu_init_mov_vaddr:  0x8b6
 identify scu_init_mov_offset: 0x8b6
 copy end
-enter modify scumodify mov scu init endmod end
+enter modify scu
+enter into x64 case mov[0]=48
+modify x64 mov
+modify mov scu init end
+mod end
 generate done
 -------------------------------------------------------------------------------------------------------------

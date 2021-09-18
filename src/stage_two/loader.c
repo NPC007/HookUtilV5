@@ -7,15 +7,12 @@
 #include "debug_config.h"
 #include "arch/common/arch.h"
 
-static void my_write_stdout(const char* str){
-    long res;
-    asm_write(1,str,my_strlen(str),res);
-}
+
 
 #if PATCH_DEBUG
-#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
+//#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
 //void my_write_stdout(const char* str);
-// #define DEBUG_LOG(format,...)
+#define DEBUG_LOG(format,...)
 #else
 #define DEBUG_LOG(format,...)
 #endif
