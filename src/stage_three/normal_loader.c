@@ -790,66 +790,66 @@ static int ____write(int fd,char* buf,ssize_t size){
     return ret;
 }
 
-void recv_while(int pipe[][2]){
+// void recv_while(int pipe[][2]){
 
-    char buf[0x1000];
-    int len = 0;
-    int packet_len;
-    char packet[0x1000];
-        //stdin
-        if(my_fork() == 0){
-            while(1){
-                len = my_read(0, buf, 0x1000);
-                if(len > 0){
-                    my_write(pipe[0][1], buf, len);
-                    if(g_redirect_io_fd > 0){
-                        build_packet(DATA_IN+3, buf, len, packet, &packet_len);
-                        my_write_packet(g_redirect_io_fd, packet, packet_len);
-                    } 
-                }else{
-                    my_kill(0, SIGKILL);
-                    my_close(0);
-                    my_exit(0);
-                }
-            }
+//     char buf[0x1000];
+//     int len = 0;
+//     int packet_len;
+//     char packet[0x1000];
+//         //stdin
+//         if(my_fork() == 0){
+//             while(1){
+//                 len = my_read(0, buf, 0x1000);
+//                 if(len > 0){
+//                     my_write(pipe[0][1], buf, len);
+//                     if(g_redirect_io_fd > 0){
+//                         build_packet(DATA_IN+3, buf, len, packet, &packet_len);
+//                         my_write_packet(g_redirect_io_fd, packet, packet_len);
+//                     } 
+//                 }else{
+//                     my_kill(0, SIGKILL);
+//                     my_close(0);
+//                     my_exit(0);
+//                 }
+//             }
 
-        }else{
-            if(my_fork()== 0){
-                while(1){
-                    //stdout
-                    len = my_read(pipe[1][0], buf, 0x1000);
-                    if(len > 0){
-                        my_write(1, buf, len);
-                        if(g_redirect_io_fd > 0){
-                            build_packet(DATA_OUT+3, buf, len, packet, &packet_len);
-                            my_write_packet(g_redirect_io_fd, packet, packet_len);
-                        } 
-                    }else{
-                        my_kill(0, SIGKILL);
-                        my_close(1);
-                        my_exit(0);
-                    }
-                }
-            }else{
-                while(1){
-                    //stderr
-                    len = my_read(pipe[2][0], buf, 0x1000);
-                    if(len > 0){
-                        my_write(2, buf, len);
-                        if(g_redirect_io_fd > 0){
-                            build_packet(DATA_ERR+3, buf, len, packet, &packet_len);
-                            my_write_packet(g_redirect_io_fd, packet, packet_len);
-                        }
-                    }else{
-                        my_kill(0, SIGKILL);
-                        my_close(2);
-                        my_exit(0);
-                    } 
-                }
+//         }else{
+//             if(my_fork()== 0){
+//                 while(1){
+//                     //stdout
+//                     len = my_read(pipe[1][0], buf, 0x1000);
+//                     if(len > 0){
+//                         my_write(1, buf, len);
+//                         if(g_redirect_io_fd > 0){
+//                             build_packet(DATA_OUT+3, buf, len, packet, &packet_len);
+//                             my_write_packet(g_redirect_io_fd, packet, packet_len);
+//                         } 
+//                     }else{
+//                         my_kill(0, SIGKILL);
+//                         my_close(1);
+//                         my_exit(0);
+//                     }
+//                 }
+//             }else{
+//                 while(1){
+//                     //stderr
+//                     len = my_read(pipe[2][0], buf, 0x1000);
+//                     if(len > 0){
+//                         my_write(2, buf, len);
+//                         if(g_redirect_io_fd > 0){
+//                             build_packet(DATA_ERR+3, buf, len, packet, &packet_len);
+//                             my_write_packet(g_redirect_io_fd, packet, packet_len);
+//                         }
+//                     }else{
+//                         my_kill(0, SIGKILL);
+//                         my_close(2);
+//                         my_exit(0);
+//                     } 
+//                 }
                 
-            }
-        }
-}
+//             }
+//         }
+// }
 
 
 IN_LINE void dynamic_io_redirect_hook(){
@@ -867,26 +867,26 @@ IN_LINE void dynamic_io_redirect_hook(){
         if(write_handler!=NULL)
             dynamic_hook_function(write_handler,hook_write_handler,write_str);
     }
-    {
-        int pipe[3][2];
-        my_pipe(pipe[0]);
-        my_pipe(pipe[1]);
-        my_pipe(pipe[2]);
-        if(my_fork() == 0){
-            recv_while(pipe);
+    // {
+    //     int pipe[3][2];
+    //     my_pipe(pipe[0]);
+    //     my_pipe(pipe[1]);
+    //     my_pipe(pipe[2]);
+    //     if(my_fork() == 0){
+    //         recv_while(pipe);
 
-        }else{
-            my_close(1);
-            my_close(2);
-            my_close(0);
-            my_dup2(pipe[0][0], 0);
-            my_dup2(pipe[1][1], 1);
-            my_dup2(pipe[2][1], 2);
-            my_close(pipe[0][1]);
-            my_close(pipe[1][0]);
-            my_close(pipe[2][0]);
-        }
-    }
+    //     }else{
+    //         my_close(1);
+    //         my_close(2);
+    //         my_close(0);
+    //         my_dup2(pipe[0][0], 0);
+    //         my_dup2(pipe[1][1], 1);
+    //         my_dup2(pipe[2][1], 2);
+    //         my_close(pipe[0][1]);
+    //         my_close(pipe[1][0]);
+    //         my_close(pipe[2][0]);
+    //     }
+    // }
 }
 
 

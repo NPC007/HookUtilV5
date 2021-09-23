@@ -31,23 +31,38 @@ extern void _start();
 __attribute__((section(".text"))) char patch_data[] = {PATCH_DATA_PATH};
 
 
-unsigned long __loader_start(STAGE_ONE_MAIN_ARG){
+unsigned long __loader_start(){
     long patch_fd = 0;
     long res = 0;
     char *g_elf_base;
     DEBUG_LOG("__loader_start from file");
 #ifdef __x86_64__
-    asm volatile("mov %rsp, %r14");
+    asm volatile("mov %rsp, %r14"); //依赖stage_one不对r14做破坏
+#elif __i386__
+    asm volatile("push %esp");
+    asm volatile("lea %0, %%ebx"::"m"(patch_data));
+
 #endif
     asm_open_one(patch_data,O_RDONLY,0,patch_fd);
 
+#ifdef __i386__
+    asm volatile("mov %edx, %ebx"); //arg 0
+    asm volatile("mov %eax, %edi"); //arg 5  fd
+#endif
     char* mmap_addr = NULL;
     asm_mmap_one(0,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0,mmap_addr);
+#ifdef __x86_64__
     asm volatile("add $0x18, %rax");
     asm volatile("call %rax");
+#elif __i386__
+    asm volatile("add $0x10, %eax");
+    asm volatile("pop %ebp");
+    asm volatile("call %eax");
+#endif
     // void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
     // stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
     //好家伙，一行c语言不写就可以规避多余的寄存器保护了
+    //好家伙，x86还是会push寄存器
 }
 
 // unsigned long __loader_start(){
