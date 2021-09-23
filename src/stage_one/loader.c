@@ -36,13 +36,47 @@ unsigned long __loader_start(STAGE_ONE_MAIN_ARG){
     long res = 0;
     char *g_elf_base;
     DEBUG_LOG("__loader_start from file");
+#ifdef __x86_64__
+    asm volatile("mov %rsp, %r14");
+#endif
     asm_open_one(patch_data,O_RDONLY,0,patch_fd);
 
     char* mmap_addr = NULL;
     asm_mmap_one(0,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0,mmap_addr);
-    void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
-    stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
+    asm volatile("add $0x18, %rax");
+    asm volatile("call %rax");
+    // void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
+    // stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
+    //好家伙，一行c语言不写就可以规避多余的寄存器保护了
 }
+
+// unsigned long __loader_start(){
+//     long patch_fd = 0;
+//     long res = 0;
+//     char *g_elf_base;
+//     int size = (int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE, 0x1000);
+//     asm volatile("mov %rsp, %rbp");
+//     asm volatile("xor %edx, %edx");
+//     // asm volatile("lea %0, %%rdi"::""(&patch_data));
+//     asm volatile("mov %rdx, %rsi");
+//     asm volatile("push 2");
+//     asm volatile("pop %rax");
+//     asm volatile("syscall"::"D"((long)patch_data));
+//     asm volatile("xor %r9d, %r9d");
+//     asm volatile("mov %rax, %r8");
+//     asm volatile("mov %0，%%esi"::"i"(size));
+//     asm volatile("mov %rdx, %rdi");
+//     asm volatile("push 9");
+//     asm volatile("pop %rax");
+//     asm volatile("push 7");
+//     asm volatile("pop %rdx");
+//     asm volatile("push 2");
+//     asm volatile("pop r10");
+//     asm volatile("syscall":"=a"(res));
+//     asm volatile("add $0x18, %rax");
+//     asm volatile("mov %rbp, %rdi");
+//     asm volatile("call %rax");
+// }
 
 
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_MEM)

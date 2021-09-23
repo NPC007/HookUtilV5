@@ -21,7 +21,9 @@
  * we must put _start at datafile first 4k size, because we use _start to get datafile mmap base;
  */
 
-void _start(STAGE_TWO_MAIN_ARG){
+void _start(){
+    unsigned long stack_base;
+    asm volatile("mov %%r14, %0":"=g"(stack_base));
     DEBUG_LOG("stage_two_start");
     LOADER_STAGE_TWO* two_base = (LOADER_STAGE_TWO*)DOWN_PADDING((unsigned long)_start,0x1000);
     Elf_Ehdr* ehdr = (Elf_Ehdr*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length + sizeof(LOADER_STAGE_THREE));
@@ -98,11 +100,11 @@ void _start(STAGE_TWO_MAIN_ARG){
         }
     }
     DEBUG_LOG("stage_two_end");
-    void(*patch_entry)(STAGE_THREE_MAIN_ARG_PROTO,void*) = (void(*)(STAGE_THREE_MAIN_ARG_PROTO,void*))((char*)stage_three_load_base + three_base->entry_offset);
+    void(*patch_entry)(unsigned long,void*) = (void(*)(unsigned long, void*))((char*)stage_three_load_base + three_base->entry_offset);
     int ARGC=0;
-    while(UBP_AV[ARGC]!=NULL)
-        ARGC ++;
-    patch_entry(STAGE_THREE_MAIN_ARG_VALUE,(void*)three_base);
+    // while(UBP_AV[ARGC]!=NULL)
+    //     ARGC ++;
+    patch_entry(stack_base, (void*)three_base);
 }
 
 #if PATCH_DEBUG

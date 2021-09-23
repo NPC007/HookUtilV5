@@ -1149,24 +1149,25 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 }
 
 
-void _start(STAGE_THREE_MAIN_ARG,LOADER_STAGE_THREE* three_base_tmp) {
-    if(common_init(STAGE_THREE_MAIN_ARG_VALUE,three_base_tmp)!=0)
+void _start(unsigned long stack_base_in,LOADER_STAGE_THREE* three_base_tmp) {
+    if(common_init(three_base_tmp)!=0)
         return;
     DEBUG_LOG("Start Normal_loader --------------------------------------------------");
     inline_hook_read_pos = 0;
     char *stack_base = 0;
-    char **ev = &UBP_AV[ARGC + 1];
+    // char **ev = &UBP_AV[ARGC + 1];
     int i = 0;
     char libc_start_main_str[] ={"__libc_start_main"};
     char* target_entry = lookup_symbols(libc_start_main_str);
 
-    while (ev[i] != NULL){
-        i++;
-    }
-    if (i >= 1)
-        stack_base = (char *) UP_PADDING((long) ev[i - 1], 0x1000);
-    else
-        stack_base = (char *) UP_PADDING((long) ev[i], 0x1000);
+    // while (ev[i] != NULL){
+    //     i++;
+    // }
+    // if (i >= 1)
+    //     stack_base = (char *) UP_PADDING((long) ev[i - 1], 0x1000);
+    // else
+    //     stack_base = (char *) UP_PADDING((long) ev[i], 0x1000);
+    stack_base = stack_base_in;
     DEBUG_LOG("stack_base is: 0x%lx",stack_base);
     //parent should die before child
     init_hook_env();

@@ -43,8 +43,12 @@ void modify_mov_scu_init(char* elf_base,long new_function_vaddr,cJSON* config){
     switch(((Elf_Ehdr*)elf_base)->e_machine){
     case EM_386:
         if(mov[0] == 0x8d){
-            mov[1] = 0x80;
-            *((int*)(&mov[2])) = (int)(new_function_vaddr - 6 - scu_init_mov_vaddr);
+            logger("scu_init x32 mov modify\n");
+            // mov[1] = 0x80;
+            char *scu_init_ebx_str = cJSON_GetObjectItem(config, "scu_init_ebx")->valuestring;
+            long scu_init_ebx = 0;
+            scu_init_ebx = strtol(scu_init_ebx_str, NULL, 16);
+            *((int*)(&mov[2])) = (int)(new_function_vaddr - scu_init_ebx);
             logger("modify x32 mov\n");
         }
         break;
@@ -385,7 +389,7 @@ void process_start_function(char* output_elf,cJSON* config){
                 case EM_386:
                     if(!strncasecmp(ins.mnemonic, "CALL", 4)){
                         logger("find one call : %s",ins.mnemonic);
-                        break;
+                        goto out;
                     }
                     break;
                 case EM_X86_64:
@@ -557,9 +561,43 @@ void process_start_function(char* output_elf,cJSON* config){
         logger("unable find call , something wrong in find_start_offset\n");
         exit(-1);
     }
+    logger("out : mov[0]=%x\n", insn[i].bytes[0]);
     char buf[64] = {0};
     switch(((Elf_Ehdr*)output_elf_base)->e_machine){
         case EM_386:
+            if(insn[i].bytes[0] == 0xe8 && is_v5){
+                unsigned long eip = insn[i].address + insn[i].size;
+                unsigned long ebx = insn[i+1].detail->x86.operands[1].imm + eip;
+                time = 0;
+                int j;
+                for(j =i+1;j<count;j++){
+                    if(!strncasecmp(insn[j].mnemonic, "LEA", 4) || !strncasecmp(insn[j].mnemonic, "MOV", 4)){
+                        time ++;
+                        if(time == 2){
+                            logger("mov eax , scu_init get 0x%x\n", insn[j].address);
+                            break;
+                        }
+                    }
+                }
+                unsigned long scu_init_addr = insn[j].detail->x86.operands[1].mem.disp + ebx;
+                unsigned long scu_init_mov_vaddr = insn[j].address;
+                unsigned long scu_init_mov_offset = get_offset_by_vaddr(scu_init_mov_vaddr, (Elf_Ehdr*)output_elf_base);
+                sprintf(buf,"%p",(void*)scu_init_addr);
+                cJSON_AddStringToObject(config, "scu_init_addr", buf);
+                sprintf(buf,"%p",(void*)scu_init_mov_vaddr);
+                cJSON_AddStringToObject(config, "scu_init_mov_vaddr", buf);
+                sprintf(buf,"%p",(void*)scu_init_mov_offset);
+                cJSON_AddStringToObject(config, "scu_init_mov_offset", buf);
+                sprintf(buf,"%p",(void*)ebx);
+                cJSON_AddStringToObject(config, "scu_init_ebx", buf);
+
+                logger("identify scu_init_ebx:         %p\n",ebx);
+                logger("identify scu_init_addr:       %p\n",scu_init_addr);
+                logger("identify scu_init_mov_vaddr:  %p\n",scu_init_mov_vaddr);
+                logger("identify scu_init_mov_offset: %p\n",scu_init_mov_offset);
+                break;
+            }
+
             if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
                 unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
                 unsigned long libc_start_main_start_call_vaddr = insn[i].address;
@@ -591,34 +629,7 @@ void process_start_function(char* output_elf,cJSON* config){
                 logger("identify libc_start_main_addr              : %p\n",(void*)libc_start_main_addr);
                 logger("identify libc_start_main_start_call_offset : %p\n",(void*)libc_start_main_start_call_offset);
                 logger("identify libc_start_main_start_call_vaddr  : %p\n",(void*)libc_start_main_start_call_vaddr);
-            }else if(insn[i].bytes[0] == 0x8d && insn[i].bytes[1] == 0x83){
-                unsigned long eip = insn[i].address + insn[i].size;
-                unsigned long ebx = insn[i+1].detail->x86.operands[1].imm + eip;
-                time = 0;
-                int j;
-                for(j =i+1;j<count;j++){
-                    if(!strncasecmp(insn[j].mnemonic, "LEA", 4) || !strncasecmp(insn[j].mnemonic, "MOV", 4)){
-                        time ++;
-                        if(time == 2){
-                            logger("mov eax , scu_init get 0x%x\n", insn[j].address);
-                            break;
-                        }
-                    }
-                }
-                unsigned long scu_init_addr = insn[j].detail->x86.operands[1].mem.disp + ebx;
-                unsigned long scu_init_mov_vaddr = insn[j].address;
-                unsigned long scu_init_mov_offset = get_offset_by_vaddr(scu_init_mov_vaddr, (Elf_Ehdr*)output_elf_base);
-                sprintf(buf,"%p",(void*)scu_init_addr);
-                cJSON_AddStringToObject(config, "scu_init_addr", buf);
-                sprintf(buf,"%p",(void*)scu_init_mov_vaddr);
-                cJSON_AddStringToObject(config, "scu_init_mov_vaddr", buf);
-                sprintf(buf,"%p",(void*)scu_init_mov_offset);
-                cJSON_AddStringToObject(config, "scu_init_mov_offset", buf);
-                logger("identify scu_init_addr:       %p\n",scu_init_addr);
-                logger("identify scu_init_mov_vaddr:  %p\n",scu_init_mov_vaddr);
-                logger("identify scu_init_mov_offset: %p\n",scu_init_mov_offset);
-            }
-            else{
+            }else{
                 logger("unknown x86 call instructions");
                 exit(-1);
             }

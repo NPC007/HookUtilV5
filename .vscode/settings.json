@@ -4,6 +4,8 @@
         "common.h": "c",
         "config.h": "c",
         "hook.h": "c",
-        "syscall.h": "c"
+        "syscall.h": "c",
+        "debug_config.h": "c",
+        "arch.h": "c"
     }
 }

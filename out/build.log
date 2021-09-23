@@ -42,7 +42,7 @@ check /home/lometsj/HookUtilV5/awd/..//out/normal/stage_two start
 check /home/lometsj/HookUtilV5/awd/..//out/normal/stage_two end
 generate normal_data_file:/home/lometsj/HookUtilV5/awd/..//out/normal/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x21d
+	length:                     0x203
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
 	entry_offset:                     0x4871
@@ -64,7 +64,7 @@ check /home/lometsj/HookUtilV5/awd/..//out/sandbox/stage_two start
 check /home/lometsj/HookUtilV5/awd/..//out/sandbox/stage_two end
 generate sandbox_data_file:/home/lometsj/HookUtilV5/awd/..//out/sandbox/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x21d
+	length:                     0x203
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
 	entry_offset:                     0x22eb
@@ -102,7 +102,7 @@ identify libc_start_main_start_call_vaddr  : 0x8c4
 #define FIRST_ENTRY_OFFSET 0xc70
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
 #define PATCH_DATA_PATH "/tmp/1"
-#define PATCH_DATA_MMAP_FILE_SIZE 0x1905d
+#define PATCH_DATA_MMAP_FILE_SIZE 0x19043
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
 stage_one_normal_config.h: /home/lometsj/HookUtilV5/awd/..//src/auto_generate/sandbox/stage_one_config.h
@@ -130,7 +130,7 @@ identify libc_start_main_start_call_vaddr  : 0x8c4
 #define FIRST_ENTRY_OFFSET 0xc70
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
 #define PATCH_DATA_PATH "/tmp/2"
-#define PATCH_DATA_MMAP_FILE_SIZE 0xdef5
+#define PATCH_DATA_MMAP_FILE_SIZE 0xdedb
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
 data_file:/home/lometsj/HookUtilV5/awd/..//out/normal/normal.datafile
@@ -153,6 +153,7 @@ disp: 0x31a
 0x8b6:	lea		rcx, [rip + 0x2a3]
 find mov or lea: lea
 find scu init mov 48 8d
+out : mov[0]=48
 identify scu_init_addr:       0xb60
 identify scu_init_mov_vaddr:  0x8b6
 identify scu_init_mov_offset: 0x8b6
@@ -186,6 +187,7 @@ disp: 0x31a
 0x8b6:	lea		rcx, [rip + 0x2a3]
 find mov or lea: lea
 find scu init mov 48 8d
+out : mov[0]=48
 identify scu_init_addr:       0xb60
 identify scu_init_mov_vaddr:  0x8b6
 identify scu_init_mov_offset: 0x8b6
