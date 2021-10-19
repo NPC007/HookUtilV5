@@ -35,7 +35,13 @@ unsigned long __loader_start(){
     long patch_fd = 0;
     long res = 0;
     char *g_elf_base;
-    DEBUG_LOG("__loader_start from file");
+#if(IS_PIE==1)
+#ifdef __x86_64__
+    asm volatile("lea -7(%rip), %r15");
+#elif __i386__
+    asm volatile("push %eip");
+#endif
+#endif
 #ifdef __x86_64__
     asm volatile("mov %rsp, %r14"); //依赖stage_one不对r14做破坏
 #elif __i386__
@@ -43,6 +49,9 @@ unsigned long __loader_start(){
     asm volatile("lea %0, %%ebx"::"m"(patch_data));
 
 #endif
+
+    // DEBUG_LOG("__loader_start from file");
+
     asm_open_one(patch_data,O_RDONLY,0,patch_fd);
 
 #ifdef __i386__
@@ -51,6 +60,7 @@ unsigned long __loader_start(){
 #endif
     char* mmap_addr = NULL;
     asm_mmap_one(0,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE,patch_fd,0,mmap_addr);
+    // asm_close(3, res);
 #ifdef __x86_64__
     asm volatile("add $0x18, %rax");
     asm volatile("call %rax");

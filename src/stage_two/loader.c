@@ -6,25 +6,43 @@
 
 #include "debug_config.h"
 #include "arch/common/arch.h"
+#include "stage_one_config.h"
 
 
 
-#if PATCH_DEBUG
-//#define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
-//void my_write_stdout(const char* str);
+
+
+// #if PATCH_DEBUG== 1
+// #define DEBUG_LOG(format,...) my_debug_0("[DEBUG]:"format"\n",##__VA_ARGS__)
+
+// #endif
 #define DEBUG_LOG(format,...)
-#else
-#define DEBUG_LOG(format,...)
-#endif
+// #else
+// #define DEBUG_LOG(format,...)
+// #endif
 
 /*
  * we must put _start at datafile first 4k size, because we use _start to get datafile mmap base;
  */
 
-void _start(){
-    unsigned long stack_base;
+
+//ip寄存器统一叫rip x86下push入形参，x64下r15寄存器定义
+#if(IS_PIE==1)
 #ifdef __x86_64__
-    asm volatile("mov %%r14, %0":"=a"(stack_base));
+void _start(){
+    // unsigned long rip = 0;
+    register long rip asm ("r15");
+#elif __i386__
+void _start(unsigned long rip){
+#endif
+#else
+void _start(){
+
+#endif
+    unsigned long stack_base;
+
+#ifdef __x86_64__
+    asm volatile("mov %%r14, %0":"=g"(stack_base));
 #elif __i386__
     // asm volatile("mov (%%esp), %0":"=g"(stack_base));
     asm volatile("mov %%ebp,%0":"=a"(stack_base));
@@ -46,8 +64,10 @@ void _start(){
 
 
 #elif(IS_PIE == 1)
-    unsigned long tmp_addr = (unsigned long)__builtin_return_address(0);
-    two_base ->elf_load_base = (void*)DOWN_PADDING((tmp_addr - (unsigned long)(two_base ->elf_load_base)),0x1000);
+    //unsigned long tmp_addr = (unsigned long)__builtin_return_address(0);
+    //two_base ->elf_load_base = (void*)DOWN_PADDING((tmp_addr - (unsigned long)(two_base ->elf_load_base)),0x1000);
+    two_base ->elf_load_base = rip - FIRST_ENTRY_OFFSET;
+    // DEBUG_LOG("load_base: 0x%x\n",two_base->elf_load_base);
 #else
     #error "Unknown IS_PIE"
 #endif
@@ -71,7 +91,7 @@ void _start(){
         return;
     }
 
-#if PATCH_DEBUG== 1
+#if(PATCH_DEBUG == 1)
     three_base->enable_debug = 1;
 #endif
     long map_size = 0;

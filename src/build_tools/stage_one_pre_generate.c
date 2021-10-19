@@ -295,6 +295,8 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_conf
                 exit(-1);
             }
             unsigned long elf_load_base = get_elf_load_base((Elf_Ehdr*)input_elf_base);
+            logger("elf_load_base 0x%x\n",elf_load_base);
+            logger("eh_frame sh_addr 0x%x\n",eh_frame_shdr->sh_addr);
             first_entry_offset =(int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)elf_load_base);
         } else if (strcmp("new_pt_load", loader_stage_one_position) == 0) {
             mov_phdr(input_elf);

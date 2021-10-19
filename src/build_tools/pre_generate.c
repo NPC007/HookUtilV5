@@ -49,6 +49,14 @@ void check_eh_frame_section_executable(Elf_Ehdr* ehdr){
     exit(-1);
 }
 
+long g_init_addr;
+long g_size;
+void check_init_arr(Elf_Ehdr* ehdr){
+    Elf_Shdr* init_arr = get_elf_section_by_name(".init_array",(Elf_Ehdr*)ehdr);
+    printf("init_arr: %x\n",init_arr->sh_addr);
+    g_init_addr = init_arr->sh_addr;
+    g_size = init_arr->sh_size;
+}
 
 void check_elf_file_and_config_compatible(char* elf_path,cJSON* config){
     char* elf_base;
@@ -59,6 +67,7 @@ void check_elf_file_and_config_compatible(char* elf_path,cJSON* config){
     if (strcmp("eh_frame", loader_stage_one_position) == 0) {
         check_eh_frame_section_executable((Elf_Ehdr*)elf_base);
     }
+    check_init_arr((Elf_Ehdr*)elf_base);
     close_and_munmap(elf_path,elf_file_fd,elf_base,&elf_file_size);
 }
 
@@ -158,7 +167,13 @@ int main(int argc,char* argv[]){
                 logger("unknown object type: %d\n",ehdr->e_type);
                 exit(-1);
         }
-
+    {
+        char buf[0x100];
+        sprintf(buf, "0x%x",g_init_addr);
+        write_marco_define(debug_config_file_fd,"INIT_ARR_ADDR",buf);
+        sprintf(buf,"0x%x",g_size);
+        write_marco_define(debug_config_file_fd,"INIT_SIZE",buf);
+    }
 
         close(debug_config_file_fd);
     }

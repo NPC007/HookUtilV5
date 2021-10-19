@@ -26,7 +26,7 @@
 
 
 void modify_mov_scu_init(char* elf_base,long new_function_vaddr,cJSON* config){
-    logger("enter modify scu\n");
+    logger("enter modify scu: new_function_vaddr=0x%p\n", new_function_vaddr);
     char* scu_init_mov_offset_str = cJSON_GetObjectItem(config, "scu_init_mov_offset")->valuestring;
     char* scu_init_mov_vaddr_str = cJSON_GetObjectItem(config, "scu_init_mov_vaddr")->valuestring;
     long scu_init_mov_offset = 0;
@@ -41,21 +41,35 @@ void modify_mov_scu_init(char* elf_base,long new_function_vaddr,cJSON* config){
     }
     unsigned char* mov = (unsigned char*)(elf_base+scu_init_mov_offset);
     switch(((Elf_Ehdr*)elf_base)->e_machine){
-    case EM_386:
+    case EM_386://x32 nopie其实是改的push，后面测的时候才注意到，就不改名了
+        logger("x32 modify enter\n");
         if(mov[0] == 0x8d){
             logger("scu_init x32 mov modify\n");
             // mov[1] = 0x80;
             char *scu_init_ebx_str = cJSON_GetObjectItem(config, "scu_init_ebx")->valuestring;
             long scu_init_ebx = 0;
             scu_init_ebx = strtol(scu_init_ebx_str, NULL, 16);
-            *((int*)(&mov[2])) = (int)(new_function_vaddr - scu_init_ebx);
+            if(is_pie(elf_base))
+                *((int*)(&mov[2])) = (int)(new_function_vaddr - scu_init_ebx);
+            // else
+            //     *((int*)(&mov[1])) = (int)(new_function_vaddr);
             logger("modify x32 mov\n");
+        }else if(mov[0] == 0x68){
+            logger("scu_init x32 mov modify push!!!!!!\n");
+            // mov[1] = 0x80;
+            if(!is_pie(elf_base))
+                *((int*)(&mov[1])) = (int)(new_function_vaddr);
+            logger("modify x32 push\n");
         }
         break;
     case EM_X86_64:
         logger("enter into x64 case mov[0]=%x\n",mov[0]);
         if(mov[0] == 0x48 || mov[0] == 0x4c){
-            *((int*)(&mov[3])) = (int)(new_function_vaddr - 7 - scu_init_mov_vaddr);
+            if(is_pie(elf_base))
+                *((int*)(&mov[3])) = (int)(new_function_vaddr - 7 - scu_init_mov_vaddr);
+            else
+                *((int*)(&mov[3])) = (int)(new_function_vaddr);
+
             logger("modify x64 mov\n");
         }
         break;
@@ -387,10 +401,19 @@ void process_start_function(char* output_elf,cJSON* config){
             cs_insn ins = insn[i];
             switch(((Elf_Ehdr*)output_elf_base)->e_machine){
                 case EM_386:
-                    if(!strncasecmp(ins.mnemonic, "CALL", 4)){
-                        logger("find one call : %s",ins.mnemonic);
-                        goto out;
+                //pie开启的时候会call一个拿eip，不开启时候x32直接push地址
+                    if(is_pie(output_elf_base)){
+                        if(!strncasecmp(ins.mnemonic, "CALL", 5)){
+                            logger("find one call : %s",ins.mnemonic);
+                            goto out;
+                        }
+                    }else{
+                        if(!strncasecmp(ins.mnemonic, "MOV", 4)){
+                            logger("find one mov : %s",ins.mnemonic);
+                            goto out;
+                        }
                     }
+
                     break;
                 case EM_X86_64:
                     if(!strncasecmp(ins.mnemonic, "MOV", 4) || !strncasecmp(ins.mnemonic, "LEA", 4)){
@@ -565,12 +588,12 @@ void process_start_function(char* output_elf,cJSON* config){
     char buf[64] = {0};
     switch(((Elf_Ehdr*)output_elf_base)->e_machine){
         case EM_386:
-            if(insn[i].bytes[0] == 0xe8 && is_v5){
+            if(insn[i].bytes[0] == 0xe8 && is_v5 && is_pie(output_elf_base)){
                 unsigned long eip = insn[i].address + insn[i].size;
                 unsigned long ebx = insn[i+1].detail->x86.operands[1].imm + eip;
                 time = 0;
                 int j;
-                for(j =i+1;j<count;j++){
+                for(j =i+1;j<count;j++){//从call开始搜索第二个mov/lea
                     if(!strncasecmp(insn[j].mnemonic, "LEA", 4) || !strncasecmp(insn[j].mnemonic, "MOV", 4)){
                         time ++;
                         if(time == 2){
@@ -596,7 +619,31 @@ void process_start_function(char* output_elf,cJSON* config){
                 logger("identify scu_init_mov_vaddr:  %p\n",scu_init_mov_vaddr);
                 logger("identify scu_init_mov_offset: %p\n",scu_init_mov_offset);
                 break;
+            }else if(insn[i].bytes[0] == 0x89 && is_v5 && !is_pie(output_elf_base)){
+                time = 0;
+                int j;
+                for(j = i+1;j<count;j++){//从mov开始搜索第五个push
+                    if(!strncasecmp(insn[j].mnemonic, "PUSH", 5)){
+                        time ++;
+                        if(time == 5){
+                            logger("push scu_init adrress get 0x%x\n", insn[j].address);
+                            break;
+                        }
+                    }
+                }
+                unsigned long scu_init_mov_vaddr = insn[j].address;
+                unsigned long scu_init_mov_offset = get_offset_by_vaddr(scu_init_mov_vaddr, (Elf_Ehdr*)output_elf_base);
+                
+                sprintf(buf,"%p",(void*)scu_init_mov_vaddr);
+                cJSON_AddStringToObject(config, "scu_init_mov_vaddr", buf);
+                sprintf(buf,"%p",(void*)scu_init_mov_offset);
+                cJSON_AddStringToObject(config, "scu_init_mov_offset", buf);
+
+                logger("identify scu_init_mov_vaddr:  %p\n",scu_init_mov_vaddr);
+                logger("identify scu_init_mov_offset: %p\n",scu_init_mov_offset);
+                break;
             }
+
 
             if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
                 unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));

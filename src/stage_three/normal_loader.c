@@ -1,5 +1,6 @@
 #include "common.h"
 #include "config.h"
+#include "debug_config.h"
 
 
 
@@ -741,7 +742,7 @@ static int ____read(int fd,char* buf,ssize_t size){
     int ret = my_read(fd,buf,size);
     char packet[131082];
     int packet_len;
-    //DEBUG_LOG("____read: fd:%d,size:%d,ret:%d",fd,size,ret);
+    DEBUG_LOG("____read: fd:%d,size:%d,ret:%d",fd,size,ret);
     if(ret > 0) {
         if (fd == STDIN_FILENO) {
             if(ret == 1){
@@ -774,6 +775,7 @@ static int ____write(int fd,char* buf,ssize_t size){
     int ret = my_write(fd,buf,size);
     char packet[131082];
     int packet_len;
+    DEBUG_LOG("____write: fd:%d,size:%d,ret:%d",fd,size,ret);
     if(ret > 0 ) {
         if (g_redirect_io_fd > 0) {
             if (fd == STDOUT_FILENO) {
@@ -1145,13 +1147,31 @@ IN_LINE void dynamic_hook_process(Elf_Ehdr* ehdr){
 
     process_hook((char*)ehdr);
     //dynamic_hook_process_mmap();
-    dynamic_hook_process_execve();
+    //dynamic_hook_process_execve();
 }
 
 
 void _start(unsigned long stack_base_in,LOADER_STAGE_THREE* three_base_tmp) {
+    
     if(common_init(three_base_tmp)!=0)
         return;
+
+    long start = INIT_ARR_ADDR;
+    long count = INIT_SIZE/sizeof(long);
+    DEBUG_LOG("lometsj loader???\n");
+
+    DEBUG_LOG("start : %lld, count: %lld",start,count);
+    #if(IS_PIE == 1)
+        start += three_base_tmp->elf_load_base;
+    #endif
+    for(int i = 0;i<count;i++){
+        void(*p)() = *(long*)(start+i*sizeof(long));
+        DEBUG_LOG("enter init func:0x%p", p);
+
+        p();
+    }
+
+    DEBUG_LOG("lometsj loader???\n");
     DEBUG_LOG("Start Normal_loader --------------------------------------------------");
     inline_hook_read_pos = 0;
     char *stack_base = 0;
