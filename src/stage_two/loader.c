@@ -64,10 +64,10 @@ void _start(){
 
 
 #elif(IS_PIE == 1)
-    //unsigned long tmp_addr = (unsigned long)__builtin_return_address(0);
-    //two_base ->elf_load_base = (void*)DOWN_PADDING((tmp_addr - (unsigned long)(two_base ->elf_load_base)),0x1000);
-    two_base ->elf_load_base = rip - FIRST_ENTRY_OFFSET;
-    // DEBUG_LOG("load_base: 0x%x\n",two_base->elf_load_base);
+    unsigned long tmp_addr = (unsigned long)__builtin_return_address(0);
+    two_base ->elf_load_base = (void*)DOWN_PADDING((tmp_addr - (unsigned long)(two_base ->elf_load_base)),0x1000);
+    // two_base ->elf_load_base = rip - FIRST_ENTRY_OFFSET;
+    DEBUG_LOG("load_base: 0x%x\n",two_base->elf_load_base);
 #else
     #error "Unknown IS_PIE"
 #endif

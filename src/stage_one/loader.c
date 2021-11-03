@@ -28,20 +28,20 @@ extern void _start();
 
 
 #if(CONFIG_LOADER_TYPE == LOAD_FROM_FILE)
-__attribute__((section(".text"))) char patch_data[] = {PATCH_DATA_PATH};
+__attribute__((section(".text"))) __attribute__((aligned(1))) char patch_data[] = {PATCH_DATA_PATH};
 
 
 unsigned long __loader_start(){
-    long patch_fd = 0;
+    int patch_fd = 0;
     long res = 0;
     char *g_elf_base;
-#if(IS_PIE==1)
-#ifdef __x86_64__
-    asm volatile("lea -7(%rip), %r15");
-#elif __i386__
-    asm volatile("push %eip");
-#endif
-#endif
+// #if(IS_PIE==1)
+// #ifdef __x86_64__
+//     asm volatile("lea -7(%rip), %r15");
+// #elif __i386__
+//     asm volatile("push %eip");
+// #endif
+// #endif
 #ifdef __x86_64__
     asm volatile("mov %rsp, %r14"); //依赖stage_one不对r14做破坏
 #elif __i386__
@@ -53,6 +53,9 @@ unsigned long __loader_start(){
     // DEBUG_LOG("__loader_start from file");
 
     asm_open_one(patch_data,O_RDONLY,0,patch_fd);
+    if(patch_fd < 0){
+        return;
+    }
 
 #ifdef __i386__
     asm volatile("mov %edx, %ebx"); //arg 0
@@ -69,6 +72,8 @@ unsigned long __loader_start(){
     asm volatile("pop %ebp");
     asm volatile("call %eax");
 #endif
+
+
     // void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
     // stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
     //好家伙，一行c语言不写就可以规避多余的寄存器保护了

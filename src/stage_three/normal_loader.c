@@ -1158,7 +1158,6 @@ void _start(unsigned long stack_base_in,LOADER_STAGE_THREE* three_base_tmp) {
 
     long start = INIT_ARR_ADDR;
     long count = INIT_SIZE/sizeof(long);
-    DEBUG_LOG("lometsj loader???\n");
 
     DEBUG_LOG("start : %lld, count: %lld",start,count);
     #if(IS_PIE == 1)
@@ -1171,7 +1170,6 @@ void _start(unsigned long stack_base_in,LOADER_STAGE_THREE* three_base_tmp) {
         p();
     }
 
-    DEBUG_LOG("lometsj loader???\n");
     DEBUG_LOG("Start Normal_loader --------------------------------------------------");
     inline_hook_read_pos = 0;
     char *stack_base = 0;
