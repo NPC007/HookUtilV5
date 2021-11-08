@@ -619,6 +619,14 @@ IN_LINE void start_io_redirect_tcp(int send_sockfd, char* libc_start_main_addr,c
     }
 }
 
+// void check_path_valid(char *path){
+
+//     int ret = my_access(path, F_OK);
+//     if(ret != 0){
+//         my_mkdir
+//     }
+// }
+
 
 IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_entry){
     char path[0x200];
@@ -647,6 +655,7 @@ IN_LINE void start_common_io_redirect(char* libc_start_main_addr,char* stack_on_
                 my_memset(path, 0, sizeof(path));
                 my_memset(file_name, 0, sizeof(file_name));
                 my_strcpy(path, IO_REDIRECT_PATH, '\x00');
+                // check_path_valid(path);
                 my_memcpy(&path[my_strlen(path)], "/", 1);
                 generate_random_str(file_name, 12);
                 my_memcpy(&path[my_strlen(path)], file_name, my_strlen(file_name));

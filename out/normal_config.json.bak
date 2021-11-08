@@ -7,19 +7,18 @@
   "loader_stage_one_position":"eh_frame",
   "text_addr":"0x804865d",
   "loader_stage_other_position":"file",
-  "libc_csu_init_addr":"0x15f0",
 
   "loader_stage_other_share_memory_id":"123",
   "loader_stage_other_socket_server_ip":"127.0.0.1",
   "loader_stage_other_socket_server_port": "1240",
-  "loader_stage_other_file_path":"/a",
+  "loader_stage_other_file_path":"/b",
 
   "shell_code_defense": "0",
 
   "tcp_time_out":"1",
   "io_inline_hook":"0",
   "analysis_server_ip":"127.0.0.1",
-  "analysis_server_port": "22345",
+  "analysis_server_port": "20000",
   "shell_password":"Huawei@123",
   "local_file_instead_of_udp":"1",
   "io_local_save_path":"/tmp/",

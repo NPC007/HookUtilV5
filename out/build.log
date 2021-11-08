@@ -5,14 +5,14 @@ config.h: /home/lometsj/HookUtilV5/awd/..//src/auto_generate/normal/config.h
 input elf: input_elf
 check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 0
+#define PATCH_DEBUG 1
 #define IS_PIE 1
-#define INIT_ARR_ADDR 0xc9e00
-#define INIT_SIZE 0x10
+#define INIT_ARR_ADDR 0x3ea4
+#define INIT_SIZE 0x4
 ###########################################process config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "127.0.0.1"
-#define REDIRECT_PORT 18000
+#define REDIRECT_PORT 22345
 #define SHELL_PASSWD "Huawei@123"
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
@@ -26,10 +26,10 @@ config.h: /home/lometsj/HookUtilV5/awd/..//src/auto_generate/sandbox/config.h
 input elf: input_elf
 check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
-#define PATCH_DEBUG 0
+#define PATCH_DEBUG 1
 #define IS_PIE 1
-#define INIT_ARR_ADDR 0xc9e00
-#define INIT_SIZE 0x10
+#define INIT_ARR_ADDR 0x3ea4
+#define INIT_SIZE 0x4
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST ""
@@ -46,16 +46,16 @@ check /home/lometsj/HookUtilV5/awd/..//out/normal/stage_two start
 check /home/lometsj/HookUtilV5/awd/..//out/normal/stage_two end
 generate normal_data_file:/home/lometsj/HookUtilV5/awd/..//out/normal/normal.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x203
+	length:                     0x1fd
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x57df
-	length:                           0x2fd70
+	entry_offset:                     0x54bd
+	length:                           0x29774
 	analysis_server_ip:               127.0.0.1
-	analysis_server_port:             18000
+	analysis_server_port:             22345
 	sandbox_server_ip:                0.0.0.0
 	sandbox_server_port:              0
-set stage_two: patch_data_length: 31000
+set stage_two: patch_data_length: 2a000
 set stage_two: elf_load_base: 0
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
@@ -68,145 +68,157 @@ check /home/lometsj/HookUtilV5/awd/..//out/sandbox/stage_two start
 check /home/lometsj/HookUtilV5/awd/..//out/sandbox/stage_two end
 generate sandbox_data_file:/home/lometsj/HookUtilV5/awd/..//out/sandbox/sandbox.datafile
 libloader_stage_two TLV structure values:
-	length:                     0x203
+	length:                     0x1fd
 	entry_offset:               0x0
 libloader_stage_three TLV structure values:
-	entry_offset:                     0x22eb
-	length:                           0xdc38
+	entry_offset:                     0x30fe
+	length:                           0x200d0
 	analysis_server_ip:               0.0.0.0
 	analysis_server_port:             0
 	sandbox_server_ip:                0.0.0.0
 	sandbox_server_port:              1237
-set stage_two: patch_data_length: e000
+set stage_two: patch_data_length: 21000
 set stage_two: elf_load_base: 0
 ---------------------------------------------------------------------------------------------------------
 MODE : normal
 stage_one_normal_config.h: /home/lometsj/HookUtilV5/awd/..//src/auto_generate/normal/stage_one_config.h
 data_file:/home/lometsj/HookUtilV5/awd/..//out/normal/normal.datafile
 input_elf: /home/lometsj/HookUtilV5/awd/..//out/input_elf
-0x9d80:	endbr64		
-0x9d84:	xor		ebp, ebp
-0x9d86:	mov		r9, rdx
-0x9d89:	pop		rsi
-0x9d8a:	mov		rdx, rsp
-0x9d8d:	and		rsp, 0xfffffffffffffff0
-0x9d91:	push		rax
-0x9d92:	push		rsp
-0x9d93:	lea		r8, [rip + 0x1446]
-0x9d9a:	lea		rcx, [rip + 0x139f]
-0x9da1:	lea		rdi, [rip + 0x238]
-0x9da8:	call		0xa4e0
+0x1110:	endbr32		
+0x1114:	xor		ebp, ebp
+0x1116:	pop		esi
+0x1117:	mov		ecx, esp
+0x1119:	and		esp, 0xfffffff0
+0x111c:	push		eax
+0x111d:	push		esp
+0x111e:	push		edx
+0x111f:	call		0x1146
+find __x86.get_pc_thunk
+0x1124:	add		ebx, 0x2e80
+0x112a:	lea		eax, [ebx - 0x2944]
+0x1130:	push		eax
+0x1131:	lea		eax, [ebx - 0x29b4]
+0x1137:	push		eax
+0x1138:	push		ecx
+0x1139:	push		esi
+0x113a:	push		dword ptr [ebx + 0x54]
+0x1140:	call		0x10d0
 find start call libc_start_main
 identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0xa4e0
-identify libc_start_main_start_call_offset : 0x9da8
-identify libc_start_main_start_call_vaddr  : 0x9da8
+identify libc_start_main_addr              : 0x10d0
+identify libc_start_main_start_call_offset : 0x1140
+identify libc_start_main_start_call_vaddr  : 0x1140
 #define LIBC_START_MAIN_ADDR_TYPE CODE
-#define LIB_C_START_MAIN_ADDR 0xa4e0
+#define LIB_C_START_MAIN_ADDR 0x10d0
 #define USE_V5 
 elf_load_base 0x0
-eh_frame sh_addr 0xbe010
-#define FIRST_ENTRY_OFFSET 0xbe010
+eh_frame sh_addr 0x215c
+#define EH_FRAME_SHDR 0x215c
+#define LIBC_CSU_INIT_ADDR "0x15f0"
+#define OFFSET "0x494"
+#define FIRST_ENTRY_OFFSET 0x215c
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
-#define PATCH_DATA_PATH "/normal.datafile"
-#define PATCH_DATA_MMAP_FILE_SIZE 0x30013
+#define PATCH_DATA_PATH "/a"
+#define PATCH_DATA_MMAP_FILE_SIZE 0x299fd
 ---------------------------------------------------------------------------------------------------------
 MODE : sandbox
 stage_one_normal_config.h: /home/lometsj/HookUtilV5/awd/..//src/auto_generate/sandbox/stage_one_config.h
 data_file:/home/lometsj/HookUtilV5/awd/..//out/sandbox/sandbox.datafile
 input_elf: /home/lometsj/HookUtilV5/awd/..//out/input_elf
-0x9d80:	endbr64		
-0x9d84:	xor		ebp, ebp
-0x9d86:	mov		r9, rdx
-0x9d89:	pop		rsi
-0x9d8a:	mov		rdx, rsp
-0x9d8d:	and		rsp, 0xfffffffffffffff0
-0x9d91:	push		rax
-0x9d92:	push		rsp
-0x9d93:	lea		r8, [rip + 0x1446]
-0x9d9a:	lea		rcx, [rip + 0x139f]
-0x9da1:	lea		rdi, [rip + 0x238]
-0x9da8:	call		0xa4e0
+0x1110:	endbr32		
+0x1114:	xor		ebp, ebp
+0x1116:	pop		esi
+0x1117:	mov		ecx, esp
+0x1119:	and		esp, 0xfffffff0
+0x111c:	push		eax
+0x111d:	push		esp
+0x111e:	push		edx
+0x111f:	call		0x1146
+find __x86.get_pc_thunk
+0x1124:	add		ebx, 0x2e80
+0x112a:	lea		eax, [ebx - 0x2944]
+0x1130:	push		eax
+0x1131:	lea		eax, [ebx - 0x29b4]
+0x1137:	push		eax
+0x1138:	push		ecx
+0x1139:	push		esi
+0x113a:	push		dword ptr [ebx + 0x54]
+0x1140:	call		0x10d0
 find start call libc_start_main
 identify libc_start_main_addr_type : code
-identify libc_start_main_addr              : 0xa4e0
-identify libc_start_main_start_call_offset : 0x9da8
-identify libc_start_main_start_call_vaddr  : 0x9da8
+identify libc_start_main_addr              : 0x10d0
+identify libc_start_main_start_call_offset : 0x1140
+identify libc_start_main_start_call_vaddr  : 0x1140
 #define LIBC_START_MAIN_ADDR_TYPE CODE
-#define LIB_C_START_MAIN_ADDR 0xa4e0
+#define LIB_C_START_MAIN_ADDR 0x10d0
 #define USE_V5 
 elf_load_base 0x0
-eh_frame sh_addr 0xbe010
-#define FIRST_ENTRY_OFFSET 0xbe010
+eh_frame sh_addr 0x215c
+#define EH_FRAME_SHDR 0x215c
+#define FIRST_ENTRY_OFFSET 0x0
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
 #define PATCH_DATA_PATH "/tmp/2"
-#define PATCH_DATA_MMAP_FILE_SIZE 0xdedb
+#define PATCH_DATA_MMAP_FILE_SIZE 0x20359
 ---------------------------------------------------------------------------------------------------------
+config file: /home/lometsj/HookUtilV5/out/normal_config.json
 MODE : normal
 data_file:/home/lometsj/HookUtilV5/awd/..//out/normal/normal.datafile
 input_elf: /home/lometsj/HookUtilV5/awd/..//out/input_elf
 stage_one: /home/lometsj/HookUtilV5/awd/..//out/normal/stage_one
 check /home/lometsj/HookUtilV5/awd/..//out/normal/stage_one start
-check /home/lometsj/HookUtilV5/awd/..//out/normal/stage_one end
-0x9d80:	endbr64		
-0x9d84:	xor		ebp, ebp
-0x9d86:	mov		r9, rdx
-find mov or lea: mov
-0x9d89:	pop		rsi
-0x9d8a:	mov		rdx, rsp
-find mov or lea: mov
-0x9d8d:	and		rsp, 0xfffffffffffffff0
-0x9d91:	push		rax
-0x9d92:	push		rsp
-0x9d93:	lea		r8, [rip + 0x1446]
-find mov or lea: lea
-disp: 0x1446
-0x9d9a:	lea		rcx, [rip + 0x139f]
-find mov or lea: lea
-find scu init mov 48 8d
-out : mov[0]=48
-identify scu_init_addr:       0xb140
-identify scu_init_mov_vaddr:  0x9d9a
-identify scu_init_mov_offset: 0x9d9a
+when target is i386, ignore got checkcheck /home/lometsj/HookUtilV5/awd/..//out/normal/stage_one end
+0x1110:	endbr32		
+0x1114:	xor		ebp, ebp
+0x1116:	pop		esi
+0x1117:	mov		ecx, esp
+0x1119:	and		esp, 0xfffffff0
+0x111c:	push		eax
+0x111d:	push		esp
+0x111e:	push		edx
+0x111f:	call		0x1146
+find one call : callout : mov[0]=e8
+mov eax , scu_init get 0x1131
+identify scu_init_ebx:         0x3fa4
+identify scu_init_addr:       0x15f0
+identify scu_init_mov_vaddr:  0x1131
+identify scu_init_mov_offset: 0x1131
 copy end
-enter modify scu: new_function_vaddr=0x0xbe010
-enter into x64 case mov[0]=48
-modify x64 mov
+enter modify scu: new_function_vaddr=0x0x215c
+x32 modify enter
+scu_init x32 mov modify
+modify x32 mov
 modify mov scu init end
 mod end
 generate done
 -------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------
+config file: /home/lometsj/HookUtilV5/out/sandbox_config.json
 MODE : sandbox
 data_file:/home/lometsj/HookUtilV5/awd/..//out/sandbox/sandbox.datafile
 input_elf: /home/lometsj/HookUtilV5/awd/..//out/input_elf
 stage_one: /home/lometsj/HookUtilV5/awd/..//out/sandbox/stage_one
 check /home/lometsj/HookUtilV5/awd/..//out/sandbox/stage_one start
-check /home/lometsj/HookUtilV5/awd/..//out/sandbox/stage_one end
-0x9d80:	endbr64		
-0x9d84:	xor		ebp, ebp
-0x9d86:	mov		r9, rdx
-find mov or lea: mov
-0x9d89:	pop		rsi
-0x9d8a:	mov		rdx, rsp
-find mov or lea: mov
-0x9d8d:	and		rsp, 0xfffffffffffffff0
-0x9d91:	push		rax
-0x9d92:	push		rsp
-0x9d93:	lea		r8, [rip + 0x1446]
-find mov or lea: lea
-disp: 0x1446
-0x9d9a:	lea		rcx, [rip + 0x139f]
-find mov or lea: lea
-find scu init mov 48 8d
-out : mov[0]=48
-identify scu_init_addr:       0xb140
-identify scu_init_mov_vaddr:  0x9d9a
-identify scu_init_mov_offset: 0x9d9a
+when target is i386, ignore got checkcheck /home/lometsj/HookUtilV5/awd/..//out/sandbox/stage_one end
+0x1110:	endbr32		
+0x1114:	xor		ebp, ebp
+0x1116:	pop		esi
+0x1117:	mov		ecx, esp
+0x1119:	and		esp, 0xfffffff0
+0x111c:	push		eax
+0x111d:	push		esp
+0x111e:	push		edx
+0x111f:	call		0x1146
+find one call : callout : mov[0]=e8
+mov eax , scu_init get 0x1131
+identify scu_init_ebx:         0x3fa4
+identify scu_init_addr:       0x15f0
+identify scu_init_mov_vaddr:  0x1131
+identify scu_init_mov_offset: 0x1131
 copy end
-enter modify scu: new_function_vaddr=0x0xbe010
-enter into x64 case mov[0]=48
-modify x64 mov
+enter modify scu: new_function_vaddr=0x0x215c
+x32 modify enter
+scu_init x32 mov modify
+modify x32 mov
 modify mov scu init end
 mod end
 generate done

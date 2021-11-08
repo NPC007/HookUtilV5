@@ -26,28 +26,12 @@
  */
 
 
-//ip寄存器统一叫rip x86下push入形参，x64下r15寄存器定义
-#if(IS_PIE==1)
-#ifdef __x86_64__
-void _start(){
-    // unsigned long rip = 0;
-    register long rip asm ("r15");
-#elif __i386__
-void _start(unsigned long rip){
-#endif
-#else
 void _start(){
 
-#endif
     unsigned long stack_base;
 
-#ifdef __x86_64__
-    asm volatile("mov %%r14, %0":"=g"(stack_base));
-#elif __i386__
-    // asm volatile("mov (%%esp), %0":"=g"(stack_base));
-    asm volatile("mov %%ebp,%0":"=a"(stack_base));
-#endif
     DEBUG_LOG("stage_two_start");
+    asm volatile("mov %%esp, %0":"=r"(stack_base)::);
     LOADER_STAGE_TWO* two_base = (LOADER_STAGE_TWO*)DOWN_PADDING((unsigned long)_start,0x1000);
     Elf_Ehdr* ehdr = (Elf_Ehdr*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length + sizeof(LOADER_STAGE_THREE));
     LOADER_STAGE_THREE* three_base = (LOADER_STAGE_THREE*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length);

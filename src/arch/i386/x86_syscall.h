@@ -312,9 +312,17 @@ typedef struct SYS_GETSOCKOPT_STRUCT{
                                                 :"0"(__NR_shmget),"b"((long)KEY),"c"((long)SIZE),"d"((long)FLAG)\
                                                 :"cc","memory");
 
+#define asm_shmget_one(KEY,SIZE,FLAG,RES) __asm__ __volatile__("push %2;\n\tpop %%ebx;\n\tint $0x80"\
+                                                :"=a"(RES):"0"(__NR_shmget),""((long)KEY),"c"((long)SIZE),"d"((long)FLAG)\
+                                                :"cc","memory");
+
 #define asm_shmat(ID,ADDR,FLAG,RES) __asm__ __volatile__("int $0x80"\
                                                 : "=a" (RES)\
                                                 :"0"(__NR_shmat),"b"((long)ID),"c"((long)ADDR),"d"((long)FLAG)\
+                                                :"cc","memory");
+
+#define asm_shmat_one(ID,ADDR,FLAG,RES) __asm__ __volatile__("int $0x80"\
+                                                :"=a"(RES):"0"(__NR_shmat),"c"((long)ADDR),"d"((long)FLAG)\
                                                 :"cc","memory");
 
 #define asm_prctl(OPTIONS,ARG2,ARG3,ARG4,ARG5,RES) __asm__ __volatile__("int $0x80"\
@@ -336,5 +344,9 @@ typedef struct SYS_GETSOCKOPT_STRUCT{
                                     : "=a" (RES)\
                                     :"0"(__NR_setsid)\
                                     :"cc","memory");
+// #define asm_stat(PATH,MODE,RES) __asm__ __volatile__("int $0x80"\
+//                                     : "=a" (RES), "b"((long)PATH),"c"((long)MODE)\
+//                                     :"0"(__NR__stat)\
+//                                     :"cc",)
 
 #endif

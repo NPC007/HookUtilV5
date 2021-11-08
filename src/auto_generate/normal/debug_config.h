@@ -1,4 +1,4 @@
-#define PATCH_DEBUG 0
+#define PATCH_DEBUG 1
 #define IS_PIE 1
-#define INIT_ARR_ADDR 0xc9e00
-#define INIT_SIZE 0x10
+#define INIT_ARR_ADDR 0x3ea4
+#define INIT_SIZE 0x4

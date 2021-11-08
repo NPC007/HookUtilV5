@@ -6,7 +6,11 @@
 #include "stage_one_config.h"
 #include "arch/common/arch.h"
 
-
+#ifdef OFFSET
+    #define ASM_JUMP  asm volatile("jmp " OFFSET);
+#else
+    #define ASM_JUMP return;
+#endif
 #if PATCH_DEBUG
 #define DEBUG_LOG(STR)  do{char data[] = {STR "\n"};my_write_stdout(data);}while(0)
 static int my_strlen(const char *src){
@@ -31,7 +35,7 @@ extern void _start();
 __attribute__((section(".text"))) __attribute__((aligned(1))) char patch_data[] = {PATCH_DATA_PATH};
 
 
-unsigned long __loader_start(){
+void __loader_start(){
     int patch_fd = 0;
     long res = 0;
     char *g_elf_base;
@@ -43,10 +47,12 @@ unsigned long __loader_start(){
 // #endif
 // #endif
 #ifdef __x86_64__
-    asm volatile("mov %rsp, %r14"); //依赖stage_one不对r14做破坏
+    // asm volatile("mov %rsp, %r14"); 
 #elif __i386__
-    asm volatile("push %esp");
+    // asm volatile("push %esp");
     asm volatile("lea %0, %%ebx"::"m"(patch_data));
+    // register long patch asm("ebx") = patch_data;
+    // long __attribute__((register("ebx"))) ebx = patch_data;
 
 #endif
 
@@ -54,7 +60,8 @@ unsigned long __loader_start(){
 
     asm_open_one(patch_data,O_RDONLY,0,patch_fd);
     if(patch_fd < 0){
-        return;
+        asm volatile("xor %ebx,%ebx");
+        ASM_JUMP
     }
 
 #ifdef __i386__
@@ -69,7 +76,7 @@ unsigned long __loader_start(){
     asm volatile("call %rax");
 #elif __i386__
     asm volatile("add $0x10, %eax");
-    asm volatile("pop %ebp");
+    // asm volatile("pop %ebp");
     asm volatile("call %eax");
 #endif
 
@@ -166,62 +173,87 @@ unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
 #define        SHM_REMAP        040000        /* take-over region on attach */
 #define        SHM_EXEC        0100000        /* execution access */
 
+// unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
+//     register char *g_elf_base;
+//     register long res;
+//     asm_shmget(PATCH_DATA_SHARE_MEM_ID,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),0777,res);
+//     if((unsigned long)res>= ((unsigned long)-1) - 0x1000) {
+//         if (res < 0) {
+//             goto failed_load_patch;
+//         }
+//     }
+//     asm_shmat(res,0,SHM_EXEC|SHM_R|SHM_W, res);
+// #ifdef __i386__
+//     if((unsigned long)res>= ((unsigned long)-1) - 0x1000) {
+//         goto failed_load_patch;
+//     }
+// #elif __x86_64__
+//    /* if(res < 0) {
+//         goto failed_load_patch;
+//     }*/
+// #else
+// #error unsupport other arch
+// #endif
 
-unsigned long  __loader_start(STAGE_ONE_MAIN_ARG){
-    register char *g_elf_base;
-    register long res;
-    asm_shmget(PATCH_DATA_SHARE_MEM_ID,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),0777,res);
-    if((unsigned long)res>= ((unsigned long)-1) - 0x1000) {
-        if (res < 0) {
-            goto failed_load_patch;
-        }
-    }
-    asm_shmat(res,0,SHM_EXEC|SHM_R|SHM_W, res);
-#ifdef __i386__
-    if((unsigned long)res>= ((unsigned long)-1) - 0x1000) {
-        goto failed_load_patch;
-    }
-#elif __x86_64__
-   /* if(res < 0) {
-        goto failed_load_patch;
-    }*/
-#else
-#error unsupport other arch
-#endif
+//     register void* base = (void*)res;
 
-    register void* base = (void*)res;
+// #if(IS_PIE == 0)
+// #elif(IS_PIE == 1)
+//     //LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
+//     //two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
+//     //two_base ->elf_load_base = FIRST_ENTRY_OFFSET;
+// #else
+//     #error "Unknown IS_PIE"
+// #endif
 
-#if(IS_PIE == 0)
-#elif(IS_PIE == 1)
-    //LOADER_STAGE_TWO *two_base = (LOADER_STAGE_TWO *)base;
-    //two_base ->elf_load_base = (char*)_start - FIRST_ENTRY_OFFSET;
-    //two_base ->elf_load_base = FIRST_ENTRY_OFFSET;
-#else
-    #error "Unknown IS_PIE"
-#endif
+//     //void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
+//     void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + sizeof(LOADER_STAGE_TWO));
+//     stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
 
-    //void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + two_base->entry_offset + sizeof(LOADER_STAGE_TWO));
-    void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(base + sizeof(LOADER_STAGE_TWO));
-    stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);
+//     failed_load_patch:
+// #if(IS_PIE == 0)
+//     #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+//     return *(unsigned long*)LIB_C_START_MAIN_ADDR;
+//     #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+//         return LIB_C_START_MAIN_ADDR;
+//     #endif
 
-    failed_load_patch:
-#if(IS_PIE == 0)
-    #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-    return *(unsigned long*)LIB_C_START_MAIN_ADDR;
-    #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
-        return LIB_C_START_MAIN_ADDR;
+// #elif(IS_PIE == 1)
+//     g_elf_base = (char*)_start - FIRST_ENTRY_OFFSET;
+//     #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
+//         return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
+//     #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
+//         return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
+//     #endif
+// #else
+// #error "Unknown IS_PIE"
+// #endif
+// }
+
+unsigned long  __loader_start(){
+    //long res = 0;
+    int res = 0;
+    #ifdef __i386__
+    #elif __x86_64__
     #endif
-
-#elif(IS_PIE == 1)
-    g_elf_base = (char*)_start - FIRST_ENTRY_OFFSET;
-    #if  (LIBC_START_MAIN_ADDR_TYPE == PTR)
-        return *(unsigned long*)(g_elf_base + LIB_C_START_MAIN_ADDR);
-    #elif(LIBC_START_MAIN_ADDR_TYPE == CODE)
-        return (unsigned long)(g_elf_base + LIB_C_START_MAIN_ADDR);
+    asm_shmget_one(PATCH_DATA_SHARE_MEM_ID,(int)UP_PADDING(PATCH_DATA_MMAP_FILE_SIZE,0x1000),0777,res);
+    #ifdef __i386__
+    asm volatile("mov %eax,%ebx");
+    #elif __x86_64__
     #endif
-#else
-#error "Unknown IS_PIE"
+    asm_shmat_one(res,0,SHM_EXEC|SHM_R|SHM_W, res);
+
+    // register void (*base)() = (void*)res+sizeof(LOADER_STAGE_TWO);
+#ifdef __x86_64__
+    asm volatile("add $0x18, %rax");
+    asm volatile("call %rax");
+#elif __i386__
+    asm volatile("add $0x10, %eax");
+    asm volatile("push %esp");
+    asm volatile("pop %ebp");
+    asm volatile("call %eax");
 #endif
+
 }
 #elif(CONFIG_LOADER_TYPE == LOAD_FROM_SOCKET)
 

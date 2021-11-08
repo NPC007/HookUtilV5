@@ -220,6 +220,48 @@ void add_stage_one_code_to_eh_frame(char* libloader_stage_one,char* output_elf,i
     logger("mod end\n");
 }
 
+void add_stage_one_code_to_text(char* libloader_stage_one,char* output_elf,int* first_entry_offset,void** elf_load_base,cJSON* config){
+    puts("add_stage_one_code_to_text\n");
+    int libloader_stage_one_fd,output_elf_fd;
+    void* libloader_stage_one_base,*output_elf_base;
+    long libloader_stage_one_size = 0;
+    long output_elf_size = 0;
+    open_mmap_check(libloader_stage_one,O_RDONLY,&libloader_stage_one_fd,&libloader_stage_one_base,PROT_READ,MAP_PRIVATE,&libloader_stage_one_size);
+    open_mmap_check(output_elf,O_RDWR,&output_elf_fd,&output_elf_base,PROT_READ|PROT_WRITE,MAP_SHARED,&output_elf_size);
+    char* buf = NULL;
+    int len =0 ;
+    get_section_data((Elf_Ehdr*)libloader_stage_one_base,".rodata",(void**)&buf,&len);
+    if(buf!=NULL || len!=0){
+        logger("libloader_stage_one should not have rodata section, change compile flags:\n");
+        exit(-1);
+    }
+    get_section_data((Elf_Ehdr*)libloader_stage_one_base,".text",(void**)&buf,&len);
+    if(buf==NULL || len==0){
+        logger("libloader_stage_one should have text section, but we can not find it:\n");
+        exit(-1);
+    }
+
+    Elf_Shdr* libloader_stage_one_text_section = get_elf_section_by_name(".text",(Elf_Ehdr*)libloader_stage_one_base);
+
+    *elf_load_base = (void*)get_elf_load_base((Elf_Ehdr*)output_elf_base);
+    *first_entry_offset = (int)(strtol(cJSON_GetObjectItem(config, "text_addr")->valuestring, NULL, 16) - (unsigned long)*elf_load_base) + ((Elf_Ehdr*)libloader_stage_one_base)->e_entry - libloader_stage_one_text_section->sh_addr;
+    logger("first_entry_offset");
+    memcpy((char*)output_elf_base + *first_entry_offset,buf,len);
+    logger("copy end\n");
+
+    //logger("%s\n",cJSON_GetObjectItem(config, "scu_init_mov_vaddr")->valuestring);
+    if(cJSON_GetObjectItem(config, "libc_start_main_addr_type")){
+        modify_call_libc_start_main(output_elf_base,(long) ((char*)*elf_load_base+ *first_entry_offset ),config);
+    }else if(cJSON_GetObjectItem(config, "scu_init_mov_vaddr")){
+        modify_mov_scu_init(output_elf_base, (long)((char*)*elf_load_base+ *first_entry_offset), config);
+    }
+
+    //((Elf_Ehdr*)output_elf_base)->e_entry =(long) ((char*)*elf_load_base+ *first_entry_offset);
+    close_and_munmap(libloader_stage_one,libloader_stage_one_fd,libloader_stage_one_base,&libloader_stage_one_size);
+    close_and_munmap(output_elf,output_elf_fd,output_elf_base,&output_elf_size);
+    logger("mod end\n");
+}
+
 
 
 char* get_text_section_without_rodata(char* elf_file,int* len){
@@ -773,6 +815,8 @@ int main(int argc,char* argv[]){
     char logger_file[512] = {0};
     snprintf(logger_file,sizeof(logger_file),"%s/out/build.log",project_root);
     init_logger(logger_file,0);
+    logger("config file: %s\n",config_file_name);
+
     logger("MODE : %s\n",mode);
     char* target_dir = cJSON_GetObjectItem(config,"target_dir")->valuestring;
 
@@ -811,7 +855,10 @@ int main(int argc,char* argv[]){
             mov_phdr(output_elf_path);
             phdr_has_moved = 1;
             add_stage_one_code_to_new_pt_load(stage_one, output_elf_path, &first_entry_offset,&elf_load_base,config);
-        } else {
+        } else if (strcmp("text", loader_stage_one_position) == 0){
+            add_stage_one_code_to_text(stage_one, output_elf_path, &first_entry_offset,&elf_load_base,config);
+        }
+        else {
             logger("unsupport loader_stage_one_position: %s\n", loader_stage_one_position);
             exit(-1);
         }

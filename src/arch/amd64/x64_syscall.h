@@ -222,6 +222,11 @@
                                             :"0"(__NR_shmget),"D"((long)KEY),"S"((long)SIZE),"d"((long)FLAG)\
                                             :"memory","cc","rcx","r11");
 
+#define asm_shmget_one(KEY,SIZE,FLAG,RES) __asm__ __volatile__ ("push %1;\n\tpop %%rax;\n\tsyscall"\
+                                                    :"=a" (RES)\
+                                                    :""(__NR_shmget),"D"((long)FILE),"S"((long)FLAG),"d"((long)MODE)\
+                                                    :"memory","cc","rcx","r11");
+
 #define asm_shmat(ID,ADDR,FLAG,RES)__asm__ __volatile__("syscall"\
                                             : "=a" (RES)\
                                             :"0"(__NR_shmat),"D"((long)ID),"S"((long)ADDR),"d"((long)FLAG)\
@@ -249,5 +254,10 @@
                                             : "=a" (RES)\
                                             :"0"(__NR_setsid)\
                                             :"memory","cc","rcx","r11");
+
+// #define asm_access(PATH,MODE,RES) __asm__ __volatile__("syscall"
+//                                             : "=a" (RES)\
+//                                             :"0"(__NR_stat),"D"((long)PATH),"S"((long)MODE)\
+//                                             :"memory","cc","rcx","r11")
 
 #endif

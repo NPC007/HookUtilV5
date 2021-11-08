@@ -297,14 +297,44 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_conf
             unsigned long elf_load_base = get_elf_load_base((Elf_Ehdr*)input_elf_base);
             logger("elf_load_base 0x%x\n",elf_load_base);
             logger("eh_frame sh_addr 0x%x\n",eh_frame_shdr->sh_addr);
-            first_entry_offset =(int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)elf_load_base);
+            char buf[0x100] = {0};
+            snprintf(buf, 255, "0x%x", eh_frame_shdr->sh_addr);
+            write_marco_define(stage_one_config_fd, "EH_FRAME_SHDR", buf);
+            if(cJSON_GetObjectItem(config, "libc_csu_init_addr")!=0){
+                first_entry_offset =(int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)elf_load_base);
+                long lib_csu_init = strtol(cJSON_GetObjectItem(config, "libc_csu_init_addr")->valuestring,NULL,16);
+                snprintf(buf, 255, "\"0x%x\"", lib_csu_init);
+                write_marco_define(stage_one_config_fd, "LIBC_CSU_INIT_ADDR", buf);
+                #ifdef __i386__
+                long offset = lib_csu_init - (eh_frame_shdr->sh_addr + 0x24)+0x1024;// 默认地址0x1000,根据jmp地址+5算出后面x，csu- (ehframe + x) + 0x1000+x
+                #elif __x86_64__
+                long offset = lib_csu_init - (eh_frame_shdr->sh_addr + 0x17)+0x1017;
+                #endif
+                snprintf(buf, 255, "\"0x%x\"", offset);
+                write_marco_define(stage_one_config_fd, "OFFSET", buf);
+            }
         } else if (strcmp("new_pt_load", loader_stage_one_position) == 0) {
             mov_phdr(input_elf);
             *phdr_has_moved = 1;
             first_entry_offset = get_file_size(input_elf);
             //asseming stage_one size is smaller than 4K
             increase_file(input_elf,get_file_size(input_elf) + 0x1000);
-        } else {
+        } else if(strcmp("text", loader_stage_one_position) == 0){
+            long text_addr = strtol(cJSON_GetObjectItem(config,"text_addr")->valuestring, NULL, 16);
+            long size_of_text = 0;
+            Elf_Shdr* text_shdr = get_elf_section_by_name(".text", (Elf_Ehdr*)input_elf_base);
+            unsigned long elf_load_base = get_elf_load_base((Elf_Ehdr*)input_elf_base);
+            size_of_text = text_shdr->sh_size;
+            first_entry_offset = text_addr - (unsigned long)elf_load_base;
+            logger("load stage_one from text: %p\n", text_addr);
+            // if(first_entry_offset > 0 && first_entry_offset < size_of_text){
+            //     logger("check text success,load from text\n");
+            // }else{
+            //     logger("check text fail,addr : %p size:%p\n", first_entry_offset, size_of_text);
+            //     exit(-1);
+            // }
+        }
+        else {
             logger("unsupport loader_stage_one_position: %s\n", loader_stage_one_position);
             exit(-1);
         }

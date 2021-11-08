@@ -274,5 +274,12 @@ IN_LINE mode_t my_umask(mode_t mask){
     return res;
 }
 
+IN_LINE int my_access(char *path, int mode){
+    long res = 0;
+    asm_stat(path, mode, res);
+    g_errno = (unsigned int) -res;
+    return res;
+}
+
 
 #endif //HOOKUTILV3_SYSCALL_H

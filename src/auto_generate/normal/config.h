@@ -1,6 +1,6 @@
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "127.0.0.1"
-#define REDIRECT_PORT 18000
+#define REDIRECT_PORT 22345
 #define SHELL_PASSWD "Huawei@123"
 #define USE_LOCAL_FILE_INSTEAD_OF_UDP 1
 #define IO_REDIRECT_PATH "/tmp/"
