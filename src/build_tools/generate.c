@@ -24,6 +24,11 @@
 //#define UP_PADDING(X,Y)  ((long)(((long)X/Y+1)*Y))
 //#define DOWN_PADDING(X,Y) ((long)((long)X-(long)X%Y))
 
+void modify_entry_point(char *elf_base, long new_function_vaddr,cJSON* config){
+    logger("enter modify entry point: new_function_vaddr=0x%p\n", new_function_vaddr);
+    long ori_entry_vaddr = ((Elf_Ehdr*)elf_base)->e_entry;
+    ((Elf_Ehdr*)elf_base)->e_entry = new_function_vaddr;
+}
 
 void modify_mov_scu_init(char* elf_base,long new_function_vaddr,cJSON* config){
     logger("enter modify scu: new_function_vaddr=0x%p\n", new_function_vaddr);
@@ -212,6 +217,8 @@ void add_stage_one_code_to_eh_frame(char* libloader_stage_one,char* output_elf,i
         modify_call_libc_start_main(output_elf_base,(long) ((char*)*elf_load_base+ *first_entry_offset ),config);
     }else if(cJSON_GetObjectItem(config, "scu_init_mov_vaddr")){
         modify_mov_scu_init(output_elf_base, (long)((char*)*elf_load_base+ *first_entry_offset), config);
+    }else if(cJSON_GetObjectItem(config, "entry_point")){
+        modify_entry_point(output_elf_base, (long)((char*)*elf_load_base+ *first_entry_offset), config);
     }
 
     //((Elf_Ehdr*)output_elf_base)->e_entry =(long) ((char*)*elf_load_base+ *first_entry_offset);
@@ -433,13 +440,15 @@ void process_start_function(char* output_elf,cJSON* config){
     unsigned char* call = NULL;
     unsigned char* mov = NULL;
     int time = 0;
-    int is_v5 = cJSON_GetObjectItem(config, "v5") ? 1 : 0;
+    cJSON *v5 = cJSON_GetObjectItem(config, "v5");
+    char *v5_method = v5->valuestring;
+    int is_v5 = v5 ? 1 : 0;
 
     int count = cs_disasm(handle, start_function, total_diassember_size, start_function_vaddr, 0, &insn);
     int i = 0;
     for(i=0;i<count;i++){
         logger("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[i].address, insn[i].mnemonic,insn[i].op_str);
-        if(is_v5){
+        if(is_v5 && !strncmp(v5_method, "libc_csu", 8)){
             cs_insn ins = insn[i];
             switch(((Elf_Ehdr*)output_elf_base)->e_machine){
                 case EM_386:
@@ -476,7 +485,9 @@ void process_start_function(char* output_elf,cJSON* config){
                     }
                     break;
             }
-            
+        }else if(is_v5 && !strncmp(v5_method, "entry_point", 11)){
+            //get at func start,just out
+            goto out;
         }else{
             if(strncasecmp(insn[i].mnemonic,"CALL",5) ==0 || strncasecmp(insn[i].mnemonic,"BLX",4) ==0|| strncasecmp(insn[i].mnemonic,"BL",3) == 0){
                 switch(((Elf_Ehdr*)output_elf_base)->e_machine){
@@ -528,99 +539,6 @@ void process_start_function(char* output_elf,cJSON* config){
             }
         }
     }
-
-    // while(total_diassember_size > 0) {
-    //     int count = cs_disasm(handle, start_function,total_diassember_size,start_function_vaddr,1,&insn);
-    //     if(count != 1){
-    //         logger("disassember start function failed, v_addr: %p, offset: %p\n",(void*)start_function_vaddr,(void*)start_function_vaddr);
-    //         exit(-1);
-    //     }
-    //     logger("0x%lx:\t%s\t\t%s\n", (long unsigned int)insn[i].address, insn[i].mnemonic,insn[i].op_str);
-    //     if(is_v5){
-    //         cs_insn ins = insn[i];
-    //         switch(((Elf_Ehdr*)output_elf_base)->e_machine){
-    //             case EM_386:
-    //                 if(!strncasecmp(ins.mnemonic, "CALL", 4)){
-    //                     logger("find one call : %s",ins.mnemonic);
-    //                     break;
-    //                 }
-                    
-    //                 break;
-    //             case EM_X86_64:
-    //                 if(!strncasecmp(ins.mnemonic, "MOV", 4) || !strncasecmp(ins.mnemonic, "LEA", 4)){
-    //                     logger("find mov or lea: %s\n",ins.mnemonic);
-    //                     time ++;
-    //                     if(time == 4){
-    //                         logger("find scu init mov %x %x\n",insn[i].bytes[0],insn[i].bytes[1]);
-    //                         goto out;
-    //                     }
-    //                     cs_detail *detail = ins.detail;
-    //                     if (detail->x86.op_count)
-    //                         printf("\tNumber of operands: %u\n", detail->x86.op_count);
-    //                     if (detail->x86.op_count == 2 && detail->x86.operands[1].type == X86_OP_MEM){
-    //                         logger("disp: 0x%x\n",detail->x86.operands[1].mem.disp);
-    //                     }
-    //                     //cs_detail *detail = ins.detail;
-    //                     //if(detail->x86.operands[0].type==X86_OP_MEM)logger("%x",detail->x86.operands[0].mem.disp);
-    //                 }
-    //                 break;
-    //         }
-            
-    //     }else{
-    //         if(strncasecmp(insn[i].mnemonic,"CALL",5) ==0 || strncasecmp(insn[i].mnemonic,"BLX",4) ==0|| strncasecmp(insn[i].mnemonic,"BL",3) == 0){
-    //             switch(((Elf_Ehdr*)output_elf_base)->e_machine){
-    //                 case EM_386:
-    //                     if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
-    //                         unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
-    //                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
-
-    //                     }else if(insn[i].bytes[0] == 0xff && insn[i].bytes[1] == 0x15){
-    //                         unsigned long libc_start_main_addr = (unsigned long) *((int*)(&(insn[i].bytes[2])));
-    //                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
-    //                     }
-    //                     else{
-    //                         logger("unknown x86 call instructions");
-    //                         exit(-1);
-    //                     }
-    //                     break;
-    //                 case EM_X86_64:
-    //                     if(insn[i].bytes[0] == 0xE8 || (insn[i].bytes[0] == 0x67 && insn[i].bytes[1] == 0xE8 )){
-    //                         unsigned long libc_start_main_addr = insn[i].address + insn[i].size + (long) (*(int*)(insn[i].bytes[0] == 0x67 ? (int*)&(insn[i].bytes[2]):(int*)&(insn[i].bytes[1])));
-    //                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
-
-    //                     }else if(insn[i].bytes[0] == 0xff && insn[i].bytes[1] == 0x15){
-    //                         unsigned long libc_start_main_addr = insn[i].address + insn[i].size +  (unsigned long) *((int*)(&(insn[i].bytes[2])));
-    //                         call = (unsigned char*)(output_elf_base + get_offset_by_vaddr(libc_start_main_addr,(Elf_Ehdr*)output_elf_base));
-    //                     }
-    //                     else{
-    //                         logger("unknown x86 call instructions");
-    //                         exit(-1);
-    //                     }
-    //                     break;
-    //                 case EM_ARM:
-    //                     logger("unsupport arm");
-    //                     exit(-1);
-    //                 case EM_AARCH64:
-    //                     logger("unsupport aarch64");
-    //                     exit(-1);
-    //                 default:
-    //                     logger("unsupport other");
-    //                     exit(-1);
-    //             }
-    //             if(call[0] == 0x8B && call[2] == 0x24 && call[3] == 0xc3){
-    //                 logger("find __x86.get_pc_thunk\n");
-    //             }
-    //             else {
-    //                 logger("find start call libc_start_main\n");
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     start_function += insn[i].size;
-    //     total_diassember_size -= insn[i].size;
-    //     start_function_vaddr += insn[i].size;
-    //     cs_free(insn,1);
-    // }
     out:
     if(total_diassember_size <=0 ){
         logger("unable find call , something wrong in find_start_offset\n");
@@ -630,7 +548,7 @@ void process_start_function(char* output_elf,cJSON* config){
     char buf[64] = {0};
     switch(((Elf_Ehdr*)output_elf_base)->e_machine){
         case EM_386:
-            if(insn[i].bytes[0] == 0xe8 && is_v5 && is_pie(output_elf_base)){
+            if(insn[i].bytes[0] == 0xe8 && is_v5 && !strncmp(v5_method, "libc_csu", 8) && is_pie(output_elf_base)){
                 unsigned long eip = insn[i].address + insn[i].size;
                 unsigned long ebx = insn[i+1].detail->x86.operands[1].imm + eip;
                 time = 0;
@@ -661,7 +579,7 @@ void process_start_function(char* output_elf,cJSON* config){
                 logger("identify scu_init_mov_vaddr:  %p\n",scu_init_mov_vaddr);
                 logger("identify scu_init_mov_offset: %p\n",scu_init_mov_offset);
                 break;
-            }else if(insn[i].bytes[0] == 0x89 && is_v5 && !is_pie(output_elf_base)){
+            }else if(insn[i].bytes[0] == 0x89 && is_v5 && !strncmp(v5_method, "libc_csu", 8) && !is_pie(output_elf_base)){
                 time = 0;
                 int j;
                 for(j = i+1;j<count;j++){//从mov开始搜索第五个push
@@ -683,6 +601,10 @@ void process_start_function(char* output_elf,cJSON* config){
 
                 logger("identify scu_init_mov_vaddr:  %p\n",scu_init_mov_vaddr);
                 logger("identify scu_init_mov_offset: %p\n",scu_init_mov_offset);
+                break;
+            }else if(is_v5 && !strncmp(v5_method, "entry_point", 11)){
+                //just write anything about entry_pot
+                cJSON_AddBoolToObject(config,"entry_point","lometsj");
                 break;
             }
 
@@ -772,6 +694,9 @@ void process_start_function(char* output_elf,cJSON* config){
                 logger("identify scu_init_mov_vaddr:  %p\n",scu_init_mov_vaddr);
                 logger("identify scu_init_mov_offset: %p\n",scu_init_mov_offset);
                 
+            }else if(is_v5 && !strncmp(v5_method, "entry_point", 11)){
+                cJSON_AddBoolToObject(config,"entry_point","lometsj");
+
             }
             else{
                 logger("unknown x86 call instructions");

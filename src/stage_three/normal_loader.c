@@ -1165,19 +1165,20 @@ void _start(unsigned long stack_base_in,LOADER_STAGE_THREE* three_base_tmp) {
     if(common_init(three_base_tmp)!=0)
         return;
 
-    long start = INIT_ARR_ADDR;
-    long count = INIT_SIZE/sizeof(long);
+    // long start = INIT_ARR_ADDR;
+    // long count = INIT_SIZE/sizeof(long);
 
-    DEBUG_LOG("start : %lld, count: %lld",start,count);
-    #if(IS_PIE == 1)
-        start += three_base_tmp->elf_load_base;
-    #endif
-    for(int i = 0;i<count;i++){
-        void(*p)() = *(long*)(start+i*sizeof(long));
-        DEBUG_LOG("enter init func:0x%p", p);
+    // DEBUG_LOG("start : %lld, count: %lld",start,count);
+    // #if(IS_PIE == 1)
+    //     start += three_base_tmp->elf_load_base;
+    // #endif
+    // for(int i = 0;i<count;i++){
+    //     void(*p)() = *(long*)(start+i*sizeof(long));
+    //     DEBUG_LOG("enter init func:0x%p", p);
 
-        p();
-    }
+    //     p();
+    // }
+    //原本是在这里重新调init_arr,现在统一在call完调回去。
 
     DEBUG_LOG("Start Normal_loader --------------------------------------------------");
     inline_hook_read_pos = 0;

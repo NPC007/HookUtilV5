@@ -141,6 +141,7 @@ add_custom_command(TARGET stage_one_pre_generate POST_BUILD
 add_dependencies(stage_one_pre_generate datafile_generate)
 
 add_executable(stage_one_normal ${STAGE_ONE})
+# set_target_properties(stage_one_normal PROPERTIES LINK_DEPENDS "${CMAKE_SOURCE_DIR}/src/stage_one/loader.ld")
 set_target_properties(stage_one_normal PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_ONE_COMPILE_FLAG}  -DSTAGE_ONE_NORMAL=1" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_one_normal POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_one_normal" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal/stage_one"

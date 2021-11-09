@@ -7,7 +7,7 @@
 #include "arch/common/arch.h"
 
 #ifdef OFFSET
-    #define ASM_JUMP  asm volatile("jmp " OFFSET);
+    #define ASM_JUMP  asm volatile("jmp "OFFSET);
 #else
     #define ASM_JUMP return;
 #endif
@@ -61,6 +61,7 @@ void __loader_start(){
     asm_open_one(patch_data,O_RDONLY,0,patch_fd);
     if(patch_fd < 0){
         asm volatile("xor %ebx,%ebx");
+        out:
         ASM_JUMP
     }
 
@@ -79,7 +80,7 @@ void __loader_start(){
     // asm volatile("pop %ebp");
     asm volatile("call %eax");
 #endif
-
+    goto out;
 
     // void (*stage_two_entry)(STAGE_TWO_MAIN_ARG_PROTO) = (void (*)(STAGE_TWO_MAIN_ARG_PROTO))(mmap_addr + sizeof(LOADER_STAGE_TWO));
     // stage_two_entry(STAGE_TWO_MAIN_ARG_VALUE);

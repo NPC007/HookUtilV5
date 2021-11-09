@@ -207,9 +207,20 @@ int main(int argc,char* argv[]){
             char *io_inline_hook = cJSON_GetObjectItem(config, "io_inline_hook")->valuestring;
             write_marco_define(config_file_fd, "USE_IO_INLINE_REDIRECT", io_inline_hook);
 
-            int is_v5 = cJSON_GetObjectItem(config, "v5");
+            cJSON* is_v5 = cJSON_GetObjectItem(config, "v5");
             if(is_v5){
-                write_marco_define(config_file_fd, "USE_V5", "");
+                char *v5_method = is_v5->valuestring;
+                if(!strncmp(v5_method, "libc_csu", 8)){
+                    logger("enter into stage_one via libc_csu.");
+                    write_marco_define(config_file_fd, "USE_V5", v5_method);
+
+                }else if(!strncmp(v5_method, "entry_point", 11)){
+                    logger("enter into stage one via entery point.");
+                    write_marco_define(config_file_fd, "USE_V5", v5_method);
+
+                }else{
+                    logger("not support method,exit.");
+                }
             }
 
             if (cJSON_GetObjectItem(config, "shell_code_defense") == NULL) {

@@ -174,6 +174,9 @@ void process_start_function(char* output_elf,cJSON* config){
         exit(-1);
     }
     char buf[64] = {0};
+    sprintf(buf,"%p",(void*)((Elf_Ehdr*)output_elf_base)->e_entry);
+    logger("wirte entry point???????\n");
+    cJSON_AddStringToObject(config,"entry_point_vaddr",buf);
     switch(((Elf_Ehdr*)output_elf_base)->e_machine){
         case EM_386:
             if(insn[0].bytes[0] == 0xE8 || (insn[0].bytes[0] == 0x67 && insn[0].bytes[1] == 0xE8 )){
@@ -295,12 +298,17 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_conf
                 exit(-1);
             }
             unsigned long elf_load_base = get_elf_load_base((Elf_Ehdr*)input_elf_base);
+            char *v5_method = 0;
             logger("elf_load_base 0x%x\n",elf_load_base);
             logger("eh_frame sh_addr 0x%x\n",eh_frame_shdr->sh_addr);
             char buf[0x100] = {0};
             snprintf(buf, 255, "0x%x", eh_frame_shdr->sh_addr);
             write_marco_define(stage_one_config_fd, "EH_FRAME_SHDR", buf);
-            if(cJSON_GetObjectItem(config, "libc_csu_init_addr")!=0){
+            cJSON *v5 = cJSON_GetObjectItem(config, "v5");
+            if(v5){
+                v5_method = v5->valuestring;
+            }
+            if(!strncmp(v5_method, "libc_csu", 8) && cJSON_GetObjectItem(config, "libc_csu_init_addr")!=0){
                 first_entry_offset =(int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)elf_load_base);
                 long lib_csu_init = strtol(cJSON_GetObjectItem(config, "libc_csu_init_addr")->valuestring,NULL,16);
                 snprintf(buf, 255, "\"0x%x\"", lib_csu_init);
@@ -312,6 +320,18 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_conf
                 #endif
                 snprintf(buf, 255, "\"0x%x\"", offset);
                 write_marco_define(stage_one_config_fd, "OFFSET", buf);
+            }else if(!strncmp(v5_method, "entry_point", 11)){
+                first_entry_offset =(int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)elf_load_base);
+                long entry_point = strtol(cJSON_GetObjectItem(config, "entry_point_vaddr")->valuestring,NULL,16);
+                logger("entry point vaddr: %p\n",entry_point);
+                #ifdef __i386__
+                long offset = entry_point - (eh_frame_shdr->sh_addr + 0x24)+0x1024;// 默认地址0x1000,根据jmp地址+5算出后面x，csu- (ehframe + x) + 0x1000+x
+                #elif __x86_64__
+                long offset = entry_point - (eh_frame_shdr->sh_addr + 0x1c)+0x101c;
+                #endif
+                snprintf(buf, 255, "\"0x%x\"",offset);
+                write_marco_define(stage_one_config_fd, "OFFSET", buf);
+
             }
         } else if (strcmp("new_pt_load", loader_stage_one_position) == 0) {
             mov_phdr(input_elf);
@@ -424,9 +444,22 @@ int main(int argc,char* argv[]){
         char* libc_start_main_addr = cJSON_GetObjectItem(config,"libc_start_main_addr")->valuestring;
         write_marco_define(stage_one_config_fd,"LIB_C_START_MAIN_ADDR",libc_start_main_addr);
 
-        int is_v5 = cJSON_GetObjectItem(config, "v5");
+        cJSON* is_v5 = cJSON_GetObjectItem(config, "v5");
         if(is_v5){
+            logger("entry point vvvstartssss\n");
             write_marco_define(stage_one_config_fd, "USE_V5", "");
+            logger("entry point vvvstart\n");
+
+            char *v5_method = is_v5->valuestring;
+                logger("entry point stadddddrt");
+
+            if(!strncmp(v5_method, "entry_point", 11)){
+                logger("entry point start");
+                char *entry_point_vaddr = cJSON_GetObjectItem(config, "entry_point_vaddr")->valuestring;
+                // logger("entry point end");
+
+                write_marco_define(stage_one_config_fd, "ORI_ENTRY_POINT", entry_point_vaddr);
+            }
         }
     }
 
