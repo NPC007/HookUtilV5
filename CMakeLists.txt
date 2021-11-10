@@ -27,7 +27,6 @@ FILE(GLOB DATAFILE_GENERATE_TOOLS src/build_tools/datafile_generate.c src/build_
 FILE(GLOB STAGE_ONE_REGENERATE_TOOLS src/build_tools/stage_one_pre_generate.c src/build_tools/elf/*.c src/build_tools/file/*.c src/build_tools/file_check/*.c src/build_tools/json/*.c)
 set(TARGET_DIR "out")
 
-
 set(STAGE_LINK_FLAG "-static-pie")
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
         set(STAGE_ONE_COMPILE_FLAG "-fno-stack-protector -O1 -fPIE -fcf-protection=none -fno-tree-scev-cprop")
@@ -50,6 +49,7 @@ endif()
 if(${TARGET_ARCH} STREQUAL "X86")
     set(TARGET_ARCH_COMPILE_FLAG "-m32 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 ")
     set(TARGET_ARCH_LINKER_FLAG  "-m32 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 ")
+    set(QEMU "")
     if(${IS_V5} STREQUAL "true")
         FILE(GLOB STAGE_ONE src/stage_one/*.c)
     else()
@@ -58,6 +58,20 @@ if(${TARGET_ARCH} STREQUAL "X86")
 elseif(${TARGET_ARCH} STREQUAL "X86_64")
     set(TARGET_ARCH_COMPILE_FLAG "-m64 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 ")
     set(TARGET_ARCH_LINKER_FLAG  "-m64 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 ")
+    set(QEMU "")
+    if(${IS_V5} STREQUAL "true")
+        FILE(GLOB STAGE_ONE src/stage_one/*.c)
+    else()
+        FILE(GLOB STAGE_ONE src/stage_one/*.c src/arch/amd64/loader.s)
+    endif()
+elseif(${TARGET_ARCH} STREQUAL "ARM")
+    set(CMAKE_SYSTEM_NAME linux)
+    set(TOOLCHAIN_PATH gcc-arm-linux-gnueabi)
+    set(CMAKE_C_COMPILER arm-linux-gnueabi-gcc)
+    set(CMAKE_CXX_COMPILER arm-linux-gnueabi-g++)
+    set(TARGET_ARCH_COMPILE_FLAG "-mbe32 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 ")
+    set(TARGET_ARCH_LINKER_FLAG  "-mbe32 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 ")
+    set(QEMU "qemu-arm")
     if(${IS_V5} STREQUAL "true")
         FILE(GLOB STAGE_ONE src/stage_one/*.c)
     else()
@@ -78,8 +92,8 @@ add_custom_command(TARGET pre_generate PRE_BUILD
         )
 add_custom_command(TARGET pre_generate POST_BUILD
                     COMMAND cp -f  "${CMAKE_BINARY_DIR}/pre_generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools"
-                    COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
-                    COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
+                    COMMAND ${QEMU} ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
+                    COMMAND ${QEMU} ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
         )
 
 add_executable(stage_two_normal ${STAGE_TWO})
@@ -122,8 +136,8 @@ target_link_libraries(datafile_generate m)
 set_target_properties(datafile_generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET datafile_generate POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/datafile_generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/"
-        COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
-        COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
+        COMMAND ${QEMU} ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
+        COMMAND ${QEMU} ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
         )
 add_dependencies(datafile_generate stage_two_normal stage_two_sandbox stage_three_normal stage_three_sandbox)
 
@@ -133,8 +147,8 @@ target_link_libraries(stage_one_pre_generate m capstone)
 set_target_properties(stage_one_pre_generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET stage_one_pre_generate POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_one_pre_generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/"
-        COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/stage_one_pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
-        COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/stage_one_pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
+        COMMAND ${QEMU} ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/stage_one_pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
+        COMMAND ${QEMU} ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/stage_one_pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
         )
 
 
@@ -162,8 +176,8 @@ target_link_libraries(generate m capstone)
 set_target_properties(generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET generate POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/"
-        COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
-        COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
+        COMMAND ${QEMU} ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
+        COMMAND ${QEMU} ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
         )
 add_dependencies(generate stage_one_normal stage_one_sandbox)
 

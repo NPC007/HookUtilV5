@@ -3,11 +3,11 @@ MODE : normal
 debug_config.h: /home/lometsj/HookUtilV5/awd/..//src/auto_generate/normal/debug_config.h
 config.h: /home/lometsj/HookUtilV5/awd/..//src/auto_generate/normal/config.h
 input elf: input_elf
-check_eh_frame_section_executable failed, ef_frame is not executable, we can mark it executeable
+check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
 #define IS_PIE 1
-#define INIT_ARR_ADDR 0x3ee8
+#define INIT_ARR_ADDR 0x3ea4
 #define INIT_SIZE 0x4
 ###########################################process config.h######################################
 #define TCP_TIME_OUT 1
@@ -28,7 +28,7 @@ check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
 #define IS_PIE 1
-#define INIT_ARR_ADDR 0x3ee8
+#define INIT_ARR_ADDR 0x3ea4
 #define INIT_SIZE 0x4
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
@@ -94,14 +94,14 @@ input_elf: /home/lometsj/HookUtilV5/awd/..//out/input_elf
 0x111e:	push		edx
 0x111f:	call		0x1146
 find __x86.get_pc_thunk
-0x1124:	add		ebx, 0x2edc
-0x112a:	lea		eax, [ebx - 0x29a0]
+0x1124:	add		ebx, 0x2e80
+0x112a:	lea		eax, [ebx - 0x2944]
 0x1130:	push		eax
-0x1131:	lea		eax, [ebx - 0x2a10]
+0x1131:	lea		eax, [ebx - 0x29b4]
 0x1137:	push		eax
 0x1138:	push		ecx
 0x1139:	push		esi
-0x113a:	push		dword ptr [ebx - 8]
+0x113a:	push		dword ptr [ebx + 0x54]
 0x1140:	call		0x10d0
 find start call libc_start_main
 wirte entry point???????
@@ -139,14 +139,14 @@ input_elf: /home/lometsj/HookUtilV5/awd/..//out/input_elf
 0x111e:	push		edx
 0x111f:	call		0x1146
 find __x86.get_pc_thunk
-0x1124:	add		ebx, 0x2edc
-0x112a:	lea		eax, [ebx - 0x29a0]
+0x1124:	add		ebx, 0x2e80
+0x112a:	lea		eax, [ebx - 0x2944]
 0x1130:	push		eax
-0x1131:	lea		eax, [ebx - 0x2a10]
+0x1131:	lea		eax, [ebx - 0x29b4]
 0x1137:	push		eax
 0x1138:	push		ecx
 0x1139:	push		esi
-0x113a:	push		dword ptr [ebx - 8]
+0x113a:	push		dword ptr [ebx + 0x54]
 0x1140:	call		0x10d0
 find start call libc_start_main
 wirte entry point???????
@@ -199,14 +199,14 @@ when target is i386, ignore got checkcheck /home/lometsj/HookUtilV5/awd/..//out/
 0x111e:	push		edx
 0x111f:	call		0x1146
 find __x86.get_pc_thunk
-0x1124:	add		ebx, 0x2edc
-0x112a:	lea		eax, [ebx - 0x29a0]
+0x1124:	add		ebx, 0x2e80
+0x112a:	lea		eax, [ebx - 0x2944]
 0x1130:	push		eax
-0x1131:	lea		eax, [ebx - 0x2a10]
+0x1131:	lea		eax, [ebx - 0x29b4]
 0x1137:	push		eax
 0x1138:	push		ecx
 0x1139:	push		esi
-0x113a:	push		dword ptr [ebx - 8]
+0x113a:	push		dword ptr [ebx + 0x54]
 0x1140:	call		0x10d0
 find start call libc_start_main
 out : mov[0]=e8

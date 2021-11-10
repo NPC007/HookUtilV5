@@ -17,6 +17,11 @@ if [ ! -z "${TEST_TARGET_ARCH}" ];then
   TARGET_ARCH=X86_64
   echo "set TARGET_ARCH: X86_64"
 fi
+TEST_TARGET_ARCH=$(file out/input_elf | grep ARM)
+if [ ! -z "${TEST_TARGET_ARCH}" ];then
+  TARGET_ARCH=ARM
+  echo "set TARGET_ARCH: ARM"
+fi
 if [ -z "${TARGET_ARCH}" ];then
   echo 'TARGET_ARCH Unknown, failed, exit'
   file ${target_out_dir}/input_elf
