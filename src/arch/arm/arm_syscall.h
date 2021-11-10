@@ -1,6 +1,9 @@
 #ifndef __arm__
 #define __arm__
 
+#include <sys/syscall.h>
+#include "unistd_syscall.h"
+
 #define asm_exit(code, res) __asm__ __volatile__("ldr r7, =%0; ldr r0, %1; svc #0;str r0, %2"\
                                                 : \
                                                 : ""(1),""(code),""(res));

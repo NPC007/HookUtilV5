@@ -7,5 +7,6 @@
         "syscall.h": "c",
         "debug_config.h": "c",
         "arch.h": "c",
+        "arm_syscall.h": "c"
     }
 }
