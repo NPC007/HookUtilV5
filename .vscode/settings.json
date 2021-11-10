@@ -6,6 +6,7 @@
         "hook.h": "c",
         "syscall.h": "c",
         "debug_config.h": "c",
-        "arch.h": "c"
+        "arch.h": "c",
+        "type_traits": "cpp"
     }
 }
