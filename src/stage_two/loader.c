@@ -7,6 +7,11 @@
 #include "debug_config.h"
 #include "arch/common/arch.h"
 #include "stage_one_config.h"
+#ifdef __arm__
+#include "arch/common/syscall_arm.h"
+#else
+#include "arch/common/syscall.h"
+#endif
 
 
 
@@ -97,13 +102,21 @@ void _start(){
                 map_size = phdr->p_vaddr + phdr->p_memsz  - DOWN_PADDING(phdr->p_vaddr,0x1000);
             else
                 map_size = UP_PADDING(phdr->p_vaddr + phdr->p_memsz, 0x1000) - DOWN_PADDING(phdr->p_vaddr, 0x1000);
+            #ifdef __arm__
+            my_mmap_one( DOWN_PADDING(stage_three_load_base + phdr->p_vaddr,0x1000), map_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+            #else
             asm_mmap( DOWN_PADDING(stage_three_load_base + phdr->p_vaddr,0x1000), map_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0,ret);
+            #endif
             if(ret < 0)
                 return;
             for(int i=0;i<phdr->p_filesz;i++){
                 ((char*)(stage_three_load_base + phdr->p_vaddr))[i] = ((char*)(base_addr + phdr->p_offset))[i];
             }
+            #ifdef __arm__
+            my_mprotect_one((void*)(DOWN_PADDING((long)stage_three_load_base + phdr->p_vaddr,0x1000)),map_size,flag);
+            #else
             asm_mprotect((void*)(DOWN_PADDING((long)stage_three_load_base + phdr->p_vaddr,0x1000)),map_size,flag,ret);
+            #endif
             if(ret < 0)
                 return;
         }

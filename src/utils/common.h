@@ -5,7 +5,12 @@
 #ifndef HOOKUTILV3_COMMON_H
 #define HOOKUTILV3_COMMON_H
 
+#ifdef __arm__
+#include "arch/common/syscall_arm.h"
+#else
 #include "arch/common/syscall.h"
+
+#endif
 
 
 #ifndef ULONG_MAX

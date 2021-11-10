@@ -14,7 +14,11 @@
 
 #include "include/hook.h"
 #include "utils/md5.h"
+#ifdef __arm__
+#include "arch/common/syscall_arm.h"
+#else
 #include "arch/common/syscall.h"
+#endif
 #include "utils/common.h"
 #include "signal.h"
 #include "utils/seccomp.h"

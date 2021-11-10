@@ -7,6 +7,10 @@
         "syscall.h": "c",
         "debug_config.h": "c",
         "arch.h": "c",
-        "arm_syscall.h": "c"
+        "arm_syscall.h": "c",
+        "checker.h": "c",
+        "syscall_arm.h": "c",
+        "elf_utils.h": "c",
+        "file_utils.h": "c"
     }
 }
