@@ -35,14 +35,14 @@ IN_LINE long my_mprotect(void *start, long len, long prot){
     return res;
 }
 
-long my_mprotect_one(void *start, long len, long prot){
+IN_LINE long my_mprotect_one(void *start, long len, long prot){
     long res = 0;
     asm_mprotect((long)start,(long)len,(long)prot,res);
     g_errno = (unsigned int) -res;
     return res;
 }
 //
-long my_mmap_one(long addr, long length, int prot, int flags,
+IN_LINE long my_mmap_one(long addr, long length, int prot, int flags,
                      int fd, off_t offset){
     long res = 0;
     asm_mmap(addr,(long)length,(long)prot,(long)flags,(long)fd,(long)offset,res);

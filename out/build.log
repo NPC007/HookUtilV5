@@ -7,8 +7,8 @@ check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
 #define IS_PIE 0
-#define INIT_ARR_ADDR 0x20f10
-#define INIT_SIZE 0x4
+#define INIT_ARR_ADDR 0x601d98
+#define INIT_SIZE 0x8
 ###########################################process config.h######################################
 #define TCP_TIME_OUT 1
 #define REDIRECT_HOST "127.0.0.1"
@@ -28,8 +28,8 @@ check_eh_frame_section_executable success, ef_frame is executable
 ###########################################process debug_config.h#######################################
 #define PATCH_DEBUG 0
 #define IS_PIE 0
-#define INIT_ARR_ADDR 0x20f10
-#define INIT_SIZE 0x4
+#define INIT_ARR_ADDR 0x601d98
+#define INIT_SIZE 0x8
 ###########################################process sandbox_config.h######################################
 #define TCP_TIME_OUT 1
 #define SANDBOX_HOST ""
