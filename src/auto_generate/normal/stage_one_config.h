@@ -3,8 +3,8 @@
 #define USE_V5 
 #define ORI_ENTRY_POINT 0x1110
 #define EH_FRAME_SHDR 0x215c
-#define OFFSET "0xffffffb4"
+#define OFFSET "0x1110"
 #define FIRST_ENTRY_OFFSET 0x215c
 #define CONFIG_LOADER_TYPE LOAD_FROM_FILE
 #define PATCH_DATA_PATH "/home/ctf/data"
-#define PATCH_DATA_MMAP_FILE_SIZE 0x32d36
+#define PATCH_DATA_MMAP_FILE_SIZE 0x29899

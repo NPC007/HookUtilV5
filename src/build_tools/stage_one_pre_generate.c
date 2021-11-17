@@ -313,22 +313,26 @@ void process_first_entry_offset(char* input_elf,cJSON* config,int stage_one_conf
                 long lib_csu_init = strtol(cJSON_GetObjectItem(config, "libc_csu_init_addr")->valuestring,NULL,16);
                 snprintf(buf, 255, "\"0x%x\"", lib_csu_init);
                 write_marco_define(stage_one_config_fd, "LIBC_CSU_INIT_ADDR", buf);
-                #ifdef __i386__
-                long offset = lib_csu_init - (eh_frame_shdr->sh_addr + 0x24)+0x1024;// 默认地址0x1000,根据jmp地址+5算出后面x，csu- (ehframe + x) + 0x1000+x
-                #elif __x86_64__
-                long offset = lib_csu_init - (eh_frame_shdr->sh_addr + 0x17)+0x1017;
-                #endif
+                // #ifdef __i386__
+                // long offset = lib_csu_init - (eh_frame_shdr->sh_addr + 0x24)+0x1024;// 默认地址0x1000,根据jmp地址+5算出后面x，csu- (ehframe + x) + 0x1000+x
+                // #elif __x86_64__
+                // long offset = lib_csu_init - (eh_frame_shdr->sh_addr + 0x17)+0x1017;
+                // #endif
+                // 0x1000默认计算偏移方式，下面改成lds自动修正，偏移直接赋值为原elf的入口地址
+                long offset = lib_csu_init;
                 snprintf(buf, 255, "\"0x%x\"", offset);
                 write_marco_define(stage_one_config_fd, "OFFSET", buf);
             }else if(!strncmp(v5_method, "entry_point", 11)){
                 first_entry_offset =(int)((unsigned long)eh_frame_shdr->sh_addr - (unsigned long)elf_load_base);
                 long entry_point = strtol(cJSON_GetObjectItem(config, "entry_point_vaddr")->valuestring,NULL,16);
                 logger("entry point vaddr: %p\n",entry_point);
-                #ifdef __i386__
-                long offset = entry_point - (eh_frame_shdr->sh_addr + 0x24)+0x1024;// 默认地址0x1000,根据jmp地址+5算出后面x，csu- (ehframe + x) + 0x1000+x
-                #elif __x86_64__
-                long offset = entry_point - (eh_frame_shdr->sh_addr + 0x1c)+0x101c;
-                #endif
+                // #ifdef __i386__
+                // long offset = entry_point - (eh_frame_shdr->sh_addr + 0x24)+0x1024;// 默认地址0x1000,根据jmp地址+5算出后面x，csu- (ehframe + x) + 0x1000+x
+                // #elif __x86_64__
+                // long offset = entry_point - (eh_frame_shdr->sh_addr + 0x1c)+0x101c;
+                // #endif
+                // 同上
+                long offset = entry_point;
                 snprintf(buf, 255, "\"0x%x\"",offset);
                 write_marco_define(stage_one_config_fd, "OFFSET", buf);
 

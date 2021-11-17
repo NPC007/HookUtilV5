@@ -31,7 +31,11 @@ void _start(){
     unsigned long stack_base;
 
     DEBUG_LOG("stage_two_start");
+#ifdef __i386__
     asm volatile("mov %%esp, %0":"=m"(stack_base)::);
+#elif __x86_64__
+    asm volatile("mov %%rsp, %0":"=m"(stack_base)::);
+#endif
     LOADER_STAGE_TWO* two_base = (LOADER_STAGE_TWO*)DOWN_PADDING((unsigned long)_start,0x1000);
     Elf_Ehdr* ehdr = (Elf_Ehdr*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length + sizeof(LOADER_STAGE_THREE));
     LOADER_STAGE_THREE* three_base = (LOADER_STAGE_THREE*)((char*)two_base+sizeof(LOADER_STAGE_TWO)+two_base->length);

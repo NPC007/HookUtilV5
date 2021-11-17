@@ -122,8 +122,10 @@ target_link_libraries(datafile_generate m)
 set_target_properties(datafile_generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET datafile_generate POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/datafile_generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/"
-        COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
-        COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
+        COMMAND ${CMAKE_SOURCE_DIR}/src/build_tools/datafile_generate.py "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
+        COMMAND ${CMAKE_SOURCE_DIR}/src/build_tools/datafile_generate.py "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
+        # COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
+        # COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/datafile_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
         )
 add_dependencies(datafile_generate stage_two_normal stage_two_sandbox stage_three_normal stage_three_sandbox)
 
@@ -133,6 +135,8 @@ target_link_libraries(stage_one_pre_generate m capstone)
 set_target_properties(stage_one_pre_generate PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${TOOLS_COMPILE_FLAGS}" LINK_FLAGS "${TARGET_ARCH_LINKER_FLAG} ${TOOLS_LINK_FLAGS}")
 add_custom_command(TARGET stage_one_pre_generate POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_one_pre_generate" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/"
+        COMMAND python3 "${CMAKE_SOURCE_DIR}/tools/stage_one_pre_generate.py" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
+        COMMAND python3 "${CMAKE_SOURCE_DIR}/tools/stage_one_pre_generate.py" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
         COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/stage_one_pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal_config.json" "normal"
         COMMAND ${CMAKE_SOURCE_DIR}/${TARGET_DIR}/tools/stage_one_pre_generate "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox_config.json" "sandbox"
         )
@@ -142,7 +146,7 @@ add_dependencies(stage_one_pre_generate datafile_generate)
 
 add_executable(stage_one_normal ${STAGE_ONE})
 # set_target_properties(stage_one_normal PROPERTIES LINK_DEPENDS "${CMAKE_SOURCE_DIR}/src/stage_one/loader.ld")
-set_target_properties(stage_one_normal PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_ONE_COMPILE_FLAG}  -DSTAGE_ONE_NORMAL=1" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+set_target_properties(stage_one_normal PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_ONE_COMPILE_FLAG}  -DSTAGE_ONE_NORMAL=1" LINK_FLAGS "-T${CMAKE_SOURCE_DIR}/src/stage_one/loader.ld ${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_one_normal POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_one_normal" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/normal/stage_one"
         )
@@ -150,7 +154,7 @@ target_include_directories(stage_one_normal PRIVATE src/auto_generate/normal)
 add_dependencies(stage_one_normal stage_one_pre_generate)
 
 add_executable(stage_one_sandbox ${STAGE_ONE})
-set_target_properties(stage_one_sandbox PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_ONE_COMPILE_FLAG}  -DSTAGE_ONE_SANDBOX=1" LINK_FLAGS "${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
+set_target_properties(stage_one_sandbox PROPERTIES COMPILE_FLAGS "${TARGET_ARCH_COMPILE_FLAG} ${STAGE_ONE_COMPILE_FLAG}  -DSTAGE_ONE_SANDBOX=1" LINK_FLAGS "-T${CMAKE_SOURCE_DIR}/src/stage_one/loader.ld ${STAGE_LINK_FLAG} ${TARGET_ARCH_LINKER_FLAG} -nostartfiles -nodefaultlibs -nostdlib")
 add_custom_command(TARGET stage_one_sandbox POST_BUILD
         COMMAND cp -f  "${CMAKE_BINARY_DIR}/stage_one_sandbox" "${CMAKE_SOURCE_DIR}/${TARGET_DIR}/sandbox/stage_one"
         )
